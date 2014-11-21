@@ -27,7 +27,7 @@ namespace SimpleMind
         private string _LogFile; // name of Logfile
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
-        private int _LogLevel;
+        private static int _LogLevel;
         // 0 > == None
         // 0 == Warning
         // 1 == Error
