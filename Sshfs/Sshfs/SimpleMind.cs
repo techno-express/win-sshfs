@@ -92,12 +92,23 @@ namespace SimpleMind
                 //FIXME MyDocuments does not exist
                 MyDocDir = @"C:\";
             }
-
+            
             //init
             _Folder = MyDocDir;
             _LogFile = sFile;
             _PathToLogFile = _Folder + _LogFile;
             _LogLevel = iLogLevel;
+
+
+            // Check if file exists
+            if (!File.Exists(_PathToLogFile))
+            {
+                using (System.IO.FileStream fs = System.IO.File.Create(_PathToLogFile))
+                {
+                    //just create file
+                    fs.Close();
+                }
+            }
 
         }
 
