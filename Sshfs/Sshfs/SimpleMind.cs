@@ -24,6 +24,9 @@ namespace SimpleMind
 {
     public class SimpleMind
     {
+        const int _DefaultLogMax = 3; // default highest LogLevel
+        const string _DefaultFileName = "log.txt";
+
         private string _LogFile; // name of Logfile
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
@@ -31,15 +34,14 @@ namespace SimpleMind
         // 0 > == None
         // 0 == Warning
         // 1 == Error
-        // 3 == Event such as Clicks
-        // 4 == Debug/All
+        // 3 == Debug/All
 
         public SimpleMind(int iLogLevel, string sFile, string sPath)
         {
 
+            //*** This comment makes no sens. *** Line 42 is the truth
             if (!sPath.EndsWith(@"\"))
             {
-                //*** This comment makes no sens. *** Line 42 is the truth
                 sPath = sPath + @"\";
             }
 
@@ -72,6 +74,7 @@ namespace SimpleMind
             catch (Exception e)
             {
                 // FIXME: define behavior in case of excepetion
+                Console.WriteLine("Error: Couldn't create File or Directory: \" " + _Folder + _LogFile + "\"");
             }
 
         }
@@ -91,8 +94,9 @@ namespace SimpleMind
             {
                 //FIXME MyDocuments does not exist
                 MyDocDir = @"C:\";
+                Console.WriteLine(@"Warning: Coluldn't find MyDocuments, Saving under C:\");
             }
-            
+
             //init
             _Folder = MyDocDir;
             _LogFile = sFile;
@@ -112,15 +116,13 @@ namespace SimpleMind
 
         }
 
-
-
         public SimpleMind(int iLogLevel)
-            : this(iLogLevel, @"log.txt")
+            : this(iLogLevel, _DefaultFileName)
         {
         }
 
         public SimpleMind()
-            : this(4, @"log.txt")
+            : this(_DefaultLogMax, _DefaultFileName)
         {
         }
 
@@ -129,18 +131,22 @@ namespace SimpleMind
         #region
         //*** private ***
         // writing LogMsg into Logfile with current timestamp no LogLevel is checked
-        private void writeLog(string LogMsg)
+        private void write(string LogMsg)
         {
             DateTime Now = DateTime.Now;
 
             using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
             {
-                fs.WriteLine("[" + Now.Year + @"\"
-                   + Now.Month + @"\"
-                   + Now.Day + " "
-                   + Now.Hour + ":"
-                   + Now.Minute + ":"
-                   + Now.Second + "] " + LogMsg);
+
+                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "] " + LogMsg);
+                /*
+                 //no zero when time got one digit elements
+               fs.WriteLine("[" + Now.Year.ToString() + @"/"
+                  + Now.Month.ToString() + @"/"
+                  + Now.Day.ToString() + " "
+                  + Now.Hour.ToString() + ":"
+                  + Now.Minute.ToString() + ":"
+                  + Now.Second.ToString() + "] " + LogMsg);*/
             }
         }
 
@@ -150,14 +156,14 @@ namespace SimpleMind
         {
             if (iLogType >= 0 && iLogType <= _LogLevel)
             {
-                writeLog(Msg);
+                write(Msg);
             }
 
         }
 
         public void setLogLevel(int i)
         {
-            if (i <= 4)
+            if (i >= 0 && i <= _DefaultLogMax)
             {
                 _LogLevel = i;
             }
