@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 10, 10);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 10, 10);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -308,7 +308,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(838, 88);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(399, 472);
+            this.groupBox1.Size = new System.Drawing.Size(405, 491);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
@@ -342,9 +342,10 @@
             this.radioButton3.AutoSize = true;
             this.radioButton3.Location = new System.Drawing.Point(149, 397);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(59, 17);
+            this.radioButton3.Size = new System.Drawing.Size(65, 17);
             this.radioButton3.TabIndex = 14;
-            this.radioButton3.Text = "Pagent";
+            this.radioButton3.Text = "Pagaent";
+            this.toolTip1.SetToolTip(this.radioButton3, "an SSH authentication agent needs a private key in *.ppk format");
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -374,9 +375,10 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 353);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 13);
+            this.label7.Size = new System.Drawing.Size(116, 13);
             this.label7.TabIndex = 11;
-            this.label7.Text = "Authentification method:";
+            this.label7.Text = "Authentication method:";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // textBox3
             // 
@@ -456,9 +458,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "IP adress or URL:";
+            this.label2.Text = "IP adress or Domain:";
             // 
             // label1
             // 
@@ -488,27 +490,27 @@
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode5.ImageIndex = 8;
-            treeNode5.Name = "Node3";
-            treeNode5.SelectedImageIndex = 8;
-            treeNode5.Text = "TestFolder";
-            treeNode6.ImageIndex = 7;
-            treeNode6.Name = "Node4";
-            treeNode6.SelectedImageIndex = 7;
-            treeNode6.Text = "Add Directory";
-            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode7.ImageIndex = 11;
-            treeNode7.Name = "Node2";
-            treeNode7.SelectedImageIndex = 11;
-            treeNode7.Text = "TestServer";
-            treeNode8.ImageIndex = 10;
-            treeNode8.Name = "Node5";
-            treeNode8.SelectedImageIndex = 10;
-            treeNode8.Text = "Add New Server";
+            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode1.ImageIndex = 8;
+            treeNode1.Name = "Node3";
+            treeNode1.SelectedImageIndex = 8;
+            treeNode1.Text = "TestFolder";
+            treeNode2.ImageIndex = 7;
+            treeNode2.Name = "Node4";
+            treeNode2.SelectedImageIndex = 7;
+            treeNode2.Text = "Add Directory";
+            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode3.ImageIndex = 11;
+            treeNode3.Name = "Node2";
+            treeNode3.SelectedImageIndex = 11;
+            treeNode3.Text = "TestServer";
+            treeNode4.ImageIndex = 10;
+            treeNode4.Name = "Node5";
+            treeNode4.SelectedImageIndex = 10;
+            treeNode4.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode3,
+            treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(814, 467);
@@ -745,18 +747,20 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 67);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(121, 13);
+            this.label8.Size = new System.Drawing.Size(116, 13);
             this.label8.TabIndex = 23;
-            this.label8.Text = "Authentification method:";
+            this.label8.Text = "Authentication method:";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
             this.radioButton4.Location = new System.Drawing.Point(149, 111);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(59, 17);
+            this.radioButton4.Size = new System.Drawing.Size(65, 17);
             this.radioButton4.TabIndex = 26;
-            this.radioButton4.Text = "Pagent";
+            this.radioButton4.Text = "Pageant";
+            this.toolTip1.SetToolTip(this.radioButton4, "an SSH authentication agent needs a private key in *.ppk format");
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // radioButton6
