@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication2
 {
-    public partial class Form1 : Form
+    public partial class FiSSH : Form
     {
         Boolean Expanded = true;
-        public Form1()
+        public FiSSH()
         {
             InitializeComponent();
         }

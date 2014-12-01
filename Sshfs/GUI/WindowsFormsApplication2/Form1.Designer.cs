@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApplication2
 {
-    partial class Form1
+    partial class FiSSH
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSH));
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
@@ -809,7 +809,11 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // Form1
+            // toolTip1
+            // 
+            this.toolTip1.AutomaticDelay = 10000;
+            // 
+            // FiSSH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -825,7 +829,7 @@
             this.Controls.Add(this.groupBox1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FiSSH";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip2.ResumeLayout(false);

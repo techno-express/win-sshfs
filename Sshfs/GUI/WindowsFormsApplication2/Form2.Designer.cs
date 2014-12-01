@@ -72,7 +72,7 @@
             this.Controls.Add(this.button1);
             this.MaximizeBox = false;
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "About";
             this.ResumeLayout(false);
             this.PerformLayout();
 
