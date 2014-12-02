@@ -485,6 +485,7 @@
             // treeView1
             // 
             this.treeView1.AllowDrop = true;
+            this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.treeView1.ImageIndex = 11;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 70;
@@ -515,6 +516,7 @@
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(814, 467);
             this.treeView1.TabIndex = 4;
+            this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView1_DragDrop);
@@ -813,7 +815,7 @@
             // 
             this.toolTip1.AutomaticDelay = 10000;
             // 
-            // FiSSH
+            // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -829,7 +831,7 @@
             this.Controls.Add(this.groupBox1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "FiSSH";
+            this.Name = "FiSSHForm";
             this.Text = "FiSSH";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip2.ResumeLayout(false);

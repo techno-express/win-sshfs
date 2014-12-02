@@ -13,6 +13,7 @@ namespace WindowsFormsApplication2
     public partial class FiSSHForm : Form
     {
         Boolean Expanded = true;
+        Font font = new Font("Helvetica", 8, FontStyle.Bold);
         public FiSSHForm()
         {
             InitializeComponent();
@@ -54,6 +55,7 @@ namespace WindowsFormsApplication2
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             listView1.Clear();
+            treeView1.SelectedNode.Text = String.Format("Name: TestServer" + Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
                 listView1.Items.Add("Nickname: TestServer");
@@ -263,6 +265,11 @@ namespace WindowsFormsApplication2
         private void label7_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, Rectangle.Inflate(e.Bounds, 2, 0));
         }
 
     }
