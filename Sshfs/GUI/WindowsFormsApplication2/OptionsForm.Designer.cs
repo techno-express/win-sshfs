@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApplication2
 {
-    partial class Form3
+    partial class OptionsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -133,11 +133,11 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Drive Letter of Virtual Drive:";
             // 
-            // Form3
+            // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 309);
+            this.ClientSize = new System.Drawing.Size(427, 242);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.virtualdriveletter);
             this.Controls.Add(this.Loglevellabel);
@@ -145,7 +145,7 @@
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.MaximizeBox = false;
-            this.Name = "Form3";
+            this.Name = "OptionsForm";
             this.Text = "Options";
             this.Load += new System.EventHandler(this.Loglevel_SelectedIndexChanged);
             this.ResumeLayout(false);

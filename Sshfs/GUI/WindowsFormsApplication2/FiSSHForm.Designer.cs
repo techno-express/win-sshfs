@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApplication2
 {
-    partial class FiSSH
+    partial class FiSSHForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSH));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
@@ -830,7 +830,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "FiSSH";
-            this.Text = "Form1";
+            this.Text = "FiSSH";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip2.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);

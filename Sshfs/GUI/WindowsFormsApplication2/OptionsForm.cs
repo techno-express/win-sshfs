@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication2
 {
-    public partial class Form3 : Form
+    public partial class OptionsForm : Form
     {
-        public Form3()
+        public OptionsForm()
         {
             InitializeComponent();
             Loglevel.SelectedIndex = 0;// Debugging ist beim Start der Form ausgewählt

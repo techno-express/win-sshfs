@@ -16,7 +16,7 @@ namespace WindowsFormsApplication2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FiSSH());
+            Application.Run(new FiSSHForm());
         }
     }
 }

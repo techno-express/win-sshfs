@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication2
 {
-    public partial class FiSSH : Form
+    public partial class FiSSHForm : Form
     {
         Boolean Expanded = true;
-        public FiSSH()
+        public FiSSHForm()
         {
             InitializeComponent();
         }
@@ -154,7 +154,7 @@ namespace WindowsFormsApplication2
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form2 About = new Form2();
+            AboutForm About = new AboutForm();
             About.ShowDialog();
         }
 
@@ -251,7 +251,7 @@ namespace WindowsFormsApplication2
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form3 Options = new Form3();
+            OptionsForm Options = new OptionsForm();
             Options.ShowDialog();
         }
 

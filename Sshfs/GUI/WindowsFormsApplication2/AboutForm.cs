@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication2
 {
-    public partial class Form2 : Form
+    public partial class AboutForm : Form
     {
-        public Form2()
+        public AboutForm()
         {
             InitializeComponent();
         }
@@ -20,6 +20,15 @@ namespace WindowsFormsApplication2
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+        {
+            // Specify that the link was visited.
+            this.linkLabel1.LinkVisited = true;
+
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start("https://github.com/thb42/win-sshfs");
         }
     }
 }
