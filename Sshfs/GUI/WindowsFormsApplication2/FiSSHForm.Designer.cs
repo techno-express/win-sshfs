@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 10, 10);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 10, 10);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +78,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.listView1 = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -102,6 +101,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button5 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -288,6 +288,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textBox5);
             this.groupBox1.Controls.Add(this.textBox4);
@@ -308,7 +309,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(838, 88);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(405, 491);
+            this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
@@ -474,7 +475,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(838, 573);
+            this.button2.Location = new System.Drawing.Point(211, 346);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(141, 25);
             this.button2.TabIndex = 18;
@@ -489,32 +490,32 @@
             this.treeView1.ImageIndex = 11;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 70;
-            this.treeView1.Location = new System.Drawing.Point(18, 93);
+            this.treeView1.Location = new System.Drawing.Point(12, 93);
             this.treeView1.Name = "treeView1";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode1.ImageIndex = 8;
-            treeNode1.Name = "Node3";
-            treeNode1.SelectedImageIndex = 8;
-            treeNode1.Text = "TestFolder";
-            treeNode2.ImageIndex = 7;
-            treeNode2.Name = "Node4";
-            treeNode2.SelectedImageIndex = 7;
-            treeNode2.Text = "Add Directory";
-            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode3.ImageIndex = 11;
-            treeNode3.Name = "Node2";
-            treeNode3.SelectedImageIndex = 11;
-            treeNode3.Text = "TestServer";
-            treeNode4.ImageIndex = 10;
-            treeNode4.Name = "Node5";
-            treeNode4.SelectedImageIndex = 10;
-            treeNode4.Text = "Add New Server";
+            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode5.ImageIndex = 8;
+            treeNode5.Name = "Node3";
+            treeNode5.SelectedImageIndex = 8;
+            treeNode5.Text = "TestFolder";
+            treeNode6.ImageIndex = 7;
+            treeNode6.Name = "Node4";
+            treeNode6.SelectedImageIndex = 7;
+            treeNode6.Text = "Add Directory";
+            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode7.ImageIndex = 11;
+            treeNode7.Name = "Node2";
+            treeNode7.SelectedImageIndex = 11;
+            treeNode7.Text = "TestServer";
+            treeNode8.ImageIndex = 10;
+            treeNode8.Name = "Node5";
+            treeNode8.SelectedImageIndex = 10;
+            treeNode8.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode7,
+            treeNode8});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(814, 467);
+            this.treeView1.Size = new System.Drawing.Size(820, 577);
             this.treeView1.TabIndex = 4;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -542,21 +543,11 @@
             this.imageList1.Images.SetKeyName(11, "Server.png");
             this.imageList1.Images.SetKeyName(12, "Unmount.png");
             // 
-            // listView1
-            // 
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listView1.Location = new System.Drawing.Point(18, 573);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(814, 97);
-            this.listView1.TabIndex = 5;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.textBox10);
             this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.radioButton8);
@@ -568,7 +559,7 @@
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Location = new System.Drawing.Point(838, 218);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(399, 342);
+            this.groupBox2.Size = new System.Drawing.Size(399, 452);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
@@ -803,7 +794,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1243, 295);
+            this.button3.Location = new System.Drawing.Point(1243, 334);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(21, 79);
             this.button3.TabIndex = 0;
@@ -815,6 +806,16 @@
             // 
             this.toolTip1.AutomaticDelay = 10000;
             // 
+            // button5
+            // 
+            this.button5.Enabled = false;
+            this.button5.Location = new System.Drawing.Point(133, 436);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 25);
+            this.button5.TabIndex = 25;
+            this.button5.Text = "Save changes";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
             // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -822,9 +823,7 @@
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1264, 682);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.listView1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.groupBox2);
@@ -881,7 +880,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ToolStripMenuItem mountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unmountToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -918,6 +916,7 @@
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button5;
     }
 }
 

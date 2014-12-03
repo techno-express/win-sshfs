@@ -13,7 +13,7 @@ namespace WindowsFormsApplication2
     public partial class FiSSHForm : Form
     {
         Boolean Expanded = true;
-        Font font = new Font("Helvetica", 8, FontStyle.Bold);
+        Font font = new Font("Microsoft Sans Serif", 8, FontStyle.Regular);
         public FiSSHForm()
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace WindowsFormsApplication2
             if (Expanded)
             {
                 groupBox1.Visible = groupBox2.Visible = false;
-                treeView1.Width = 1225;
+                treeView1.Width = 1219;
                 Expanded = false;
                 button3.Text = "<";
             }
@@ -54,22 +54,16 @@ namespace WindowsFormsApplication2
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            listView1.Clear();
-            treeView1.SelectedNode.Text = String.Format("Name: TestServer" + Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
+            
+            
+            
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
-                listView1.Items.Add("Nickname: TestServer");
-                listView1.Items.Add("IP: 127.0.0.1");
-                listView1.Items.Add("Notiz: TestServer zu TestZwecken");
-
+                treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level == 1)                                //Test für Serverinfo -> ListView
             {
-                listView1.Clear();
-                listView1.Items.Add("Nickname: TestFolder");
-                listView1.Items.Add("Directory: root/linuxstuff/whatever");
-                listView1.Items.Add("Notiz: TestServer zu TestZwecken");
-
+                treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             ServerFolderEdit();
         }
