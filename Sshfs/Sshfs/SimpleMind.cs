@@ -131,14 +131,14 @@ namespace SimpleMind
         #region
         //*** private ***
         // writing LogMsg into Logfile with current timestamp no LogLevel is checked
-        private void write(string LogMsg)
+        private void write(string cmpnt ,string LogMsg)
         {
             DateTime Now = DateTime.Now;
 
             using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
             {
 
-                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "] " + LogMsg);
+                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "] " + "[" +cmpnt+ "] " + LogMsg);
                 /*
                  //no zero when time got one digit elements
                fs.WriteLine("[" + Now.Year.ToString() + @"/"
@@ -152,11 +152,11 @@ namespace SimpleMind
 
 
         //*** public ***
-        public void writeLog(int iLogType, string Msg)
+        public void writeLog(int iLogType,string cmpnt, string Msg)
         {
             if (iLogType >= 0 && iLogType <= _LogLevel)
             {
-                write(Msg);
+                write(cmpnt, Msg);
             }
 
         }
