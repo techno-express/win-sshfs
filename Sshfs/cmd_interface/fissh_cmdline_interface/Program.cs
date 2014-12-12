@@ -50,8 +50,12 @@ namespace fissh_cmdline_interface
             switch(cmdline_parameters.keyword) 
             {
                 case (byte)fissh_command.fissh_command_keywords.mount:
+
+                    // If user want to mount a registered server
                     if (!cmdline_parameters.parameter_host.is_set_flag) 
                     {
+                        
+                        // If user added a folderlist in parameter
                         if (cmdline_parameters.parameter_folderlist.is_set_flag)
                         {
                             Console.WriteLine("You want me to mount {0} on server {1}.", cmdline_parameters.parameter_folderlist.get(), cmdline_parameters.parameter_servername.get());
