@@ -74,8 +74,11 @@ namespace fissh_command
 
             public void set(string str)
             {
-                is_set_flag = true;
-                value = str;
+                if (str != null)
+                {
+                    is_set_flag = true;
+                    value = str;
+                }
             }
 
             public string get()
@@ -365,6 +368,19 @@ namespace fissh_command
         }
 
 
+        public static void mount_unregistered_folder(fissh_command_expression arguments)
+        {
+            throw new Exception("Noch nicht implemetiert");
+            int connection_id;
+
+            //connection_id = icp.add_unregistered_connection();
+            
+            
+
+
+        }
+
+
         public static void umount_complet_server(fissh_command_expression arguments)
         {
             int server_id;
@@ -430,6 +446,8 @@ namespace fissh_command
                 icp.umount(server_id, folder_id);
             }
         }
+
+        
     }
 
     /// <summary>

@@ -71,6 +71,41 @@ namespace fissh_cmdline_interface
                         // If user want to mount a unregisteres Server
                         else
                         {
+                            // If Port is not set, use Port 22
+                            if (!cmdline_parameters.option_port.is_set_flag)
+                            {
+                                cmdline_parameters.option_port.set("22");
+                            }
+
+                            // If source path is not set, use /
+                            if (!cmdline_parameters.option_path.is_set_flag)
+                            {
+                                cmdline_parameters.option_path.set("/");
+                            }
+
+                            //IF user is not set, use root
+                            if (!cmdline_parameters.option_login_name.is_set_flag)
+                            {
+                                cmdline_parameters.option_login_name.set("root");
+                            }
+
+                            // If driveletter is not set, use Z:\
+                            if(!cmdline_parameters.option_drive.is_set_flag
+                                && !cmdline_parameters.option_virtual_drive.is_set_flag)
+                            {
+                                cmdline_parameters.option_drive.set("Z:");
+                            }
+
+                            // If no Authentification-Key is set
+                            if (!cmdline_parameters.option_key.is_set_flag)
+                            {
+                                Console.Write("Enter Password >");
+                                cmdline_parameters.option_key.set(
+                                    "password=" + Console.ReadLine());
+                            }
+
+                            //fissh_command.actions.mount_unregistered_folder(cmdline_parameters);
+
                             //::FIXME::
                             Console.WriteLine("You want me to mount a server with the URL {0} on Port {1}.", cmdline_parameters.parameter_host.get(), cmdline_parameters.option_port.get());
                             Console.WriteLine("Path on Server: {0}", cmdline_parameters.option_path.get());
@@ -123,13 +158,15 @@ namespace fissh_cmdline_interface
                 Console.WriteLine(" ");
             #endregion
 
-                Console.ReadLine();
             }
             catch (Exception e) 
             {
                 fissh_command.fissh_print.error_message(e.Message);
-                Console.ReadLine();
             }
+            
+            Console.ReadLine();
+
+
         }
 
 
