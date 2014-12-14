@@ -58,12 +58,14 @@ namespace fissh_cmdline_interface
                         // If user added a folderlist in parameter
                         if (cmdline_parameters.parameter_folderlist.is_set_flag)
                         {
-                            Console.WriteLine("You want me to mount {0} on server {1}.", cmdline_parameters.parameter_folderlist.get(), cmdline_parameters.parameter_servername.get());
+                            fissh_command.actions.mount_registered_folders(cmdline_parameters);
                         }
+                        // If no folderlist is used
                         else {
-                            Console.WriteLine("You want me to mount the complet server {0}.", cmdline_parameters.parameter_servername.get());
+                            fissh_command.actions.mount_complet_server(cmdline_parameters);
                         }
                     }
+                    // If user want to mount a unregisteres Server
                     else
                     {
                         Console.WriteLine("You want me to mount a server with the URL {0} on Port {1}.", cmdline_parameters.parameter_host.get(), cmdline_parameters.option_port.get());
@@ -72,6 +74,7 @@ namespace fissh_cmdline_interface
                         Console.WriteLine("Authentifikation: {0}", cmdline_parameters.option_key.get());
                     }
                     break;
+
 
                 case (byte)fissh_command.fissh_command_keywords.umount:
                     Console.WriteLine("You want to unmount.");
@@ -93,6 +96,7 @@ namespace fissh_cmdline_interface
             Console.WriteLine(" ");
             #endregion
 
+            Console.ReadLine();
         }
 
 

@@ -6,6 +6,7 @@ using System.Linq;
 
 using NDesk.Options;//for getopt
 
+using icp_dummy;
 
 
 namespace fissh_command
@@ -13,6 +14,9 @@ namespace fissh_command
 
     enum fissh_command_keywords : byte { _no_match, mount, umount, status, help };
 
+    /// <summary>
+    /// class to parse and store options and parameters
+    /// </summary>
     public class fissh_command_expression
     {
 
@@ -81,7 +85,7 @@ namespace fissh_command
         }
 
 
-        #region METHODS
+        #region METHODS_for_Argument_Parsing
         /// <summary>
         /// looks at the first Argument and looks for a matching keyword
         /// </summary>
@@ -273,6 +277,49 @@ namespace fissh_command
         #endregion
     }
 
+    /// <summary>
+    /// class for all methods to use ipc to fisshbone
+    /// </summary>
+    public static class actions
+    {
+        public static void mount_complet_server(fissh_command_expression arguments)
+        {
+            int server_id;
+            List<int> folder_ids;
+            server_id = icp.search_server(arguments.parameter_servername.get());
+
+            folder_ids = icp.get_folder_ids(server_id);
+
+            folder_ids.ForEach(delegate(int i)
+            {
+                icp.mount(server_id, i);
+            });
+        }
+
+        public static void mount_registered_folders(fissh_command_expression arguments)
+        {
+            int server_id;
+            List<string> folder_names;
+            List<int> folder_ids = new List<int>();
+            server_id = icp.search_server(arguments.parameter_servername.get());
+
+            folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
+
+            folder_names.ForEach(delegate(string puffer)
+            {
+                folder_ids.Add(icp.search_folder(puffer, server_id));
+            });
+
+            folder_ids.ForEach(delegate(int i)
+            {
+                icp.mount(server_id, i);
+            }); 
+        }
+    }
+
+    /// <summary>
+    /// class for output methods
+    /// </summary>
     public static class fissh_print 
     {
         public static void error_message(string error_message)
