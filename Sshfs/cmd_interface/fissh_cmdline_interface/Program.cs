@@ -68,6 +68,7 @@ namespace fissh_cmdline_interface
                     // If user want to mount a unregisteres Server
                     else
                     {
+                        //::FIXME::
                         Console.WriteLine("You want me to mount a server with the URL {0} on Port {1}.", cmdline_parameters.parameter_host.get(), cmdline_parameters.option_port.get());
                         Console.WriteLine("Path on Server: {0}", cmdline_parameters.option_path.get());
                         Console.WriteLine("Loginname: {0}", cmdline_parameters.option_login_name.get());
@@ -77,7 +78,30 @@ namespace fissh_cmdline_interface
 
 
                 case (byte)fissh_command.fissh_command_keywords.umount:
-                    Console.WriteLine("You want to unmount.");
+                    // If user wants to umount a simple drive
+                    if(cmdline_parameters.option_drive.is_set_flag)
+                    {
+                        fissh_command.actions.umount_driveletter(cmdline_parameters);
+                    }
+
+                    // If user wants to umount a virtual drive
+                    else if(cmdline_parameters.option_virtual_drive.is_set_flag)
+                    {
+                        fissh_command.actions.umount_virtualdrive(cmdline_parameters);
+                    }
+
+                    // If user wants to umount folders on a registered server
+                    else if(cmdline_parameters.parameter_folderlist.is_set_flag)
+                    {
+                        fissh_command.actions.umount_registered_folders(cmdline_parameters);
+                    }
+
+                    // If user wants to umount a complet registered server
+                    else
+                    {
+                        fissh_command.actions.umount_complet_server(cmdline_parameters);
+                    }
+
                     break;
 
                 case (byte)fissh_command.fissh_command_keywords.status:

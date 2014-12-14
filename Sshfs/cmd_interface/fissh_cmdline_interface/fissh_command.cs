@@ -201,7 +201,7 @@ namespace fissh_command
                 case (byte)fissh_command_keywords.mount:
 
 
-                    //User wants to mount a new server
+                    //User wants to mount a uregistered server
                     if (any_option_is_set_flag)
                     {
                         int i_start, i_end;     //indices to isolate host from username and port (user@host:port)
@@ -271,6 +271,54 @@ namespace fissh_command
 
                     }
                     break;
+
+                    
+                case (byte) fissh_command_keywords.umount:
+                    // If Option -d or -v is set, we allready know wat the want to unmount
+                    if (option_drive.is_set_flag || option_virtual_drive.is_set_flag)
+                    {
+                        return;
+                    }
+                    
+                    // If not, there must be other arguments
+                    else
+                    {
+                        //If there are no other arguments, print error-Mesage and exit
+                        if(parameters.Count() == 0)
+                        {
+                            fissh_print.error_message("missing parameters");
+                            return;
+                        }
+                        
+                        // If the first Parameter is a driveletter or a Virtualdrive-Path
+                        else if (parameters[0].IndexOf(":") == 1)
+                        {
+                            //if it is a driveletter
+                            if (parameters[0].Length <= 3)
+                            {
+                                option_drive.set(parameters[0]);
+                            }
+                            //if it is a virtualdrive
+                            else
+                            {
+                                option_virtual_drive.set(parameters[0]);
+                            }
+                        }
+
+                        // If parameters are referenzes to a registered server
+                        else
+                        {
+                            parameter_servername.set(parameters[0]);
+
+                            if (parameters.Count() > 1)
+                            {
+                                parameter_folderlist.set(parameters[1]);
+                            }
+                        }
+
+                    }
+                    break;
+                
                 default: return;
             }
         }
@@ -314,6 +362,73 @@ namespace fissh_command
             {
                 icp.mount(server_id, i);
             }); 
+        }
+
+
+        public static void umount_complet_server(fissh_command_expression arguments)
+        {
+            int server_id;
+            List<int> folder_ids;
+            server_id = icp.search_server(arguments.parameter_servername.get());
+
+            folder_ids = icp.get_folder_ids(server_id);
+
+            folder_ids.ForEach(delegate(int i)
+            {
+                icp.umount(server_id, i);
+            });
+        }
+
+
+
+        public static void umount_registered_folders(fissh_command_expression arguments)
+        {
+            int server_id;
+            List<string> folder_names;
+            List<int> folder_ids = new List<int>();
+            server_id = icp.search_server(arguments.parameter_servername.get());
+
+            folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
+
+            folder_names.ForEach(delegate(string puffer)
+            {
+                folder_ids.Add(icp.search_folder(puffer, server_id));
+            });
+
+            folder_ids.ForEach(delegate(int i)
+            {
+                icp.umount(server_id, i);
+            });
+        }
+
+        public static void umount_driveletter(fissh_command_expression arguments)
+        {
+            Tuple<int, int> puffer_tupel;
+            int server_id, folder_id;
+
+            puffer_tupel = icp.search_driveletter(arguments.option_drive.get());
+            server_id = puffer_tupel.Item1;
+            folder_id = puffer_tupel.Item2;
+
+            if (server_id > 0 && folder_id > 0)
+            {
+                icp.umount(server_id, folder_id);
+            }
+        }
+
+        public static void umount_virtualdrive(fissh_command_expression arguments)
+        {
+            Tuple<int, int> puffer_tupel;
+            int server_id, folder_id;
+
+            puffer_tupel = icp.search_virtualdrive(arguments.option_virtual_drive.get());
+            server_id = puffer_tupel.Item1;
+            folder_id = puffer_tupel.Item2;
+
+            if (server_id > 0 && folder_id > 0)
+            {
+                icp.umount(server_id, folder_id);
+            }
         }
     }
 
