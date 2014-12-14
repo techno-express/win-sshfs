@@ -16,6 +16,7 @@ namespace icp_dummy
             }
             else
             {
+                throw new Exception("no registered Server named " + servernickname);
                 return -1;
             }
         }
@@ -106,7 +107,5 @@ namespace icp_dummy
             }
             return 0;
         }
-
-        
     }
 }
