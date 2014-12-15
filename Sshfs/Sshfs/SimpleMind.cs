@@ -31,10 +31,8 @@ namespace SimpleMind
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
         private static int _LogLevel;
-        // 0 > == None
-        // 0 == Warning
-        // 1 == Error
-        // 3 == Debug/All
+        public enum Loglevel {None = 0,Error = 1,Warning = 2,Debug = 3}; 
+       
 
         public SimpleMind(int iLogLevel, string sFile, string sPath)
         {
@@ -49,11 +47,26 @@ namespace SimpleMind
             _Folder = sPath;
             _LogFile = sFile;
             _PathToLogFile = _Folder + _LogFile;
-            _LogLevel = iLogLevel;
 
+            switch (iLogLevel) {
+                case (int) Loglevel.None:
+                                    _LogLevel = (int) Loglevel.None;
+                                    break;
+                case (int) Loglevel.Error: 
+                                    _LogLevel = (int) Loglevel.Error;    
+                                    break;
+                case (int) Loglevel.Warning:
+                                    _LogLevel = (int) Loglevel.Warning;
+                                    break;
+                case (int) Loglevel.Debug:
+                                    _LogLevel = (int) Loglevel.Debug;
+                                    break;
+            }
+                                    
+            
             try
             {
-                //ceck for target directory and create if not found
+                //check for target directory and create if not found
                 if (!System.IO.Directory.Exists(_Folder))
                 {
                     //System.IO.Directory.CreateDirectory(_Folder);
@@ -101,7 +114,22 @@ namespace SimpleMind
             _Folder = MyDocDir;
             _LogFile = sFile;
             _PathToLogFile = _Folder + _LogFile;
-            _LogLevel = iLogLevel;
+
+            switch (iLogLevel)
+            {
+                case (int)Loglevel.None:
+                    _LogLevel = (int)Loglevel.None;
+                    break;
+                case (int)Loglevel.Error:
+                    _LogLevel = (int)Loglevel.Error;
+                    break;
+                case (int)Loglevel.Warning:
+                    _LogLevel = (int)Loglevel.Warning;
+                    break;
+                case (int)Loglevel.Debug:
+                    _LogLevel = (int)Loglevel.Debug;
+                    break;
+            }
 
 
             // Check if file exists
@@ -137,7 +165,7 @@ namespace SimpleMind
 
             using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
             {
-
+                 
                 fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "] " + "[" +cmpnt+ "] " + LogMsg);
                 /*
                  //no zero when time got one digit elements
