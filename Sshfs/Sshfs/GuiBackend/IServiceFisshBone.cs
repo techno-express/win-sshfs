@@ -11,31 +11,51 @@ namespace Sshfs.GuiBackend
     [ServiceContract]
     public interface IServiceFisshBone
     {
-        [OperationContract]
-        void DoWork();
+        //[OperationContract]
+        //void DoWork();
 
         [OperationContract]
-        void Mount();
+        List<SftpDrive_for_hierachy> search(Guid ID);
 
         [OperationContract]
-        void UMount();
+        List<SftpDrive_for_hierachy> search(char letter);
 
         [OperationContract]
-        void add();
+        int Mount(Guid ID);
 
         [OperationContract]
-        void remove();
+        int UMount(Guid ID);
 
         [OperationContract]
-        void Connect();
+        DriveStatus getStatus(Guid ID);
 
         [OperationContract]
-        void Disconnect();
+        List<SftpDrive_for_hierachy> listAll();
 
         [OperationContract]
-        void Change();
+        int removeServer(Guid ID);
 
+        [OperationContract]
+        int removeFolder(Guid ID);
 
+        [OperationContract]
+        int editDrive(SftpDrive_for_hierachy);
+
+        [OperationContract]
+        Guid /*ID*/ addServer(SftpDrive_for_hierachy);
+
+        [OperationContract]
+        Guid /*ID*/ addFolder(Guid ID /*Folderdeskription*/);
+
+        [OperationContract]
+        int removeServer(Guid ID);
+
+        [OperationContract]
+        int Connect(Guid ID);
+
+        [OperationContract]
+        void Disconnect(Guid ID);
+        
 
     }
 }
