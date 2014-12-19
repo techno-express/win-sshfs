@@ -17,7 +17,7 @@
 
 using System;
 using System.IO;
-
+using System.Threading;
 
 
 namespace SimpleMind
@@ -163,29 +163,37 @@ namespace SimpleMind
         {
             DateTime Now = DateTime.Now;
 
-            using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
+            try
             {
-                switch (iLogType)
+                using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
                 {
-                    case (int) Loglevel.Error:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" +cmpnt+ "] " + LogMsg);
+                    switch (iLogType)
+                    {
+                        case (int)Loglevel.Error:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" + cmpnt + "] " + LogMsg);
                             break;
-                    case (int) Loglevel.Warning:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" +cmpnt+ "] " + LogMsg);
+                        case (int)Loglevel.Warning:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" + cmpnt + "] " + LogMsg);
                             break;
-                    case (int) Loglevel.Debug:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" +cmpnt+ "] " + LogMsg);
+                        case (int)Loglevel.Debug:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" + cmpnt + "] " + LogMsg);
                             break;
-                }    
-                
-                /*
-                 //no zero when time got one digit elements
-               fs.WriteLine("[" + Now.Year.ToString() + @"/"
-                  + Now.Month.ToString() + @"/"
-                  + Now.Day.ToString() + " "
-                  + Now.Hour.ToString() + ":"
-                  + Now.Minute.ToString() + ":"
-                  + Now.Second.ToString() + "] " + LogMsg);*/
+                    }
+
+                    /*
+                     //no zero when time got one digit elements
+                   fs.WriteLine("[" + Now.Year.ToString() + @"/"
+                      + Now.Month.ToString() + @"/"
+                      + Now.Day.ToString() + " "
+                      + Now.Hour.ToString() + ":"
+                      + Now.Minute.ToString() + ":"
+                      + Now.Second.ToString() + "] " + LogMsg);*/
+                }
+            }
+            catch (IOException e)                       //put current thread on hold if another one is already writing in the logfile 
+            {
+                Thread.Sleep(1);
+                write(iLogType, cmpnt, LogMsg);
             }
         }
 
