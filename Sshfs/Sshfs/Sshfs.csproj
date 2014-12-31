@@ -113,6 +113,10 @@
     </Compile>
     <Compile Include="DriveStatus.cs" />
     <Compile Include="ContextMenuStripThemedRenderer.cs" />
+    <Compile Include="GuiBackend\FolderModel.cs" />
+    <Compile Include="GuiBackend\IServiceFisshBone.cs" />
+    <Compile Include="GuiBackend\ServerModel.cs" />
+    <Compile Include="GuiBackend\ServiceFisshBone.cs" />
     <Compile Include="SftpManagerApplication.cs" />
     <Compile Include="ConnectionType.cs" />
     <Compile Include="MainForm.cs">
@@ -127,6 +131,7 @@
     <Compile Include="SftpContextStream.cs" />
     <Compile Include="SftpFilesystem.cs" />
     <Compile Include="SftpDrive.cs" />
+    <Compile Include="SimpleMind.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="VirtualDrive.cs" />
     <Compile Include="VirtualFilesystem.cs" />
@@ -148,6 +153,8 @@
     </Compile>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="GuiBackend\IServiceFisshBone.netmodule" />
+    <None Include="GuiBackend\ServiceFisshBone.netmodule" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

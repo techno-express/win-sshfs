@@ -22,6 +22,13 @@ using System.Threading;
 
 namespace SimpleMind
 {
+    public enum Loglevel:int { 
+        None = 0,
+        Error = 1, 
+        Warning = 2, 
+        Debug = 3, 
+    }
+
     public class SimpleMind
     {
         const int _DefaultLogMax = 3; // default highest LogLevel
@@ -31,13 +38,12 @@ namespace SimpleMind
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
         private static int _LogLevel;
-        public enum Loglevel {None = 0,Error = 1,Warning = 2,Debug = 3}; 
+        //public enum Loglevel {None = 0,Error = 1,Warning = 2,Debug = 3}; 
        
 
         public SimpleMind(int iLogLevel, string sFile, string sPath)
         {
 
-            //*** This comment makes no sens. *** Line 42 is the truth
             if (!sPath.EndsWith(@"\"))
             {
                 sPath = sPath + @"\";
@@ -159,7 +165,7 @@ namespace SimpleMind
         #region
         //*** private ***
         // writing LogMsg into Logfile with current timestamp no LogLevel is checked
-        private void write(int iLogType,string cmpnt ,string LogMsg)
+        private void write(Loglevel iLogType,string cmpnt ,string LogMsg)
         {
             DateTime Now = DateTime.Now;
 
@@ -199,7 +205,7 @@ namespace SimpleMind
 
 
         //*** public ***
-        public void writeLog(int iLogType,string cmpnt, string Msg)
+        public void writeLog(Loglevel iLogType, string cmpnt, string Msg)
         {
             if (iLogType >= 0 && iLogType <= _LogLevel)
             {
