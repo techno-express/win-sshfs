@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 8, 8);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 7, 7);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 11, 11, new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 10, 10);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,10 +53,10 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -101,7 +101,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button5 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -198,14 +198,12 @@
             this.unmountToolStripMenuItem,
             this.deleteToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.optionsToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1264, 90);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // mountToolStripMenuItem
             // 
@@ -248,19 +246,10 @@
             this.optionsToolStripMenuItem.AutoSize = false;
             this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(70, 86);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(94, 86);
+            this.optionsToolStripMenuItem.Text = "Options / About";
             this.optionsToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("aboutToolStripMenuItem.Image")));
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(62, 86);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -314,21 +303,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
             // 
+            // button5
+            // 
+            this.button5.Enabled = false;
+            this.button5.Location = new System.Drawing.Point(133, 436);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 25);
+            this.button5.TabIndex = 13;
+            this.button5.Text = "Save changes";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(358, 372);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(27, 20);
-            this.button1.TabIndex = 17;
+            this.button1.Size = new System.Drawing.Size(27, 21);
+            this.button1.TabIndex = 11;
             this.button1.Text = "..";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // textBox5
             // 
+            this.textBox5.Enabled = false;
             this.textBox5.Location = new System.Drawing.Point(226, 373);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(126, 20);
-            this.textBox5.TabIndex = 16;
+            this.textBox5.TabIndex = 10;
             // 
             // textBox4
             // 
@@ -336,7 +337,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.PasswordChar = '•';
             this.textBox4.Size = new System.Drawing.Size(159, 20);
-            this.textBox4.TabIndex = 15;
+            this.textBox4.TabIndex = 8;
             // 
             // radioButton3
             // 
@@ -344,10 +345,11 @@
             this.radioButton3.Location = new System.Drawing.Point(149, 397);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(65, 17);
-            this.radioButton3.TabIndex = 14;
+            this.radioButton3.TabIndex = 12;
             this.radioButton3.Text = "Pagaent";
             this.toolTip1.SetToolTip(this.radioButton3, "an SSH authentication agent needs a private key in *.ppk format");
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -355,9 +357,10 @@
             this.radioButton2.Location = new System.Drawing.Point(149, 374);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(79, 17);
-            this.radioButton2.TabIndex = 13;
+            this.radioButton2.TabIndex = 9;
             this.radioButton2.Text = "Private Key";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -366,10 +369,11 @@
             this.radioButton1.Location = new System.Drawing.Point(149, 351);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(71, 17);
-            this.radioButton1.TabIndex = 12;
+            this.radioButton1.TabIndex = 7;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Password";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // label7
             // 
@@ -386,7 +390,7 @@
             this.textBox3.Location = new System.Drawing.Point(149, 305);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(236, 20);
-            this.textBox3.TabIndex = 10;
+            this.textBox3.TabIndex = 6;
             // 
             // label6
             // 
@@ -412,7 +416,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(149, 149);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(236, 96);
-            this.richTextBox1.TabIndex = 7;
+            this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             // 
             // label4
@@ -436,6 +440,11 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(149, 104);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(100, 20);
             this.numericUpDown1.TabIndex = 4;
@@ -478,7 +487,7 @@
             this.button2.Location = new System.Drawing.Point(211, 346);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(141, 25);
-            this.button2.TabIndex = 18;
+            this.button2.TabIndex = 28;
             this.button2.Text = "Save changes";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -487,36 +496,37 @@
             // 
             this.treeView1.AllowDrop = true;
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.treeView1.ImageIndex = 11;
+            this.treeView1.ImageIndex = 7;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 70;
-            this.treeView1.Location = new System.Drawing.Point(12, 93);
+            this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode5.ImageIndex = 8;
-            treeNode5.Name = "Node3";
-            treeNode5.SelectedImageIndex = 8;
-            treeNode5.Text = "TestFolder";
-            treeNode6.ImageIndex = 7;
-            treeNode6.Name = "Node4";
-            treeNode6.SelectedImageIndex = 7;
-            treeNode6.Text = "Add Directory";
-            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode7.ImageIndex = 11;
-            treeNode7.Name = "Node2";
-            treeNode7.SelectedImageIndex = 11;
-            treeNode7.Text = "TestServer";
-            treeNode8.ImageIndex = 10;
-            treeNode8.Name = "Node5";
-            treeNode8.SelectedImageIndex = 10;
-            treeNode8.Text = "Add New Server";
+            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode1.ImageIndex = 4;
+            treeNode1.Name = "Node3";
+            treeNode1.SelectedImageIndex = 4;
+            treeNode1.Text = "TestFolder";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "Node4";
+            treeNode2.SelectedImageIndex = 3;
+            treeNode2.Text = "Add Directory";
+            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode3.ImageIndex = 6;
+            treeNode3.Name = "Node2";
+            treeNode3.SelectedImageIndex = 6;
+            treeNode3.Text = "TestServer";
+            treeNode4.ImageIndex = 5;
+            treeNode4.Name = "Node5";
+            treeNode4.SelectedImageIndex = 5;
+            treeNode4.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode3,
+            treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(820, 577);
+            this.treeView1.Size = new System.Drawing.Size(814, 577);
             this.treeView1.TabIndex = 4;
+            this.treeView1.TabStop = false;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -529,19 +539,14 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Bearbeiten.png");
-            this.imageList1.Images.SetKeyName(1, "Bearbeiten2.png");
-            this.imageList1.Images.SetKeyName(2, "Einstellungen.png");
-            this.imageList1.Images.SetKeyName(3, "FiSHH Logo.png");
-            this.imageList1.Images.SetKeyName(4, "Fragezeichen(Über).png");
-            this.imageList1.Images.SetKeyName(5, "Löschen.png");
-            this.imageList1.Images.SetKeyName(6, "Mount.png");
-            this.imageList1.Images.SetKeyName(7, "Ordner hinzufügen.png");
-            this.imageList1.Images.SetKeyName(8, "Ordner.png");
-            this.imageList1.Images.SetKeyName(9, "Plus.png");
-            this.imageList1.Images.SetKeyName(10, "Server hinzufügen.png");
-            this.imageList1.Images.SetKeyName(11, "Server.png");
-            this.imageList1.Images.SetKeyName(12, "Unmount.png");
+            this.imageList1.Images.SetKeyName(0, "Mount.png");
+            this.imageList1.Images.SetKeyName(1, "Einstellungen.png");
+            this.imageList1.Images.SetKeyName(2, "Löschen.png");
+            this.imageList1.Images.SetKeyName(3, "Ordner hinzufügen.png");
+            this.imageList1.Images.SetKeyName(4, "Ordner.png");
+            this.imageList1.Images.SetKeyName(5, "Server hinzufügen.png");
+            this.imageList1.Images.SetKeyName(6, "Server.png");
+            this.imageList1.Images.SetKeyName(7, "Unmount.png");
             // 
             // groupBox2
             // 
@@ -567,15 +572,15 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(149, 224);
+            this.textBox10.Location = new System.Drawing.Point(149, 19);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(236, 20);
-            this.textBox10.TabIndex = 24;
+            this.textBox10.TabIndex = 14;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 227);
+            this.label12.Location = new System.Drawing.Point(6, 22);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 13);
             this.label12.TabIndex = 23;
@@ -588,7 +593,7 @@
             this.checkBox2.Location = new System.Drawing.Point(6, 351);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(144, 17);
-            this.checkBox2.TabIndex = 22;
+            this.checkBox2.TabIndex = 27;
             this.checkBox2.Text = "Mount at program startup";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
@@ -596,6 +601,7 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ItemHeight = 13;
             this.comboBox1.Items.AddRange(new object[] {
             "A:",
             "B:",
@@ -626,7 +632,7 @@
             this.comboBox1.Location = new System.Drawing.Point(301, 283);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(51, 21);
-            this.comboBox1.TabIndex = 7;
+            this.comboBox1.TabIndex = 25;
             // 
             // radioButton8
             // 
@@ -634,23 +640,26 @@
             this.radioButton8.Location = new System.Drawing.Point(149, 306);
             this.radioButton8.Name = "radioButton8";
             this.radioButton8.Size = new System.Drawing.Size(125, 17);
-            this.radioButton8.TabIndex = 6;
+            this.radioButton8.TabIndex = 26;
             this.radioButton8.TabStop = true;
             this.radioButton8.Text = "Folder in Virtual Drive";
             this.toolTip1.SetToolTip(this.radioButton8, "Creates a Folder with your directory in a Virtual Drive \r\n(VD setup in options) T" +
         "HIS IS AN EXAMPLE TOOLTIP\r\n");
             this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
             // radioButton7
             // 
             this.radioButton7.AutoSize = true;
+            this.radioButton7.Checked = true;
             this.radioButton7.Location = new System.Drawing.Point(149, 284);
             this.radioButton7.Name = "radioButton7";
             this.radioButton7.Size = new System.Drawing.Size(50, 17);
-            this.radioButton7.TabIndex = 5;
+            this.radioButton7.TabIndex = 24;
             this.radioButton7.TabStop = true;
             this.radioButton7.Text = "Drive";
             this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
             // 
             // label11
             // 
@@ -666,7 +675,7 @@
             this.textBox9.Location = new System.Drawing.Point(149, 257);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(236, 20);
-            this.textBox9.TabIndex = 3;
+            this.textBox9.TabIndex = 23;
             // 
             // label10
             // 
@@ -689,7 +698,7 @@
             this.groupBox3.Controls.Add(this.radioButton6);
             this.groupBox3.Controls.Add(this.radioButton5);
             this.groupBox3.Enabled = false;
-            this.groupBox3.Location = new System.Drawing.Point(0, 45);
+            this.groupBox3.Location = new System.Drawing.Point(0, 75);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(399, 176);
             this.groupBox3.TabIndex = 1;
@@ -697,10 +706,11 @@
             // 
             // button4
             // 
+            this.button4.Enabled = false;
             this.button4.Location = new System.Drawing.Point(358, 86);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(27, 20);
-            this.button4.TabIndex = 29;
+            this.button4.Size = new System.Drawing.Size(27, 21);
+            this.button4.TabIndex = 21;
             this.button4.Text = "..";
             this.button4.UseVisualStyleBackColor = true;
             // 
@@ -709,14 +719,15 @@
             this.textBox8.Location = new System.Drawing.Point(149, 19);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(236, 20);
-            this.textBox8.TabIndex = 22;
+            this.textBox8.TabIndex = 16;
             // 
             // textBox6
             // 
+            this.textBox6.Enabled = false;
             this.textBox6.Location = new System.Drawing.Point(226, 87);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(126, 20);
-            this.textBox6.TabIndex = 28;
+            this.textBox6.TabIndex = 20;
             // 
             // label9
             // 
@@ -733,7 +744,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.PasswordChar = '•';
             this.textBox7.Size = new System.Drawing.Size(159, 20);
-            this.textBox7.TabIndex = 27;
+            this.textBox7.TabIndex = 18;
             // 
             // label8
             // 
@@ -751,10 +762,11 @@
             this.radioButton4.Location = new System.Drawing.Point(149, 111);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(65, 17);
-            this.radioButton4.TabIndex = 26;
+            this.radioButton4.TabIndex = 22;
             this.radioButton4.Text = "Pageant";
             this.toolTip1.SetToolTip(this.radioButton4, "an SSH authentication agent needs a private key in *.ppk format");
             this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
             // radioButton6
             // 
@@ -763,10 +775,11 @@
             this.radioButton6.Location = new System.Drawing.Point(149, 65);
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.Size = new System.Drawing.Size(71, 17);
-            this.radioButton6.TabIndex = 24;
+            this.radioButton6.TabIndex = 17;
             this.radioButton6.TabStop = true;
             this.radioButton6.Text = "Password";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
             // radioButton5
             // 
@@ -774,9 +787,10 @@
             this.radioButton5.Location = new System.Drawing.Point(149, 88);
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(79, 17);
-            this.radioButton5.TabIndex = 25;
+            this.radioButton5.TabIndex = 19;
             this.radioButton5.Text = "Private Key";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -784,10 +798,10 @@
             this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(6, 19);
+            this.checkBox1.Location = new System.Drawing.Point(6, 52);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(125, 17);
-            this.checkBox1.TabIndex = 0;
+            this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Use Default Account";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
@@ -806,15 +820,9 @@
             // 
             this.toolTip1.AutomaticDelay = 10000;
             // 
-            // button5
+            // timer1
             // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(133, 436);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 25);
-            this.button5.TabIndex = 25;
-            this.button5.Text = "Save changes";
-            this.button5.UseVisualStyleBackColor = true;
+            this.timer1.Interval = 1000;
             // 
             // FiSSHForm
             // 
@@ -857,7 +865,6 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ImageList imageList1;
@@ -917,6 +924,7 @@
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
