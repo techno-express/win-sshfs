@@ -9,29 +9,39 @@ namespace Sshfs.GuiBackend
     class ServerModel
     {
 #region ATTRIBUTES
-        public String Name { get; set; }
+        public string Name { get; set; }
         public Guid ServerID{get; set;}
 
-        public String Notes{get; set;}
+        public string Notes{get; set;}
 
-        public String Host{get; set;}
-        public int Port{get; set;}
-
-        public string PrivateKey;
+        public string PrivateKey { get; set; }
         public string Password { get; set; }
         public string Passphrase { get; set; }
+
         public string Username { get; set; }
 
-        public ConnectionType ConnectionType {get; set; }
-        public DriveStatus Status { get; set; }
+        public string Host { get; set; }
+        public int Port { get; set; }
 
-        public String Root;
-        public String Mountpoint;
+        public bool Automount { get; set; }
+
+        public ConnectionType ConnectionType {get; set; }
+        public DriveStatus Status { get; private set; }
+
+        public string Root;
+        public char DriveLetter;
 
         //Folders for a Server kann be stored as List of Foldermodels
         // or as List of Strings
         //List<FolderModel> Folders= new List<FolderModel>();
-        List<string> Folders = new List<string>();
+        public List<string> Mountpoint;
+
+        ServerModel()
+        {
+            Mountpoint = new List<string>();
+        }
+
+
 
 #endregion
 

@@ -29,6 +29,11 @@ namespace Sshfs.GuiBackend
         private List<ServerModel> LServermodel = new List<ServerModel>();
         private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
 
+
+
+
+
+
         // internal Method to Find Servermodel by Guid and printing Errorlog
         private int Find(Guid ID, String ErrMsg)
         {
@@ -47,18 +52,43 @@ namespace Sshfs.GuiBackend
         }
         private SftpDrive createSftp(ServerModel Server)
         {
-            
+            var drive = new SftpDrive
+                            {
+                                Name = Server.Name,
+                                Port = Server.Port,
+                                Root = ".", //?
+                                Letter = Server.,
+                                MountPoint = ""
+                            };
         }
 
 #region INTERFACE
-        List<SftpDrive_for_hierachy> search(Guid ID){
-        return new List<SftpDrive_for_hierachy>;
+        ServerModel search(Guid ID){
+
+            ServerModel Server;
+            int Index = Find(ID, "Couldn't find ServerID: " + ID.ToString());
+            
+
+            if (Index == -1)
+            {
+                Server = null;
+            }
+
+            else
+            {
+                Server = LServermodel.ElementAt(Index);
+            }
+
+            return Server;       
         }
 
         
-        List<SftpDrive_for_hierachy> search(char letter){
-        return new List<SftpDrive_for_hierachy>;
-        }
+        /*ServerModel search(char letter){
+
+            LServermodel.Find(x => x.)
+
+        return LServermodel.In;
+        }*/
 
         
         int Mount(Guid ID){
@@ -75,11 +105,16 @@ namespace Sshfs.GuiBackend
 
             DriveStatus DS = DriveStatus.Undefined;
 
-            int Index = Find(ID, "Could not find ServerID to print Drivestatus");
+            int Index = Find(ID, "Could not find ServerID to get Drivestatus");
 
-            if(Index >= 0)
+            if (Index >= 0)
             {
                 DS = LServermodel[Index].Status;
+            }
+
+            else
+            {
+                DS = DriveStatus.Error;
             }
 
             return DS;
@@ -91,13 +126,32 @@ namespace Sshfs.GuiBackend
         }
 
         
-        int removeServer(Guid ID){ return -1;}
+        int removeServer(Guid ID){
 
-        
-        int removeFolder(Guid ID){return -1;}
+            int Index = Find(ID, "Couldn't find ServerID to remove.");
 
+            if (Index >= 0)
+            {
+                LServermodel.RemoveAt(Index);
+            }
+
+            return Index;    
+        }
         
-        int editDrive(SftpDrive_for_hierachy){return -1;}
+        
+        
+        int editServer(ServerModel Server){
+
+            int Index = Find(Server.ServerID, "Couldn't find ServerID to edit use addServer instead to add a new server.");
+
+            if (Index >= 0)
+            {
+                LServermodel.Insert(Index + 1, Server);
+                LServermodel.RemoveAt(Index);
+            }
+
+            return Index;
+        }
 
         
         Guid /*ID*/ addServer(ServerModel newServer){
@@ -122,9 +176,61 @@ namespace Sshfs.GuiBackend
         }
 
         
-        Guid /*ID*/ addFolder(Guid ID /*Folderdeskription*/){return new Guid("0");}
+        int addFolder(Guid ID, string Folder){
 
-        // Returnvalue is -1 in Error case or else the remove index
+            int Index = Find(ID, "Couldn't find ServerID to add folder");
+
+            if (Index >= 0)
+            {
+                LServermodel.ElementAt(Index).Mountpoint.Add(Folder);
+
+                DriveStatus DS = LServermodel.ElementAt(Index).Status;
+
+                if(DS == DriveStatus.Mounted || DS ==  DriveStatus.Mounting)
+                {
+                    Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Drive is mounted changes effect after remount");
+                }
+            }
+
+            return Index;
+        }
+
+        int removeFolder(Guid ID, string Folder)
+        {
+            ServerModel tempServer;
+            int Index = Find(ID, "Coludn't find ServerID to remove Folder");
+            int stringIndex = -1;
+
+            if (Index >= 0)
+            {
+                tempServer = LServermodel.ElementAt(Index);
+
+                try
+                {
+                    stringIndex = tempServer.Mountpoint.IndexOf(Folder);
+                }
+                catch (ArgumentNullException e)
+                {
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find folder in Servermodel with ID: " + LServermodel.ElementAt(Index).ServerID.ToString());
+                    Index = -1;
+                    stringIndex = -1;
+                }
+
+                if (stringIndex >= 0)
+                {
+                    tempServer.Mountpoint.RemoveAt(stringIndex);
+                    if (editServer(tempServer) == -1)
+                    {
+                        Index = -1;
+                    }
+                }
+
+            }
+
+            return Index;
+        }
+
+        // Returnvalue is -1 in error case or else the remove index
         int removeServer(Guid ID){
         
             int Index;
@@ -151,11 +257,16 @@ namespace Sshfs.GuiBackend
             return Index;
         }
 
-        
+
+        SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel)
+        {
+            Log.setLogLevel((int)newLogLevel);
+            return (SimpleMind.Loglevel) Log.getLogLevel();
+        }
+        /*
         int Connect(Guid ID){return -1;}
 
-        
-        void Disconnect(Guid ID){}
+        void Disconnect(Guid ID){}*/
 #endregion
         
     }

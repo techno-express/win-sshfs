@@ -207,7 +207,7 @@ namespace SimpleMind
         //*** public ***
         public void writeLog(Loglevel iLogType, string cmpnt, string Msg)
         {
-            if (iLogType >= 0 && iLogType <= _LogLevel)
+            if ((int)iLogType >= 0 && (int)iLogType <= _LogLevel)
             {
                 write(iLogType,cmpnt, Msg);
             }
