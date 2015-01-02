@@ -7,11 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using Sshfs.
 
 namespace WindowsFormsApplication2
 {
     public partial class FiSSHForm : Form
     {
+        /*
+        * @Michael Bin mir nicht 100%ig sicher ob das so schon richtig ist
+        //Ersetzen Sie ServiceReference durch den Namespace für den Dienstverweis, und ersetzen Sie Service1Client durch den Namen des Diensts. 
+        //ServiceReference.Service1Client proxy = new ServiceReference.Service1Client();
+        GuiBackend.ServiceFisshBone Backend = new GuiBackend.ServiceFisshBone();
+        */
+
         Boolean Expanded = true;
         Font font = new Font("Microsoft Sans Serif", 8, FontStyle.Regular);
         public FiSSHForm()
