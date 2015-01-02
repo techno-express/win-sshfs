@@ -21,10 +21,15 @@ namespace WindowsFormsApplication2
         */
 
         Boolean Expanded = true;
-        Font font = new Font("Microsoft Sans Serif", 8, FontStyle.Regular);
+        Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
         public FiSSHForm()
         {
             InitializeComponent();
+        }
+
+        private void UpdateTreeView(/* STUFF */)
+        {
+            /* STUFF */
         }
 
         private void ServerFolderEdit()
@@ -62,9 +67,6 @@ namespace WindowsFormsApplication2
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            
-            
-            
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
                 treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
@@ -76,27 +78,6 @@ namespace WindowsFormsApplication2
             ServerFolderEdit();
         }
 
-    //------------------------------------------------------------------------------------------------------------------------    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //------------------------------------------------------------------------------------------------------------------------
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
@@ -105,28 +86,6 @@ namespace WindowsFormsApplication2
         private void button1_Click(object sender, EventArgs e)
         {
             groupBox1.Visible = false;
-        }
-
-
-        private void elementHost1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
- 
-
-        private void toolStripTextBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-          
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -146,7 +105,7 @@ namespace WindowsFormsApplication2
             ServerFolderEdit();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)  //Use Default Account Checkbox
         {
             groupBox3.Enabled = !checkBox1.Checked;
         }
@@ -156,7 +115,7 @@ namespace WindowsFormsApplication2
 
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)   //Opens Options + About Dialog
         {
             AboutForm About = new AboutForm();
             About.ShowDialog();
@@ -164,7 +123,7 @@ namespace WindowsFormsApplication2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            UpdateTreeView();
         }
 
         private void treeView1_DragDrop(object sender, DragEventArgs e)
@@ -185,10 +144,16 @@ namespace WindowsFormsApplication2
                 // If it is a move operation, remove the node from its current  
                 // location and add it to the node at the drop location. 
                 if (e.Effect == DragDropEffects.Move)
-                {
-                    draggedNode.Remove();
-                    if (targetNode != null) targetNode.Nodes.Add(draggedNode);
-                    else treeView1.Nodes.Add(draggedNode);
+                {   
+                    if (targetNode != null && (draggedNode.Level > targetNode.Level)) 
+                    { 
+                        draggedNode.Remove(); targetNode.Nodes.Add(draggedNode); 
+                    }
+                    else 
+                    {
+                        if (targetNode == null && draggedNode.Level != 1) { draggedNode.Remove(); treeView1.Nodes.Add(draggedNode); }
+                    }
+                    
                 }
 
                 // If it is a copy operation, clone the dragged node  
@@ -273,6 +238,52 @@ namespace WindowsFormsApplication2
         {
             e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, Rectangle.Inflate(e.Bounds, 2, 0));
         }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox6.Enabled = button4.Enabled = false;
+            textBox7.Enabled = true;
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox6.Enabled = button4.Enabled = true;
+            textBox7.Enabled = false;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox6.Enabled = button4.Enabled = textBox7.Enabled = false;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox5.Enabled = button1.Enabled = false;
+            textBox4.Enabled = true;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox5.Enabled = button1.Enabled = true;
+            textBox4.Enabled = false;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox5.Enabled = button1.Enabled = textBox4.Enabled = false;
+        }
+
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox1.Enabled = true;
+        }
+
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox1.Enabled = false;
+        }
+
+
 
     }
 }
