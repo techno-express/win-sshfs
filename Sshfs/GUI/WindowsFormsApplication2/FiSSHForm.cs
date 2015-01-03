@@ -21,6 +21,8 @@ namespace WindowsFormsApplication2
         */
 
         Boolean Expanded = true;
+        Boolean gBox2Vis = false;
+        int TimerCount = 0;
         Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
         public FiSSHForm()
         {
@@ -33,16 +35,24 @@ namespace WindowsFormsApplication2
         }
 
         private void ServerFolderEdit()
-        {
+        { 
             switch (treeView1.SelectedNode.Level)
             {
                 case 0:
-                    groupBox1.Enabled = true;
-                    groupBox2.Visible = false;
+                    if (Expanded)
+                    {
+                        groupBox1.Enabled = true;
+                        groupBox2.Visible = false;
+                    }
+                    else gBox2Vis = false;
                     break;
                 case 1:
-                    groupBox1.Enabled = false;
-                    groupBox2.Visible = true;
+                    if (Expanded)
+                    {
+                        groupBox1.Enabled = false;
+                        groupBox2.Visible = true;
+                    }
+                    else gBox2Vis = true;
                     break;
                 default: break;
             }
@@ -51,15 +61,21 @@ namespace WindowsFormsApplication2
         private void WindowExpand(){
             if (Expanded)
             {
-                groupBox1.Visible = groupBox2.Visible = false;
-                treeView1.Width = 1219;
+                if (groupBox2.Visible)
+                {
+                    groupBox1.Visible = groupBox2.Visible = false;
+                    gBox2Vis = true;
+                }
+                else groupBox1.Visible = false;
+                treeView1.Width = groupBox1.Location.X + groupBox1.Size.Width - 15;
                 Expanded = false;
                 button3.Text = "<";
             }
             else
             {
-                groupBox1.Visible = true;
-                treeView1.Width = 814;
+                if (gBox2Vis) groupBox1.Visible = groupBox2.Visible = true;
+                else groupBox1.Visible = true;
+                treeView1.Width = groupBox1.Location.X - 25;
                 Expanded = true;
                 button3.Text = ">";
             }
@@ -67,6 +83,7 @@ namespace WindowsFormsApplication2
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            editToolStripMenuItem.Enabled = true;
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
                 treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
@@ -97,12 +114,14 @@ namespace WindowsFormsApplication2
         {
             if (!Expanded) WindowExpand();
             ServerFolderEdit();
+            textBox1.Focus();
         }
 
         private void editToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (!Expanded) WindowExpand();
-            ServerFolderEdit();
+            ServerFolderEdit(); 
+            textBox10.Focus();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)  //Use Default Account Checkbox
@@ -215,7 +234,7 @@ namespace WindowsFormsApplication2
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Add feature: button2.Enabled = false; while no changes are made -> Later
+            
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -281,6 +300,34 @@ namespace WindowsFormsApplication2
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
             comboBox1.Enabled = false;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //Add feature: button2.Enabled = false; while no changes are made -> Later
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Expanded) WindowExpand();
+            ServerFolderEdit();
+            if (groupBox2.Visible) textBox10.Focus();
+            else textBox1.Focus();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            
+            string[] Mounting = new string[4] {"Mounting","Mounting.","Mounting..","Mounting..."};
+            mountToolStripMenuItem.Text = Mounting[TimerCount];
+            mountToolStripMenuItem.Image = imageList1.Images[TimerCount];
+            TimerCount++;
+            if (TimerCount == 4) TimerCount = 0;
+        }
+
+        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = !timer1.Enabled;
         }
 
 
