@@ -41,12 +41,12 @@
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mountToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mountAllFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unmountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +103,10 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox12 = new System.Windows.Forms.TextBox();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -118,52 +122,51 @@
             this.mountToolStripMenuItem2,
             this.editToolStripMenuItem2,
             this.deleteToolStripMenuItem2,
-            this.duplicateToolStripMenuItem1});
+            this.duplicateToolStripMenuItem1,
+            this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(160, 114);
             // 
             // mountToolStripMenuItem2
             // 
             this.mountToolStripMenuItem2.Name = "mountToolStripMenuItem2";
-            this.mountToolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
+            this.mountToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
             this.mountToolStripMenuItem2.Text = "Mount";
             // 
             // editToolStripMenuItem2
             // 
             this.editToolStripMenuItem2.Name = "editToolStripMenuItem2";
-            this.editToolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
+            this.editToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
             this.editToolStripMenuItem2.Text = "Edit";
             this.editToolStripMenuItem2.Click += new System.EventHandler(this.editToolStripMenuItem2_Click);
             // 
             // deleteToolStripMenuItem2
             // 
             this.deleteToolStripMenuItem2.Name = "deleteToolStripMenuItem2";
-            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
+            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
             this.deleteToolStripMenuItem2.Text = "Delete";
             // 
             // duplicateToolStripMenuItem1
             // 
             this.duplicateToolStripMenuItem1.Name = "duplicateToolStripMenuItem1";
-            this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
             this.duplicateToolStripMenuItem1.Text = "Duplicate";
+            // 
+            // openInExplorerToolStripMenuItem
+            // 
+            this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
+            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.openInExplorerToolStripMenuItem.Text = "open in explorer";
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mountToolStripMenuItem1,
             this.editToolStripMenuItem1,
             this.deleteToolStripMenuItem1,
-            this.duplicateToolStripMenuItem,
-            this.mountAllFoldersToolStripMenuItem});
+            this.mountAllFoldersToolStripMenuItem,
+            this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 114);
-            // 
-            // mountToolStripMenuItem1
-            // 
-            this.mountToolStripMenuItem1.Name = "mountToolStripMenuItem1";
-            this.mountToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
-            this.mountToolStripMenuItem1.Text = "Connect";
-            this.mountToolStripMenuItem1.Click += new System.EventHandler(this.mountToolStripMenuItem1_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 92);
             // 
             // editToolStripMenuItem1
             // 
@@ -178,17 +181,17 @@
             this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             // 
-            // duplicateToolStripMenuItem
-            // 
-            this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.duplicateToolStripMenuItem.Text = "Duplicate";
-            // 
             // mountAllFoldersToolStripMenuItem
             // 
             this.mountAllFoldersToolStripMenuItem.Name = "mountAllFoldersToolStripMenuItem";
             this.mountAllFoldersToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.mountAllFoldersToolStripMenuItem.Text = "Mount all Folders";
+            // 
+            // addNewFolderToolStripMenuItem
+            // 
+            this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
+            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.addNewFolderToolStripMenuItem.Text = "add new folder";
             // 
             // menuStrip1
             // 
@@ -282,6 +285,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.textBox12);
+            this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textBox5);
@@ -301,7 +306,7 @@
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(838, 93);
+            this.groupBox1.Location = new System.Drawing.Point(844, 93);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
@@ -541,7 +546,7 @@
             treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(814, 577);
+            this.treeView1.Size = new System.Drawing.Size(820, 577);
             this.treeView1.TabIndex = 4;
             this.treeView1.TabStop = false;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
@@ -569,6 +574,8 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.textBox11);
+            this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.textBox10);
             this.groupBox2.Controls.Add(this.label12);
@@ -924,6 +931,46 @@
             this.imageList2.Images.SetKeyName(2, "Laden3.png");
             this.imageList2.Images.SetKeyName(3, "Laden4.png");
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(6, 383);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 13);
+            this.label13.TabIndex = 30;
+            this.label13.Text = "error indication:";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(9, 399);
+            this.textBox11.Multiline = true;
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox11.Size = new System.Drawing.Size(376, 44);
+            this.textBox11.TabIndex = 31;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(6, 516);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(96, 13);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "error indication:";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(9, 532);
+            this.textBox12.Multiline = true;
+            this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
+            this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox12.Size = new System.Drawing.Size(376, 44);
+            this.textBox12.TabIndex = 32;
+            // 
             // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -990,7 +1037,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ToolStripMenuItem mountToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
@@ -1018,13 +1064,18 @@
         private System.Windows.Forms.ToolStripMenuItem mountAllFoldersToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ImageList imageList2;
+        private System.Windows.Forms.ToolStripMenuItem addNewFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInExplorerToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label13;
     }
 }
 
