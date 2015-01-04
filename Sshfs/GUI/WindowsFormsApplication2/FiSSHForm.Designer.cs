@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +78,7 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -101,7 +102,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button6 = new System.Windows.Forms.Button();
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -517,27 +518,27 @@
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode1.ImageIndex = 4;
-            treeNode1.Name = "Node3";
-            treeNode1.SelectedImageIndex = 4;
-            treeNode1.Text = "TestFolder";
-            treeNode2.ImageIndex = 3;
-            treeNode2.Name = "Node4";
-            treeNode2.SelectedImageIndex = 3;
-            treeNode2.Text = "Add Directory";
-            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode3.ImageIndex = 6;
-            treeNode3.Name = "Node2";
-            treeNode3.SelectedImageIndex = 6;
-            treeNode3.Text = "TestServer";
-            treeNode4.ImageIndex = 5;
-            treeNode4.Name = "Node5";
-            treeNode4.SelectedImageIndex = 5;
-            treeNode4.Text = "Add New Server";
+            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode5.ImageIndex = 4;
+            treeNode5.Name = "Node3";
+            treeNode5.SelectedImageIndex = 4;
+            treeNode5.Text = "TestFolder";
+            treeNode6.ImageIndex = 3;
+            treeNode6.Name = "Node4";
+            treeNode6.SelectedImageIndex = 3;
+            treeNode6.Text = "Add Directory";
+            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode7.ImageIndex = 6;
+            treeNode7.Name = "Node2";
+            treeNode7.SelectedImageIndex = 6;
+            treeNode7.Text = "TestServer";
+            treeNode8.ImageIndex = 5;
+            treeNode8.Name = "Node5";
+            treeNode8.SelectedImageIndex = 5;
+            treeNode8.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode7,
+            treeNode8});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(814, 577);
@@ -587,6 +588,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
             this.groupBox2.Visible = false;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(244, 346);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(141, 25);
+            this.button6.TabIndex = 29;
+            this.button6.Text = "Save Changes";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox10
             // 
@@ -902,15 +913,14 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button6
+            // imageList2
             // 
-            this.button6.Location = new System.Drawing.Point(244, 346);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(141, 25);
-            this.button6.TabIndex = 29;
-            this.button6.Text = "Save Changes";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "Laden1.png");
+            this.imageList2.Images.SetKeyName(1, "Laden2.png");
+            this.imageList2.Images.SetKeyName(2, "Laden3.png");
+            this.imageList2.Images.SetKeyName(3, "Laden4.png");
             // 
             // FiSSHForm
             // 
@@ -1012,6 +1022,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.ImageList imageList2;
     }
 }
 
