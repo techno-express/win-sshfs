@@ -320,7 +320,7 @@ namespace WindowsFormsApplication2
             
             string[] Mounting = new string[4] {"Mounting","Mounting.","Mounting..","Mounting..."};
             mountToolStripMenuItem.Text = Mounting[TimerCount];
-            mountToolStripMenuItem.Image = imageList1.Images[TimerCount];
+            mountToolStripMenuItem.Image = imageList2.Images[TimerCount];
             TimerCount++;
             if (TimerCount == 4) TimerCount = 0;
         }
@@ -329,7 +329,6 @@ namespace WindowsFormsApplication2
         {
             timer1.Enabled = !timer1.Enabled;
         }
-
 
 
     }
