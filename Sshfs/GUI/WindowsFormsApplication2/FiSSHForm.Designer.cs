@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -301,7 +301,7 @@
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(838, 88);
+            this.groupBox1.Location = new System.Drawing.Point(838, 93);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
@@ -441,7 +441,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 106);
+            this.label3.Location = new System.Drawing.Point(6, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 5;
@@ -452,7 +452,7 @@
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown1.Location = new System.Drawing.Point(149, 104);
+            this.numericUpDown1.Location = new System.Drawing.Point(149, 94);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -488,7 +488,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 68);
+            this.label2.Location = new System.Drawing.Point(6, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 1;
@@ -518,27 +518,27 @@
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode5.ImageIndex = 4;
-            treeNode5.Name = "Node3";
-            treeNode5.SelectedImageIndex = 4;
-            treeNode5.Text = "TestFolder";
-            treeNode6.ImageIndex = 3;
-            treeNode6.Name = "Node4";
-            treeNode6.SelectedImageIndex = 3;
-            treeNode6.Text = "Add Directory";
-            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode7.ImageIndex = 6;
-            treeNode7.Name = "Node2";
-            treeNode7.SelectedImageIndex = 6;
-            treeNode7.Text = "TestServer";
-            treeNode8.ImageIndex = 5;
-            treeNode8.Name = "Node5";
-            treeNode8.SelectedImageIndex = 5;
-            treeNode8.Text = "Add New Server";
+            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode1.ImageIndex = 4;
+            treeNode1.Name = "Node3";
+            treeNode1.SelectedImageIndex = 4;
+            treeNode1.Text = "TestFolder";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "Node4";
+            treeNode2.SelectedImageIndex = 3;
+            treeNode2.Text = "Add Directory";
+            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode3.ImageIndex = 6;
+            treeNode3.Name = "Node2";
+            treeNode3.SelectedImageIndex = 6;
+            treeNode3.Text = "TestServer";
+            treeNode4.ImageIndex = 5;
+            treeNode4.Name = "Node5";
+            treeNode4.SelectedImageIndex = 5;
+            treeNode4.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode3,
+            treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(814, 577);
@@ -581,9 +581,9 @@
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Location = new System.Drawing.Point(838, 218);
+            this.groupBox2.Location = new System.Drawing.Point(838, 221);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(399, 452);
+            this.groupBox2.Size = new System.Drawing.Size(399, 449);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
@@ -604,7 +604,7 @@
             this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox10.Location = new System.Drawing.Point(149, 19);
+            this.textBox10.Location = new System.Drawing.Point(149, 34);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(236, 20);
             this.textBox10.TabIndex = 14;
@@ -615,11 +615,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 22);
+            this.label12.Location = new System.Drawing.Point(6, 34);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 13);
+            this.label12.Size = new System.Drawing.Size(34, 13);
             this.label12.TabIndex = 23;
-            this.label12.Text = "Folder Name:";
+            this.label12.Text = "Entry:";
+            this.toolTip1.SetToolTip(this.label12, "Here you can write your own name for the connection e.g. pictures");
             // 
             // checkBox2
             // 
@@ -738,9 +739,10 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(6, 260);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 13);
+            this.label10.Size = new System.Drawing.Size(87, 13);
             this.label10.TabIndex = 2;
-            this.label10.Text = "Directory:";
+            this.label10.Text = "Remotedirectory:";
+            this.toolTip1.SetToolTip(this.label10, "e.g. /home/username/pictures");
             // 
             // groupBox3
             // 
@@ -754,9 +756,9 @@
             this.groupBox3.Controls.Add(this.radioButton6);
             this.groupBox3.Controls.Add(this.radioButton5);
             this.groupBox3.Enabled = false;
-            this.groupBox3.Location = new System.Drawing.Point(0, 75);
+            this.groupBox3.Location = new System.Drawing.Point(0, 85);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(399, 176);
+            this.groupBox3.Size = new System.Drawing.Size(399, 142);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             // 
@@ -768,7 +770,7 @@
             this.button4.Enabled = false;
             this.button4.Location = new System.Drawing.Point(358, 86);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(27, 21);
+            this.button4.Size = new System.Drawing.Size(27, 0);
             this.button4.TabIndex = 21;
             this.button4.Text = "..";
             this.button4.UseVisualStyleBackColor = true;
@@ -778,7 +780,7 @@
             this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox8.Location = new System.Drawing.Point(149, 19);
+            this.textBox8.Location = new System.Drawing.Point(149, 21);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(236, 20);
             this.textBox8.TabIndex = 16;
@@ -800,7 +802,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 22);
+            this.label9.Location = new System.Drawing.Point(6, 24);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(58, 13);
             this.label9.TabIndex = 21;
@@ -907,7 +909,7 @@
             // 
             // toolTip1
             // 
-            this.toolTip1.AutomaticDelay = 10000;
+            this.toolTip1.AutomaticDelay = 1000;
             // 
             // timer1
             // 
