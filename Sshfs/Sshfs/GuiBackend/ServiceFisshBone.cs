@@ -27,7 +27,8 @@ namespace Sshfs.GuiBackend
         private SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
         
         private List<ServerModel> LServermodel = new List<ServerModel>();
-        private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
+        //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
+        private Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
         private List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
 
 
@@ -109,8 +110,53 @@ namespace Sshfs.GuiBackend
         }*/
 
         
-        int Mount(Guid ID){
-        return -1;
+        int Mount(Guid ServerID, Guid FolderID)
+        {
+            Console.WriteLine("Mounting ...");
+            /*int ServerIndex;
+            FolderModel folder;
+            ServerModel server;
+            SftpDrive drive = new SftpDrive();
+            
+            ServerIndex = Find(ID, "Couldn't find server to create drive");
+            if (ServerIndex < 0) // Falls Server nicht gefunden, return Fehlermeldung
+            {
+                return -1;
+            }
+
+            try {
+                server = LServermodel.ElementAt(ServerIndex);
+                folder = server.Folders[FolderID];
+                LSftpDrive[ServerID, FolderID] = drive;
+                
+                drive.Host = server.Host;
+                drive.Port = server.Port;
+                
+                drive.Letter = folder.Letter;
+                drive.Root = folder.Root;
+
+                if(folder.use_global_login)
+                {
+                    drive.Username = server.Username;
+                    drive.Password = server.Password;
+                }
+                else{
+                    drive.Username = folder.Username;
+                    drive.Password = folder.Password;
+                }
+
+                drive.Mount();
+            
+
+
+                
+            }
+            catch(Exception e) {
+                Console.WriteLine("Fehlernehandlung nicht implementiert: {0}", e.Message);
+            }
+
+             */
+
         }
 
         
