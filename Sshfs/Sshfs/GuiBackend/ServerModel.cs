@@ -33,12 +33,12 @@ namespace Sshfs.GuiBackend
 
         //Folders for a Server kann be stored as List of Foldermodels
         // or as List of Strings
-        //List<FolderModel> Folders= new List<FolderModel>();
-        public List<string> Mountpoint;
+       public List<FolderModel> Mountpoints = new List<FolderModel>();
+        //public List<string> Mountpoint;
 
         ServerModel()
         {
-            Mountpoint = new List<string>();
+            Mountpoints = new List<FolderModel>();
         }
 
 

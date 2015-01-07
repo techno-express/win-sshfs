@@ -51,11 +51,11 @@ namespace Sshfs.GuiBackend
 
         // Adds Folder to the Mountpoint list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
         [OperationContract]
-        int addFolder(Guid ID, string Folder);
+        int addFolder(Guid ID, FolderModel Mountpoint);
 
         // Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
         [OperationContract]
-        int removeFolder(Guid ID, string Folder);
+        int removeFolder(Guid ID, FolderModel Mountpoint);
 
         // Set the Loglevel in Backend return value is the Loglevel after update
         [OperationContract]

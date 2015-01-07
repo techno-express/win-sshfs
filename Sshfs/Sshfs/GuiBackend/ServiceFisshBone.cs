@@ -28,7 +28,7 @@ namespace Sshfs.GuiBackend
         
         private List<ServerModel> LServermodel = new List<ServerModel>();
         private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
-
+        private List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
 
 
 
@@ -50,16 +50,34 @@ namespace Sshfs.GuiBackend
            
             return Index;
         }
+
         private SftpDrive createSftp(ServerModel Server)
         {
-            var drive = new SftpDrive
-                            {
-                                Name = Server.Name,
-                                Port = Server.Port,
-                                Root = ".", //?
-                                Letter = Server.,
-                                MountPoint = ""
-                            };
+            int Index = Find(ID, "Couldn't find server to create drive");
+            ServerModel tempServer;
+
+            SftpDrive drive = null; /*new SftpDrive
+                             {
+                                 Name = "",
+                                 Port = "",
+                                 Root = ".", //?
+                                 Letter = 'X',
+                                 MountPoint = "",
+                             };*/
+
+            if(Index > -1)
+            {
+                tempServer = LServermodel.ElementAt(Index);
+                drive.Name = tempServer.Name;
+                drive.Port = tempServer.Port;
+                drive.Root = tempServer.Root;
+                //FIXME
+                drive.Letter = tempServer.DriveLetter;
+                drive.MountPoint = tempServer.Mountpoints.ElementAt(0).Mountpoint;
+            }
+
+
+            return drive;
         }
 
 #region INTERFACE
@@ -176,13 +194,13 @@ namespace Sshfs.GuiBackend
         }
 
         
-        int addFolder(Guid ID, string Folder){
+        int addFolder(Guid ID, FolderModel Mountpoint){
 
             int Index = Find(ID, "Couldn't find ServerID to add folder");
 
             if (Index >= 0)
             {
-                LServermodel.ElementAt(Index).Mountpoint.Add(Folder);
+                LServermodel.ElementAt(Index).Mountpoints.Add(Mountpoint);
 
                 DriveStatus DS = LServermodel.ElementAt(Index).Status;
 
@@ -195,11 +213,11 @@ namespace Sshfs.GuiBackend
             return Index;
         }
 
-        int removeFolder(Guid ID, string Folder)
+        int removeFolder(Guid ID, FolderModel Mountpoint)
         {
             ServerModel tempServer;
             int Index = Find(ID, "Coludn't find ServerID to remove Folder");
-            int stringIndex = -1;
+            int mpIndex = -1;
 
             if (Index >= 0)
             {
@@ -207,21 +225,22 @@ namespace Sshfs.GuiBackend
 
                 try
                 {
-                    stringIndex = tempServer.Mountpoint.IndexOf(Folder);
+                    mpIndex = tempServer.Mountpoints.FindIndex(x => x.Mountpoint == Mountpoint.Mountpoint);
                 }
                 catch (ArgumentNullException e)
                 {
-                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find folder in Servermodel with ID: " + LServermodel.ElementAt(Index).ServerID.ToString());
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find mountpoint in Servermodel with ID: " + LServermodel.ElementAt(Index).ServerID.ToString());
                     Index = -1;
-                    stringIndex = -1;
+                    mpIndex = -1;
                 }
 
-                if (stringIndex >= 0)
+                if (mpIndex >= 0)
                 {
-                    tempServer.Mountpoint.RemoveAt(stringIndex);
+                    tempServer.Mountpoints.RemoveAt(mpIndex);
                     if (editServer(tempServer) == -1)
                     {
                         Index = -1;
+                        Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't update Data while remove mountpoint");
                     }
                 }
 
