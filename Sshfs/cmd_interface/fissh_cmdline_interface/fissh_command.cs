@@ -98,8 +98,9 @@ namespace fissh_command
             //if there are no arguments, exit
             if (args.Length == 0)
             {
-                fissh_print.error_message("no arguments found");
-                Environment.Exit(-1);
+                throw new Exception("no arguments found");
+                //fissh_print.error_message("no arguments found");
+                //Environment.Exit(-1);
             }
 
             //else: compare first argument with defined keywords
@@ -115,14 +116,16 @@ namespace fissh_command
                     default: 
                         if(args[0].Substring(0,1) == "-" || args[0].Substring(0,1) == "/")
                         {
-                            fissh_print.error_message("no keyword found");
+                            throw new Exception("no keyword found");
+                            //fissh_print.error_message("no keyword found");
                         }
                         else
                         {
-                            fissh_print.error_message("no matching keyword found");
+                            throw new Exception("no matching keyword found");
+                            //fissh_print.error_message("no matching keyword found");
                         }
 
-                        Environment.Exit(-1);
+                        //Environment.Exit(-1);
                         return;
 
                 }
@@ -168,9 +171,10 @@ namespace fissh_command
                 {
                     if (extra_parameters[i].Substring(0, 1) == "-" || extra_parameters[i].Substring(0, 1) == "/")
                     {
-                        Console.WriteLine("fissh: unknown option {0}", extra_parameters[i]);
-                        fissh_print.error_message("unknown option " + extra_parameters[i]);
-                        Environment.Exit(-1);
+                        //Console.WriteLine("fissh: unknown option {0}", extra_parameters[i]);
+                        //fissh_print.error_message("unknown option " + extra_parameters[i]);
+                        //Environment.Exit(-1);
+                        throw new Exception("unknown option " + extra_parameters[i]);
                     }
                 }
 
@@ -183,8 +187,10 @@ namespace fissh_command
                 //Console.Write("fissh: ");
                 //Console.WriteLine(e.Message);
                 //Console.WriteLine("Try `fissh help' for more information.");
-                fissh_print.error_message(e.Message);
-                Environment.Exit(-1);
+                //fissh_print.error_message(e.Message);
+                //Environment.Exit(-1);
+
+                throw new Exception(e.Message);
                 return null; //useless, but VS is complaning whithout return
             }
 
@@ -213,8 +219,9 @@ namespace fissh_command
                         // If there is no parameter
                         if (parameters.Count() == 0)
                         {
-                            fissh_print.error_message("fissh: missing parameter");
-                            Environment.Exit(-1);
+                            throw new Exception("missing parameter");
+                            //fissh_print.error_message("fissh: missing parameter");
+                            //Environment.Exit(-1);
                         }
 
                         //isolate username
@@ -289,7 +296,8 @@ namespace fissh_command
                         //If there are no other arguments, print error-Mesage and exit
                         if(parameters.Count() == 0)
                         {
-                            fissh_print.error_message("missing parameters");
+                            throw new Exception("missing parameter");
+                            //fissh_print.error_message("missing parameters");
                             return;
                         }
                         
@@ -455,7 +463,7 @@ namespace fissh_command
     /// </summary>
     public static class fissh_print 
     {
-        public static void error_message(string error_message)
+        public static void wrong_use_error_message(string error_message)
         {
             Console.WriteLine("");
             Console.WriteLine("fissh: {0}", error_message);

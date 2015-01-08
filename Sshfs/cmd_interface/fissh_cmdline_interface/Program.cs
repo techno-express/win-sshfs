@@ -24,6 +24,9 @@ THE SOFTWARE.
 // This Software is a interface to controll FiSSH over Command-Line
 
 
+#define DEBUG
+
+
 using System;
 using System.Collections.Generic;
 //using System.Linq;
@@ -37,18 +40,31 @@ namespace fissh_cmdline_interface
     {
         static void Main(string[] args)
         {
+            //var cmdline_parameters = new fissh_command.fissh_command_expression();
+            fissh_command.fissh_command_expression cmdline_parameters = null;
 
-            // arguments get parsed by contructor; all parameters will be available in the new object
-            var cmdline_parameters = new fissh_command.fissh_command_expression(args);
+            try
+            {
+                // arguments get parsed by contructor; all parameters will be available in the new object
+                cmdline_parameters = new fissh_command.fissh_command_expression(args);
+            }
+            catch (Exception e)
+            {
+                fissh_command.fissh_print.wrong_use_error_message(e.Message);
+                
+#if DEBUG
+                Console.ReadLine();
+#endif
 
+                Environment.Exit(-1);
+            }
 
-            #region Testing
-            Console.WriteLine("");
-            Console.WriteLine("=== Testbench ===");
+            
 
 
             try
             {
+                #region Region
                 switch (cmdline_parameters.keyword)
                 {
                     case (byte)fissh_command.fissh_command_keywords.mount:
@@ -161,10 +177,12 @@ namespace fissh_cmdline_interface
             }
             catch (Exception e) 
             {
-                fissh_command.fissh_print.error_message(e.Message);
+                Console.WriteLine(e.Message);
             }
-            
+ 
+#if DEBUG
             Console.ReadLine();
+#endif
 
 
         }
