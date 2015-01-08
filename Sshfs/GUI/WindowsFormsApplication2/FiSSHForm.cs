@@ -355,13 +355,23 @@ namespace WindowsFormsApplication2
 
         private void closeApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            Application.Exit();
         }
 
         private void restoreToolStripMenuItem_Click(object sender, MouseEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
+        }
+
+        private void FiSSHForm_Closing(object sender, FormClosingEventArgs e)
+        { // The user has requested the form be closed so mimimise to the system tray instead
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowInTaskbar = false;
+            }
         }
 
 
