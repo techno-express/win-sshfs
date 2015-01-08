@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +56,8 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -78,6 +80,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -103,10 +107,10 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.FiSSH = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -114,6 +118,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.contextMenuStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip2
@@ -312,6 +317,26 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(9, 532);
+            this.textBox12.Multiline = true;
+            this.textBox12.Name = "textBox12";
+            this.textBox12.ReadOnly = true;
+            this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox12.Size = new System.Drawing.Size(376, 44);
+            this.textBox12.TabIndex = 32;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(6, 516);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(96, 13);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "error indication:";
             // 
             // button5
             // 
@@ -523,27 +548,27 @@
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode1.ImageIndex = 4;
-            treeNode1.Name = "Node3";
-            treeNode1.SelectedImageIndex = 4;
-            treeNode1.Text = "TestFolder";
-            treeNode2.ImageIndex = 3;
-            treeNode2.Name = "Node4";
-            treeNode2.SelectedImageIndex = 3;
-            treeNode2.Text = "Add Directory";
-            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode3.ImageIndex = 6;
-            treeNode3.Name = "Node2";
-            treeNode3.SelectedImageIndex = 6;
-            treeNode3.Text = "TestServer";
-            treeNode4.ImageIndex = 5;
-            treeNode4.Name = "Node5";
-            treeNode4.SelectedImageIndex = 5;
-            treeNode4.Text = "Add New Server";
+            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode5.ImageIndex = 4;
+            treeNode5.Name = "Node3";
+            treeNode5.SelectedImageIndex = 4;
+            treeNode5.Text = "TestFolder";
+            treeNode6.ImageIndex = 3;
+            treeNode6.Name = "Node4";
+            treeNode6.SelectedImageIndex = 3;
+            treeNode6.Text = "Add Directory";
+            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode7.ImageIndex = 6;
+            treeNode7.Name = "Node2";
+            treeNode7.SelectedImageIndex = 6;
+            treeNode7.Text = "TestServer";
+            treeNode8.ImageIndex = 5;
+            treeNode8.Name = "Node5";
+            treeNode8.SelectedImageIndex = 5;
+            treeNode8.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode7,
+            treeNode8});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(820, 577);
@@ -595,6 +620,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
             this.groupBox2.Visible = false;
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(9, 399);
+            this.textBox11.Multiline = true;
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.textBox11.Size = new System.Drawing.Size(376, 44);
+            this.textBox11.TabIndex = 31;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(6, 383);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 13);
+            this.label13.TabIndex = 30;
+            this.label13.Text = "error indication:";
             // 
             // button6
             // 
@@ -931,45 +976,35 @@
             this.imageList2.Images.SetKeyName(2, "Laden3.png");
             this.imageList2.Images.SetKeyName(3, "Laden4.png");
             // 
-            // label13
+            // FiSSH
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(6, 383);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "error indication:";
+            this.FiSSH.ContextMenuStrip = this.contextMenuStrip3;
+            this.FiSSH.Icon = ((System.Drawing.Icon)(resources.GetObject("FiSSH.Icon")));
+            this.FiSSH.Text = "FiSSH";
+            this.FiSSH.Visible = true;
+            this.FiSSH.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.restoreToolStripMenuItem_Click);
             // 
-            // textBox11
+            // contextMenuStrip3
             // 
-            this.textBox11.Location = new System.Drawing.Point(9, 399);
-            this.textBox11.Multiline = true;
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox11.Size = new System.Drawing.Size(376, 44);
-            this.textBox11.TabIndex = 31;
+            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.restoreToolStripMenuItem,
+            this.closeApplicationToolStripMenuItem});
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            this.contextMenuStrip3.Size = new System.Drawing.Size(166, 48);
             // 
-            // label14
+            // restoreToolStripMenuItem
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(6, 516);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(96, 13);
-            this.label14.TabIndex = 31;
-            this.label14.Text = "error indication:";
+            this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
+            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.restoreToolStripMenuItem.Text = "Restore";
+            this.restoreToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click);
             // 
-            // textBox12
+            // closeApplicationToolStripMenuItem
             // 
-            this.textBox12.Location = new System.Drawing.Point(9, 532);
-            this.textBox12.Multiline = true;
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox12.Size = new System.Drawing.Size(376, 44);
-            this.textBox12.TabIndex = 32;
+            this.closeApplicationToolStripMenuItem.Name = "closeApplicationToolStripMenuItem";
+            this.closeApplicationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.closeApplicationToolStripMenuItem.Text = "Close application";
+            this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
             // 
             // FiSSHForm
             // 
@@ -983,11 +1018,13 @@
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(600, 400);
             this.Name = "FiSSHForm";
             this.Text = "FiSSH";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.FiSSHForm_Resize);
             this.contextMenuStrip2.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -999,6 +1036,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.contextMenuStrip3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1076,6 +1114,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NotifyIcon FiSSH;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeApplicationToolStripMenuItem;
     }
 }
 

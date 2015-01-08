@@ -143,6 +143,9 @@ namespace WindowsFormsApplication2
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateTreeView();
+            // Balloon tip for the systemtray
+            FiSSH.BalloonTipText = "Application Minimized.";
+            FiSSH.BalloonTipTitle = "FiSSH";
         }
 
         private void treeView1_DragDrop(object sender, DragEventArgs e)
@@ -328,6 +331,37 @@ namespace WindowsFormsApplication2
         private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer1.Enabled = !timer1.Enabled;
+        }
+
+        private void FiSSHForm_Resize(object sender, EventArgs e)
+        {// Determine if the cursor is in the window
+            bool cursorNotInBar = Screen.GetWorkingArea(this).Contains(Cursor.Position);
+            if (this.WindowState == FormWindowState.Minimized && cursorNotInBar)
+            {
+               this.ShowInTaskbar = false;
+               FiSSH.ShowBalloonTip(1000);
+            }
+        }
+
+        
+        
+        
+
+        private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+        }
+
+        private void closeApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void restoreToolStripMenuItem_Click(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
         }
 
 
