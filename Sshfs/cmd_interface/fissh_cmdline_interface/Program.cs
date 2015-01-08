@@ -27,6 +27,7 @@ THE SOFTWARE.
 #define DEBUG
 
 
+
 using System;
 using System.Collections.Generic;
 //using System.Linq;
@@ -40,6 +41,9 @@ namespace fissh_cmdline_interface
     {
         static void Main(string[] args)
         {
+            SimpleMind.SimpleMind logger = new SimpleMind.SimpleMind();
+
+
             //var cmdline_parameters = new fissh_command.fissh_command_expression();
             fissh_command.fissh_command_expression cmdline_parameters = null;
 
@@ -51,6 +55,7 @@ namespace fissh_cmdline_interface
             catch (Exception e)
             {
                 fissh_command.fissh_print.wrong_use_error_message(e.Message);
+                logger.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
                 
 #if DEBUG
                 Console.ReadLine();
