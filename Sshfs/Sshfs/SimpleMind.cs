@@ -175,13 +175,13 @@ namespace SimpleMind
                 {
                     switch (iLogType)
                     {
-                        case (int)Loglevel.Error:
+                        case Loglevel.Error:
                             fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" + cmpnt + "] " + LogMsg);
                             break;
-                        case (int)Loglevel.Warning:
+                        case Loglevel.Warning:
                             fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" + cmpnt + "] " + LogMsg);
                             break;
-                        case (int)Loglevel.Debug:
+                        case Loglevel.Debug:
                             fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" + cmpnt + "] " + LogMsg);
                             break;
                     }

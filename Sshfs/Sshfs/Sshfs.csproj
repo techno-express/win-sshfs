@@ -40,6 +40,7 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,16 +71,16 @@
     <StartupObject>Sshfs.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>BDCAC9E8E97F1DD52CA96613318E8D477A12F966</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>DCD9D259C1F378EBB972356F79CE49AA4D7176C4</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>sshfs_4every1.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Sshfs_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -96,12 +97,15 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -117,7 +121,9 @@
     <Compile Include="GuiBackend\FolderModel.cs" />
     <Compile Include="GuiBackend\IServiceFisshBone.cs" />
     <Compile Include="GuiBackend\ServerModel.cs" />
+    <Compile Include="GuiBackend\Service1.cs" />
     <Compile Include="GuiBackend\ServiceFisshBone.cs" />
+    <Compile Include="GuiBackend\ServiceHost.cs" />
     <Compile Include="SftpManagerApplication.cs" />
     <Compile Include="ConnectionType.cs" />
     <Compile Include="MainForm.cs">
@@ -154,7 +160,6 @@
     </Compile>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="GuiBackend\IServiceFisshBone.netmodule" />
     <None Include="GuiBackend\ServiceFisshBone.netmodule" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -165,7 +170,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Sshfs_1_TemporaryKey.pfx" />
     <None Include="sshfs_4every1.pfx" />
+    <None Include="Sshfs_TemporaryKey.pfx" />
     <None Include="WinSSH4e1-public.snk" />
   </ItemGroup>
   <ItemGroup>

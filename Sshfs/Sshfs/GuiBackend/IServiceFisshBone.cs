@@ -11,7 +11,6 @@ namespace Sshfs.GuiBackend
     [ServiceContract]
     public interface IServiceFisshBone
     {
-       
         //Returns the Servermodel for the ID, if ID couldn't be find the returned ServerModel is a null Element
         [OperationContract]
         ServerModel search(Guid ID);
@@ -20,7 +19,7 @@ namespace Sshfs.GuiBackend
         ServerModel search(char letter);*/
 
         [OperationContract]
-        int Mount(Guid ID);
+        int Mount(Guid ServerID, Guid FolderID);
 
         [OperationContract]
         int UMount(Guid ID);
@@ -30,11 +29,8 @@ namespace Sshfs.GuiBackend
         DriveStatus getStatus(Guid ID);
 
         //Returns a list of all servers currently known
-        [OperationContract] 
-        List<ServerModel> listAll();
-
         [OperationContract]
-        int removeServer(Guid ID);
+        List<ServerModel> listAll();
 
         //Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches
         //Notice, to add a new Server use, addServer(ServerModel);
@@ -43,7 +39,7 @@ namespace Sshfs.GuiBackend
 
         //Adding Server to List of known Server Returnvalue is the ID of the new Server or in error case 0
         [OperationContract]
-        Guid /*ID*/ addServer(ServerModel Server); 
+        Guid /*ID*/ addServer(ServerModel Server);
 
         // Returnvalue the remove index or in error case -1
         [OperationContract]
@@ -55,7 +51,7 @@ namespace Sshfs.GuiBackend
 
         // Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
         [OperationContract]
-        int removeFolder(Guid ID, FolderModel Mountpoint);
+        int removeFolder(Guid ID_Server, Guid ID_Folder);
 
         // Set the Loglevel in Backend return value is the Loglevel after update
         [OperationContract]
@@ -66,7 +62,5 @@ namespace Sshfs.GuiBackend
 
         [OperationContract]
         void Disconnect(Guid ID);*/
-        
-
     }
 }

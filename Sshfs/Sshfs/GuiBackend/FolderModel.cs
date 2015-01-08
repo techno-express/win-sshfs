@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Sshfs.GuiBackend
 {
-    class FolderModel
+    public class FolderModel
     {
         public Boolean use_global_login;
-        /*Guid FolderID*/
+        public Guid FolderID;
+        public string name;
         public string Folder;
-        public string Mountpoint;
+        public char Letter;
         public string Username;
         public string Passphrase;
     }

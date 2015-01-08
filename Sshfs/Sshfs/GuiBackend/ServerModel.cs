@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sshfs.GuiBackend
 {
-    class ServerModel
+    public class ServerModel
     {
 #region ATTRIBUTES
         public string Name { get; set; }
@@ -35,12 +35,12 @@ namespace Sshfs.GuiBackend
         // or as List of Strings
         //public List<FolderModel> Mountpoints = new List<FolderModel>();
         //public List<string> Mountpoint;
-        public Dictionary<Guid, FolderModel>Folders;// = new Dictionary<Guid, FolderModel>();
+        public List<FolderModel>Folders;// = new Dictionary<Guid, FolderModel>();
 
         ServerModel()
         {
 //            Mountpoints = new List<FolderModel>();
-            Folders = new Dictionary<Guid, FolderModel>();
+            Folders = new List<FolderModel>();
         }
 
 
