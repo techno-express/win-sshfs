@@ -71,10 +71,10 @@
     <StartupObject>Sshfs.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DCD9D259C1F378EBB972356F79CE49AA4D7176C4</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>CD68B2542911404A84BDD25EA57066FFC95D7EA2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Sshfs_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Sshfs_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -89,7 +89,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>WinSSH4e1-public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Sshfs_2_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -171,6 +171,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Sshfs_1_TemporaryKey.pfx" />
+    <None Include="Sshfs_2_TemporaryKey.pfx" />
     <None Include="sshfs_4every1.pfx" />
     <None Include="Sshfs_TemporaryKey.pfx" />
     <None Include="WinSSH4e1-public.snk" />

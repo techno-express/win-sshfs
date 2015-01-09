@@ -6,16 +6,18 @@ using System.ServiceModel;
 using System.Text;
 using Sshfs;
 using System.Configuration;
+using Sshfs.GuiBackend.Remoteable;
 
-namespace Sshfs.GuiBackend
+namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "Service1" sowohl im Code als auch in der Konfigurationsdatei ändern.
-    public class ServiceFisshBone : IServiceFisshBone
+    public class ServiceFisshBone : MarshalByRefObject, IServiceFisshBone
     {
         const String Comp = "Backend";
 
+        public ServiceFisshBone() { }
 
-
+/*
         public static void Configure(ServiceConfiguration config)
         {
             ServiceEndpoint se = new ServiceEndpoint(new ContractDescription("IService1"), new BasicHttpBinding(), new EndpointAddress("basic"));
@@ -25,7 +27,7 @@ namespace Sshfs.GuiBackend
             config.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true });
             config.Description.Behaviors.Add(new ServiceDebugBehavior { IncludeExceptionDetailInFaults = true });
         }
-
+        */
 
         //private readonly StringBuilder _balloonText = new StringBuilder(255){}
         //private readonly List<String> _configVars = new List<String>(){}
@@ -119,6 +121,8 @@ namespace Sshfs.GuiBackend
         public int Mount(Guid ServerID, Guid FolderID)
         {
            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Mounting ...");
+
+           Console.WriteLine("Mounting ...");
             /*int ServerIndex;
             FolderModel folder;
             ServerModel server;
