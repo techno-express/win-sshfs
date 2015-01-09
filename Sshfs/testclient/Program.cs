@@ -21,6 +21,8 @@ namespace testclient
 
             // Ab hier beginnt der Verbindungsteil, muss in jeden Client (Copy&Past)
             // danach kann auf die Verbindung über das Objekt "bone" zugreifen
+            /*
+            //WCF
             IpcChannel ipcCh = new IpcChannel("myClient");
             ChannelServices.RegisterChannel(ipcCh, true);
 
@@ -29,6 +31,18 @@ namespace testclient
                (typeof(Sshfs.GuiBackend.Remoteable.IServiceFisshBone),
                 "ipc://FiSSH/fisshy");
             //Verbindungsteil-Ende
+            */
+            ChannelFactory<IServiceFisshBone> pipeFactory =
+              new ChannelFactory<IServiceFisshBone>(
+                new NetNamedPipeBinding(),
+                new EndpointAddress(
+                  "net.pipe://localhost/FiSSH"));
+
+            IServiceFisshBone bone =
+              pipeFactory.CreateChannel();
+
+            
+
 
             // Die Daten aus dem Backend holen
             string liste_von_server_als_string = bone.listAll();
@@ -38,6 +52,7 @@ namespace testclient
             
             // So erhält man den Server zu einem Servernamen
             ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
+
 
             // So erhält man den Ordnereintrag zu einem Ordnereintragsnamen
             FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.name == "home vom user");

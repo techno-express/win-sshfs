@@ -12,7 +12,8 @@ using Sshfs.GuiBackend.Remoteable;
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "Service1" sowohl im Code als auch in der Konfigurationsdatei ändern.
-    public class ServiceFisshBone : MarshalByRefObject, IServiceFisshBone
+    //public class ServiceFisshBone : MarshalByRefObject, IServiceFisshBone //.Net Remoting
+    public class ServiceFisshBone : IServiceFisshBone  //WCF
     {
         const String Comp = "Backend";
 

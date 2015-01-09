@@ -16,6 +16,8 @@ public class Class1
         public static void Main()
         {
 
+            /*
+            //.Net Remoting
             IpcChannel ipcCh = new IpcChannel("FiSSH");
 
             ChannelServices.RegisterChannel(ipcCh, true);
@@ -23,33 +25,55 @@ public class Class1
                (typeof(Sshfs.GuiBackend.IPCChannelRemoting.ServiceFisshBone),
                        "fisshy",
                        WellKnownObjectMode.SingleCall);
+            */
 
-            ServerModel ein_server = new ServerModel();
+            // WCF
+            using (ServiceHost host = new ServiceHost(
+              typeof(ServiceFisshBone),
+              new Uri[]{
+          new Uri("net.pipe://localhost")
+        }))
+            {
 
-            ein_server.Name = "Ubuntu at VBox";
-            ein_server.Host = "10.0.2.13";
-            ein_server.Port = 22;
-            ein_server.Password = "user";
-            ein_server.Username = "user";
+                host.AddServiceEndpoint(typeof(IServiceFisshBone),
+                  new NetNamedPipeBinding(),
+                  "FiSSH");
 
-            FolderModel ein_folder = new FolderModel();
-            ein_folder.Letter = 'G';
-            ein_folder.use_global_login = true;
-            ein_folder.Folder = "/home/user";
-            ein_folder.name = "home vom user";
-
-            ServiceFisshBone bone_local = new ServiceFisshBone();
-            Guid ein_server_ID = bone_local.addServer(ein_server);
-
-            Guid ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
-
-            //bone_local.Mount(ein_server_ID, ein_folder_ID);
+                host.Open();
 
 
 
 
-            Console.WriteLine("Please enter to stop the server");
-            Console.ReadLine();
+
+                ServerModel ein_server = new ServerModel();
+
+                ein_server.Name = "Ubuntu at VBox";
+                ein_server.Host = "10.0.2.13";
+                ein_server.Port = 22;
+                ein_server.Password = "user";
+                ein_server.Username = "user";
+
+                FolderModel ein_folder = new FolderModel();
+                ein_folder.Letter = 'G';
+                ein_folder.use_global_login = true;
+                ein_folder.Folder = "/home/user";
+                ein_folder.name = "home vom user";
+
+                ServiceFisshBone bone_local = new ServiceFisshBone();
+                Guid ein_server_ID = bone_local.addServer(ein_server);
+
+                Guid ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
+
+                //bone_local.Mount(ein_server_ID, ein_folder_ID);
+
+
+
+
+                Console.WriteLine("Please enter to stop the server");
+                Console.ReadLine();
+
+                host.Close();
+            }
 
 
         }
