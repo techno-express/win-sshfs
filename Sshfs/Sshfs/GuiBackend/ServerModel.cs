@@ -26,7 +26,7 @@ namespace Sshfs.GuiBackend
         public bool Automount { get; set; }
 
         public ConnectionType ConnectionType {get; set; }
-        public DriveStatus Status { get; private set; }
+        public DriveStatus Status { get; set; }
 
         public string Root;
         public char DriveLetter;
@@ -37,7 +37,7 @@ namespace Sshfs.GuiBackend
         //public List<string> Mountpoint;
         public List<FolderModel>Folders;// = new Dictionary<Guid, FolderModel>();
 
-        ServerModel()
+        public ServerModel()
         {
 //            Mountpoints = new List<FolderModel>();
             Folders = new List<FolderModel>();

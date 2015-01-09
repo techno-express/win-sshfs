@@ -50,10 +50,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleApplication1\FiSSHBone.csproj">
-      <Project>{8aaec127-624e-4298-b32d-250888e402f3}</Project>
-      <Name>FiSSHBone</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sshfs\Sshfs.csproj">
       <Project>{ff4fc8bb-91a3-45ff-8449-650647610394}</Project>
       <Name>Sshfs</Name>

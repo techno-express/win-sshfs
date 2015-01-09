@@ -8,6 +8,7 @@ using Sshfs;
 using System.Configuration;
 using Sshfs.GuiBackend.Remoteable;
 
+
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Klassennamen "Service1" sowohl im Code als auch in der Konfigurationsdatei ändern.
@@ -40,13 +41,13 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         { }
 
 */
-        private SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
-        
-        private List<ServerModel> LServermodel = new List<ServerModel>();
-        //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
-        private Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
-        private List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
+        private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
 
+        private static List<ServerModel> LServermodel = new List<ServerModel>();
+        //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
+        private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
+        private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
+        public static int x;
 
 
 
@@ -120,30 +121,34 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public int Mount(Guid ServerID, Guid FolderID)
         {
-           Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Mounting ...");
 
-           Console.WriteLine("Mounting ...");
-            /*int ServerIndex;
+
+            int ServerIndex;
+            int FolderIndex;
             FolderModel folder;
             ServerModel server;
             SftpDrive drive = new SftpDrive();
             
-            ServerIndex = Find(ID, "Couldn't find server to create drive");
+            ServerIndex = Find(ServerID, "Couldn't find server to create drive");
             if (ServerIndex < 0) // Falls Server nicht gefunden, return Fehlermeldung
             {
                 return -1;
             }
 
             try {
+                ServerIndex = Find(ServerID, "");
                 server = LServermodel.ElementAt(ServerIndex);
-                folder = server.Folders[FolderID];
-                LSftpDrive[ServerID, FolderID] = drive;
+
+                FolderIndex = server.Folders.FindIndex(x => x.FolderID == FolderID);
+                folder = server.Folders.ElementAt(FolderIndex);
+
+                LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)] = drive;
                 
                 drive.Host = server.Host;
                 drive.Port = server.Port;
                 
                 drive.Letter = folder.Letter;
-                drive.Root = folder.Root;
+                drive.Root = folder.Folder;
 
                 if(folder.use_global_login)
                 {
@@ -152,7 +157,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 }
                 else{
                     drive.Username = folder.Username;
-                    drive.Password = folder.Password;
+                    //drive.Password = folder.
                 }
 
                 drive.Mount();
@@ -165,7 +170,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 Console.WriteLine("Fehlernehandlung nicht implementiert: {0}", e.Message);
             }
 
-             */
+             
            return -1;
         }
 
@@ -197,9 +202,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
-        public List<ServerModel> listAll()
+        //public List<ServerModel> listAll()
+        public string listAll()
         {
-        return new List<ServerModel>(LServermodel);
+            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(LServermodel.GetType());
+            System.IO.StringWriter testWrite = new System.IO.StringWriter();
+
+            xmlSerializer.Serialize(testWrite, LServermodel);
+
+            return testWrite.ToString();
+        //return new List<ServerModel>(LServermodel);
         }
 
         /*
@@ -233,7 +245,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
-        public Guid /*ID*/ addServer(ServerModel newServer)
+        public  Guid addServer(ServerModel newServer)
         {
             
             Guid ReturnValue;
@@ -256,13 +268,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
-        public int addFolder(Guid ID, FolderModel Mountpoint)
+        public Guid/*changed - bjoe-phi*/ addFolder(Guid ID, FolderModel Mountpoint)
         {
 
             int Index = Find(ID, "Couldn't find ServerID to add folder");
+            Guid Mountpoint_ID; //added - bjoe-phi
 
             if (Index >= 0)
             {
+                Mountpoint_ID = Guid.NewGuid();  //added - bjoe-phi
+                Mountpoint.FolderID = Mountpoint_ID;  //added - bjoe-phi
                 LServermodel.ElementAt(Index).Folders.Add(Mountpoint);
 
                 DriveStatus DS = LServermodel.ElementAt(Index).Status;
@@ -272,8 +287,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Drive is mounted changes effect after remount");
                 }
             }
+            else { return Guid.Empty; }
 
-            return Index;
+            return Mountpoint_ID;//changed - bjoe-phi
         }
 
         public int removeFolder(Guid ID_Server, Guid ID_Folder)

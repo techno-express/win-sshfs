@@ -30,7 +30,8 @@ namespace Sshfs.GuiBackend.Remoteable
 
         //Returns a list of all servers currently known
         [OperationContract]
-        List<ServerModel> listAll();
+        //List<ServerModel> listAll();
+        string listAll();
 
         //Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches
         //Notice, to add a new Server use, addServer(ServerModel);
@@ -47,7 +48,7 @@ namespace Sshfs.GuiBackend.Remoteable
 
         // Adds Folder to the Mountpoint list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
         [OperationContract]
-        int addFolder(Guid ID, FolderModel Mountpoint);
+        Guid addFolder(Guid ID, FolderModel Mountpoint); //changed - bjoe-phi
 
         // Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
         [OperationContract]

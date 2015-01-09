@@ -24,13 +24,27 @@ namespace testclient
             IpcChannel ipcCh = new IpcChannel("myClient");
             ChannelServices.RegisterChannel(ipcCh, true);
 
-            IServiceFisshBone obj =
+            IServiceFisshBone bone =
                (Sshfs.GuiBackend.Remoteable.IServiceFisshBone)Activator.GetObject
                (typeof(Sshfs.GuiBackend.Remoteable.IServiceFisshBone),
                 "ipc://FiSSH/fisshy");
 
-            obj.Mount(Guid.Empty, Guid.Empty);
-            
+
+            string liste_von_server_als_string = bone.listAll();
+            var xmlSerializer = new System.Xml.Serialization.XmlSerializer(new List<ServerModel>().GetType());
+            var textReader = new System.IO.StringReader(liste_von_server_als_string);
+
+            List<ServerModel> liste_von_server = (List<ServerModel>)xmlSerializer.Deserialize(textReader);
+
+            ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
+
+            FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.name == "home vom user");
+
+
+            Console.WriteLine("Enterdrücken um zu mounten von");
+            Console.ReadLine();
+            bone.Mount(gesuchter_server.ServerID, gesuchter_folder.FolderID);
+                
             Console.ReadLine();
 
 
