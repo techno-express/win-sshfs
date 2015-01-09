@@ -55,15 +55,20 @@ namespace testclient
             ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
 
             // So erhält man den Ordnereintrag zu einem Ordnereintragsnamen
-            FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.name == "home vom user");
+            FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.Name == "home vom user");
 
             // Editiern 
             gesuchter_server.Port = 22;
             bone.editServer(gesuchter_server);
 
             // So Mountet man einen Eintrag
-            bone.Mount(gesuchter_server.ServerID, gesuchter_folder.FolderID);
-                
+            bone.Mount(gesuchter_server.ID, gesuchter_folder.ID);
+
+            Console.WriteLine("Gemounted, Enter drücken um Unmounten");
+            Console.ReadLine();
+            bone.UMount(gesuchter_server.ID, gesuchter_folder.ID);
+            
+            Console.WriteLine("Enter drücken um Client zu beenden");
             Console.ReadLine();
 
 

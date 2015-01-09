@@ -10,7 +10,7 @@ namespace Sshfs.GuiBackend
     {
 #region ATTRIBUTES
         public string Name { get; set; }
-        public Guid ServerID{get; set;}
+        public Guid ID{get; set;}
 
         public string Notes{get; set;}
 
@@ -23,13 +23,13 @@ namespace Sshfs.GuiBackend
         public string Host { get; set; }
         public int Port { get; set; }
 
-        public bool Automount { get; set; }
+        //public bool Automount { get; set; }
 
-        public ConnectionType ConnectionType {get; set; }
-        public DriveStatus Status { get; set; }
+        //public ConnectionType ConnectionType {get; set; }
+        //public DriveStatus Status { get; set; }
 
-        public string Root;
-        public char DriveLetter;
+        //public string Root;
+        //public char DriveLetter;
 
         //Folders for a Server kann be stored as List of Foldermodels
         // or as List of Strings

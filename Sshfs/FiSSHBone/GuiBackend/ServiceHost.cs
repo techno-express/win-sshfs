@@ -15,36 +15,19 @@ public class Class1
 	
         public static void Main()
         {
-
-            /*
-            //.Net Remoting
-            IpcChannel ipcCh = new IpcChannel("FiSSH");
-
-            ChannelServices.RegisterChannel(ipcCh, true);
-            RemotingConfiguration.RegisterWellKnownServiceType
-               (typeof(Sshfs.GuiBackend.IPCChannelRemoting.ServiceFisshBone),
-                       "fisshy",
-                       WellKnownObjectMode.SingleCall);
-            */
-
-            // WCF
-            using (ServiceHost host = new ServiceHost(
+            // WCF-Server einrichten
+            using (ServiceHost bone_server = new ServiceHost(
               typeof(ServiceFisshBone),
               new Uri[]{
           new Uri("net.pipe://localhost")
         }))
             {
-
-                host.AddServiceEndpoint(typeof(IServiceFisshBone),
+                bone_server.AddServiceEndpoint(typeof(IServiceFisshBone),
                   new NetNamedPipeBinding(),
                   "FiSSH");
+                bone_server.Open();
 
-                host.Open();
-
-
-
-
-
+                //Ein Server mit Ordner zum Testen ins Datenmodel einfügen
                 ServerModel ein_server = new ServerModel();
 
                 ein_server.Name = "Ubuntu at VBox";
@@ -57,7 +40,7 @@ public class Class1
                 ein_folder.Letter = 'G';
                 ein_folder.use_global_login = true;
                 ein_folder.Folder = "/home/user";
-                ein_folder.name = "home vom user";
+                ein_folder.Name = "home vom user";
 
                 ServiceFisshBone bone_local = new ServiceFisshBone();
                 Guid ein_server_ID = bone_local.addServer(ein_server);
@@ -67,7 +50,7 @@ public class Class1
                 Console.WriteLine("Please enter to stop the server");
                 Console.ReadLine();
 
-                host.Close();
+                bone_server.Close();
             }
 
 

@@ -123,7 +123,6 @@
     <Compile Include="GuiBackend\ServerModel.cs" />
     <Compile Include="GuiBackend\Service1.cs" />
     <Compile Include="GuiBackend\ServiceFisshBone.cs" />
-    <Compile Include="GuiBackend\ServiceHost.cs" />
     <Compile Include="SftpManagerApplication.cs" />
     <Compile Include="ConnectionType.cs" />
     <Compile Include="MainForm.cs">

@@ -13,7 +13,7 @@ namespace Sshfs.GuiBackend.Remoteable
     {
         //Returns the Servermodel for the ID, if ID couldn't be find the returned ServerModel is a null Element
         [OperationContract]
-        ServerModel search(Guid ID);
+//        ServerModel get_server_by_id(Guid ID);
 
         /*[OperationContract]
         ServerModel search(char letter);*/
@@ -22,7 +22,7 @@ namespace Sshfs.GuiBackend.Remoteable
         int Mount(Guid ServerID, Guid FolderID);
 
         [OperationContract]
-        int UMount(Guid ID);
+        int UMount(Guid ServerID, Guid FolderID);
 
         //Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
         [OperationContract]
@@ -71,6 +71,11 @@ namespace Sshfs.GuiBackend.Remoteable
     /// </summary>
     public static class IServiceTools
     {
+        //error codes
+        //error_impossible -> error is in code
+        public enum error_codes { no_error, server_not_found, folder_not_found, error_impossible, any_error}
+
+
         /// <summary>
         /// This method turns a serialized object back into a object
         /// </summary>
