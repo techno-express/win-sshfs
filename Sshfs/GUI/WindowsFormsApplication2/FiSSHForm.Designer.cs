@@ -220,11 +220,14 @@
             // mountToolStripMenuItem
             // 
             this.mountToolStripMenuItem.AutoSize = false;
+            this.mountToolStripMenuItem.AutoToolTip = true;
+            this.mountToolStripMenuItem.Enabled = false;
             this.mountToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("mountToolStripMenuItem.Image")));
             this.mountToolStripMenuItem.Name = "mountToolStripMenuItem";
-            this.mountToolStripMenuItem.Size = new System.Drawing.Size(70, 86);
+            this.mountToolStripMenuItem.Size = new System.Drawing.Size(94, 86);
             this.mountToolStripMenuItem.Text = "Mount";
             this.mountToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.mountToolStripMenuItem.ToolTipText = "Mount a folder";
             this.mountToolStripMenuItem.Click += new System.EventHandler(this.mountToolStripMenuItem_Click);
             // 
             // unmountToolStripMenuItem

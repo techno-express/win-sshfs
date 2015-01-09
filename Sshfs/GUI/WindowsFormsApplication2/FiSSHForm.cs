@@ -84,12 +84,14 @@ namespace WindowsFormsApplication2
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
+           
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
                 treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level == 1)                                //Test für Serverinfo -> ListView
             {
+                mountToolStripMenuItem.Enabled = true;
                 treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             ServerFolderEdit();
@@ -308,6 +310,7 @@ namespace WindowsFormsApplication2
         private void button6_Click(object sender, EventArgs e)
         {
             //Add feature: button2.Enabled = false; while no changes are made -> Later
+           
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -327,11 +330,29 @@ namespace WindowsFormsApplication2
             TimerCount++;
             if (TimerCount == 4) TimerCount = 0;
         }
-
+        
+        //Loading animation for mounting
         private void mountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            timer1.Enabled = !timer1.Enabled;
-        }
+        {// Only folders can be mounted
+            //loads the animation for mounting
+            if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 0 && treeView1.SelectedNode.Level != 2 && timer1.Enabled == false)
+            {
+                deleteToolStripMenuItem.Enabled = false;
+                editToolStripMenuItem.Enabled = false;
+                optionsToolStripMenuItem.Enabled = false;
+                timer1.Enabled =true;
+            }
+         //stops the animation and loads the mount image 
+            else { timer1.Enabled = false;
+                   deleteToolStripMenuItem.Enabled = true;
+                   optionsToolStripMenuItem.Enabled = true;
+                   mountToolStripMenuItem.Image = imageList1.Images[0];
+                   mountToolStripMenuItem.Text = "Mount";
+
+                 }
+         }
+            
+        
 
         private void FiSSHForm_Resize(object sender, EventArgs e)
         {// Determine if the cursor is in the window
@@ -365,7 +386,7 @@ namespace WindowsFormsApplication2
         }
 
         private void FiSSHForm_Closing(object sender, FormClosingEventArgs e)
-        { // The user has requested the form be closed so mimimise to the system tray instead
+        { // The user has requested the form be closed so mimimize to the system tray instead
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
