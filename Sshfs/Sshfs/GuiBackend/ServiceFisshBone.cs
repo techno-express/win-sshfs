@@ -202,13 +202,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return DS;
         }
 
-
-        //public List<ServerModel> listAll()
-        public string listAll()
+        public List<ServerModel> listAll()
+        {
+            return new List<ServerModel>(LServermodel);
+        }
+        /*public string listAll()
         {
             return IServiceTools.SerializeObject < List<ServerModel> > (LServermodel);
-        //return new List<ServerModel>(LServermodel);
-        }
+        }*/
 
         /*
         int removeServer(Guid ID){

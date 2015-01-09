@@ -45,22 +45,22 @@ namespace testclient
 
 
             // Die Daten aus dem Backend holen
-            string liste_von_server_als_string = bone.listAll();
+            //string liste_von_server_als_string = bone.listAll();
             
             // Die Daten in ein nutzbares Objekt umwandeln
-            List<ServerModel> liste_von_server = IServiceTools.DeserializeObject<List<ServerModel>>(liste_von_server_als_string);
-            
+            //List<ServerModel> liste_von_server = IServiceTools.DeserializeObject<List<ServerModel>>(liste_von_server_als_string);
+            List<ServerModel> liste_von_server = bone.listAll();
+
             // So erhält man den Server zu einem Servernamen
             ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
-
 
             // So erhält man den Ordnereintrag zu einem Ordnereintragsnamen
             FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.name == "home vom user");
 
+            // Editiern 
+            gesuchter_server.Port = 22;
+            bone.editServer(gesuchter_server);
 
-            Console.WriteLine("Enterdrücken um zu mounten von");
-            Console.ReadLine();
-            
             // So Mountet man einen Eintrag
             bone.Mount(gesuchter_server.ServerID, gesuchter_folder.FolderID);
                 

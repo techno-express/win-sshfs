@@ -30,8 +30,8 @@ namespace Sshfs.GuiBackend.Remoteable
 
         //Returns a list of all servers currently known
         [OperationContract]
-        //List<ServerModel> listAll();
-        string listAll();
+        List<ServerModel> listAll();
+        //string listAll();
 
         //Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches
         //Notice, to add a new Server use, addServer(ServerModel);
