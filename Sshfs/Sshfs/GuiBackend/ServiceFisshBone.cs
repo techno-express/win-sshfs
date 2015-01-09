@@ -205,12 +205,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         //public List<ServerModel> listAll()
         public string listAll()
         {
-            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(LServermodel.GetType());
-            System.IO.StringWriter testWrite = new System.IO.StringWriter();
-
-            xmlSerializer.Serialize(testWrite, LServermodel);
-
-            return testWrite.ToString();
+            return IServiceTools.SerializeObject < List<ServerModel> > (LServermodel);
         //return new List<ServerModel>(LServermodel);
         }
 

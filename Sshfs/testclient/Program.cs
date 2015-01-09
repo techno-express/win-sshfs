@@ -31,11 +31,12 @@ namespace testclient
 
 
             string liste_von_server_als_string = bone.listAll();
-            var xmlSerializer = new System.Xml.Serialization.XmlSerializer(new List<ServerModel>().GetType());
+            /*var xmlSerializer = new System.Xml.Serialization.XmlSerializer(new List<ServerModel>().GetType());
             var textReader = new System.IO.StringReader(liste_von_server_als_string);
 
             List<ServerModel> liste_von_server = (List<ServerModel>)xmlSerializer.Deserialize(textReader);
-
+            */
+            List<ServerModel> liste_von_server = IServiceTools.DeserializeObject<List<ServerModel>>(liste_von_server_als_string);
             ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
 
             FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.name == "home vom user");

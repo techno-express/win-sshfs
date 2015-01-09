@@ -64,4 +64,39 @@ namespace Sshfs.GuiBackend.Remoteable
         [OperationContract]
         void Disconnect(Guid ID);*/
     }
+
+
+    /// <summary>
+    /// This class includes method which are needed to use the interface by server and client
+    /// </summary>
+    public static class IServiceTools
+    {
+        /// <summary>
+        /// This method turns a serialized object back into a object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="toDeserialize"></param>
+        /// <returns></returns>
+        public static T DeserializeObject<T>(this string toDeserialize)
+        {
+            var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+            var textReader = new System.IO.StringReader(toDeserialize);
+            return (T) xmlSerializer.Deserialize(textReader);
+        }
+
+        /// <summary>
+        /// This method turns any object into a string which can be send over the IPC-Interface
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="toSerialize"></param>
+        /// <returns></returns>
+        public static string SerializeObject<T>(this T toSerialize)
+        {
+            var xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
+            var textWriter = new System.IO.StringWriter();
+            xmlSerializer.Serialize(textWriter, toSerialize);
+            return textWriter.ToString();
+        } 
+    }
+
 }
