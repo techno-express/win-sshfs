@@ -12,17 +12,17 @@ namespace Sshfs.GuiBackend.Remoteable
     public interface IServiceFisshBone
     {
         //Returns the Servermodel for the ID, if ID couldn't be find the returned ServerModel is a null Element
-        [OperationContract]
+//        [OperationContract]
 //        ServerModel get_server_by_id(Guid ID);
 
         /*[OperationContract]
         ServerModel search(char letter);*/
 
         [OperationContract]
-        int Mount(Guid ServerID, Guid FolderID);
+        IServiceTools.error_codes Mount(Guid ServerID, Guid FolderID);
 
         [OperationContract]
-        int UMount(Guid ServerID, Guid FolderID);
+        IServiceTools.error_codes UMount(Guid ServerID, Guid FolderID);
 
         //Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
         [OperationContract]
@@ -36,7 +36,7 @@ namespace Sshfs.GuiBackend.Remoteable
         //Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches
         //Notice, to add a new Server use, addServer(ServerModel);
         [OperationContract]
-        int editServer(ServerModel Server);
+        IServiceTools.error_codes editServer(ServerModel Server);
 
         //Adding Server to List of known Server Returnvalue is the ID of the new Server or in error case 0
         [OperationContract]
@@ -44,22 +44,22 @@ namespace Sshfs.GuiBackend.Remoteable
 
         // Returnvalue the remove index or in error case -1
         [OperationContract]
-        int removeServer(Guid ID);
+        IServiceTools.error_codes removeServer(Guid ID);
 
-        // Adds Folder to the Mountpoint list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
+        // Adds Folder to the MountpoIServiceTools.error_codes list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
         [OperationContract]
         Guid addFolder(Guid ID, FolderModel Mountpoint); //changed - bjoe-phi
 
         // Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
         [OperationContract]
-        int removeFolder(Guid ID_Server, Guid ID_Folder);
+        IServiceTools.error_codes removeFolder(Guid ID_Server, Guid ID_Folder);
 
         // Set the Loglevel in Backend return value is the Loglevel after update
         [OperationContract]
         SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
 
         /*[OperationContract]
-        int Connect(Guid ID);
+        IServiceTools.error_codes Connect(Guid ID);
 
         [OperationContract]
         void Disconnect(Guid ID);*/

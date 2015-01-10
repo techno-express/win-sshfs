@@ -85,7 +85,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }*/
 
 
-        public int Mount(Guid ServerID, Guid FolderID)
+        public IServiceTools.error_codes Mount(Guid ServerID, Guid FolderID)
         {
             FolderModel folder;
             ServerModel server;
@@ -96,14 +96,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 if (server == null)
                 {
                     Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Mount() got unkown server id");
-                    return (int)IServiceTools.error_codes.error_impossible;
+                    return IServiceTools.error_codes.error_impossible;
                 }
 
                 folder = server.Folders.Find(x => x.ID == FolderID);
                 if (folder == null)
                 {
                     Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Mount() got unkown folder id");
-                    return (int)IServiceTools.error_codes.error_impossible;
+                    return IServiceTools.error_codes.error_impossible;
                 }
 
  
@@ -128,26 +128,26 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 drive.Mount();
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" mounted on server \"" + ServerID + "\"");
                 
-                return (int)IServiceTools.error_codes.no_error;
+                return IServiceTools.error_codes.no_error;
             }
             catch(Exception e) {
                     Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
-                    return (int)IServiceTools.error_codes.any_error;
+                    return IServiceTools.error_codes.any_error;
             }
         }
 
 
-        public int UMount(Guid ServerID, Guid FolderID)
+        public IServiceTools.error_codes UMount(Guid ServerID, Guid FolderID)
         {
             try
             {
                 LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Unmount();
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" unmounted on server \"" + ServerID + "\"");
-                return (int)IServiceTools.error_codes.no_error;
+                return IServiceTools.error_codes.no_error;
             }
             catch(Exception e) {
                     Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
-                    return (int)IServiceTools.error_codes.any_error;
+                    return IServiceTools.error_codes.any_error;
             }
         }
 
@@ -175,18 +175,19 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public List<ServerModel> listAll()
         {
-            return new List<ServerModel>(LServermodel);
+            //return new List<ServerModel>(LServermodel);
+            return LServermodel;
         }
        
  
-        public int editServer(ServerModel Server)
+        public IServiceTools.error_codes editServer(ServerModel Server)
         {
             ServerModel local_server_reference = LServermodel.Find(x => x.ID == Server.ID);
 
             if (local_server_reference == null)
             {
                 Log.writeLog(SimpleMind.Loglevel.Error, Comp, "editServer() got unkown server id");
-                return (int)IServiceTools.error_codes.error_impossible;
+                return IServiceTools.error_codes.error_impossible;
             }
 
             local_server_reference.Name = Server.Name;
@@ -200,17 +201,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             local_server_reference.Port = Server.Port;
                 
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "server " + Server.ID + " has been edit");
-            return (int)IServiceTools.error_codes.no_error;
-
-            /*int Index = Find(Server.ID, "Couldn't find ServerID to edit use addServer instead to add a new server.");
-
-            if (Index >= 0)
-            {
-                LServermodel[Index] = Server;
-            }
-
-            return Index;*/
-        }
+            return IServiceTools.error_codes.no_error;
+       }
 
 
         public  Guid addServer(ServerModel newServer)
@@ -244,7 +236,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 Log.writeLog(SimpleMind.Loglevel.Error, Comp, "editServer() got unkown server id");
                 return Guid.Empty;
-                //return (int)IServiceTools.error_codes.error_impossible;
+                //return IServiceTools.error_codes.error_impossible;
             }
 
             Mountpoint.ID = Guid.NewGuid();
@@ -253,69 +245,47 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return Mountpoint.ID;
         }
 
-        public int removeFolder(Guid ID_Server, Guid ID_Folder)
+        public IServiceTools.error_codes removeFolder(Guid ServerID, Guid FolderID)
         {
-            ServerModel tempServer;
-            int Index = Find(ID_Server, "Coludn't find ServerID to remove Folder");
-            int mpIndex = -1;
+            ServerModel server;
+            FolderModel folder;
 
-            if (Index >= 0)
+            server = LServermodel.Find(x => x.ID == ServerID);
+            if (server == null)
             {
-                tempServer = LServermodel.ElementAt(Index);
-
-                try
-                {
-                    mpIndex = tempServer.Folders.FindIndex(x => x.ID == ID_Folder);
-                }
-                catch (ArgumentNullException e)
-                {
-                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find folder in Servermodel with ID: " + tempServer.ID.ToString());
-                    Index = -1;
-                    mpIndex = -1;
-                }
-
-                if (mpIndex >= 0)
-                {
-                    tempServer.Folders.RemoveAt(mpIndex);
-                    if (editServer(tempServer) == -1)
-                    {
-                        Index = -1;
-                        Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't update Data while remove mountpoint");
-                    }
-                }
-
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown server id");
+                return IServiceTools.error_codes.error_impossible;
             }
 
-            return Index;
+            folder = server.Folders.Find(x => x.ID == FolderID);
+            if (folder == null)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown folder id");
+                return IServiceTools.error_codes.error_impossible;
+            }
+
+            server.Folders.Remove(folder);
+
+            return IServiceTools.error_codes.no_error;
         }
 
         // Returnvalue is -1 in error case or else the remove index
-        public int removeServer(Guid ID)
+        public IServiceTools.error_codes removeServer(Guid ServerID)
         {
-        
-            int Index;
-            Index = Find(ID, "Couldn't find ServerID to remove");
+            ServerModel server;
+            FolderModel folder;
 
-            if(Index >= 0)
+            server = LServermodel.Find(x => x.ID == ServerID);
+            if (server == null)
             {
-                try
-                {
-                    LServermodel.RemoveAt(Index);
-                }
-                catch(ArgumentOutOfRangeException e)
-                {
-                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Error while remove Server");
-                    Index = -1;
-                }
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown server id");
+                return IServiceTools.error_codes.error_impossible;
             }
 
-            else
-            {
-                Index = -1;
-            }
+            LServermodel.Remove(server);
 
-            return Index;
-        }
+            return IServiceTools.error_codes.no_error;
+       }
 
 
         public SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel)

@@ -66,7 +66,28 @@ namespace testclient
 
             Console.WriteLine("Gemounted, Enter drücken um Unmounten");
             Console.ReadLine();
+            
+            // So Unmountet man einen Eintrag
             bone.UMount(gesuchter_server.ID, gesuchter_folder.ID);
+
+            // So löscht man einen Ordner
+            bone.removeFolder(gesuchter_server.ID, gesuchter_folder.ID);
+
+            //So löscht man einen Server
+             bone.removeServer(gesuchter_server.ID);
+
+            Console.WriteLine("\nIm Folgenden wir alles aus dem Datenmodell angezeigt.");
+            liste_von_server = bone.listAll();
+            foreach(ServerModel i in liste_von_server) 
+            {
+                Console.WriteLine(i.ID + ": " + i.Name);
+
+                foreach (FolderModel j in i.Folders)
+                {
+                    Console.WriteLine("    " + j.ID + ": " + j.Name);
+                }
+                Console.WriteLine();
+            }
             
             Console.WriteLine("Enter drücken um Client zu beenden");
             Console.ReadLine();
