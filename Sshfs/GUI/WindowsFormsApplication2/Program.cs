@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sshfs.GuiBackend.Remoteable;
 
 namespace WindowsFormsApplication2
 {
@@ -14,6 +15,9 @@ namespace WindowsFormsApplication2
         [STAThread]
         static void Main()
         {
+            // Open a IPC server
+            IPCConnection.ClientConnect();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FiSSHForm());

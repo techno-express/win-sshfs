@@ -7,7 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using Sshfs.
+
+using Sshfs.GuiBackend.Remoteable;
+using System.Runtime.Remoting;
+using System.ServiceModel;
+using Sshfs.GuiBackend;
+
 
 namespace WindowsFormsApplication2
 {
@@ -24,13 +29,54 @@ namespace WindowsFormsApplication2
         Boolean gBox2Vis = false;
         int TimerCount = 0;
         Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
+        
+        //////////////////////////////////////////////
+        // For connection with Backend
+
+        // Server connection object
+        IServiceFisshBone bone_server;// = IPCConnection.ServerConnect();
+        List<ServerModel> datamodel;
+
+
         public FiSSHForm()
         {
+            // get server object, has been already connected in Main()
+            bone_server = IPCConnection.bone_client;
+
             InitializeComponent();
         }
 
         private void UpdateTreeView(/* STUFF */)
         {
+            // get all data from backend
+            try { datamodel = bone_server.listAll(); }
+            catch
+            { 
+                MessageBox.Show("Cannot connect with server."); 
+                datamodel = new List<ServerModel>();
+            }
+            
+
+            foreach (ServerModel i in datamodel)
+            {
+                // Adding server node 
+                TreeNode ParentNode = treeView1.Nodes.Add(String.Format(
+                                        "Name: " + i.Name + Environment.NewLine +
+                                        "IP: " + i.Host + Environment.NewLine +
+                                        "Notes: " + i.Notes));
+                
+                // Adding folder nodes
+                foreach (FolderModel j in i.Folders)
+                {
+                    ParentNode.Nodes.Add( String.Format(
+                                        "Name: " + j.Name + Environment.NewLine + 
+                                        "Path: " + j.Folder + Environment.NewLine + 
+                                        "Note: " + j.Note));
+                }
+            }
+
+//            treeView1.Nodes.Add(String.Format("Name: LestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature"));
+//            treeView1.Nodes.Add("adsf");
             /* STUFF */
         }
 

@@ -213,7 +213,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1264, 90);
+            this.menuStrip1.Size = new System.Drawing.Size(1227, 90);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -314,7 +314,7 @@
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(844, 93);
+            this.groupBox1.Location = new System.Drawing.Point(807, 93);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
@@ -574,7 +574,7 @@
             treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(820, 577);
+            this.treeView1.Size = new System.Drawing.Size(783, 577);
             this.treeView1.TabIndex = 4;
             this.treeView1.TabStop = false;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
@@ -616,7 +616,7 @@
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Location = new System.Drawing.Point(838, 221);
+            this.groupBox2.Location = new System.Drawing.Point(801, 221);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(399, 449);
             this.groupBox2.TabIndex = 19;
@@ -954,7 +954,7 @@
             // button3
             // 
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button3.Location = new System.Drawing.Point(1243, 334);
+            this.button3.Location = new System.Drawing.Point(1206, 334);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(21, 79);
             this.button3.TabIndex = 0;
@@ -1015,7 +1015,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.AutoScrollMinSize = new System.Drawing.Size(0, 600);
-            this.ClientSize = new System.Drawing.Size(1264, 682);
+            this.ClientSize = new System.Drawing.Size(1227, 682);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.treeView1);

@@ -11,6 +11,7 @@ namespace Sshfs.GuiBackend
         public Boolean use_global_login;
         public Guid ID;
         public string Name;
+        public string Note;
         public string Folder;
         public char Letter;
         public string Username;

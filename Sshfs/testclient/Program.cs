@@ -21,18 +21,8 @@ namespace testclient
 
             // Ab hier beginnt der Verbindungsteil, muss in jeden Client (Copy&Past)
             // danach kann auf die Verbindung über das Objekt "bone" zugreifen
-            /*
-            //WCF
-            IpcChannel ipcCh = new IpcChannel("myClient");
-            ChannelServices.RegisterChannel(ipcCh, true);
-
-            IServiceFisshBone bone =
-               (Sshfs.GuiBackend.Remoteable.IServiceFisshBone)Activator.GetObject
-               (typeof(Sshfs.GuiBackend.Remoteable.IServiceFisshBone),
-                "ipc://FiSSH/fisshy");
-            //Verbindungsteil-Ende
-            */
-            ChannelFactory<IServiceFisshBone> pipeFactory =
+           //Verbindungsteil-Ende
+           /* ChannelFactory<IServiceFisshBone> pipeFactory =
               new ChannelFactory<IServiceFisshBone>(
                 new NetNamedPipeBinding(),
                 new EndpointAddress(
@@ -40,7 +30,8 @@ namespace testclient
 
             IServiceFisshBone bone =
               pipeFactory.CreateChannel();
-
+            */
+            IServiceFisshBone bone = IPCConnection.ClientConnect();
 
 
             try
@@ -67,10 +58,10 @@ namespace testclient
                 bone.UMount(gesuchter_server.ID, gesuchter_folder.ID);
 
                 // So löscht man einen Ordner
-                bone.removeFolder(gesuchter_server.ID, gesuchter_folder.ID);
+                //bone.removeFolder(gesuchter_server.ID, gesuchter_folder.ID);
 
                 //So löscht man einen Server
-                bone.removeServer(gesuchter_server.ID);
+                //bone.removeServer(gesuchter_server.ID);
 
                 Console.WriteLine("\nIm Folgenden wir alles aus dem Datenmodell angezeigt.");
                 liste_von_server = bone.listAll();
