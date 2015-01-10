@@ -26,10 +26,10 @@ namespace Sshfs.GuiBackend.Remoteable
 
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
-        IServiceTools.error_codes Mount(Guid ServerID, Guid FolderID);
+        void Mount(Guid ServerID, Guid FolderID);
 
         [OperationContract]
-        IServiceTools.error_codes UMount(Guid ServerID, Guid FolderID);
+        void UMount(Guid ServerID, Guid FolderID);
 
         //Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
         [OperationContract]
@@ -43,30 +43,30 @@ namespace Sshfs.GuiBackend.Remoteable
         //Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches
         //Notice, to add a new Server use, addServer(ServerModel);
         [OperationContract]
-        IServiceTools.error_codes editServer(ServerModel Server);
+        void editServer(ServerModel Server);
 
         //Adding Server to List of known Server Returnvalue is the ID of the new Server or in error case 0
         [OperationContract]
-        Guid /*ID*/ addServer(ServerModel Server);
+        Guid addServer(ServerModel Server);
 
         // Returnvalue the remove index or in error case -1
         [OperationContract]
-        IServiceTools.error_codes removeServer(Guid ID);
+        void removeServer(Guid ID);
 
-        // Adds Folder to the MountpoIServiceTools.error_codes list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
+        // Adds Folder to the Mountpovoid list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
         [OperationContract]
         Guid addFolder(Guid ID, FolderModel Mountpoint); //changed - bjoe-phi
 
         // Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
         [OperationContract]
-        IServiceTools.error_codes removeFolder(Guid ID_Server, Guid ID_Folder);
+        void removeFolder(Guid ID_Server, Guid ID_Folder);
 
         // Set the Loglevel in Backend return value is the Loglevel after update
         [OperationContract]
         SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
 
         /*[OperationContract]
-        IServiceTools.error_codes Connect(Guid ID);
+        void Connect(Guid ID);
 
         [OperationContract]
         void Disconnect(Guid ID);*/
@@ -78,11 +78,6 @@ namespace Sshfs.GuiBackend.Remoteable
     /// </summary>
     public static class IServiceTools
     {
-        //error codes
-        //error_impossible -> error is in code
-        public enum error_codes { no_error, server_not_found, folder_not_found, error_impossible, any_error}
-
-
         /// <summary>
         /// This method turns a serialized object back into a object
         /// </summary>
