@@ -17,29 +17,35 @@
 
 using System;
 using System.IO;
-
+using System.Threading;
 
 
 namespace SimpleMind
 {
+    public enum Loglevel:int { 
+        None = 0,
+        Error = 1, 
+        Warning = 2, 
+        Debug = 3, 
+    }
+
     public class SimpleMind
     {
+        const int _DefaultLogMax = 3; // default highest LogLevel
+        const string _DefaultFileName = "log.txt";
+
         private string _LogFile; // name of Logfile
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
-        private int _LogLevel;
-        // 0 > == None
-        // 0 == Warning
-        // 1 == Error
-        // 3 == Event such as Clicks
-        // 4 == Debug/All
+        private static int _LogLevel;
+        //public enum Loglevel {None = 0,Error = 1,Warning = 2,Debug = 3}; 
+       
 
         public SimpleMind(int iLogLevel, string sFile, string sPath)
         {
 
             if (!sPath.EndsWith(@"\"))
             {
-                //*** This comment makes no sens. *** Line 42 is the truth
                 sPath = sPath + @"\";
             }
 
@@ -47,11 +53,26 @@ namespace SimpleMind
             _Folder = sPath;
             _LogFile = sFile;
             _PathToLogFile = _Folder + _LogFile;
-            _LogLevel = iLogLevel;
 
+            switch (iLogLevel) {
+                case (int) Loglevel.None:
+                                    _LogLevel = (int) Loglevel.None;
+                                    break;
+                case (int) Loglevel.Error: 
+                                    _LogLevel = (int) Loglevel.Error;    
+                                    break;
+                case (int) Loglevel.Warning:
+                                    _LogLevel = (int) Loglevel.Warning;
+                                    break;
+                case (int) Loglevel.Debug:
+                                    _LogLevel = (int) Loglevel.Debug;
+                                    break;
+            }
+                                    
+            
             try
             {
-                //ceck for target directory and create if not found
+                //check for target directory and create if not found
                 if (!System.IO.Directory.Exists(_Folder))
                 {
                     //System.IO.Directory.CreateDirectory(_Folder);
@@ -72,6 +93,7 @@ namespace SimpleMind
             catch (Exception e)
             {
                 // FIXME: define behavior in case of excepetion
+                Console.WriteLine("Error: Couldn't create File or Directory: \" " + _Folder + _LogFile + "\"");
             }
 
         }
@@ -91,25 +113,50 @@ namespace SimpleMind
             {
                 //FIXME MyDocuments does not exist
                 MyDocDir = @"C:\";
+                Console.WriteLine(@"Warning: Coluldn't find MyDocuments, Saving under C:\");
             }
 
             //init
             _Folder = MyDocDir;
             _LogFile = sFile;
             _PathToLogFile = _Folder + _LogFile;
-            _LogLevel = iLogLevel;
+
+            switch (iLogLevel)
+            {
+                case (int)Loglevel.None:
+                    _LogLevel = (int)Loglevel.None;
+                    break;
+                case (int)Loglevel.Error:
+                    _LogLevel = (int)Loglevel.Error;
+                    break;
+                case (int)Loglevel.Warning:
+                    _LogLevel = (int)Loglevel.Warning;
+                    break;
+                case (int)Loglevel.Debug:
+                    _LogLevel = (int)Loglevel.Debug;
+                    break;
+            }
+
+
+            // Check if file exists
+            if (!File.Exists(_PathToLogFile))
+            {
+                using (System.IO.FileStream fs = System.IO.File.Create(_PathToLogFile))
+                {
+                    //just create file
+                    fs.Close();
+                }
+            }
 
         }
 
-
-
         public SimpleMind(int iLogLevel)
-            : this(iLogLevel, @"log.txt")
+            : this(iLogLevel, _DefaultFileName)
         {
         }
 
         public SimpleMind()
-            : this(4, @"log.txt")
+            : this(_DefaultLogMax, _DefaultFileName)
         {
         }
 
@@ -118,35 +165,58 @@ namespace SimpleMind
         #region
         //*** private ***
         // writing LogMsg into Logfile with current timestamp no LogLevel is checked
-        private void writeLog(string LogMsg)
+        private void write(Loglevel iLogType,string cmpnt ,string LogMsg)
         {
             DateTime Now = DateTime.Now;
 
-            using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
+            try
             {
-                fs.WriteLine("[" + Now.Year + @"\"
-                   + Now.Month + @"\"
-                   + Now.Day + " "
-                   + Now.Hour + ":"
-                   + Now.Minute + ":"
-                   + Now.Second + "] " + LogMsg);
+                using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
+                {
+                    switch (iLogType)
+                    {
+                        case Loglevel.Error:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" + cmpnt + "] " + LogMsg);
+                            break;
+                        case Loglevel.Warning:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" + cmpnt + "] " + LogMsg);
+                            break;
+                        case Loglevel.Debug:
+                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" + cmpnt + "] " + LogMsg);
+                            break;
+                    }
+
+                    /*
+                     //no zero when time got one digit elements
+                   fs.WriteLine("[" + Now.Year.ToString() + @"/"
+                      + Now.Month.ToString() + @"/"
+                      + Now.Day.ToString() + " "
+                      + Now.Hour.ToString() + ":"
+                      + Now.Minute.ToString() + ":"
+                      + Now.Second.ToString() + "] " + LogMsg);*/
+                }
+            }
+            catch (IOException e)                       //put current thread on hold if another one is already writing in the logfile 
+            {
+                Thread.Sleep(1);
+                write(iLogType, cmpnt, LogMsg);
             }
         }
 
 
         //*** public ***
-        public void writeLog(int iLogType, string Msg)
+        public void writeLog(Loglevel iLogType, string cmpnt, string Msg)
         {
-            if (iLogType >= 0 && iLogType <= _LogLevel)
+            if ((int)iLogType >= 0 && (int)iLogType <= _LogLevel)
             {
-                writeLog(Msg);
+                write(iLogType,cmpnt, Msg);
             }
 
         }
 
         public void setLogLevel(int i)
         {
-            if (i <= 4)
+            if (i >= 0 && i <= _DefaultLogMax)
             {
                 _LogLevel = i;
             }
