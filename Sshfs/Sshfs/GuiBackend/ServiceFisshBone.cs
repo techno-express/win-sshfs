@@ -154,11 +154,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
-        public DriveStatus getStatus(Guid ID)
+/*        public DriveStatus getStatus(Guid ID)
         {
 
             DriveStatus DS = DriveStatus.Undefined;
-            /*
+            
             int Index = Find(ID, "Could not find ServerID to get Drivestatus");
 
             if (Index >= 0)
@@ -170,10 +170,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 DS = DriveStatus.Error;
             }
-            */
+            
             return DS;
         }
-
+    */
 
         public List<ServerModel> listAll()
         {
