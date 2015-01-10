@@ -64,14 +64,16 @@ namespace WindowsFormsApplication2
                                         "Name: " + i.Name + Environment.NewLine +
                                         "IP: " + i.Host + Environment.NewLine +
                                         "Notes: " + i.Notes));
+                i.gui_node = ParentNode;
                 
                 // Adding folder nodes
                 foreach (FolderModel j in i.Folders)
                 {
-                    ParentNode.Nodes.Add( String.Format(
+                    TreeNode ChildNode = ParentNode.Nodes.Add( String.Format(
                                         "Name: " + j.Name + Environment.NewLine + 
                                         "Path: " + j.Folder + Environment.NewLine + 
                                         "Note: " + j.Note));
+                    j.gui_node = ChildNode;
                 }
             }
 
@@ -89,6 +91,18 @@ namespace WindowsFormsApplication2
                     {
                         groupBox1.Enabled = true;
                         groupBox2.Visible = false;
+                        
+                        // get server which is presented by selected node 
+                        ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+                        // write data in edit box
+                        textBox_server_name.Text = server.Name;
+                        textBox_server_ip.Text = server.Host;
+                        numericUpDown_server_ip.Value = server.Port;
+                        richTextBox_server_notes.Text = server.Notes;
+                        textbox_default_username.Text = server.Username;
+                        textBox_server_privatkey.Text = server.PrivateKey;
+                        textBox_server_password.Text = server.Password;
+                        
                     }
                     else gBox2Vis = false;
                     break;
@@ -97,6 +111,20 @@ namespace WindowsFormsApplication2
                     {
                         groupBox1.Enabled = false;
                         groupBox2.Visible = true;
+
+                        // get server which is presented by selected parent node
+                        ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+                        // get folder which is presented by selected node
+                        FolderModel folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+                        // write data in edit box
+                        textBox_folder_entry.Text = folder.Name;
+                        textBox_folder_password.Text = folder.Password;
+                        textBox_folder_privat_key.Text = folder.PrivatKey;
+                        textBox8_folder_username.Text = folder.Username;
+                        textBox9_folder_remotedirectory.Text = folder.Folder;
+                        checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
+                        comboBox_folder_driveletter.Text = folder.Letter.ToString();
+                        
                     }
                     else gBox2Vis = true;
                     break;
@@ -162,19 +190,19 @@ namespace WindowsFormsApplication2
         {
             if (!Expanded) WindowExpand();
             ServerFolderEdit();
-            textBox1.Focus();
+            textBox_server_name.Focus();
         }
 
         private void editToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             if (!Expanded) WindowExpand();
             ServerFolderEdit(); 
-            textBox10.Focus();
+            textBox_folder_entry.Focus();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)  //Use Default Account Checkbox
         {
-            groupBox3.Enabled = !checkBox1.Checked;
+            groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
         }
 
         private void mountToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -311,46 +339,46 @@ namespace WindowsFormsApplication2
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            textBox6.Enabled = button4.Enabled = false;
-            textBox7.Enabled = true;
+            textBox_folder_privat_key.Enabled = button4.Enabled = false;
+            textBox_folder_password.Enabled = true;
         }
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            textBox6.Enabled = button4.Enabled = true;
-            textBox7.Enabled = false;
+            textBox_folder_privat_key.Enabled = button4.Enabled = true;
+            textBox_folder_password.Enabled = false;
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            textBox6.Enabled = button4.Enabled = textBox7.Enabled = false;
+            textBox_folder_privat_key.Enabled = button4.Enabled = textBox_folder_password.Enabled = false;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            textBox5.Enabled = button1.Enabled = false;
-            textBox4.Enabled = true;
+            textBox_server_privatkey.Enabled = button1.Enabled = false;
+            textBox_server_password.Enabled = true;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            textBox5.Enabled = button1.Enabled = true;
-            textBox4.Enabled = false;
+            textBox_server_privatkey.Enabled = button1.Enabled = true;
+            textBox_server_password.Enabled = false;
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            textBox5.Enabled = button1.Enabled = textBox4.Enabled = false;
+            textBox_server_privatkey.Enabled = button1.Enabled = textBox_server_password.Enabled = false;
         }
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox1.Enabled = true;
+            comboBox_folder_driveletter.Enabled = true;
         }
 
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox1.Enabled = false;
+            comboBox_folder_driveletter.Enabled = false;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -363,8 +391,8 @@ namespace WindowsFormsApplication2
         {
             if (!Expanded) WindowExpand();
             ServerFolderEdit();
-            if (groupBox2.Visible) textBox10.Focus();
-            else textBox1.Focus();
+            if (groupBox2.Visible) textBox_folder_entry.Focus();
+            else textBox_server_name.Focus();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -380,6 +408,12 @@ namespace WindowsFormsApplication2
         //Loading animation for mounting
         private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
+
+            ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+            FolderModel folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+            bone_server.Mount(server.ID, folder.ID);
+
+
             //loads the animation for mounting
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 0 && treeView1.SelectedNode.Level != 2 && timer1.Enabled == false)
             {

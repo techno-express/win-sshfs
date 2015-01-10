@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,21 +60,21 @@
             this.label14 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox_server_privatkey = new System.Windows.Forms.TextBox();
+            this.textBox_server_password = new System.Windows.Forms.TextBox();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textbox_default_username = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox_server_notes = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.numericUpDown_server_ip = new System.Windows.Forms.NumericUpDown();
+            this.textBox_server_ip = new System.Windows.Forms.TextBox();
+            this.textBox_server_name = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -82,27 +82,27 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.button_savechanges = new System.Windows.Forms.Button();
+            this.textBox_folder_entry = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.comboBox_folder_driveletter = new System.Windows.Forms.ComboBox();
+            this.radioButton_folder_virtualdrive = new System.Windows.Forms.RadioButton();
+            this.radioButton_folder_usedrive = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox9_folder_remotedirectory = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox8_folder_username = new System.Windows.Forms.TextBox();
+            this.textBox_folder_privat_key = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox_folder_password = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.radioButton_folder_password = new System.Windows.Forms.RadioButton();
+            this.radioButton_folder_privatkey = new System.Windows.Forms.RadioButton();
+            this.checkBox_folder_usedefaultaccound = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -115,7 +115,7 @@
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_ip)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
@@ -297,21 +297,21 @@
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.textBox5);
-            this.groupBox1.Controls.Add(this.textBox4);
+            this.groupBox1.Controls.Add(this.textBox_server_privatkey);
+            this.groupBox1.Controls.Add(this.textBox_server_password);
             this.groupBox1.Controls.Add(this.radioButton3);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.textbox_default_username);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Controls.Add(this.richTextBox_server_notes);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.numericUpDown_server_ip);
+            this.groupBox1.Controls.Add(this.textBox_server_ip);
+            this.groupBox1.Controls.Add(this.textBox_server_name);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(807, 93);
@@ -361,21 +361,21 @@
             this.button1.Text = "..";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox5
+            // textBox_server_privatkey
             // 
-            this.textBox5.Enabled = false;
-            this.textBox5.Location = new System.Drawing.Point(226, 373);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(126, 20);
-            this.textBox5.TabIndex = 10;
+            this.textBox_server_privatkey.Enabled = false;
+            this.textBox_server_privatkey.Location = new System.Drawing.Point(226, 373);
+            this.textBox_server_privatkey.Name = "textBox_server_privatkey";
+            this.textBox_server_privatkey.Size = new System.Drawing.Size(126, 20);
+            this.textBox_server_privatkey.TabIndex = 10;
             // 
-            // textBox4
+            // textBox_server_password
             // 
-            this.textBox4.Location = new System.Drawing.Point(226, 350);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.PasswordChar = '•';
-            this.textBox4.Size = new System.Drawing.Size(159, 20);
-            this.textBox4.TabIndex = 8;
+            this.textBox_server_password.Location = new System.Drawing.Point(226, 350);
+            this.textBox_server_password.Name = "textBox_server_password";
+            this.textBox_server_password.PasswordChar = '•';
+            this.textBox_server_password.Size = new System.Drawing.Size(159, 20);
+            this.textBox_server_password.TabIndex = 8;
             // 
             // radioButton3
             // 
@@ -425,12 +425,12 @@
             this.label7.Text = "Authentication method:";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
-            // textBox3
+            // textbox_default_username
             // 
-            this.textBox3.Location = new System.Drawing.Point(149, 305);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(236, 20);
-            this.textBox3.TabIndex = 6;
+            this.textbox_default_username.Location = new System.Drawing.Point(149, 305);
+            this.textbox_default_username.Name = "textbox_default_username";
+            this.textbox_default_username.Size = new System.Drawing.Size(236, 20);
+            this.textbox_default_username.TabIndex = 6;
             // 
             // label6
             // 
@@ -451,13 +451,13 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Default SSH Account:\r\n";
             // 
-            // richTextBox1
+            // richTextBox_server_notes
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(149, 149);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(236, 96);
-            this.richTextBox1.TabIndex = 5;
-            this.richTextBox1.Text = "";
+            this.richTextBox_server_notes.Location = new System.Drawing.Point(149, 149);
+            this.richTextBox_server_notes.Name = "richTextBox_server_notes";
+            this.richTextBox_server_notes.Size = new System.Drawing.Size(236, 96);
+            this.richTextBox_server_notes.TabIndex = 5;
+            this.richTextBox_server_notes.Text = "";
             // 
             // label4
             // 
@@ -480,40 +480,40 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Port:";
             // 
-            // numericUpDown1
+            // numericUpDown_server_ip
             // 
-            this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.numericUpDown_server_ip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown1.Location = new System.Drawing.Point(149, 94);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDown_server_ip.Location = new System.Drawing.Point(149, 94);
+            this.numericUpDown_server_ip.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(100, 20);
-            this.numericUpDown1.TabIndex = 4;
+            this.numericUpDown_server_ip.Name = "numericUpDown_server_ip";
+            this.numericUpDown_server_ip.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDown_server_ip.TabIndex = 4;
             // 
-            // textBox2
+            // textBox_server_ip
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_server_ip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(149, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(236, 20);
-            this.textBox2.TabIndex = 3;
+            this.textBox_server_ip.Location = new System.Drawing.Point(149, 65);
+            this.textBox_server_ip.Name = "textBox_server_ip";
+            this.textBox_server_ip.Size = new System.Drawing.Size(236, 20);
+            this.textBox_server_ip.TabIndex = 3;
             // 
-            // textBox1
+            // textBox_server_name
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_server_name.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(149, 26);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(236, 20);
-            this.textBox1.TabIndex = 2;
+            this.textBox_server_name.Location = new System.Drawing.Point(149, 26);
+            this.textBox_server_name.Name = "textBox_server_name";
+            this.textBox_server_name.Size = new System.Drawing.Size(236, 20);
+            this.textBox_server_name.TabIndex = 2;
             // 
             // label2
             // 
@@ -551,27 +551,27 @@
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode1.ImageIndex = 4;
-            treeNode1.Name = "Node3";
-            treeNode1.SelectedImageIndex = 4;
-            treeNode1.Text = "TestFolder";
-            treeNode2.ImageIndex = 3;
-            treeNode2.Name = "Node4";
-            treeNode2.SelectedImageIndex = 3;
-            treeNode2.Text = "Add Directory";
-            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode3.ImageIndex = 6;
-            treeNode3.Name = "Node2";
-            treeNode3.SelectedImageIndex = 6;
-            treeNode3.Text = "TestServer";
-            treeNode4.ImageIndex = 5;
-            treeNode4.Name = "Node5";
-            treeNode4.SelectedImageIndex = 5;
-            treeNode4.Text = "Add New Server";
+            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode5.ImageIndex = 4;
+            treeNode5.Name = "Node3";
+            treeNode5.SelectedImageIndex = 4;
+            treeNode5.Text = "TestFolder";
+            treeNode6.ImageIndex = 3;
+            treeNode6.Name = "Node4";
+            treeNode6.SelectedImageIndex = 3;
+            treeNode6.Text = "Add Directory";
+            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode7.ImageIndex = 6;
+            treeNode7.Name = "Node2";
+            treeNode7.SelectedImageIndex = 6;
+            treeNode7.Text = "TestServer";
+            treeNode8.ImageIndex = 5;
+            treeNode8.Name = "Node5";
+            treeNode8.SelectedImageIndex = 5;
+            treeNode8.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode7,
+            treeNode8});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(783, 577);
@@ -604,18 +604,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.textBox11);
             this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Controls.Add(this.textBox10);
+            this.groupBox2.Controls.Add(this.button_savechanges);
+            this.groupBox2.Controls.Add(this.textBox_folder_entry);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.comboBox1);
-            this.groupBox2.Controls.Add(this.radioButton8);
-            this.groupBox2.Controls.Add(this.radioButton7);
+            this.groupBox2.Controls.Add(this.comboBox_folder_driveletter);
+            this.groupBox2.Controls.Add(this.radioButton_folder_virtualdrive);
+            this.groupBox2.Controls.Add(this.radioButton_folder_usedrive);
             this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.textBox9);
+            this.groupBox2.Controls.Add(this.textBox9_folder_remotedirectory);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.checkBox_folder_usedefaultaccound);
             this.groupBox2.Location = new System.Drawing.Point(801, 221);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(399, 449);
@@ -644,25 +644,25 @@
             this.label13.TabIndex = 30;
             this.label13.Text = "error indication:";
             // 
-            // button6
+            // button_savechanges
             // 
-            this.button6.Location = new System.Drawing.Point(244, 346);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(141, 25);
-            this.button6.TabIndex = 29;
-            this.button6.Text = "Save Changes";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button_savechanges.Location = new System.Drawing.Point(244, 346);
+            this.button_savechanges.Name = "button_savechanges";
+            this.button_savechanges.Size = new System.Drawing.Size(141, 25);
+            this.button_savechanges.TabIndex = 29;
+            this.button_savechanges.Text = "Save Changes";
+            this.button_savechanges.UseVisualStyleBackColor = true;
+            this.button_savechanges.Click += new System.EventHandler(this.button6_Click);
             // 
-            // textBox10
+            // textBox_folder_entry
             // 
-            this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_folder_entry.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox10.Location = new System.Drawing.Point(149, 34);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(236, 20);
-            this.textBox10.TabIndex = 14;
+            this.textBox_folder_entry.Location = new System.Drawing.Point(149, 34);
+            this.textBox_folder_entry.Name = "textBox_folder_entry";
+            this.textBox_folder_entry.Size = new System.Drawing.Size(236, 20);
+            this.textBox_folder_entry.TabIndex = 14;
             // 
             // label12
             // 
@@ -691,15 +691,15 @@
             this.checkBox2.Text = "Mount at program startup";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // comboBox_folder_driveletter
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.comboBox_folder_driveletter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.ItemHeight = 13;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBox_folder_driveletter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_folder_driveletter.FormattingEnabled = true;
+            this.comboBox_folder_driveletter.ItemHeight = 13;
+            this.comboBox_folder_driveletter.Items.AddRange(new object[] {
             "A:",
             "B:",
             "C:",
@@ -726,43 +726,43 @@
             "X:",
             "Y:",
             "Z:"});
-            this.comboBox1.Location = new System.Drawing.Point(301, 283);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(51, 21);
-            this.comboBox1.TabIndex = 25;
+            this.comboBox_folder_driveletter.Location = new System.Drawing.Point(301, 283);
+            this.comboBox_folder_driveletter.Name = "comboBox_folder_driveletter";
+            this.comboBox_folder_driveletter.Size = new System.Drawing.Size(51, 21);
+            this.comboBox_folder_driveletter.TabIndex = 25;
             // 
-            // radioButton8
+            // radioButton_folder_virtualdrive
             // 
-            this.radioButton8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioButton_folder_virtualdrive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Location = new System.Drawing.Point(149, 306);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(125, 17);
-            this.radioButton8.TabIndex = 26;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Text = "Folder in Virtual Drive";
-            this.toolTip1.SetToolTip(this.radioButton8, "Creates a Folder with your directory in a Virtual Drive \r\n(VD setup in options) T" +
+            this.radioButton_folder_virtualdrive.AutoSize = true;
+            this.radioButton_folder_virtualdrive.Location = new System.Drawing.Point(149, 306);
+            this.radioButton_folder_virtualdrive.Name = "radioButton_folder_virtualdrive";
+            this.radioButton_folder_virtualdrive.Size = new System.Drawing.Size(125, 17);
+            this.radioButton_folder_virtualdrive.TabIndex = 26;
+            this.radioButton_folder_virtualdrive.TabStop = true;
+            this.radioButton_folder_virtualdrive.Text = "Folder in Virtual Drive";
+            this.toolTip1.SetToolTip(this.radioButton_folder_virtualdrive, "Creates a Folder with your directory in a Virtual Drive \r\n(VD setup in options) T" +
         "HIS IS AN EXAMPLE TOOLTIP\r\n");
-            this.radioButton8.UseVisualStyleBackColor = true;
-            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            this.radioButton_folder_virtualdrive.UseVisualStyleBackColor = true;
+            this.radioButton_folder_virtualdrive.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
-            // radioButton7
+            // radioButton_folder_usedrive
             // 
-            this.radioButton7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioButton_folder_usedrive.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Checked = true;
-            this.radioButton7.Location = new System.Drawing.Point(149, 284);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(50, 17);
-            this.radioButton7.TabIndex = 24;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "Drive";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            this.radioButton_folder_usedrive.AutoSize = true;
+            this.radioButton_folder_usedrive.Checked = true;
+            this.radioButton_folder_usedrive.Location = new System.Drawing.Point(149, 284);
+            this.radioButton_folder_usedrive.Name = "radioButton_folder_usedrive";
+            this.radioButton_folder_usedrive.Size = new System.Drawing.Size(50, 17);
+            this.radioButton_folder_usedrive.TabIndex = 24;
+            this.radioButton_folder_usedrive.TabStop = true;
+            this.radioButton_folder_usedrive.Text = "Drive";
+            this.radioButton_folder_usedrive.UseVisualStyleBackColor = true;
+            this.radioButton_folder_usedrive.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
             // 
             // label11
             // 
@@ -776,15 +776,15 @@
             this.label11.TabIndex = 4;
             this.label11.Text = "Mount as:";
             // 
-            // textBox9
+            // textBox9_folder_remotedirectory
             // 
-            this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox9_folder_remotedirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox9.Location = new System.Drawing.Point(149, 257);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(236, 20);
-            this.textBox9.TabIndex = 23;
+            this.textBox9_folder_remotedirectory.Location = new System.Drawing.Point(149, 257);
+            this.textBox9_folder_remotedirectory.Name = "textBox9_folder_remotedirectory";
+            this.textBox9_folder_remotedirectory.Size = new System.Drawing.Size(236, 20);
+            this.textBox9_folder_remotedirectory.TabIndex = 23;
             // 
             // label10
             // 
@@ -802,14 +802,14 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Controls.Add(this.textBox8);
-            this.groupBox3.Controls.Add(this.textBox6);
+            this.groupBox3.Controls.Add(this.textBox8_folder_username);
+            this.groupBox3.Controls.Add(this.textBox_folder_privat_key);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.textBox7);
+            this.groupBox3.Controls.Add(this.textBox_folder_password);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.radioButton4);
-            this.groupBox3.Controls.Add(this.radioButton6);
-            this.groupBox3.Controls.Add(this.radioButton5);
+            this.groupBox3.Controls.Add(this.radioButton_folder_password);
+            this.groupBox3.Controls.Add(this.radioButton_folder_privatkey);
             this.groupBox3.Enabled = false;
             this.groupBox3.Location = new System.Drawing.Point(0, 85);
             this.groupBox3.Name = "groupBox3";
@@ -830,26 +830,26 @@
             this.button4.Text = "..";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // textBox8
+            // textBox8_folder_username
             // 
-            this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox8_folder_username.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox8.Location = new System.Drawing.Point(149, 21);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(236, 20);
-            this.textBox8.TabIndex = 16;
+            this.textBox8_folder_username.Location = new System.Drawing.Point(149, 21);
+            this.textBox8_folder_username.Name = "textBox8_folder_username";
+            this.textBox8_folder_username.Size = new System.Drawing.Size(236, 20);
+            this.textBox8_folder_username.TabIndex = 16;
             // 
-            // textBox6
+            // textBox_folder_privat_key
             // 
-            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_folder_privat_key.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox6.Enabled = false;
-            this.textBox6.Location = new System.Drawing.Point(226, 87);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(126, 20);
-            this.textBox6.TabIndex = 20;
+            this.textBox_folder_privat_key.Enabled = false;
+            this.textBox_folder_privat_key.Location = new System.Drawing.Point(226, 87);
+            this.textBox_folder_privat_key.Name = "textBox_folder_privat_key";
+            this.textBox_folder_privat_key.Size = new System.Drawing.Size(126, 20);
+            this.textBox_folder_privat_key.TabIndex = 20;
             // 
             // label9
             // 
@@ -863,16 +863,16 @@
             this.label9.TabIndex = 21;
             this.label9.Text = "Username:";
             // 
-            // textBox7
+            // textBox_folder_password
             // 
-            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_folder_password.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox7.Location = new System.Drawing.Point(226, 64);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.PasswordChar = '•';
-            this.textBox7.Size = new System.Drawing.Size(159, 20);
-            this.textBox7.TabIndex = 18;
+            this.textBox_folder_password.Location = new System.Drawing.Point(226, 64);
+            this.textBox_folder_password.Name = "textBox_folder_password";
+            this.textBox_folder_password.PasswordChar = '•';
+            this.textBox_folder_password.Size = new System.Drawing.Size(159, 20);
+            this.textBox_folder_password.TabIndex = 18;
             // 
             // label8
             // 
@@ -903,53 +903,53 @@
             this.radioButton4.UseVisualStyleBackColor = true;
             this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
-            // radioButton6
+            // radioButton_folder_password
             // 
-            this.radioButton6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioButton_folder_password.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Checked = true;
-            this.radioButton6.Location = new System.Drawing.Point(143, 65);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(71, 17);
-            this.radioButton6.TabIndex = 17;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Password";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            this.radioButton_folder_password.AutoSize = true;
+            this.radioButton_folder_password.Checked = true;
+            this.radioButton_folder_password.Location = new System.Drawing.Point(143, 65);
+            this.radioButton_folder_password.Name = "radioButton_folder_password";
+            this.radioButton_folder_password.Size = new System.Drawing.Size(71, 17);
+            this.radioButton_folder_password.TabIndex = 17;
+            this.radioButton_folder_password.TabStop = true;
+            this.radioButton_folder_password.Text = "Password";
+            this.radioButton_folder_password.UseVisualStyleBackColor = true;
+            this.radioButton_folder_password.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
             // 
-            // radioButton5
+            // radioButton_folder_privatkey
             // 
-            this.radioButton5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioButton_folder_privatkey.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(143, 88);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(79, 17);
-            this.radioButton5.TabIndex = 19;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "Private Key";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
+            this.radioButton_folder_privatkey.AutoSize = true;
+            this.radioButton_folder_privatkey.Location = new System.Drawing.Point(143, 88);
+            this.radioButton_folder_privatkey.Name = "radioButton_folder_privatkey";
+            this.radioButton_folder_privatkey.Size = new System.Drawing.Size(79, 17);
+            this.radioButton_folder_privatkey.TabIndex = 19;
+            this.radioButton_folder_privatkey.TabStop = true;
+            this.radioButton_folder_privatkey.Text = "Private Key";
+            this.radioButton_folder_privatkey.UseVisualStyleBackColor = true;
+            this.radioButton_folder_privatkey.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
-            // checkBox1
+            // checkBox_folder_usedefaultaccound
             // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.checkBox_folder_usedefaultaccound.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(6, 52);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(125, 17);
-            this.checkBox1.TabIndex = 15;
-            this.checkBox1.Text = "Use Default Account";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox_folder_usedefaultaccound.AutoSize = true;
+            this.checkBox_folder_usedefaultaccound.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_folder_usedefaultaccound.Checked = true;
+            this.checkBox_folder_usedefaultaccound.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_folder_usedefaultaccound.Location = new System.Drawing.Point(6, 52);
+            this.checkBox_folder_usedefaultaccound.Name = "checkBox_folder_usedefaultaccound";
+            this.checkBox_folder_usedefaultaccound.Size = new System.Drawing.Size(125, 17);
+            this.checkBox_folder_usedefaultaccound.TabIndex = 15;
+            this.checkBox_folder_usedefaultaccound.Text = "Use Default Account";
+            this.checkBox_folder_usedefaultaccound.UseVisualStyleBackColor = true;
+            this.checkBox_folder_usedefaultaccound.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // button3
             // 
@@ -1035,7 +1035,7 @@
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_ip)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1057,21 +1057,21 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox_server_privatkey;
+        private System.Windows.Forms.TextBox textBox_server_password;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textbox_default_username;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBox_server_notes;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_server_ip;
+        private System.Windows.Forms.TextBox textBox_server_ip;
+        private System.Windows.Forms.TextBox textBox_server_name;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem mountToolStripMenuItem;
@@ -1085,32 +1085,32 @@
         private System.Windows.Forms.ToolStripMenuItem mountToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem2;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox_folder_usedefaultaccound;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox8_folder_username;
+        private System.Windows.Forms.TextBox textBox_folder_privat_key;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox_folder_password;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.RadioButton radioButton_folder_password;
+        private System.Windows.Forms.RadioButton radioButton_folder_privatkey;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.RadioButton radioButton8;
-        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.ComboBox comboBox_folder_driveletter;
+        private System.Windows.Forms.RadioButton radioButton_folder_virtualdrive;
+        private System.Windows.Forms.RadioButton radioButton_folder_usedrive;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox9_folder_remotedirectory;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem mountAllFoldersToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox textBox_folder_entry;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button_savechanges;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.ToolStripMenuItem addNewFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInExplorerToolStripMenuItem;

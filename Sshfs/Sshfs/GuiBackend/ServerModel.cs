@@ -23,6 +23,8 @@ namespace Sshfs.GuiBackend
         public string Host { get; set; }
         public int Port { get; set; }
 
+        public System.Windows.Forms.TreeNode gui_node;
+
         //public bool Automount { get; set; }
 
         //public ConnectionType ConnectionType {get; set; }

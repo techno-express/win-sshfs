@@ -17,5 +17,9 @@ namespace Sshfs.GuiBackend
         public string Username;
         public string Password;
         public string Passphrase;
+        public string PrivatKey;
+
+        public System.Windows.Forms.TreeNode gui_node;
+
     }
 }
