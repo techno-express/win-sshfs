@@ -62,8 +62,16 @@ namespace testclient
             bone.editServer(gesuchter_server);
 
             // So Mountet man einen Eintrag
-            bone.Mount(gesuchter_server.ID, gesuchter_folder.ID);
-
+            try
+            {
+                bone.Mount(gesuchter_server.ID, gesuchter_folder.ID);
+            }
+            catch (FaultException<Fault> e)
+            {
+                Console.WriteLine(e.Detail.Message);
+                Console.ReadLine();
+                return;
+            }
             Console.WriteLine("Gemounted, Enter drücken um Unmounten");
             Console.ReadLine();
             

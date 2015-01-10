@@ -5,6 +5,12 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
+// added for throwing over WCF (FaultException<TDetail> Class)
+// look here: http://msdn.microsoft.com/en-us/library/ms576199.aspx
+using System.Net.Security;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+
 namespace Sshfs.GuiBackend.Remoteable
 {
     // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Schnittstellennamen "IService1" sowohl im Code als auch in der Konfigurationsdatei ändern.
@@ -19,6 +25,7 @@ namespace Sshfs.GuiBackend.Remoteable
         ServerModel search(char letter);*/
 
         [OperationContract]
+        [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         IServiceTools.error_codes Mount(Guid ServerID, Guid FolderID);
 
         [OperationContract]
@@ -102,6 +109,24 @@ namespace Sshfs.GuiBackend.Remoteable
             xmlSerializer.Serialize(textWriter, toSerialize);
             return textWriter.ToString();
         } 
+    }
+
+    [DataContractAttribute]
+    public class Fault
+    {
+        private string report;
+
+        public Fault(string message)
+        {
+            this.report = message;
+        }
+
+        [DataMemberAttribute]
+        public string Message
+        {
+            get { return this.report; }
+            set { this.report = value; }
+        }
     }
 
 }

@@ -37,7 +37,7 @@ public class Class1
                 ein_server.Username = "user";
 
                 FolderModel ein_folder = new FolderModel();
-                ein_folder.Letter = 'G';
+                ein_folder.Letter = 'C';
                 ein_folder.use_global_login = true;
                 ein_folder.Folder = "/home/user";
                 ein_folder.Name = "home vom user";

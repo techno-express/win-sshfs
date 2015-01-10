@@ -131,8 +131,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return IServiceTools.error_codes.no_error;
             }
             catch(Exception e) {
-                    Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
-                    return IServiceTools.error_codes.any_error;
+                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
 
