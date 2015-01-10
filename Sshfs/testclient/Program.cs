@@ -64,7 +64,7 @@ namespace testclient
                 Console.ReadLine();
 
                 // So Unmountet man einen Eintrag
-                bone.UMount(Guid.Empty, Guid.Empty);//gesuchter_server.ID, gesuchter_folder.ID);
+                bone.UMount(gesuchter_server.ID, gesuchter_folder.ID);
 
                 // So löscht man einen Ordner
                 bone.removeFolder(gesuchter_server.ID, gesuchter_folder.ID);

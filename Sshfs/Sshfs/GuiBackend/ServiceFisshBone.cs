@@ -211,41 +211,42 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         public  Guid addServer(ServerModel newServer)
         {
             
-            Guid ReturnValue;
-
             newServer.ID = Guid.NewGuid();
 
             if(newServer.ID == Guid.Empty)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Error while creat ServerID");
-                ReturnValue = new Guid("0");
+                return addServer(newServer);
             }
 
             else
             {
                 LServermodel.Add(newServer);
-                ReturnValue = newServer.ID;
+                return newServer.ID;
             }
-
-            return ReturnValue;
         }
 
 
-        public Guid addFolder(Guid ServerID, FolderModel Mountpoint)
+        public Guid addFolder(Guid ServerID, FolderModel Folder)
         {
             ServerModel server = LServermodel.Find(x => x.ID == ServerID);
 
             if (server == null)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "editServer() got unkown server id");
-                return Guid.Empty;
-                //return;
+                string message = "editServer() got unkown server id";
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
             }
 
-            Mountpoint.ID = Guid.NewGuid();
-            server.Folders.Add(Mountpoint);
-
-            return Mountpoint.ID;
+            Folder.ID = Guid.NewGuid();
+            if (Folder.ID == Guid.Empty)
+            {
+                addFolder(ServerID, Folder);
+            }
+            else
+            {
+                server.Folders.Add(Folder);
+            }
+            return Folder.ID;
         }
 
         public void removeFolder(Guid ServerID, Guid FolderID)
