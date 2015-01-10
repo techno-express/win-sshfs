@@ -95,15 +95,17 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 server = LServermodel.Find(x => x.ID == ServerID);
                 if (server == null)
                 {
-                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Mount() got unkown server id");
-                    return;
+                    string message = "Mount() got unkown server id";
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+                    throw new FaultException<Fault>(new Fault(message));
                 }
 
                 folder = server.Folders.Find(x => x.ID == FolderID);
                 if (folder == null)
                 {
-                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Mount() got unkown folder id");
-                    return;
+                    string message = "Mount() got unkown folder id";
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+                    throw new FaultException<Fault>(new Fault(message));
                 }
 
  
@@ -146,8 +148,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return;
             }
             catch(Exception e) {
-                    Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
-                    return;
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
 
@@ -186,8 +188,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (local_server_reference == null)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "editServer() got unkown server id");
-                return;
+                string message = "editServer() got unkown server id";
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
             }
 
             local_server_reference.Name = Server.Name;
@@ -253,15 +256,17 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             server = LServermodel.Find(x => x.ID == ServerID);
             if (server == null)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown server id");
-                return;
+                string message = "removeFolder() got unkown server id";
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
             }
 
             folder = server.Folders.Find(x => x.ID == FolderID);
             if (folder == null)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown folder id");
-                return;
+                string message =  "removeFolder() got unkown folder id";
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
             }
 
             server.Folders.Remove(folder);
@@ -273,13 +278,13 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         public void removeServer(Guid ServerID)
         {
             ServerModel server;
-            FolderModel folder;
 
             server = LServermodel.Find(x => x.ID == ServerID);
             if (server == null)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "removeFolder() got unkown server id");
-                return;
+                string message = "removeFolder() got unkown server id";
+                Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
             }
 
             LServermodel.Remove(server);
