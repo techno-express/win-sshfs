@@ -119,6 +119,10 @@ namespace WindowsFormsApplication2
                             textbox_server_username.Text = server.Username;
                             textBox_server_privatkey.Text = server.PrivateKey;
                             textBox_server_password.Text = server.Password;
+                            
+                            groupBox1.Enabled = true;
+                            groupBox2.Enabled = false;
+                            groupBox3.Enabled = false;
                         }
                         else
                         {
@@ -130,6 +134,10 @@ namespace WindowsFormsApplication2
                             textbox_server_username.Text = null;
                             textBox_server_privatkey.Text = null;
                             textBox_server_password.Text = null;
+                            
+                            groupBox1.Enabled = false;
+                            groupBox2.Enabled = false;
+                            groupBox3.Enabled = false;
                         }
                     }
                     else gBox2Vis = false;
@@ -156,6 +164,10 @@ namespace WindowsFormsApplication2
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
                             //comboBox_folder_driveletter.Text = folder.Letter.ToString();
+                            
+                            groupBox1.Enabled = false;
+                            groupBox2.Enabled = true;
+                            groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
                         }
                         else
                         {
@@ -168,6 +180,10 @@ namespace WindowsFormsApplication2
                             //checkBox_folder_usedefaultaccound.Checked = null;
                             // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
                             //comboBox_folder_driveletter.Text = null;
+
+                            groupBox1.Enabled = false;
+                            groupBox2.Enabled = false;
+                            groupBox3.Enabled = false;
                         }
                         
                     }
