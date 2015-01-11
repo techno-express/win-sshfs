@@ -974,6 +974,7 @@
             // 
             // timer_viewupdate
             // 
+            this.timer_viewupdate.Enabled = true;
             this.timer_viewupdate.Interval = 500;
             this.timer_viewupdate.Tick += new System.EventHandler(this.time_viewupdate_Tick);
             // 

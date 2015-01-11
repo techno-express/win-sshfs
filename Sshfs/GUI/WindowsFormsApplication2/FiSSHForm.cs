@@ -38,7 +38,7 @@ namespace WindowsFormsApplication2
         IServiceFisshBone bone_server;// = IPCConnection.ServerConnect();
         List<ServerModel> datamodel;
         private System.Threading.Thread MountThread = null; // Thread for mounting
-        private Tuple<Guid, Guid> ToMount = null; // Mailbox for the Thread
+        private Queue<Tuple<Guid, Guid>> ToMount = new Queue<Tuple<Guid,Guid>>(); // Mailbox for the Thread
         private List<Tuple<Guid, Guid>> MountingIDs = new List<Tuple<Guid, Guid>>();
 
 
@@ -133,6 +133,8 @@ namespace WindowsFormsApplication2
             if (MountingIDs.Count() == 0)
             { GetDataFromServer(); }
 
+            if (treeView1.SelectedNode == null) { return; }
+
             switch (treeView1.SelectedNode.Level)
             {
                 case 0:
@@ -216,8 +218,19 @@ namespace WindowsFormsApplication2
                                     break;
 
                                 case Sshfs.DriveStatus.Mounting:
-                                    MountAnimationStart();
-                                    unmountToolStripMenuItem.Enabled = false;
+                                    if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                                        || ToMount.Contains(new Tuple<Guid,Guid>(server.ID, folder.ID) ))
+                                    {
+                                        folder.Status = Sshfs.DriveStatus.Mounted;
+                                        mountToolStripMenuItem.Enabled = false;
+                                        MountAnimatonStop();
+                                    }
+                                    else
+                                    {
+                                        MountAnimationStart();
+                                        mountToolStripMenuItem.Enabled = true;
+                                        unmountToolStripMenuItem.Enabled = false;
+                                    }
                                     break;
 
                                 default:
@@ -548,7 +561,7 @@ namespace WindowsFormsApplication2
 
         private void mountToolStripMenuItem_Click_help()
         {
-            Tuple<Guid, Guid> IDs = ToMount;
+            Tuple<Guid, Guid> IDs = ToMount.Dequeue();
             MountingIDs.Add(IDs);
             //MountingFlagPipe.Enqueue(true);
             try
@@ -581,7 +594,14 @@ namespace WindowsFormsApplication2
                 return;
             }
 
-            ToMount = new Tuple<Guid, Guid>(server.ID,folder.ID);
+          
+            if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                   || ToMount.Contains(new Tuple<Guid,Guid>(server.ID, folder.ID) ))
+            {
+                return;
+            }
+
+            ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID,folder.ID));
             folder.Status = Sshfs.DriveStatus.Mounting;
             MountAnimationStart();
 
