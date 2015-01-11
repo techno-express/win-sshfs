@@ -39,7 +39,7 @@ namespace WindowsFormsApplication2
         List<ServerModel> datamodel;
         private System.Threading.Thread MountThread = null; // Thread for mounting
         private Tuple<Guid, Guid> ToMount = null; // Mailbox for the Thread
-        private Queue<bool> MountingFlagPipe = new Queue<bool>();
+        private List<Tuple<Guid, Guid>> MountingIDs = new List<Tuple<Guid, Guid>>();
 
 
 
@@ -119,7 +119,8 @@ namespace WindowsFormsApplication2
 
                 foreach(FolderModel j in i.Folders)
                 {
-                    j.gui_node = tmp_server.Folders.Find(x => x.ID == j.ID).gui_node;
+                    FolderModel tmp_folder = tmp_server.Folders.Find(x => x.ID == j.ID);
+                    j.gui_node = tmp_folder.gui_node;
                 }
             }
         }
@@ -128,7 +129,9 @@ namespace WindowsFormsApplication2
         // Updates menu strip and edit area
         private void ServerFolderEdit()
         {
-            GetDataFromServer();
+            // While mounting no data updates
+            if (MountingIDs.Count() == 0)
+            { GetDataFromServer(); }
 
             switch (treeView1.SelectedNode.Level)
             {
@@ -143,6 +146,7 @@ namespace WindowsFormsApplication2
 
                         mountToolStripMenuItem.Enabled = false;
                         unmountToolStripMenuItem.Enabled = false;
+                        MountAnimatonStop();
 
 
                         if (server != null)
@@ -202,14 +206,22 @@ namespace WindowsFormsApplication2
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
 
-                            //switch (bone_server.getStatus(server.ID, folder.ID))
+                           
                             switch (folder.Status)
                             {
                                 case Sshfs.DriveStatus.Mounted:
+                                    MountAnimatonStop();
                                     mountToolStripMenuItem.Enabled = false;
                                     unmountToolStripMenuItem.Enabled = true;
                                     break;
+
+                                case Sshfs.DriveStatus.Mounting:
+                                    MountAnimationStart();
+                                    unmountToolStripMenuItem.Enabled = false;
+                                    break;
+
                                 default:
+                                    MountAnimatonStop();
                                     mountToolStripMenuItem.Enabled = true;
                                     unmountToolStripMenuItem.Enabled = false;
                                     break;
@@ -536,9 +548,12 @@ namespace WindowsFormsApplication2
 
         private void mountToolStripMenuItem_Click_help()
         {
+            Tuple<Guid, Guid> IDs = ToMount;
+            MountingIDs.Add(IDs);
+            //MountingFlagPipe.Enqueue(true);
             try
             {
-                bone_server.Mount(ToMount.Item1, ToMount.Item2);
+                bone_server.Mount(IDs.Item1, IDs.Item2);
                 ServerFolderEdit();
             }
             catch (FaultException<Fault> thrown_error)
@@ -550,6 +565,8 @@ namespace WindowsFormsApplication2
             {
                 //:::FIXME:::
             }
+            //MountingFlagPipe.Dequeue();
+            MountingIDs.Remove(IDs);
         }
 
        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
@@ -565,7 +582,8 @@ namespace WindowsFormsApplication2
             }
 
             ToMount = new Tuple<Guid, Guid>(server.ID,folder.ID);
-
+            folder.Status = Sshfs.DriveStatus.Mounting;
+            MountAnimationStart();
 
            this.MountThread =
                 new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
