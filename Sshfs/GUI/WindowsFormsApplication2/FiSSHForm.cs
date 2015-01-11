@@ -29,6 +29,7 @@ namespace WindowsFormsApplication2
         Boolean gBox2Vis = false;
         int TimerCount = 0;
         Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
+
         
         //////////////////////////////////////////////
         // For connection with Backend
@@ -36,6 +37,7 @@ namespace WindowsFormsApplication2
         // Server connection object
         IServiceFisshBone bone_server;// = IPCConnection.ServerConnect();
         List<ServerModel> datamodel;
+
 
 
         public FiSSHForm()
@@ -96,6 +98,7 @@ namespace WindowsFormsApplication2
             Node2.ImageIndex = 5;
         }
 
+        // Updates menu strip and edit area
         private void ServerFolderEdit()
         { 
             switch (treeView1.SelectedNode.Level)
@@ -200,8 +203,8 @@ namespace WindowsFormsApplication2
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
 
-                                    mountToolStripMenuItem.Enabled = false;
-                                    unmountToolStripMenuItem.Enabled = false;
+                            mountToolStripMenuItem.Enabled = false;
+                            unmountToolStripMenuItem.Enabled = false;
 
                         }
                         
@@ -238,7 +241,7 @@ namespace WindowsFormsApplication2
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
-           
+/*           
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
                // treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
@@ -248,6 +251,7 @@ namespace WindowsFormsApplication2
                 mountToolStripMenuItem.Enabled = true;
                 //treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
+*/
             ServerFolderEdit();
         }
 
@@ -266,6 +270,7 @@ namespace WindowsFormsApplication2
             WindowExpand();
         }
 
+
         private void editToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (!Expanded) WindowExpand();
@@ -279,6 +284,7 @@ namespace WindowsFormsApplication2
             ServerFolderEdit(); 
             textBox_folder_entry.Focus();
         }
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)  //Use Default Account Checkbox
         {
@@ -475,20 +481,29 @@ namespace WindowsFormsApplication2
             else textBox_server_name.Focus();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer_animation_Tick(object sender, EventArgs e)
         {
             
             string[] Mounting = new string[4] {"Mounting","Mounting.","Mounting..","Mounting..."};
             mountToolStripMenuItem.Text = Mounting[TimerCount];
             mountToolStripMenuItem.Image = imageList2.Images[TimerCount];
             TimerCount++;
-            if (TimerCount == 4) TimerCount = 0;
+            if (TimerCount == 4)
+            {
+                TimerCount = 0;
+            }
         }
-        
-        //Loading animation for mounting
-        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
+
+        // Updates frequently all icons
+        private void time_viewupdate_Tick(object sender, EventArgs e)
+        {
+            ServerFolderEdit();
+        }
+
+       private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
 
+//            MountAnimationStart();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
 
@@ -498,20 +513,25 @@ namespace WindowsFormsApplication2
                 return;
             }
 
+            mounting_queue.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
+
             try
             {
                 bone_server.Mount(server.ID, folder.ID);
+                MountAnimatonStop();
+                ServerFolderEdit();
             }
             catch (FaultException<Fault> thrown_error)
             {
                 //:::FIXME:::
+                MountAnimatonStop();
                 MessageBox.Show(thrown_error.Detail.Message);
             }
             catch (Exception thrown_error)
             {
                 //:::FIXME:::
             }
-
+            MountAnimatonStop();
             // :::FIXME::: die animation muss parallel laufen 
             //loads the animation for mounting
             /*
@@ -520,7 +540,7 @@ namespace WindowsFormsApplication2
                 deleteToolStripMenuItem.Enabled = false;
                 editToolStripMenuItem.Enabled = false;
                 optionsToolStripMenuItem.Enabled = false;
-                timer1.Enabled =true;
+            timer1.Enabled =true;
             }
          //stops the animation and loads the mount image 
             else { timer1.Enabled = false;
@@ -547,6 +567,7 @@ namespace WindowsFormsApplication2
             try
             {
                 bone_server.UMount(server.ID, folder.ID);
+                ServerFolderEdit();
             }
             catch (FaultException<Fault> thrown_error)
             {
@@ -649,6 +670,17 @@ namespace WindowsFormsApplication2
             }
         }
  
+        private void MountAnimationStart()
+        {
+            timer_animation.Enabled = true;
+        }
+
+        private void MountAnimatonStop()
+        {
+            timer_animation.Enabled = false;
+            mountToolStripMenuItem.Image = imageList1.Images[0];
+            mountToolStripMenuItem.Text = "Mount";
+        }
 
         #endregion
     }

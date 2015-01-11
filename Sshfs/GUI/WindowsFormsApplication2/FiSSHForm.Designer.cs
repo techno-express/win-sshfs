@@ -105,7 +105,8 @@
             this.checkBox_folder_usedefaultaccound = new System.Windows.Forms.CheckBox();
             this.button_windowexpand = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer_animation = new System.Windows.Forms.Timer(this.components);
+            this.timer_viewupdate = new System.Windows.Forms.Timer(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.FiSSH = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -967,9 +968,14 @@
             // 
             this.toolTip1.AutomaticDelay = 1000;
             // 
-            // timer1
+            // timer_animation
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer_animation.Tick += new System.EventHandler(this.timer_animation_Tick);
+            // 
+            // timer_viewupdate
+            // 
+            this.timer_viewupdate.Interval = 500;
+            this.timer_viewupdate.Tick += new System.EventHandler(this.time_viewupdate_Tick);
             // 
             // imageList2
             // 
@@ -1110,7 +1116,8 @@
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer_animation;
+        private System.Windows.Forms.Timer timer_viewupdate;
         private System.Windows.Forms.Button button_savechanges;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.ToolStripMenuItem addNewFolderToolStripMenuItem;
