@@ -30,12 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiSSHForm));
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("TestFolder", 4, 4);
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Add Directory", 3, 3);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("TestServer", 6, 6, new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Add New Server", 5, 5);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mountToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,13 +66,13 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
-            this.textbox_default_username = new System.Windows.Forms.TextBox();
+            this.textbox_server_username = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBox_server_notes = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown_server_ip = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_server_port = new System.Windows.Forms.NumericUpDown();
             this.textBox_server_ip = new System.Windows.Forms.TextBox();
             this.textBox_server_name = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -115,7 +115,7 @@
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_ip)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_port)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
@@ -303,13 +303,13 @@
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.textbox_default_username);
+            this.groupBox1.Controls.Add(this.textbox_server_username);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.richTextBox_server_notes);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.numericUpDown_server_ip);
+            this.groupBox1.Controls.Add(this.numericUpDown_server_port);
             this.groupBox1.Controls.Add(this.textBox_server_ip);
             this.groupBox1.Controls.Add(this.textBox_server_name);
             this.groupBox1.Controls.Add(this.label2);
@@ -425,12 +425,12 @@
             this.label7.Text = "Authentication method:";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
-            // textbox_default_username
+            // textbox_server_username
             // 
-            this.textbox_default_username.Location = new System.Drawing.Point(149, 305);
-            this.textbox_default_username.Name = "textbox_default_username";
-            this.textbox_default_username.Size = new System.Drawing.Size(236, 20);
-            this.textbox_default_username.TabIndex = 6;
+            this.textbox_server_username.Location = new System.Drawing.Point(149, 305);
+            this.textbox_server_username.Name = "textbox_server_username";
+            this.textbox_server_username.Size = new System.Drawing.Size(236, 20);
+            this.textbox_server_username.TabIndex = 6;
             // 
             // label6
             // 
@@ -480,20 +480,20 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Port:";
             // 
-            // numericUpDown_server_ip
+            // numericUpDown_server_port
             // 
-            this.numericUpDown_server_ip.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.numericUpDown_server_port.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown_server_ip.Location = new System.Drawing.Point(149, 94);
-            this.numericUpDown_server_ip.Maximum = new decimal(new int[] {
+            this.numericUpDown_server_port.Location = new System.Drawing.Point(149, 94);
+            this.numericUpDown_server_port.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-            this.numericUpDown_server_ip.Name = "numericUpDown_server_ip";
-            this.numericUpDown_server_ip.Size = new System.Drawing.Size(100, 20);
-            this.numericUpDown_server_ip.TabIndex = 4;
+            this.numericUpDown_server_port.Name = "numericUpDown_server_port";
+            this.numericUpDown_server_port.Size = new System.Drawing.Size(100, 20);
+            this.numericUpDown_server_port.TabIndex = 4;
             // 
             // textBox_server_ip
             // 
@@ -546,32 +546,32 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.treeView1.ImageIndex = 7;
+            this.treeView1.ImageIndex = 4;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
-            treeNode5.ContextMenuStrip = this.contextMenuStrip2;
-            treeNode5.ImageIndex = 4;
-            treeNode5.Name = "Node3";
-            treeNode5.SelectedImageIndex = 4;
-            treeNode5.Text = "TestFolder";
-            treeNode6.ImageIndex = 3;
-            treeNode6.Name = "Node4";
-            treeNode6.SelectedImageIndex = 3;
-            treeNode6.Text = "Add Directory";
-            treeNode7.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode7.ImageIndex = 6;
-            treeNode7.Name = "Node2";
-            treeNode7.SelectedImageIndex = 6;
-            treeNode7.Text = "TestServer";
-            treeNode8.ImageIndex = 5;
-            treeNode8.Name = "Node5";
-            treeNode8.SelectedImageIndex = 5;
-            treeNode8.Text = "Add New Server";
+            treeNode1.ContextMenuStrip = this.contextMenuStrip2;
+            treeNode1.ImageIndex = 4;
+            treeNode1.Name = "Node3";
+            treeNode1.SelectedImageIndex = 4;
+            treeNode1.Text = "TestFolder";
+            treeNode2.ImageIndex = 3;
+            treeNode2.Name = "Node4";
+            treeNode2.SelectedImageIndex = 3;
+            treeNode2.Text = "Add Directory";
+            treeNode3.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode3.ImageIndex = 6;
+            treeNode3.Name = "Node2";
+            treeNode3.SelectedImageIndex = 6;
+            treeNode3.Text = "TestServer";
+            treeNode4.ImageIndex = 5;
+            treeNode4.Name = "Node5";
+            treeNode4.SelectedImageIndex = 5;
+            treeNode4.Text = "Add New Server";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8});
+            treeNode3,
+            treeNode4});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(783, 577);
@@ -1035,7 +1035,7 @@
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_ip)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_server_port)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -1063,13 +1063,13 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textbox_default_username;
+        private System.Windows.Forms.TextBox textbox_server_username;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox richTextBox_server_notes;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown_server_ip;
+        private System.Windows.Forms.NumericUpDown numericUpDown_server_port;
         private System.Windows.Forms.TextBox textBox_server_ip;
         private System.Windows.Forms.TextBox textBox_server_name;
         private System.Windows.Forms.Label label2;

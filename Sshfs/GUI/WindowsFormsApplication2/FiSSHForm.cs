@@ -56,7 +56,6 @@ namespace WindowsFormsApplication2
                 datamodel = new List<ServerModel>();
             }
             
-
             foreach (ServerModel i in datamodel)
             {
                 // Adding server node 
@@ -64,8 +63,11 @@ namespace WindowsFormsApplication2
                                         "Name: " + i.Name + Environment.NewLine +
                                         "IP: " + i.Host + Environment.NewLine +
                                         "Notes: " + i.Notes));
+                ParentNode.SelectedImageIndex = 6;
+                ParentNode.ImageIndex = 6;
                 i.gui_node = ParentNode;
-                
+
+
                 // Adding folder nodes
                 foreach (FolderModel j in i.Folders)
                 {
@@ -74,12 +76,24 @@ namespace WindowsFormsApplication2
                                         "Path: " + j.Folder + Environment.NewLine + 
                                         "Note: " + j.Note));
                     j.gui_node = ChildNode;
+                    ChildNode.SelectedImageIndex = 4;
+                    ChildNode.ImageIndex = 4;
                 }
+
+                // Adding "new folder" node
+                TreeNode Node = ParentNode.Nodes.Add(String.Format(
+                                        "\n" + Environment.NewLine + 
+                                        "Add new Folder" + Environment.NewLine));
+                Node.SelectedImageIndex = 3;
+                Node.ImageIndex = 3;
             }
 
-//            treeView1.Nodes.Add(String.Format("Name: LestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature"));
-//            treeView1.Nodes.Add("adsf");
-            /* STUFF */
+            // Adding "new server" node
+            TreeNode Node2  = treeView1.Nodes.Add(String.Format(
+                                        "\n" + Environment.NewLine + 
+                                        "Add new Server" + Environment.NewLine));
+            Node2.SelectedImageIndex = 5;
+            Node2.ImageIndex = 5;
         }
 
         private void ServerFolderEdit()
@@ -94,15 +108,29 @@ namespace WindowsFormsApplication2
                         
                         // get server which is presented by selected node 
                         ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
-                        // write data in edit box
-                        textBox_server_name.Text = server.Name;
-                        textBox_server_ip.Text = server.Host;
-                        numericUpDown_server_ip.Value = server.Port;
-                        richTextBox_server_notes.Text = server.Notes;
-                        textbox_default_username.Text = server.Username;
-                        textBox_server_privatkey.Text = server.PrivateKey;
-                        textBox_server_password.Text = server.Password;
-                        
+
+                        if (server != null)
+                        {
+                            // write data in edit box
+                            textBox_server_name.Text = server.Name;
+                            textBox_server_ip.Text = server.Host;
+                            numericUpDown_server_port.Value = server.Port;
+                            richTextBox_server_notes.Text = server.Notes;
+                            textbox_server_username.Text = server.Username;
+                            textBox_server_privatkey.Text = server.PrivateKey;
+                            textBox_server_password.Text = server.Password;
+                        }
+                        else
+                        {
+                            // write data in edit box
+                            textBox_server_name.Text = null;
+                            textBox_server_ip.Text = null;
+                            numericUpDown_server_port.Value = 22;
+                            richTextBox_server_notes.Text = null;
+                            textbox_server_username.Text = null;
+                            textBox_server_privatkey.Text = null;
+                            textBox_server_password.Text = null;
+                        }
                     }
                     else gBox2Vis = false;
                     break;
@@ -116,15 +144,31 @@ namespace WindowsFormsApplication2
                         ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
                         // get folder which is presented by selected node
                         FolderModel folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
-                        // write data in edit box
-                        textBox_folder_entry.Text = folder.Name;
-                        textBox_folder_password.Text = folder.Password;
-                        textBox_folder_privat_key.Text = folder.PrivatKey;
-                        textBox8_folder_username.Text = folder.Username;
-                        textBox9_folder_remotedirectory.Text = folder.Folder;
-                        checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
-                        // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
-                        //comboBox_folder_driveletter.Text = folder.Letter.ToString();
+
+                        if (folder != null)
+                        {
+                            // write data in edit box
+                            textBox_folder_entry.Text = folder.Name;
+                            textBox_folder_password.Text = folder.Password;
+                            textBox_folder_privat_key.Text = folder.PrivatKey;
+                            textBox8_folder_username.Text = folder.Username;
+                            textBox9_folder_remotedirectory.Text = folder.Folder;
+                            checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
+                            // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
+                            //comboBox_folder_driveletter.Text = folder.Letter.ToString();
+                        }
+                        else
+                        {
+                            // write data in edit box
+                            textBox_folder_entry.Text = null;
+                            textBox_folder_password.Text = null;
+                            textBox_folder_privat_key.Text = null;
+                            textBox8_folder_username.Text = null;
+                            textBox9_folder_remotedirectory.Text = null;
+                            //checkBox_folder_usedefaultaccound.Checked = null;
+                            // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
+                            //comboBox_folder_driveletter.Text = null;
+                        }
                         
                     }
                     else gBox2Vis = true;
