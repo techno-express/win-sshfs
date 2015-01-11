@@ -123,7 +123,8 @@ namespace WindowsFormsApplication2
                         textBox8_folder_username.Text = folder.Username;
                         textBox9_folder_remotedirectory.Text = folder.Folder;
                         checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
-                        comboBox_folder_driveletter.Text = folder.Letter.ToString();
+                        // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
+                        //comboBox_folder_driveletter.Text = folder.Letter.ToString();
                         
                     }
                     else gBox2Vis = true;
@@ -409,12 +410,32 @@ namespace WindowsFormsApplication2
         private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
 
-            ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
-            FolderModel folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
-            bone_server.Mount(server.ID, folder.ID);
+            ServerModel server = GetSelectedServerNode();
+            FolderModel folder = GetSelectedFolderNode();
 
+            if (server == null || folder == null)
+            {
+                //:::FIXME:::
+                return;
+            }
 
+            try
+            {
+                bone_server.Mount(server.ID, folder.ID);
+            }
+            catch (FaultException<Fault> thrown_error)
+            {
+                //:::FIXME:::
+                MessageBox.Show(thrown_error.Detail.Message);
+            }
+            catch (Exception thrown_error)
+            {
+                //:::FIXME:::
+            }
+
+            // :::FIXME::: die animation muss parallel laufen 
             //loads the animation for mounting
+            /*
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 0 && treeView1.SelectedNode.Level != 2 && timer1.Enabled == false)
             {
                 deleteToolStripMenuItem.Enabled = false;
@@ -429,10 +450,55 @@ namespace WindowsFormsApplication2
                    mountToolStripMenuItem.Image = imageList1.Images[0];
                    mountToolStripMenuItem.Text = "Mount";
 
-                 }
+                 }*/
          }
-            
-        
+
+        private void unmountToolStripMenuItem_Click(object sender, EventArgs e)
+        {// Only folders can be mounted
+
+            ServerModel server = GetSelectedServerNode();
+            FolderModel folder = GetSelectedFolderNode();
+
+            if (server == null || folder == null)
+            {
+                //:::FIXME:::
+                return;
+            }
+
+            try
+            {
+                bone_server.UMount(server.ID, folder.ID);
+            }
+            catch (FaultException<Fault> thrown_error)
+            {
+                //:::FIXME:::
+                MessageBox.Show(thrown_error.Detail.Message);
+            }
+            catch (Exception thrown_error)
+            {
+                //:::FIXME:::
+            }
+
+            // :::FIXME::: die animation muss parallel laufen 
+            //loads the animation for mounting
+            /*
+            if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 0 && treeView1.SelectedNode.Level != 2 && timer1.Enabled == false)
+            {
+                deleteToolStripMenuItem.Enabled = false;
+                editToolStripMenuItem.Enabled = false;
+                optionsToolStripMenuItem.Enabled = false;
+                timer1.Enabled =true;
+            }
+         //stops the animation and loads the mount image 
+            else { timer1.Enabled = false;
+                   deleteToolStripMenuItem.Enabled = true;
+                   optionsToolStripMenuItem.Enabled = true;
+                   mountToolStripMenuItem.Image = imageList1.Images[0];
+                   mountToolStripMenuItem.Text = "Mount";
+
+                 }*/
+        }
+
 
         private void FiSSHForm_Resize(object sender, EventArgs e)
         {// Determine if the cursor is in the window
@@ -443,10 +509,6 @@ namespace WindowsFormsApplication2
                FiSSH.ShowBalloonTip(1000);
             }
         }
-
-        
-        
-        
 
         private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -476,5 +538,39 @@ namespace WindowsFormsApplication2
         }
 
 
+        #region TOOLS
+
+        private ServerModel GetSelectedServerNode()
+        {
+            switch (treeView1.SelectedNode.Level)
+            {
+                case 0: //return datamodel.ElementAt(treeView1.SelectedNode.Index);
+                    return datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+
+                case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index);
+                    return datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+
+                default: return null;
+            }
+        }
+
+
+        private FolderModel GetSelectedFolderNode()
+        {
+            switch (treeView1.SelectedNode.Level)
+            {
+                case 0: return null;
+
+                case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index)
+                        //            .Folders.ElementAt(treeView1.SelectedNode.Index);
+                    ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+                    return server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+
+                default: return null;
+            }
+        }
+ 
+
+        #endregion
     }
 }
