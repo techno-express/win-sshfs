@@ -37,6 +37,8 @@ namespace WindowsFormsApplication2
         // Server connection object
         IServiceFisshBone bone_server;// = IPCConnection.ServerConnect();
         List<ServerModel> datamodel;
+        private System.Threading.Thread MountThread = null; // Thread for mounting
+        private Tuple<Guid, Guid> ToMount = null; // Mailbox for the Thread
 
 
 
@@ -500,10 +502,29 @@ namespace WindowsFormsApplication2
             ServerFolderEdit();
         }
 
+
+
+        private void mountToolStripMenuItem_Click_help()
+        {
+            try
+            {
+                bone_server.Mount(ToMount.Item1, ToMount.Item2);
+                ServerFolderEdit();
+            }
+            catch (FaultException<Fault> thrown_error)
+            {
+                //:::FIXME:::
+                MessageBox.Show(thrown_error.Detail.Message);
+            }
+            catch (Exception thrown_error)
+            {
+                //:::FIXME:::
+            }
+        }
+
        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
 
-//            MountAnimationStart();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
 
@@ -513,42 +534,13 @@ namespace WindowsFormsApplication2
                 return;
             }
 
+            ToMount = new Tuple<Guid, Guid>(server.ID,folder.ID);
 
-            try
-            {
-                bone_server.Mount(server.ID, folder.ID);
-                MountAnimatonStop();
-                ServerFolderEdit();
-            }
-            catch (FaultException<Fault> thrown_error)
-            {
-                //:::FIXME:::
-                MountAnimatonStop();
-                MessageBox.Show(thrown_error.Detail.Message);
-            }
-            catch (Exception thrown_error)
-            {
-                //:::FIXME:::
-            }
-            MountAnimatonStop();
-            // :::FIXME::: die animation muss parallel laufen 
-            //loads the animation for mounting
-            /*
-            if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 0 && treeView1.SelectedNode.Level != 2 && timer1.Enabled == false)
-            {
-                deleteToolStripMenuItem.Enabled = false;
-                editToolStripMenuItem.Enabled = false;
-                optionsToolStripMenuItem.Enabled = false;
-            timer1.Enabled =true;
-            }
-         //stops the animation and loads the mount image 
-            else { timer1.Enabled = false;
-                   deleteToolStripMenuItem.Enabled = true;
-                   optionsToolStripMenuItem.Enabled = true;
-                   mountToolStripMenuItem.Image = imageList1.Images[0];
-                   mountToolStripMenuItem.Text = "Mount";
 
-                 }*/
+           this.MountThread =
+                new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
+           MountThread.Start();         
+    
          }
 
         private void unmountToolStripMenuItem_Click(object sender, EventArgs e)
