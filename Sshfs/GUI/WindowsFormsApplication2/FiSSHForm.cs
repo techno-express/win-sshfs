@@ -513,7 +513,6 @@ namespace WindowsFormsApplication2
                 return;
             }
 
-            mounting_queue.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
 
             try
             {
