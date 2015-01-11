@@ -166,8 +166,6 @@ namespace WindowsFormsApplication2
                             textBox8_folder_username.Text = folder.Username;
                             textBox9_folder_remotedirectory.Text = folder.Folder;
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
-                            // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
-                            //comboBox_folder_driveletter.Text = folder.Letter.ToString();
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
 
                             switch (bone_server.getStatus(server.ID, folder.ID))

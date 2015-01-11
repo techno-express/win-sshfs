@@ -238,6 +238,7 @@
             this.unmountToolStripMenuItem.Size = new System.Drawing.Size(70, 86);
             this.unmountToolStripMenuItem.Text = "Unmount";
             this.unmountToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.unmountToolStripMenuItem.Click += new System.EventHandler(this.unmountToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
