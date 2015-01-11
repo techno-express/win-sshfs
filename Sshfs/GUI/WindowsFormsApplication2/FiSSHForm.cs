@@ -39,6 +39,7 @@ namespace WindowsFormsApplication2
         List<ServerModel> datamodel;
         private System.Threading.Thread MountThread = null; // Thread for mounting
         private Tuple<Guid, Guid> ToMount = null; // Mailbox for the Thread
+        private Queue<bool> MountingFlagPipe = new Queue<bool>();
 
 
 
@@ -100,9 +101,35 @@ namespace WindowsFormsApplication2
             Node2.ImageIndex = 5;
         }
 
+        private void GetDataFromServer()
+        {
+            List<ServerModel> tmp = new List<ServerModel>(datamodel);
+            
+            try { datamodel = bone_server.listAll(); }
+            catch
+            {
+                MessageBox.Show("Cannot connect with server.");
+                return;
+            }
+
+            foreach(ServerModel i in datamodel)
+            {
+                ServerModel tmp_server = tmp.Find(x => x.ID == i.ID);
+                i.gui_node = tmp_server.gui_node;
+
+                foreach(FolderModel j in i.Folders)
+                {
+                    j.gui_node = tmp_server.Folders.Find(x => x.ID == j.ID).gui_node;
+                }
+            }
+        }
+
+        
         // Updates menu strip and edit area
         private void ServerFolderEdit()
-        { 
+        {
+            GetDataFromServer();
+
             switch (treeView1.SelectedNode.Level)
             {
                 case 0:
@@ -160,7 +187,9 @@ namespace WindowsFormsApplication2
                         // get server which is presented by selected parent node
                         ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
                         // get folder which is presented by selected node
-                        FolderModel folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+                        FolderModel folder = null;
+                        try { folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node)); }
+                        catch { }
 
                         if (folder != null)
                         {
@@ -173,7 +202,8 @@ namespace WindowsFormsApplication2
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
 
-                            switch (bone_server.getStatus(server.ID, folder.ID))
+                            //switch (bone_server.getStatus(server.ID, folder.ID))
+                            switch (folder.Status)
                             {
                                 case Sshfs.DriveStatus.Mounted:
                                     mountToolStripMenuItem.Enabled = false;

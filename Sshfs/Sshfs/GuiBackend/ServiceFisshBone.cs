@@ -192,6 +192,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public List<ServerModel> listAll()
         {
+            // Update status
+            foreach(ServerModel i in LServermodel)
+            {
+                foreach(FolderModel j in i.Folders)
+                {
+                    j.Status = getStatus(i.ID, j.ID);
+                }
+            }
             //return new List<ServerModel>(LServermodel);
             return LServermodel;
         }
