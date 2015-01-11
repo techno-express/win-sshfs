@@ -154,9 +154,24 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
-/*        public DriveStatus getStatus(Guid ID)
+        public DriveStatus getStatus(Guid ServerID, Guid FolderID)
         {
-
+            try
+            {
+                DriveStatus status = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Status;
+                Console.WriteLine(status.ToString());
+                return status;
+            }
+            catch (NullReferenceException e)
+            {
+                return DriveStatus.Unmounted;
+            }
+            catch
+            {
+                // :::FIXME:::
+                return DriveStatus.Unmounted;
+            }
+/*
             DriveStatus DS = DriveStatus.Undefined;
             
             int Index = Find(ID, "Could not find ServerID to get Drivestatus");
@@ -171,9 +186,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 DS = DriveStatus.Error;
             }
             
-            return DS;
+            return DS;*/
         }
-    */
+    
 
         public List<ServerModel> listAll()
         {

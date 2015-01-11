@@ -32,10 +32,10 @@ namespace Sshfs.GuiBackend.Remoteable
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void UMount(Guid ServerID, Guid FolderID);
 
-/*        //Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
+        //Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
         [OperationContract]
-        DriveStatus getStatus(Guid ID);
-*/
+        DriveStatus getStatus(Guid ServerID, Guid FolderID);
+
 
         //Returns a list of all servers currently known
         [OperationContract]

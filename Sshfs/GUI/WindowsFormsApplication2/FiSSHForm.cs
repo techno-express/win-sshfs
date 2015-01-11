@@ -109,6 +109,10 @@ namespace WindowsFormsApplication2
                         // get server which is presented by selected node 
                         ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
 
+                        mountToolStripMenuItem.Enabled = false;
+                        unmountToolStripMenuItem.Enabled = false;
+
+
                         if (server != null)
                         {
                             // write data in edit box
@@ -164,6 +168,19 @@ namespace WindowsFormsApplication2
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
                             //comboBox_folder_driveletter.Text = folder.Letter.ToString();
+                            comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
+
+                            switch (bone_server.getStatus(server.ID, folder.ID))
+                            {
+                                case Sshfs.DriveStatus.Mounted:
+                                    mountToolStripMenuItem.Enabled = false;
+                                    unmountToolStripMenuItem.Enabled = true;
+                                    break;
+                                default:
+                                    mountToolStripMenuItem.Enabled = true;
+                                    unmountToolStripMenuItem.Enabled = false;
+                                    break;
+                            }
                             
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = true;
@@ -184,6 +201,10 @@ namespace WindowsFormsApplication2
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
+
+                                    mountToolStripMenuItem.Enabled = false;
+                                    unmountToolStripMenuItem.Enabled = false;
+
                         }
                         
                     }
@@ -204,7 +225,7 @@ namespace WindowsFormsApplication2
                 else groupBox1.Visible = false;
                 treeView1.Width = groupBox1.Location.X + groupBox1.Size.Width - 15;
                 Expanded = false;
-                button3.Text = "<";
+                button_windowexpand.Text = "<";
             }
             else
             {
@@ -212,7 +233,7 @@ namespace WindowsFormsApplication2
                 else groupBox1.Visible = true;
                 treeView1.Width = groupBox1.Location.X - 25;
                 Expanded = true;
-                button3.Text = ">";
+                button_windowexpand.Text = ">";
             }
         }
 
@@ -222,12 +243,12 @@ namespace WindowsFormsApplication2
            
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
             {
-                treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
+               // treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level == 1)                                //Test für Serverinfo -> ListView
             {
                 mountToolStripMenuItem.Enabled = true;
-                treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
+                //treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
             }
             ServerFolderEdit();
         }
