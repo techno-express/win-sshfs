@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication2
+﻿namespace GUI_WindowsForms
 {
     partial class FiSSHForm
     {

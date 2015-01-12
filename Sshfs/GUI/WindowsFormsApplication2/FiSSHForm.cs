@@ -14,7 +14,7 @@ using System.ServiceModel;
 using Sshfs.GuiBackend;
 
 
-namespace WindowsFormsApplication2
+namespace GUI_WindowsForms
 {
     public partial class FiSSHForm : Form
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sshfs.GuiBackend.Remoteable;
 
-namespace WindowsFormsApplication2
+namespace GUI_WindowsForms
 {
     static class Program
     {

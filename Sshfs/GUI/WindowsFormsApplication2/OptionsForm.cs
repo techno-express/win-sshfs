@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace WindowsFormsApplication2
+namespace GUI_WindowsForms
 {
     public partial class OptionsForm : Form
     {
