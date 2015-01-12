@@ -88,6 +88,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }*/
 
 
+        /// create a connection to a directory on a server
+        /**
+         * Uses the parameter which are allocated in the server model and folder model
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * directory mounted as a local drive
+         * 
+         * if server or folder doesn't exist an error message is written in the logfile
+         */
         public void Mount(Guid ServerID, Guid FolderID)
         {
             FolderModel folder;
@@ -142,6 +152,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
+        /// disconnects the client from directory on a server
+        /** 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         */
         public void UMount(Guid ServerID, Guid FolderID)
         {
             try
@@ -156,7 +171,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
-
+        /// method to find out which status the connection has
+        /**
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * @return Mounted or Unmounted as drivestatus enum
+         */
         public DriveStatus getStatus(Guid ServerID, Guid FolderID)
         {
             try
@@ -208,6 +228,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
        
  
+        /// overwrites the server properties
         public void editServer(ServerModel Server)
         {
             ServerModel local_server_reference = LServermodel.Find(x => x.ID == Server.ID);
@@ -234,6 +255,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
        }
 
 
+        /// generate a serverID for a new Server
+        /**
+         * @param servermodel, this new servermodel gets a severID and will be saved in the server list
+         * @return serverID
+         */
         public  Guid addServer(ServerModel newServer)
         {
             
@@ -252,6 +278,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 
+        /// generate a folderID for a new folder
         public Guid addFolder(Guid ServerID, FolderModel Folder)
         {
             ServerModel server = LServermodel.Find(x => x.ID == ServerID);
