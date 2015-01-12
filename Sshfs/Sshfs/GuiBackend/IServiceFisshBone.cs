@@ -69,8 +69,8 @@ namespace Sshfs.GuiBackend.Remoteable
         void removeFolder(Guid ID_Server, Guid ID_Folder);
 
         /// Set the Loglevel in Backend return value is the Loglevel after update
-        [OperationContract]
-        SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
+        //[OperationContract]
+        //SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
 
         /*[OperationContract]
         void Connect(Guid ID);

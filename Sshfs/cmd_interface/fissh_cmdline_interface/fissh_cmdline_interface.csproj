@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="icp_dummy.cs" />
+    <Compile Include="actions.cs" />
+    <Compile Include="fissh_print.cs" />
     <Compile Include="fissh_command.cs" />
     <Compile Include="NDesk.Options.cs" />
     <Compile Include="Program.cs" />

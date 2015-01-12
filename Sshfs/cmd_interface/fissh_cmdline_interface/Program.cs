@@ -39,6 +39,7 @@ namespace fissh_cmdline_interface
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             SimpleMind.SimpleMind logger = new SimpleMind.SimpleMind();

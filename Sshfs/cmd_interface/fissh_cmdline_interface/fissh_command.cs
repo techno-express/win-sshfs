@@ -6,11 +6,7 @@ using System.Linq;
 
 using NDesk.Options;//for getopt
 
-using icp_dummy;
 
-using Sshfs.GuiBackend.Remoteable;
-using Sshfs.GuiBackend;
-using System.ServiceModel;
 
 
 namespace fissh_command
@@ -18,9 +14,16 @@ namespace fissh_command
 
     enum fissh_command_keywords : byte { _no_match, mount, umount, status, help };
 
-    /// <summary>
     /// class to parse and store options and parameters
-    /// </summary>
+    /**
+     * A Instanz of this class gets all shell arguments with its contructor
+     * and parse them. It checks also the Syntax of the arguments.
+     * The only private method is the contructor which handles everything else.
+     * 
+     * If there is any error with arguments an Exception will be thrown, 
+     * no messages will be printed at IO
+     * 
+     */
     public class fissh_command_expression
     {
 
@@ -43,17 +46,23 @@ namespace fissh_command
 
 
 
-        /// <summary>
-        /// contructor; it will parse the given arguments
-        /// </summary>
-        /// <param name="args">arguments to parse</param>
+        /// contructor - it will parse the given arguments
+        /**
+         * This contructor gets all arguments as array like Main()
+         * It will handle all parsing actions.
+         * 
+         * Attention: first argument is not the programm name in C#
+         *          ex: "> fissh mount" -> args[0] = "mount";
+         * 
+         * @param args  a string array with all arguments
+         */
         public fissh_command_expression(string[] args)
         {
             fetch_keyword(args);    //parse first argument
 
-            // delete the fist argument, which should be the keyword
+            //delete the fist argument, which should be the keyword
             List<string> args_list = args.ToList();
-            args_list.RemoveAt(0);  //delete first element
+            args_list.RemoveAt(0); 
             args = args_list.ToArray();
             
             // parse other arguments
@@ -62,9 +71,11 @@ namespace fissh_command
         }
 
 
-        /// <summary>
         /// Instanzes of this class are used to present Option or Parameters
-        /// </summary>
+        /**
+         * It stores if the option is presented in argument
+         * list and the value of the option itself 
+         */
         public class option
         {
             public string value; // to save the parameter
@@ -93,10 +104,14 @@ namespace fissh_command
 
 
         #region METHODS_for_Argument_Parsing
-        /// <summary>
         /// looks at the first Argument and looks for a matching keyword
-        /// </summary>
-        /// <param name="args">arguments to parse</param>
+        /**
+         * This methods looks for the first argument which is the keyword.
+         * If the keyword does not match to the available ones it will throw an Exception
+         * 
+         * @param args      arguments in a string array as given by Main()
+         * 
+         */
         private void fetch_keyword(string[] args)
         {   
             //if there are no arguments, exit
@@ -128,23 +143,32 @@ namespace fissh_command
                             throw new Exception("no matching keyword found");
                             //fissh_print.error_message("no matching keyword found");
                         }
-
-                        //Environment.Exit(-1);
-                        return;
-
                 }
             }
         }
 
 
 
-        /// <summary>
-        /// get all options from the arguments
-        /// It uses NDesk.Options for parsing 
-        /// 
-        /// </summary>
-        /// <param name="args">arguments to parse</param>
-        /// <returns>those arguments, which are no options will be return</returns>
+        /// fetch all options from arguments
+        /**
+         * This method parse all options.
+         * The option value will be stored in option objects
+         * which are definded global in this class
+         * 
+         * It uses NDesk.Options for parsing http://www.ndesk.org/Options
+         * 
+         * If there is an unknown option a it will throw an Exception.
+         * Every argument which is not an option will be put in a string list 
+         * and returned. These arguments will be parsed by an other method.
+         * 
+         * The argument array given as parameter must not include the keyword!
+         * Do remove first argument before givinging it to this method as parameters 
+         * 
+         * @param args      string array with all arguments but the keyword
+         * 
+         * @return          string list of all arguments which are no options
+         * 
+         */
         private List<string> fetch_options(string[] args)
         {
             List<string> extra_parameters; // to store the arguments, which are not options
@@ -202,11 +226,20 @@ namespace fissh_command
         }
 
 
-        /// <summary>
-        /// for parsing arguments, which are neither a keyword nor options
-        /// those arguments are parameters like servername etc.
-        /// </summary>
-        /// <param name="parameters">remainig arguments</param>
+        /// parse parameters
+        /**
+         * Arguments which are neither keywords not options 
+         * are parameters like name of server or folderlist.
+         * This method puts the parameter in option object.
+         * In which depens on the given keyword.
+         * 
+         * 
+         * The parameter must be a list of all parmeters
+         * like the return value of fetch_options()
+         * 
+         * @param   string list with all parameter
+         *
+         */
         private void fetch_parameters(List<string> parameters)
         {
             switch (keyword)    //uses of arguments depends on the keyword 
@@ -340,215 +373,8 @@ namespace fissh_command
         #endregion
     }
 
-    /// <summary>
-    /// class for all methods to use ipc to fisshbone
-    /// </summary>
-    public static class actions
-    {
-        private static IServiceFisshBone bone_server = null;
-
-
-        private static void Init()
-        {
-            if (bone_server == null)
-            {
-                    bone_server = IPCConnection.ClientConnect();
-            }
-            return;
-        }
-
-
-        public static void mount_complet_server(fissh_command_expression arguments)
-        {
-            int server_id;
-            List<int> folder_ids;
-            server_id = icp.search_server(arguments.parameter_servername.get());
-
-            folder_ids = icp.get_folder_ids(server_id);
-
-            folder_ids.ForEach(delegate(int i)
-            {
-                icp.mount(server_id, i);
-            });
-        }
-
-        public static void mount_registered_folders(fissh_command_expression arguments)
-        {
-            List<ServerModel> all_data;
-            ServerModel server;
-            List<FolderModel> folders = new List<FolderModel>();
-            List<string> folder_names;
-            
-            
-
-
-            try
-            {
-                Init();
-                all_data = bone_server.listAll();
-
-                try
-                {
-                    server = all_data.Find(x => x.Name == arguments.parameter_servername.get());
-                }
-                catch (NullReferenceException error)
-                {
-                    throw new NullReferenceException(
-                        "Cannot find server with name " + arguments.parameter_servername.get());
-                }
-            
-                folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
-
-                foreach (string i in folder_names) 
-                {
-                     try
-                     {
-                        folders.Add(server.Folders.Find(x => x.Name == i));
-                     }
-                     catch(NullReferenceException error)
-                     {
-                        throw new NullReferenceException(
-                               "Cannot find folder with name " + i);
-                      }
-                }
-
-
-                foreach (FolderModel i in folders)
-                {
-                    try
-                    {
-                        bone_server.Mount(server.ID, i.ID);
-                    }
-                    catch (FaultException<Fault> e)
-                    {
-                        throw new Exception("While mounting " + server.Name + " on " + i.Name + 
-                                            ": " + e.Detail.Message);
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-
-        public static void mount_unregistered_folder(fissh_command_expression arguments)
-        {
-            throw new Exception("Noch nicht implemetiert");
-            int connection_id;
-
-            //connection_id = icp.add_unregistered_connection();
-            
-            
-
-
-        }
-
-
-        public static void umount_complet_server(fissh_command_expression arguments)
-        {
-            int server_id;
-            List<int> folder_ids;
-            server_id = icp.search_server(arguments.parameter_servername.get());
-
-            folder_ids = icp.get_folder_ids(server_id);
-
-            folder_ids.ForEach(delegate(int i)
-            {
-                icp.umount(server_id, i);
-            });
-        }
 
 
 
-        public static void umount_registered_folders(fissh_command_expression arguments)
-        {
-            int server_id;
-            List<string> folder_names;
-            List<int> folder_ids = new List<int>();
-            server_id = icp.search_server(arguments.parameter_servername.get());
-
-            folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
-
-            folder_names.ForEach(delegate(string puffer)
-            {
-                folder_ids.Add(icp.search_folder(puffer, server_id));
-            });
-
-            folder_ids.ForEach(delegate(int i)
-            {
-                icp.umount(server_id, i);
-            });
-        }
-
-        public static void umount_driveletter(fissh_command_expression arguments)
-        {
-            Tuple<int, int> puffer_tupel;
-            int server_id, folder_id;
-
-            puffer_tupel = icp.search_driveletter(arguments.option_drive.get());
-            server_id = puffer_tupel.Item1;
-            folder_id = puffer_tupel.Item2;
-
-            if (server_id > 0 && folder_id > 0)
-            {
-                icp.umount(server_id, folder_id);
-            }
-        }
-
-        public static void umount_virtualdrive(fissh_command_expression arguments)
-        {
-            Tuple<int, int> puffer_tupel;
-            int server_id, folder_id;
-
-            puffer_tupel = icp.search_virtualdrive(arguments.option_virtual_drive.get());
-            server_id = puffer_tupel.Item1;
-            folder_id = puffer_tupel.Item2;
-
-            if (server_id > 0 && folder_id > 0)
-            {
-                icp.umount(server_id, folder_id);
-            }
-        }
-
-
-
-
-
-    }
-
-    /// <summary>
-    /// class for output methods
-    /// </summary>
-    public static class fissh_print 
-    {
-        public static void wrong_use_error_message(string error_message)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("fissh: {0}", error_message);
-            Console.WriteLine();
-            Console.WriteLine("Usage:");
-            //Console.WriteLine("");
-            Console.WriteLine("To mount a drive");
-            Console.WriteLine("     fissh mount SERVERNAME [FOLDERLIST]");
-            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| public_key=...]"); 
-            Console.WriteLine("                 -s PATH -d DRIVE-LETTER [user@]host[:port]");
-            Console.WriteLine("");
-            Console.WriteLine("To unmount a drive");
-            Console.WriteLine("     fissh umount DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
-            Console.WriteLine("     fissh umount SERVERNAME [FOLDERLIST]");
-            Console.WriteLine("");
-            Console.WriteLine("Ask if a drive is mounted");
-            Console.WriteLine("     fissh status DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
-            Console.WriteLine("     fissh status SERVERNAME FOLDER");
-            Console.WriteLine("");
-            Console.WriteLine("For more informations");
-            Console.WriteLine("     fissh help");
-            Console.WriteLine("");
-
-        }
-    }
 
 }
