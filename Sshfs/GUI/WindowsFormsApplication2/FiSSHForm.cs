@@ -18,12 +18,6 @@ namespace GUI_WindowsForms
 {
     public partial class FiSSHForm : Form
     {
-        /*
-        * @Michael Bin mir nicht 100%ig sicher ob das so schon richtig ist
-        //Ersetzen Sie ServiceReference durch den Namespace für den Dienstverweis, und ersetzen Sie Service1Client durch den Namen des Diensts. 
-        //ServiceReference.Service1Client proxy = new ServiceReference.Service1Client();
-        GuiBackend.ServiceFisshBone Backend = new GuiBackend.ServiceFisshBone();
-        */
 
         Boolean Expanded = true;
         Boolean gBox2Vis = false;
@@ -70,6 +64,7 @@ namespace GUI_WindowsForms
                                         "Notes: " + i.Notes));
                 ParentNode.SelectedImageIndex = 6;
                 ParentNode.ImageIndex = 6;
+                ParentNode.ContextMenuStrip = this.contextMenuStrip1;
                 i.gui_node = ParentNode;
 
 
@@ -83,6 +78,7 @@ namespace GUI_WindowsForms
                     j.gui_node = ChildNode;
                     ChildNode.SelectedImageIndex = 4;
                     ChildNode.ImageIndex = 4;
+                    ChildNode.ContextMenuStrip = this.contextMenuStrip2;
                 }
 
                 // Adding "new folder" node
