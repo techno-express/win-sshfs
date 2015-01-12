@@ -68,35 +68,28 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
 #region INTERFACE
-/*        public ServerModel get_server_by_id(Guid ID){
 
-            ServerModel Server;
-            int Index = Find(ID, "Couldn't find ServerID: " + ID.ToString());
-            
-
-            if (Index == -1)
-            {
-                Server = null;
-            }
-
-            else
-            {
-                Server = LServermodel.ElementAt(Index);
-            }
-
-            return Server;       
-        }*/
 
 
         /// create a connection to a directory on a server
         /**
-         * Uses the parameter which are allocated in the server model and folder model
+         *  Mount() gets IDs of a Server and Folder as parameters.
+         *  Further information like IP, port, account an folderlocation are pulled from
+         *  Servermodel-List. It creats a new SftpDrive with these information and 
+         *  execute the drive's mount() method which will start the sshfs connection 
+         *  and offers the remote folder as a local driveletter.
+         *  
+         *  Finaly the drive will be stored in LSftpDrive dictionary
+         *  so other methods can access them. 
+         * 
+         * 
+         *  Mount() should also be able to mount a Virtual Drive but it is not
+         *  implemented yet.
+         * 
          * 
          * @param Guid ServerID,Guid FolderID-distinct identification of directory
          * 
-         * directory mounted as a local drive
          * 
-         * if server or folder doesn't exist an error message is written in the logfile
          */
         public void Mount(Guid ServerID, Guid FolderID)
         {
@@ -154,6 +147,13 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         /// disconnects the client from directory on a server
         /** 
+         * UMount() gets IDs of server and folder of a connection.
+         * It searches for a proper dirve in LSftpDrive and disconnect it by
+         * executing its unmount method.
+         * 
+         * 
+         * UMount() should also deal with virtual drive. (not implemented)
+         * 
          * @param Guid ServerID,Guid FolderID-distinct identification of directory
          * 
          */
@@ -173,9 +173,19 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         /// method to find out which status the connection has
         /**
+         * getStatus() gets IDs of server and folder. It looks them up in the
+         * LSftpDrive dictionary to get a proper drive 
+         * and return the drive's status (mounted, unmounted, etc.)
+         * If there is not proper drive it will return "unmounted.
+         * 
+         * The return type is an enum named DriveStatus which is also use by SFtpDrive
+         * 
+         * getStatus() should also deal with virtual drive. (not implemented)
+         * 
+         * 
          * @param Guid ServerID,Guid FolderID-distinct identification of directory
          * 
-         * @return Mounted or Unmounted as drivestatus enum
+         * @return Mounted or Unmounted as enum DriveStatus 
          */
         public DriveStatus getStatus(Guid ServerID, Guid FolderID)
         {
@@ -194,25 +204,19 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 // :::FIXME:::
                 return DriveStatus.Unmounted;
             }
-/*
-            DriveStatus DS = DriveStatus.Undefined;
-            
-            int Index = Find(ID, "Could not find ServerID to get Drivestatus");
-
-            if (Index >= 0)
-            {
-                DS = LServermodel[Index].Status;
-            }
-
-            else
-            {
-                DS = DriveStatus.Error;
-            }
-            
-            return DS;*/
-        }
+       }
     
 
+        /// sending a copy of the datamodell to clients
+        /** 
+         * listAll() return the ServerModell list.
+         * Serialisation will be handled by WCF.
+         * Before sending the data listAll() updates
+         * the status attribute of all FolderModells.
+         * 
+         * @return LServermodel 
+         * 
+         */
         public List<ServerModel> listAll()
         {
             // Update status
@@ -229,6 +233,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
        
  
         /// overwrites the server properties
+        /**
+         * editServer() gets a ServerModel from client.
+         * It will search for a server with same id in
+         * ServerModel list.
+         * If it has found one every attribute of it will be set
+         * with the new content from given parameter.
+         * 
+         * 
+         * @param ServerModel with some new attributes and an existing id
+         */
         public void editServer(ServerModel Server)
         {
             ServerModel local_server_reference = LServermodel.Find(x => x.ID == Server.ID);
@@ -255,10 +269,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
        }
 
 
-        /// generate a serverID for a new Server
+        /// add a new server to Servermodel list
         /**
-         * @param servermodel, this new servermodel gets a severID and will be saved in the server list
-         * @return serverID
+         * addServer() gets a new ServerModel from client.
+         * It creates a new id for this new server
+         * and adds it to the ServerModel list.
+         * The new id will be returned to sender.
+         * 
+         * This method should check the attributes of new server
+         * before adding it to the list. (not implmented)
+         * 
+         * @param newServer     ServerModel which should be added to list
+         * @return created serverID for new servermodel
          */
         public  Guid addServer(ServerModel newServer)
         {
@@ -279,6 +301,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
 
         /// generate a folderID for a new folder
+        /**
+         * addFolder() gets a new FolderModel and a existing server id.
+         * It will create a new id for the new folder and adds it to
+         * its server in ServerModel list. The server is given by 
+         * its id.
+         * 
+         * @param ServerID  ID of server where the folder should be added to
+         * @param Folder    FolderModel which should be added
+         * 
+         * @return          Created ID of added folder
+         * 
+         */
         public Guid addFolder(Guid ServerID, FolderModel Folder)
         {
             ServerModel server = LServermodel.Find(x => x.ID == ServerID);
