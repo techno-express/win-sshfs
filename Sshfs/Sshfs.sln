@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiSSHBone", "FiSSHBone\FiSS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\WindowsFormsApplication2\GUI.csproj", "{715AAC89-346A-4CBC-BC89-10B56AEF7AAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fissh_cmdline_interface", "cmd_interface\fissh_cmdline_interface\fissh_cmdline_interface.csproj", "{C6B56944-02CD-44F8-9711-455A6BF56C2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,26 @@ Global
 		{715AAC89-346A-4CBC-BC89-10B56AEF7AAB}.ReleaseFW2|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{715AAC89-346A-4CBC-BC89-10B56AEF7AAB}.ReleaseFW2|Mixed Platforms.Build.0 = Release|Any CPU
 		{715AAC89-346A-4CBC-BC89-10B56AEF7AAB}.ReleaseFW2|x86.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.DebugNoTimeout|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.DebugNoTimeout|Any CPU.Build.0 = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.DebugNoTimeout|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.DebugNoTimeout|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.DebugNoTimeout|x86.ActiveCfg = Debug|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.ReleaseFW2|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.ReleaseFW2|Any CPU.Build.0 = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.ReleaseFW2|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.ReleaseFW2|Mixed Platforms.Build.0 = Release|Any CPU
+		{C6B56944-02CD-44F8-9711-455A6BF56C2F}.ReleaseFW2|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
