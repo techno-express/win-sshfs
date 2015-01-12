@@ -14,6 +14,7 @@ using System.Runtime.Remoting;
 
 namespace Sshfs.GuiBackend.Remoteable
 {
+    /// is used by server and client to establish a connection
     public class IPCConnection
     {
         public static IServiceFisshBone bone_client;

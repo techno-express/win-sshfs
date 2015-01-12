@@ -26,7 +26,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public ServiceFisshBone() { }
 
-        // internal Method to Find Servermodel by Guid and printing Errorlog
+        /**
+         * internal Method to Find Servermodel by Guid and printing Errorlog
+         * @return Index-Int
+         */
         private int Find(Guid ID, String ErrMsg)
         {
             int Index = -1;

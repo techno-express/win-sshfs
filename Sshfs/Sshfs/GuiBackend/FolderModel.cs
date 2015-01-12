@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sshfs.GuiBackend
 {
+    /// a class to generate Folder Objects
     public class FolderModel
     {
         public Boolean use_global_login;

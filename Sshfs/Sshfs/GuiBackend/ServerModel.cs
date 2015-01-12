@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sshfs.GuiBackend
 {
+    /// a class to generate Server Objects, that contains a list of Folder Objects.
     public class ServerModel
     {
 #region ATTRIBUTES
@@ -33,7 +34,7 @@ namespace Sshfs.GuiBackend
         //public string Root;
         //public char DriveLetter;
 
-        //Folders for a Server kann be stored as List of Foldermodels
+        //Folders for a Server can be stored as List of Foldermodels
         // or as List of Strings
         //public List<FolderModel> Mountpoints = new List<FolderModel>();
         //public List<string> Mountpoint;
