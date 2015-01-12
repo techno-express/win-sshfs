@@ -26,48 +26,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public ServiceFisshBone() { }
 
-        /**
-         * internal Method to Find Servermodel by Guid and printing Errorlog
-         * @return Index-Int
-         */
-        private int Find(Guid ID, String ErrMsg)
-        {
-            int Index = -1;
-            try{
-                Index = LServermodel.FindIndex(x => x.ID == ID);
-            }
 
-            catch(ArgumentNullException e)
-            {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, ErrMsg);
-                Index = -1;
-            }
-           
-            return Index;
-        }
 
-        private SftpDrive createSftp(ServerModel Server)
-        {
-            //int Index = Find(ID, "Couldn't find server to create drive");
-            //ServerModel tempServer;
-            
-            SftpDrive drive = null; 
-            /*
-            if(Server != null)
-            {
-                //tempServer = LServermodel.ElementAt(Index);
-                drive.Name = Server.Name;
-                drive.Port = Server.Port;
-                drive.Root = Server.Root;
-                //FIXME
-                drive.Letter = Server.DriveLetter;
-                drive.MountPoint = Server.Folders[0].Folder;
-            }
-            */
-            return drive;
-        }
-
-#region INTERFACE
 
 
 
@@ -335,7 +295,19 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             return Folder.ID;
         }
+        
 
+        /// remove fodler from a server
+        /**
+         * removeFolder() gets id of server and folder.
+         * It searches for the given server by id in ServerModel list.
+         * Afterwards it searches for the given folder in
+         * this ServerModel and removes it.
+         * 
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         */
         public void removeFolder(Guid ServerID, Guid FolderID)
         {
             ServerModel server;
@@ -362,7 +334,15 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return;
         }
 
-        // Returnvalue is -1 in error case or else the remove index
+        /// remove server from ServerModel list
+        /**
+         * removeServer() gets a id of a server.
+         * It searches for the server given by id 
+         * and removes it from the list.
+         * 
+         * @param ServerID  id of server you want to remove
+         * 
+         */
         public void removeServer(Guid ServerID)
         {
             ServerModel server;
@@ -381,12 +361,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
        }
 
 
-        public SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel)
-        {
-            Log.setLogLevel((int)newLogLevel);
-            return (SimpleMind.Loglevel) Log.getLogLevel();
-        }
-#endregion
         
     }
 }
