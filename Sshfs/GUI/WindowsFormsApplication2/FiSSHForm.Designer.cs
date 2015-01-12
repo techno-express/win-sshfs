@@ -50,15 +50,13 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.button5 = new System.Windows.Forms.Button();
+            this.button_server_savechanges = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox_server_privatkey = new System.Windows.Forms.TextBox();
             this.textBox_server_password = new System.Windows.Forms.TextBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_server_pageant = new System.Windows.Forms.RadioButton();
+            this.radioButton_folder_privatekey = new System.Windows.Forms.RadioButton();
+            this.radioButton_server_password = new System.Windows.Forms.RadioButton();
             this.label7 = new System.Windows.Forms.Label();
             this.textbox_server_username = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -74,9 +72,7 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button_savechanges = new System.Windows.Forms.Button();
+            this.button_folder_savechanges = new System.Windows.Forms.Button();
             this.textBox_folder_entry = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -93,7 +89,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox_folder_password = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton_folder_pageant = new System.Windows.Forms.RadioButton();
             this.radioButton_folder_password = new System.Windows.Forms.RadioButton();
             this.radioButton_folder_privatkey = new System.Windows.Forms.RadioButton();
             this.checkBox_folder_usedefaultaccound = new System.Windows.Forms.CheckBox();
@@ -289,15 +285,13 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.textBox12);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.button_server_savechanges);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textBox_server_privatkey);
             this.groupBox1.Controls.Add(this.textBox_server_password);
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.radioButton_server_pageant);
+            this.groupBox1.Controls.Add(this.radioButton_folder_privatekey);
+            this.groupBox1.Controls.Add(this.radioButton_server_password);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.textbox_server_username);
             this.groupBox1.Controls.Add(this.label6);
@@ -310,42 +304,22 @@
             this.groupBox1.Controls.Add(this.textBox_server_name);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(807, 93);
+            this.groupBox1.Location = new System.Drawing.Point(801, 88);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
             // 
-            // textBox12
+            // button_server_savechanges
             // 
-            this.textBox12.Location = new System.Drawing.Point(9, 532);
-            this.textBox12.Multiline = true;
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox12.Size = new System.Drawing.Size(376, 44);
-            this.textBox12.TabIndex = 32;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(6, 516);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(96, 13);
-            this.label14.TabIndex = 31;
-            this.label14.Text = "error indication:";
-            // 
-            // button5
-            // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(133, 436);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 25);
-            this.button5.TabIndex = 13;
-            this.button5.Text = "Save changes";
-            this.button5.UseVisualStyleBackColor = true;
+            this.button_server_savechanges.Enabled = false;
+            this.button_server_savechanges.Location = new System.Drawing.Point(133, 436);
+            this.button_server_savechanges.Name = "button_server_savechanges";
+            this.button_server_savechanges.Size = new System.Drawing.Size(141, 25);
+            this.button_server_savechanges.TabIndex = 13;
+            this.button_server_savechanges.Text = "Save changes";
+            this.button_server_savechanges.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -373,43 +347,43 @@
             this.textBox_server_password.Size = new System.Drawing.Size(159, 20);
             this.textBox_server_password.TabIndex = 8;
             // 
-            // radioButton3
+            // radioButton_server_pageant
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(142, 397);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(65, 17);
-            this.radioButton3.TabIndex = 12;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Pagaent";
-            this.toolTip1.SetToolTip(this.radioButton3, "an SSH authentication agent needs a private key in *.ppk format");
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.radioButton_server_pageant.AutoSize = true;
+            this.radioButton_server_pageant.Location = new System.Drawing.Point(142, 397);
+            this.radioButton_server_pageant.Name = "radioButton_server_pageant";
+            this.radioButton_server_pageant.Size = new System.Drawing.Size(65, 17);
+            this.radioButton_server_pageant.TabIndex = 12;
+            this.radioButton_server_pageant.TabStop = true;
+            this.radioButton_server_pageant.Text = "Pagaent";
+            this.toolTip1.SetToolTip(this.radioButton_server_pageant, "an SSH authentication agent needs a private key in *.ppk format");
+            this.radioButton_server_pageant.UseVisualStyleBackColor = true;
+            this.radioButton_server_pageant.CheckedChanged += new System.EventHandler(this.radioButton_server_pageant_CheckedChanged);
             // 
-            // radioButton2
+            // radioButton_folder_privatekey
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(142, 374);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(79, 17);
-            this.radioButton2.TabIndex = 9;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Private Key";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.radioButton_folder_privatekey.AutoSize = true;
+            this.radioButton_folder_privatekey.Location = new System.Drawing.Point(142, 374);
+            this.radioButton_folder_privatekey.Name = "radioButton_folder_privatekey";
+            this.radioButton_folder_privatekey.Size = new System.Drawing.Size(79, 17);
+            this.radioButton_folder_privatekey.TabIndex = 9;
+            this.radioButton_folder_privatekey.TabStop = true;
+            this.radioButton_folder_privatekey.Text = "Private Key";
+            this.radioButton_folder_privatekey.UseVisualStyleBackColor = true;
+            this.radioButton_folder_privatekey.CheckedChanged += new System.EventHandler(this.radioButton_folder_privatekey_CheckedChanged);
             // 
-            // radioButton1
+            // radioButton_server_password
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(142, 351);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(71, 17);
-            this.radioButton1.TabIndex = 7;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Password";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButton_server_password.AutoSize = true;
+            this.radioButton_server_password.Checked = true;
+            this.radioButton_server_password.Location = new System.Drawing.Point(142, 351);
+            this.radioButton_server_password.Name = "radioButton_server_password";
+            this.radioButton_server_password.Size = new System.Drawing.Size(71, 17);
+            this.radioButton_server_password.TabIndex = 7;
+            this.radioButton_server_password.TabStop = true;
+            this.radioButton_server_password.Text = "Password";
+            this.radioButton_server_password.UseVisualStyleBackColor = true;
+            this.radioButton_server_password.CheckedChanged += new System.EventHandler(this.radioButton_server_password_CheckedChanged);
             // 
             // label7
             // 
@@ -549,7 +523,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(783, 577);
+            this.treeView1.Size = new System.Drawing.Size(777, 577);
             this.treeView1.TabIndex = 4;
             this.treeView1.TabStop = false;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
@@ -577,9 +551,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.textBox11);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.button_savechanges);
+            this.groupBox2.Controls.Add(this.button_folder_savechanges);
             this.groupBox2.Controls.Add(this.textBox_folder_entry);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.checkBox2);
@@ -599,35 +571,15 @@
             this.groupBox2.Text = "Folder Properties:";
             this.groupBox2.Visible = false;
             // 
-            // textBox11
+            // button_folder_savechanges
             // 
-            this.textBox11.Location = new System.Drawing.Point(9, 399);
-            this.textBox11.Multiline = true;
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.textBox11.Size = new System.Drawing.Size(376, 44);
-            this.textBox11.TabIndex = 31;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(6, 383);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 13);
-            this.label13.TabIndex = 30;
-            this.label13.Text = "error indication:";
-            // 
-            // button_savechanges
-            // 
-            this.button_savechanges.Location = new System.Drawing.Point(244, 346);
-            this.button_savechanges.Name = "button_savechanges";
-            this.button_savechanges.Size = new System.Drawing.Size(141, 25);
-            this.button_savechanges.TabIndex = 29;
-            this.button_savechanges.Text = "Save Changes";
-            this.button_savechanges.UseVisualStyleBackColor = true;
-            this.button_savechanges.Click += new System.EventHandler(this.button6_Click);
+            this.button_folder_savechanges.Location = new System.Drawing.Point(244, 346);
+            this.button_folder_savechanges.Name = "button_folder_savechanges";
+            this.button_folder_savechanges.Size = new System.Drawing.Size(141, 25);
+            this.button_folder_savechanges.TabIndex = 29;
+            this.button_folder_savechanges.Text = "Save Changes";
+            this.button_folder_savechanges.UseVisualStyleBackColor = true;
+            this.button_folder_savechanges.Click += new System.EventHandler(this.button_folder_savechanges_Click);
             // 
             // textBox_folder_entry
             // 
@@ -721,7 +673,7 @@
             this.toolTip1.SetToolTip(this.radioButton_folder_virtualdrive, "Creates a Folder with your directory in a Virtual Drive \r\n(VD setup in options) T" +
         "HIS IS AN EXAMPLE TOOLTIP\r\n");
             this.radioButton_folder_virtualdrive.UseVisualStyleBackColor = true;
-            this.radioButton_folder_virtualdrive.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            this.radioButton_folder_virtualdrive.CheckedChanged += new System.EventHandler(this.radioButton_folder_virtualdrive_CheckedChanged);
             // 
             // radioButton_folder_usedrive
             // 
@@ -737,7 +689,7 @@
             this.radioButton_folder_usedrive.TabStop = true;
             this.radioButton_folder_usedrive.Text = "Drive";
             this.radioButton_folder_usedrive.UseVisualStyleBackColor = true;
-            this.radioButton_folder_usedrive.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            this.radioButton_folder_usedrive.CheckedChanged += new System.EventHandler(this.radioButton_folder_usedrive_CheckedChanged);
             // 
             // label11
             // 
@@ -782,7 +734,7 @@
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.textBox_folder_password);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.radioButton4);
+            this.groupBox3.Controls.Add(this.radioButton_folder_pageant);
             this.groupBox3.Controls.Add(this.radioButton_folder_password);
             this.groupBox3.Controls.Add(this.radioButton_folder_privatkey);
             this.groupBox3.Enabled = false;
@@ -862,21 +814,21 @@
             this.label8.Text = "Authentication method:";
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
-            // radioButton4
+            // radioButton_folder_pageant
             // 
-            this.radioButton4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.radioButton_folder_pageant.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(143, 111);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(65, 17);
-            this.radioButton4.TabIndex = 22;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Pageant";
-            this.toolTip1.SetToolTip(this.radioButton4, "an SSH authentication agent needs a private key in *.ppk format");
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            this.radioButton_folder_pageant.AutoSize = true;
+            this.radioButton_folder_pageant.Location = new System.Drawing.Point(143, 111);
+            this.radioButton_folder_pageant.Name = "radioButton_folder_pageant";
+            this.radioButton_folder_pageant.Size = new System.Drawing.Size(65, 17);
+            this.radioButton_folder_pageant.TabIndex = 22;
+            this.radioButton_folder_pageant.TabStop = true;
+            this.radioButton_folder_pageant.Text = "Pageant";
+            this.toolTip1.SetToolTip(this.radioButton_folder_pageant, "an SSH authentication agent needs a private key in *.ppk format");
+            this.radioButton_folder_pageant.UseVisualStyleBackColor = true;
+            this.radioButton_folder_pageant.CheckedChanged += new System.EventHandler(this.radioButton_folder_pageant_CheckedChanged);
             // 
             // radioButton_folder_password
             // 
@@ -892,7 +844,7 @@
             this.radioButton_folder_password.TabStop = true;
             this.radioButton_folder_password.Text = "Password";
             this.radioButton_folder_password.UseVisualStyleBackColor = true;
-            this.radioButton_folder_password.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            this.radioButton_folder_password.CheckedChanged += new System.EventHandler(this.radioButton_folder_password_CheckedChanged);
             // 
             // radioButton_folder_privatkey
             // 
@@ -907,7 +859,7 @@
             this.radioButton_folder_privatkey.TabStop = true;
             this.radioButton_folder_privatkey.Text = "Private Key";
             this.radioButton_folder_privatkey.UseVisualStyleBackColor = true;
-            this.radioButton_folder_privatkey.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
+            this.radioButton_folder_privatkey.CheckedChanged += new System.EventHandler(this.radioButton_folder_privatkey_CheckedChanged);
             // 
             // checkBox_folder_usedefaultaccound
             // 
@@ -1040,9 +992,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox_server_privatkey;
         private System.Windows.Forms.TextBox textBox_server_password;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton_server_pageant;
+        private System.Windows.Forms.RadioButton radioButton_folder_privatekey;
+        private System.Windows.Forms.RadioButton radioButton_server_password;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textbox_server_username;
         private System.Windows.Forms.Label label6;
@@ -1074,7 +1026,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_folder_password;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.RadioButton radioButton_folder_pageant;
         private System.Windows.Forms.RadioButton radioButton_folder_password;
         private System.Windows.Forms.RadioButton radioButton_folder_privatkey;
         private System.Windows.Forms.CheckBox checkBox2;
@@ -1089,17 +1041,13 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem1;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button_server_savechanges;
         private System.Windows.Forms.Timer timer_animation;
         private System.Windows.Forms.Timer timer_viewupdate;
-        private System.Windows.Forms.Button button_savechanges;
+        private System.Windows.Forms.Button button_folder_savechanges;
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.ToolStripMenuItem addNewFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInExplorerToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NotifyIcon FiSSH;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
         private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
