@@ -8,6 +8,10 @@ using NDesk.Options;//for getopt
 
 using icp_dummy;
 
+using Sshfs.GuiBackend.Remoteable;
+using Sshfs.GuiBackend;
+using System.ServiceModel;
+
 
 namespace fissh_command
 {
@@ -341,6 +345,19 @@ namespace fissh_command
     /// </summary>
     public static class actions
     {
+        private static IServiceFisshBone bone_server = null;
+
+
+        private static void Init()
+        {
+            if (bone_server == null)
+            {
+                    bone_server = IPCConnection.ClientConnect();
+            }
+            return;
+        }
+
+
         public static void mount_complet_server(fissh_command_expression arguments)
         {
             int server_id;
@@ -357,22 +374,63 @@ namespace fissh_command
 
         public static void mount_registered_folders(fissh_command_expression arguments)
         {
-            int server_id;
+            List<ServerModel> all_data;
+            ServerModel server;
+            List<FolderModel> folders = new List<FolderModel>();
             List<string> folder_names;
-            List<int> folder_ids = new List<int>();
-            server_id = icp.search_server(arguments.parameter_servername.get());
+            
+            
 
-            folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
 
-            folder_names.ForEach(delegate(string puffer)
+            try
             {
-                folder_ids.Add(icp.search_folder(puffer, server_id));
-            });
+                Init();
+                all_data = bone_server.listAll();
 
-            folder_ids.ForEach(delegate(int i)
+                try
+                {
+                    server = all_data.Find(x => x.Name == arguments.parameter_servername.get());
+                }
+                catch (NullReferenceException error)
+                {
+                    throw new NullReferenceException(
+                        "Cannot find server with name " + arguments.parameter_servername.get());
+                }
+            
+                folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
+
+                foreach (string i in folder_names) 
+                {
+                     try
+                     {
+                        folders.Add(server.Folders.Find(x => x.Name == i));
+                     }
+                     catch(NullReferenceException error)
+                     {
+                        throw new NullReferenceException(
+                               "Cannot find folder with name " + i);
+                      }
+                }
+
+
+                foreach (FolderModel i in folders)
+                {
+                    try
+                    {
+                        bone_server.Mount(server.ID, i.ID);
+                    }
+                    catch (FaultException<Fault> e)
+                    {
+                        throw new Exception("While mounting " + server.Name + " on " + i.Name + 
+                                            ": " + e.Detail.Message);
+                    }
+                }
+
+            }
+            catch (Exception e)
             {
-                icp.mount(server_id, i);
-            }); 
+                throw e;
+            }
         }
 
 
@@ -455,7 +513,10 @@ namespace fissh_command
             }
         }
 
-        
+
+
+
+
     }
 
     /// <summary>
