@@ -481,51 +481,51 @@ namespace GUI_WindowsForms
             e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, Rectangle.Inflate(e.Bounds, 2, 0));
         }
 
-        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_password_CheckedChanged(object sender, EventArgs e)
         {
             textBox_folder_privat_key.Enabled = button4.Enabled = false;
             textBox_folder_password.Enabled = true;
         }
 
-        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_privatkey_CheckedChanged(object sender, EventArgs e)
         {
             textBox_folder_privat_key.Enabled = button4.Enabled = true;
             textBox_folder_password.Enabled = false;
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_pageant_CheckedChanged(object sender, EventArgs e)
         {
             textBox_folder_privat_key.Enabled = button4.Enabled = textBox_folder_password.Enabled = false;
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_server_password_CheckedChanged(object sender, EventArgs e)
         {
             textBox_server_privatkey.Enabled = button1.Enabled = false;
             textBox_server_password.Enabled = true;
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_privatekey_CheckedChanged(object sender, EventArgs e)
         {
             textBox_server_privatkey.Enabled = button1.Enabled = true;
             textBox_server_password.Enabled = false;
         }
 
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_server_pageant_CheckedChanged(object sender, EventArgs e)
         {
             textBox_server_privatkey.Enabled = button1.Enabled = textBox_server_password.Enabled = false;
         }
 
-        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_usedrive_CheckedChanged(object sender, EventArgs e)
         {
             comboBox_folder_driveletter.Enabled = true;
         }
 
-        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_folder_virtualdrive_CheckedChanged(object sender, EventArgs e)
         {
             comboBox_folder_driveletter.Enabled = false;
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button_folder_savechanges_Click(object sender, EventArgs e)
         {
             //Add feature: button2.Enabled = false; while no changes are made -> Later
            
