@@ -45,6 +45,7 @@ namespace GUI_WindowsForms
             InitializeComponent();
         }
 
+        /// updated the TreeView and, draws the nodes and describes the nodes
         private void UpdateTreeView(/* STUFF */)
         {
             // get all data from backend
@@ -97,6 +98,7 @@ namespace GUI_WindowsForms
             Node2.ImageIndex = 5;
         }
 
+
         private void GetDataFromServer()
         {
             List<ServerModel> tmp = new List<ServerModel>(datamodel);
@@ -122,7 +124,7 @@ namespace GUI_WindowsForms
         }
 
         
-        // Updates menu strip and edit area
+        /// Updates menu strip and edit area
         private void ServerFolderEdit()
         {
             // While mounting no data updates
@@ -268,6 +270,7 @@ namespace GUI_WindowsForms
             }
         }
 
+        /// scale up or scale down the treeView size 
         private void WindowExpand(){
             if (Expanded)
             {
@@ -318,6 +321,7 @@ namespace GUI_WindowsForms
             groupBox1.Visible = false;
         }
 
+        /// the treeView will be expanded by clicking the windowexpand-button 
         private void button3_Click(object sender, EventArgs e)
         {
             WindowExpand();
@@ -363,6 +367,8 @@ namespace GUI_WindowsForms
             FiSSH.BalloonTipTitle = "FiSSH";
         }
 
+
+        /// allows to use drag&drop in the treeView
         private void treeView1_DragDrop(object sender, DragEventArgs e)
         {
             // Retrieve the client coordinates of the drop location.
@@ -446,8 +452,6 @@ namespace GUI_WindowsForms
             {
                 DoDragDrop(e.Item, DragDropEffects.Move);
             }
-
-      
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -455,6 +459,7 @@ namespace GUI_WindowsForms
             
         }
 
+        /// opens the option-Form by clicking the option-button
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OptionsForm Options = new OptionsForm();
@@ -526,6 +531,7 @@ namespace GUI_WindowsForms
            
         }
 
+        /// focused the first text box on the right side by clicking the edit-button
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!Expanded) WindowExpand();
@@ -534,6 +540,7 @@ namespace GUI_WindowsForms
             else textBox_server_name.Focus();
         }
 
+        /// one frame in the loading animation when mount
         private void timer_animation_Tick(object sender, EventArgs e)
         {
             
@@ -547,7 +554,7 @@ namespace GUI_WindowsForms
             }
         }
 
-        // Updates frequently all icons
+        /// Updates frequently all icons
         private void time_viewupdate_Tick(object sender, EventArgs e)
         {
             ServerFolderEdit();
@@ -578,6 +585,10 @@ namespace GUI_WindowsForms
             MountingIDs.Remove(IDs);
         }
 
+        /// the Folder will be mounted by clicking on the mount button
+        /**
+         * 
+         */
        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
 
@@ -608,7 +619,7 @@ namespace GUI_WindowsForms
          }
 
         private void unmountToolStripMenuItem_Click(object sender, EventArgs e)
-        {// Only folders can be mounted
+        {// Only folders can be unmounted
 
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();

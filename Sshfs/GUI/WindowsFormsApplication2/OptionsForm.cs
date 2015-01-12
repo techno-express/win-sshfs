@@ -11,6 +11,8 @@ using Microsoft.Win32;
 
 namespace GUI_WindowsForms
 {
+
+    /// this Form is a combination of the about-window and the Option-Window
     public partial class OptionsForm : Form
     {
         public OptionsForm()
@@ -39,6 +41,7 @@ namespace GUI_WindowsForms
 
         }
 
+        /// open the link by clicking the hyperlink
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // Specify that the link was visited.
@@ -53,13 +56,15 @@ namespace GUI_WindowsForms
             this.Close();
         }
 
+
         private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
-        {
-            
+        {     
             RegisterInStartup(checkBox1.Checked);
         }
 
-        //  start program at windows startup
+
+
+        ///  starts the program at windows startup by creating a registry key
         private void RegisterInStartup(bool isChecked)
         {
             RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
