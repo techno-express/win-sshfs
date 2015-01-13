@@ -24,46 +24,157 @@ namespace Sshfs.GuiBackend.Remoteable
         /*[OperationContract]
         ServerModel search(char letter);*/
 
+        /// create a connection to a directory on a server
+        /**
+         *  Mount() gets IDs of a Server and Folder as parameters.
+         *  Further information like IP, port, account an folderlocation are pulled from
+         *  Servermodel-List. It creats a new SftpDrive with these information and 
+         *  execute the drive's mount() method which will start the sshfs connection 
+         *  and offers the remote folder as a local driveletter.
+         *  
+         *  Finaly the drive will be stored in LSftpDrive dictionary
+         *  so other methods can access them. 
+         * 
+         * 
+         *  Mount() should also be able to mount a Virtual Drive but it is not
+         *  implemented yet.
+         * 
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * 
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void Mount(Guid ServerID, Guid FolderID);
 
+        /// disconnects the client from directory on a server
+        /** 
+         * UMount() gets IDs of server and folder of a connection.
+         * It searches for a proper dirve in LSftpDrive and disconnect it by
+         * executing its unmount method.
+         * 
+         * 
+         * UMount() should also deal with virtual drive. (not implemented)
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void UMount(Guid ServerID, Guid FolderID);
 
-        /// Return the Drivestatus of the Server with ID, if Server does not exist Drivestatus is Error
+        /// method to find out which status the connection has
+        /**
+         * getStatus() gets IDs of server and folder. It looks them up in the
+         * LSftpDrive dictionary to get a proper drive 
+         * and return the drive's status (mounted, unmounted, etc.)
+         * If there is not proper drive it will return "unmounted.
+         * 
+         * The return type is an enum named DriveStatus which is also use by SFtpDrive
+         * 
+         * getStatus() should also deal with virtual drive. (not implemented)
+         * 
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * @return Mounted or Unmounted as enum DriveStatus 
+         */
         [OperationContract]
         DriveStatus getStatus(Guid ServerID, Guid FolderID);
 
-
-        /// Returns a list of all servers currently known
+        /// sending a copy of the datamodell to clients
+        /** 
+         * listAll() return the ServerModell list.
+         * Serialisation will be handled by WCF.
+         * Before sending the data listAll() updates
+         * the status attribute of all FolderModells.
+         * 
+         * @return LServermodel, a list of all servers currently known
+         * 
+         */
         [OperationContract]
         List<ServerModel> listAll();
         //string listAll();
 
-        /// Replaces the Server with the ID of the parameter Server, returnvalue is the Index of the replaced server or -1 if no ID matches.
+        /// overwrites the server properties
+        /**
+         * editServer() gets a ServerModel from client.
+         * It will search for a server with same id in
+         * ServerModel list.
+         * If it has found one every attribute of it will be set
+         * with the new content from given parameter.
+         * 
+         * 
+         * @param ServerModel with some new attributes and an existing id
+         */
         // Notice, to add a new Server use, addServer(ServerModel);
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void editServer(ServerModel Server);
 
-        /// Adding Server to List of known Server Returnvalue is the ID of the new Server or in error case 0
+        /// Adding Server to List of known Server
+        /**
+         * addServer() gets a new ServerModel from client.
+         * It creates a new id for this new server
+         * and adds it to the ServerModel list.
+         * The new id will be returned to sender.
+         * 
+         * This method should check the attributes of new server
+         * before adding it to the list. (not implmented)
+         * 
+         * @param newServer     ServerModel which should be added to list
+         * @return created serverID for new servermodel or in error case 0
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         Guid addServer(ServerModel Server);
 
-        /// Returnvalue the remove index or in error case -1
+        /// removes server from ServerModel list
+        /**
+         * removeServer() gets a id of a server.
+         * It searches for the server given by id 
+         * and removes it from the list.
+         * 
+         * @param ServerID  id of server you want to remove
+         * 
+         * @return the remove index or in error case -1
+         * 
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void removeServer(Guid ID);
 
-        /// Adds Folder to the Mountpovoid list of Server with ID, returnvalue is the Index of the changed Server or in error case -1
+        /// Adds Folder to the Mountpovoid list of Server with folderID
+        /**
+         * addFolder() gets a new FolderModel and a existing server id.
+         * It will create a new id for the new folder and adds it to
+         * its server in ServerModel list. The server is given by 
+         * its id.
+         * 
+         * @param ServerID  ID of server where the folder should be added to
+         * @param Folder    FolderModel which should be added
+         * 
+         * @return          Created ID of added folder or in error case -1
+         * 
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         Guid addFolder(Guid ID, FolderModel Mountpoint); //changed - bjoe-phi
 
-        /// Removes Folder from Server with ID, returnvalue is Index of the server or in error case -1
+        /// removes fodler from a server
+        /**
+         * removeFolder() gets id of server and folder.
+         * It searches for the given server by id in ServerModel list.
+         * Afterwards it searches for the given folder in
+         * this ServerModel and removes it.
+         * 
+         * 
+         * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * @return Index of the server or in error case -1
+         * 
+         */
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void removeFolder(Guid ID_Server, Guid ID_Folder);

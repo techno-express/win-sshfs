@@ -29,6 +29,10 @@ namespace SimpleMind
         Debug = 3, 
     }
 
+    /// writes a logfile with 4 loglevels
+    /**
+     * the 4 loglevels are: no logging, only errors, warnings+errors and log all
+     */
     public class SimpleMind
     {
         const int _DefaultLogMax = 3; // default highest LogLevel

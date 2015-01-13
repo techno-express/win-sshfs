@@ -174,7 +174,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * Before sending the data listAll() updates
          * the status attribute of all FolderModells.
          * 
-         * @return LServermodel 
+         * @return LServermodel, a list of all servers currently known
          * 
          */
         public List<ServerModel> listAll()
@@ -297,7 +297,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
         
 
-        /// remove fodler from a server
+        /// removes fodler from a server
         /**
          * removeFolder() gets id of server and folder.
          * It searches for the given server by id in ServerModel list.
@@ -306,6 +306,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * 
          * 
          * @param Guid ServerID,Guid FolderID-distinct identification of directory
+         * 
+         * @return Index of the server or in error case -1
          * 
          */
         public void removeFolder(Guid ServerID, Guid FolderID)
@@ -334,7 +336,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return;
         }
 
-        /// remove server from ServerModel list
+        /// removes server from ServerModel list
         /**
          * removeServer() gets a id of a server.
          * It searches for the server given by id 
