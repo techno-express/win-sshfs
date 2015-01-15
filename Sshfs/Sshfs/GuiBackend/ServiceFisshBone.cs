@@ -26,8 +26,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public ServiceFisshBone() { }
 
-
-        private void loadServerOnStart()
+        ///Saving LServermodel into an XML file
+        /**
+         * SaveServerList() gets a string with the path, where to save the file connections.xml
+         * It saves the LServermodel to this XML file. All information of the ServerModel objects 
+         * are saved
+         * 
+         * @param String Savepath-Path where the XML file wil be saved
+         * 
+         */
+        private void SaveServerlist(String Savepath)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -79,7 +87,15 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             
             doc.AppendChild(Serverlist);
-            doc.Save(@"c:\connections.xml");
+            
+            try
+            {
+                doc.Save(Savepath + "connections.xml");
+            }
+            catch
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could save Serverlist.");
+            }
         }
 
 
