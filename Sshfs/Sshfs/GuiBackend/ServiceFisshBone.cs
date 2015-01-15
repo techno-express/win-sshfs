@@ -7,7 +7,7 @@ using System.Text;
 using Sshfs;
 using System.Configuration;
 using Sshfs.GuiBackend.Remoteable;
-
+using System.Xml;
 
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
@@ -27,7 +27,60 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         public ServiceFisshBone() { }
 
 
+        private void loadServerOnStart()
+        {
 
+            XmlDocument doc = new XmlDocument();
+            XmlNode Serverlist, Server, Folderlist, Folder;
+            Serverlist = doc.CreateElement("Serverlist");
+            Server = doc.CreateElement("Server");
+            Folderlist = doc.CreateElement("Folderlist");
+            Folder = doc.CreateElement("Folder");
+
+            foreach (ServerModel element in LServermodel)
+            {
+                Server.AppendChild(doc.CreateElement("Name")).InnerText = element.Name;
+
+                Server.AppendChild(doc.CreateElement("ServerID")).InnerText = element.ID.ToString();
+
+                Server.AppendChild(doc.CreateElement("Notes")).InnerText = element.Notes;
+
+                Server.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
+
+                Server.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
+
+                Server.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
+
+                Server.AppendChild(doc.CreateElement("Username")).InnerText = element.Username;
+
+                Server.AppendChild(doc.CreateElement("Host")).InnerText = element.Host;
+
+                Server.AppendChild(doc.CreateElement("Port")).InnerText = element.Port.ToString();
+
+                foreach(FolderModel FElement in element.Folders)
+                {
+                    Folder.AppendChild(doc.CreateElement("Global Login")).InnerText = FElement.use_global_login.ToString();
+                    Folder.AppendChild(doc.CreateElement("FolderID")).InnerText = FElement.ID.ToString();
+                    Folder.AppendChild(doc.CreateElement("Name")).InnerText = FElement.Name;
+                    Folder.AppendChild(doc.CreateElement("Note")).InnerText = FElement.Note;
+                    Folder.AppendChild(doc.CreateElement("Folder")).InnerText = FElement.Folder;
+                    Folder.AppendChild(doc.CreateElement("Letter")).InnerText = FElement.Letter.ToString();
+                    Folder.AppendChild(doc.CreateElement("Username")).InnerText = FElement.Username;
+                    Folder.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
+                    Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
+                    Folder.AppendChild(doc.CreateElement("Private Key")).InnerText = "Not Saved";
+                    //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
+
+                    Folderlist.AppendChild(Folder);
+                }
+                Server.AppendChild(Folderlist);
+                Serverlist.AppendChild(Server);
+            }
+
+            
+            doc.AppendChild(Serverlist);
+            doc.Save(@"c:\connections.xml");
+        }
 
 
 
