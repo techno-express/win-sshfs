@@ -38,7 +38,7 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>WinSSH4e1-public.snk</AssemblyOriginatorKeyFile>
