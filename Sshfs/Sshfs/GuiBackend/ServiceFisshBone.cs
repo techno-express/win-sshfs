@@ -40,10 +40,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             XmlDocument doc = new XmlDocument();
             XmlNode Serverlist, Server, Folderlist, Folder;
+            XmlDeclaration XmlDec;
+            
             Serverlist = doc.CreateElement("Serverlist");
             Server = doc.CreateElement("Server");
             Folderlist = doc.CreateElement("Folderlist");
             Folder = doc.CreateElement("Folder");
+
+            XmlDec = doc.CreateXmlDeclaration("1.0", null, null);
 
             foreach (ServerModel element in LServermodel)
             {
@@ -87,7 +91,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             
             doc.AppendChild(Serverlist);
-            
+            doc.InsertBefore(XmlDec, Serverlist);
             try
             {
                 doc.Save(Savepath + "connections.xml");
@@ -98,6 +102,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
+
+        private void LoadServerlist(String Savepath)
+        {
+
+
+        }
 
 
         /// create a connection to a directory on a server
