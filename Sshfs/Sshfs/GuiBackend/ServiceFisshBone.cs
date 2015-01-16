@@ -224,6 +224,22 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         }
 
+        public Tuple<Guid, Guid> GetLetterUsage(char letter)
+        {
+            foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+            {
+                if (i.Value.Letter == letter && i.Value.Status == DriveStatus.Mounted)
+                {
+                    return i.Key;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
+        }
+
 
         /// create a connection to a directory on a server
         /**
@@ -346,11 +362,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             try
             {
                 DriveStatus status = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Status;
-                Console.WriteLine(status.ToString());
+                Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is allready in LSftpDrive with status " + status.ToString());
                 return status;
             }
             catch (NullReferenceException e)
             {
+                Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is not in LSftpDrive");
                 return DriveStatus.Unmounted;
             }
             catch

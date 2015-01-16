@@ -45,6 +45,9 @@ namespace Sshfs.GuiBackend.Remoteable
          * 
          */
         [OperationContract]
+        Tuple<Guid, Guid> GetLetterUsage(char letter);
+
+        [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void Mount(Guid ServerID, Guid FolderID);
 

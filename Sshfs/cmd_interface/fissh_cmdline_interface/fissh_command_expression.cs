@@ -36,7 +36,7 @@ namespace fissh_cmdline_interface
         public static option option_port = new option();
         public static option option_key = new option();
         public static option option_path = new option();
-        public static option option_drive = new option();
+        public static option option_letter = new option();
         public static option option_virtual_drive = new option();
         
         // parameters are arguments without "-" or "/" as first letter, like "servername" or "folder1,folder2,folderx"
@@ -183,7 +183,7 @@ namespace fissh_cmdline_interface
                 { "p=", "Port", (int v) => {option_port.set(v.ToString()); any_option_is_set_flag = true;}  },
                 { "k=", "Key for Authentification", v => {option_key.set(v); any_option_is_set_flag = true;}  },
                 { "s=", "Path on Server", v => {option_path.set(v); any_option_is_set_flag = true;}  },
-                { "d=", "Driveletter", v => {option_drive.set(v); any_option_is_set_flag = true;}  },
+                { "d=", "Driveletter", v => {option_letter.set(v); any_option_is_set_flag = true;}  },
                 { "v=", "Virtualdrive", v => {option_virtual_drive.set(v); any_option_is_set_flag = true;}  },
                 //  {"<>", v => Console.WriteLine("unknown option: {0}", v) },
 		    };
@@ -322,7 +322,7 @@ namespace fissh_cmdline_interface
                     
                 case (byte) fissh_command_keywords.umount:
                     // If Option -d or -v is set, we allready know wat the want to unmount
-                    if (option_drive.is_set_flag || option_virtual_drive.is_set_flag)
+                    if (option_letter.is_set_flag || option_virtual_drive.is_set_flag)
                     {
                         return;
                     }
@@ -344,7 +344,7 @@ namespace fissh_cmdline_interface
                             //if it is a driveletter
                             if (parameters[0].Length <= 3)
                             {
-                                option_drive.set(parameters[0]);
+                                option_letter.set(parameters[0]);
                             }
                             //if it is a virtualdrive
                             else

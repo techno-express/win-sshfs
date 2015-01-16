@@ -113,10 +113,10 @@ namespace fissh_cmdline_interface
                             }
 
                             // If driveletter is not set, use Z:\
-                            if(!fissh_command_expression.option_drive.is_set_flag
+                            if(!fissh_command_expression.option_letter.is_set_flag
                                 && !fissh_command_expression.option_virtual_drive.is_set_flag)
                             {
-                                fissh_command_expression.option_drive.set("Z:");
+                                fissh_command_expression.option_letter.set("Z:");
                             }
 
                             // If no Authentification-Key is set
@@ -140,7 +140,7 @@ namespace fissh_cmdline_interface
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.umount:
                         // If user wants to umount a simple drive
-                        if (fissh_command_expression.option_drive.is_set_flag)
+                        if (fissh_command_expression.option_letter.is_set_flag)
                         {
                             fissh_cmdline_interface.actions.umount_driveletter();
                         }

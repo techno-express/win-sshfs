@@ -238,18 +238,34 @@ namespace fissh_cmdline_interface
          */
         public static void umount_driveletter()
         {
-            throw new Exception("not implemented yet");
-            /*Tuple<int, int> puffer_tupel;
-            int server_id, folder_id;
+            Tuple<Guid, Guid> ids = null;
 
-            puffer_tupel = icp.search_driveletter(arguments.option_drive.get());
-            server_id = puffer_tupel.Item1;
-            folder_id = puffer_tupel.Item2;
 
-            if (server_id > 0 && folder_id > 0)
+            try
             {
-                icp.umount(server_id, folder_id);
-            }*/
+                Init();
+
+                char letter = fissh_command_expression.option_letter.get().ToCharArray()[0];
+                ids = bone_server.GetLetterUsage(letter);
+
+                if (ids.Item1 == Guid.Empty && ids.Item2 == Guid.Empty)
+                {
+                    fissh_print.simple_error_message("Nothing mounted at " + letter + ":");
+                }
+                else
+                {
+                    ServerModel server = all_data.Find(x => x.ID == ids.Item1);
+                    FolderModel folder = server.Folders.Find(x => x.ID == ids.Item2);
+
+                    to_umount.Add(new Tuple<ServerModel, FolderModel>(server, folder));
+                    umount_them();
+                }
+           }
+            catch (Exception e)
+            {
+                throw e;
+            }
+ 
         }
 
         /// unmount a connection which is given by its virtual drive folder
@@ -357,7 +373,7 @@ namespace fissh_cmdline_interface
                     }
                     else
                     {
-                        fissh_print.simple_error_message(i.Item2.Name + " on " + i.Item1.Name + " is already mounted");
+                        fissh_print.simple_error_message(i.Item2.Name + " on " + i.Item1.Name + " is not mounted");
                     }
                     
                 }
