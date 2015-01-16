@@ -125,9 +125,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                 doc.Save(Savepath + @"\connections.xml");
             }
-            catch
+            catch(Exception e)
             {
                 Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could save Serverlist.");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
             }
         }
 
@@ -167,8 +168,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                  }
                  catch(Exception e)
                  {
-                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
-                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid.");
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read Guid from XML file, generate new Guid.");
                      Server.ID = Guid.NewGuid();
                  }
 
@@ -184,7 +185,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                  }
 
                  catch(Exception e) {
-                     Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read port from XML file, set port to 22");
                      Server.Port = 22;
                  }
 
@@ -201,8 +203,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      }
                      catch (Exception e)
                      {
-                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
-                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Generate new Guid");
                          Folder.ID = Guid.NewGuid();
                      }
                      Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
@@ -213,7 +215,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      }
                      catch(Exception e)
                      {
-                         Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read drive letter from XML file, set letter to x");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
                          Folder.Letter = 'x';
                      }
 
@@ -221,8 +224,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      {
                          Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("Global Login").InnerText);
                      }
-                     catch
+                     catch(Exception e)
                      {
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load folder login");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
                          Folder.use_global_login = true;
                      }
 
@@ -316,6 +321,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             catch(Exception e) {
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not mount drive");
                 throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
@@ -342,7 +348,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return;
             }
             catch(Exception e) {
-                Log.writeLog(SimpleMind.Loglevel.Error , Comp, e.Message);
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not unmount drive");
+                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
                 throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
