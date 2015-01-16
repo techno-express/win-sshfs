@@ -41,10 +41,10 @@ namespace fissh_cmdline_interface
     class Program
     {
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            SimpleMind.SimpleMind logger = new SimpleMind.SimpleMind();
 
+            int return_value = 0;
 
             //var cmdline_parameters = new fissh_command.fissh_command_expression();
             //fissh_command.fissh_command_expression cmdline_parameters = null;
@@ -57,7 +57,7 @@ namespace fissh_cmdline_interface
             catch (Exception e)
             {
                 fissh_cmdline_interface.fissh_print.wrong_use_error_message(e.Message);
-                logger.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
+                logger.log.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
                 
 #if DEBUG
                 Console.ReadLine();
@@ -188,9 +188,12 @@ namespace fissh_cmdline_interface
             }
  
 #if DEBUG
+            Console.WriteLine("Ended with return value " + return_value + ".");
+            Console.WriteLine("Press enter to close consol.");
             Console.ReadLine();
 #endif
 
+            return return_value;
 
         }
 

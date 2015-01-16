@@ -12,6 +12,8 @@ namespace fissh_cmdline_interface
      */
     public static class fissh_print
     {
+        private const string cmpnt = "fissh";
+
         /// print error which is caused by wrong syntax
         /**
          * This mehtod prints an error message and shows
@@ -22,9 +24,7 @@ namespace fissh_cmdline_interface
          */
         public static void wrong_use_error_message(string error_message)
         {
-            Console.WriteLine("");
-            Console.WriteLine("fissh: {0}", error_message);
-            Console.WriteLine();
+            simple_error_message(error_message);
             Console.WriteLine("Usage:");
             //Console.WriteLine("");
             Console.WriteLine("To mount a drive");
@@ -44,6 +44,15 @@ namespace fissh_cmdline_interface
             Console.WriteLine("     fissh help");
             Console.WriteLine("");
 
+        }
+
+        public static void simple_error_message(string error_message)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("fissh: {0}", error_message);
+            Console.WriteLine();
+
+            logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
         }
     }
 }

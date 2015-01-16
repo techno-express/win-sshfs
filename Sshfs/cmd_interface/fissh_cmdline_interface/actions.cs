@@ -26,7 +26,7 @@ namespace fissh_cmdline_interface
      */
     public static class actions
     {
-        private static const string log_cmpnt = "cmdline:actions";
+        private const string log_cmpnt = "cmdline:actions";
         private static IServiceFisshBone bone_server = null;
         private static List<ServerModel> all_data = null;
         private static List<Tuple<ServerModel, FolderModel>> to_mount = new List<Tuple<ServerModel,FolderModel>>();
@@ -72,7 +72,27 @@ namespace fissh_cmdline_interface
          */
         public static void mount_complet_server()
         {
-            throw new Exception("not implemented yet");
+            ServerModel server;
+
+            try
+            {
+                Init();
+
+                server = name2server(fissh_command_expression.parameter_servername.get());
+
+                foreach (FolderModel i in server.Folders)
+                {
+                        to_mount.Add(new Tuple<ServerModel, FolderModel>(server, i));
+                }
+
+                mount_them();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+ 
+
             /*int server_id;
             List<int> folder_ids;
             server_id = icp.search_server(arguments.parameter_servername.get());
@@ -300,8 +320,16 @@ namespace fissh_cmdline_interface
             {
                 try
                 {
-                    bone_server.Mount(i.Item1.ID, i.Item2.ID);
-                    logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Mounted folder " + i.Item2 + " on server " + i.Item1);
+                    if (i.Item2.Status != Sshfs.DriveStatus.Mounted &&
+                        i.Item2.Status != Sshfs.DriveStatus.Mounting)
+                    {
+                        bone_server.Mount(i.Item1.ID, i.Item2.ID);
+                        logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Mounted folder " + i.Item2 + " on server " + i.Item1);
+                    }
+                    else
+                    {
+                        fissh_print.simple_error_message(i.Item2.Name + " on " + i.Item1.Name + " is already mounted");
+                    }
                     
                 }
                 catch (FaultException<Fault> e)

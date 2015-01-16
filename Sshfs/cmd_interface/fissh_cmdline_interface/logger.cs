@@ -10,12 +10,12 @@ namespace fissh_cmdline_interface
 {
     public static class logger
     {
-        public static SimpleMind.SimpleMind log = null;
+        public static SimpleMind.SimpleMind log = Init();
 
-
-        public void logger()
+        private static SimpleMind.SimpleMind Init()
         {
-            log = new SimpleMind.SimpleMind((int)Loglevel.Debug);
+            return new SimpleMind.SimpleMind((int)Loglevel.Debug);
         }
+
     }
 }
