@@ -9,7 +9,7 @@ using NDesk.Options;//for getopt
 
 
 
-namespace fissh_command
+namespace fissh_cmdline_interface
 {
 
     enum fissh_command_keywords : byte { _no_match, mount, umount, status, help };

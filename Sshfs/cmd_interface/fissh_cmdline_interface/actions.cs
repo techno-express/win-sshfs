@@ -12,9 +12,11 @@ using Sshfs.GuiBackend.Remoteable;
 using Sshfs.GuiBackend;
 using System.ServiceModel;
 
+using SimpleMind;
 
 
-namespace fissh_command
+
+namespace fissh_cmdline_interface
 {
     /// static class for all methods to use the ipc interface to fisshbone
     /**
@@ -24,6 +26,7 @@ namespace fissh_command
      */
     public static class actions
     {
+        private static const string log_cmpnt = "cmdline:actions";
         private static IServiceFisshBone bone_server = null;
         private static List<ServerModel> all_data = null;
         private static List<Tuple<ServerModel, FolderModel>> to_mount = new List<Tuple<ServerModel,FolderModel>>();
@@ -102,18 +105,14 @@ namespace fissh_command
          */
         public static void mount_registered_folders()
         {
-            List<ServerModel> all_data;
             ServerModel server;
             List<FolderModel> folders = new List<FolderModel>();
             List<string> folder_names;
 
 
-
-
             try
             {
                 Init();
-                all_data = bone_server.listAll();
 
                 server = name2server(fissh_command_expression.parameter_servername.get());
                 folder_names = fissh_command_expression.parameter_folderlist.get().Split(',').ToList();
@@ -124,7 +123,6 @@ namespace fissh_command
                 }
 
                 mount_them();
-
             }
             catch (Exception e)
             {
@@ -272,8 +270,9 @@ namespace fissh_command
             }
             catch (NullReferenceException error)
             {
-                throw new NullReferenceException(
-                    "Cannot find server with name " + fissh_command_expression.parameter_servername.get());
+                string message = "Cannot find server with name " + fissh_command_expression.parameter_servername.get();
+                logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                throw new Exception(message);
             }
         }
 
@@ -285,9 +284,10 @@ namespace fissh_command
             }
             catch (NullReferenceException error)
             {
-                throw new NullReferenceException(
-                    "Cannot find folder with name " + fissh_command_expression.parameter_servername.get() +
-                    " in " + server.Name);
+                string message = "Cannot find folder with name " + fissh_command_expression.parameter_servername.get() +
+                    " in " + server.Name;
+                logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                throw new Exception(message);
             } 
         }
 
@@ -301,11 +301,15 @@ namespace fissh_command
                 try
                 {
                     bone_server.Mount(i.Item1.ID, i.Item2.ID);
+                    logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Mounted folder " + i.Item2 + " on server " + i.Item1);
+                    
                 }
                 catch (FaultException<Fault> e)
                 {
-                    throw new Exception("While mounting " + i.Item1.Name + " on " + i.Item2.Name +
-                                        ": " + e.Detail.Message);
+                    string message = "While mounting " + i.Item1.Name + " on " + i.Item2.Name +
+                                        ": " + e.Detail.Message;
+                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                    throw new Exception(message);
                 }
             }
         }

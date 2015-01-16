@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using fissh_command;
+using fissh_cmdline_interface;
 //using System.Linq;
 //using System.Text;
 
@@ -56,7 +56,7 @@ namespace fissh_cmdline_interface
             }
             catch (Exception e)
             {
-                fissh_command.fissh_print.wrong_use_error_message(e.Message);
+                fissh_cmdline_interface.fissh_print.wrong_use_error_message(e.Message);
                 logger.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
                 
 #if DEBUG
@@ -74,7 +74,7 @@ namespace fissh_cmdline_interface
                 #region Region
                 switch (fissh_command_expression.keyword)
                 {
-                    case (byte)fissh_command.fissh_command_keywords.mount:
+                    case (byte)fissh_cmdline_interface.fissh_command_keywords.mount:
 
                         // If user want to mount a registered server
                         if (!fissh_command_expression.parameter_host.is_set_flag)
@@ -83,12 +83,12 @@ namespace fissh_cmdline_interface
                             // If user added a folderlist in parameter
                             if (fissh_command_expression.parameter_folderlist.is_set_flag)
                             {
-                                fissh_command.actions.mount_registered_folders();
+                                fissh_cmdline_interface.actions.mount_registered_folders();
                             }
                             // If no folderlist is used
                             else
                             {
-                                fissh_command.actions.mount_complet_server();
+                                fissh_cmdline_interface.actions.mount_complet_server();
                             }
                         }
                         // If user want to mount a unregisteres Server
@@ -138,38 +138,38 @@ namespace fissh_cmdline_interface
                         break;
 
 
-                    case (byte)fissh_command.fissh_command_keywords.umount:
+                    case (byte)fissh_cmdline_interface.fissh_command_keywords.umount:
                         // If user wants to umount a simple drive
                         if (fissh_command_expression.option_drive.is_set_flag)
                         {
-                            fissh_command.actions.umount_driveletter();
+                            fissh_cmdline_interface.actions.umount_driveletter();
                         }
 
                         // If user wants to umount a virtual drive
                         else if (fissh_command_expression.option_virtual_drive.is_set_flag)
                         {
-                            fissh_command.actions.umount_virtualdrive();
+                            fissh_cmdline_interface.actions.umount_virtualdrive();
                         }
 
                         // If user wants to umount folders on a registered server
                         else if (fissh_command_expression.parameter_folderlist.is_set_flag)
                         {
-                            fissh_command.actions.umount_registered_folders();
+                            fissh_cmdline_interface.actions.umount_registered_folders();
                         }
 
                         // If user wants to umount a complet registered server
                         else
                         {
-                            fissh_command.actions.umount_complet_server();
+                            fissh_cmdline_interface.actions.umount_complet_server();
                         }
 
                         break;
 
-                    case (byte)fissh_command.fissh_command_keywords.status:
+                    case (byte)fissh_cmdline_interface.fissh_command_keywords.status:
                         Console.WriteLine("You ask for a status.");
                         break;
 
-                    case (byte)fissh_command.fissh_command_keywords.help:
+                    case (byte)fissh_cmdline_interface.fissh_command_keywords.help:
                         Console.WriteLine("HELP!!!");
                         break;
 

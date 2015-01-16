@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace fissh_command
+namespace fissh_cmdline_interface
 {
     /// Class for all text ouput methods
     /**
