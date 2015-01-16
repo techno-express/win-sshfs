@@ -232,7 +232,6 @@ namespace fissh_cmdline_interface
          * If a connection is already mounted you can unmounted it by giving its mountpoit.
          * ex: >fissh unmount Z:
          * 
-         * (This method does not work with Interface yet)
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
@@ -295,6 +294,17 @@ namespace fissh_cmdline_interface
             }*/
         }
 
+        /// find server to given name
+        /**
+         * This mehtod gets a name of a server and searches
+         * for a proper ServerModel and returns this ServerModel.
+         * If there is no such ServerModel a exception will be thrown.
+         * 
+         * @param servername    name of wanted server
+         * 
+         * @return wanted ServerModel 
+         * 
+         */
         private static ServerModel name2server(string servername)
         {
             try
@@ -309,6 +319,18 @@ namespace fissh_cmdline_interface
             }
         }
 
+        /// find folder to given name
+        /**
+         * This method gets a ServerModel and a folder name.
+         * It searches in given ServerModel for a folder named like given parameter
+         * and the found FolderModel.
+         * If there is no such FolderModel in given ServerModel a exception will be thrown.
+         * 
+         * @param server        ServerModel in which you want to search a folder
+         * @param foldername    name of wanted folder
+         * 
+         * @return wanted FolderModel
+         */
         private static FolderModel name2folder(ServerModel server, string foldername)
         {
             try
@@ -324,11 +346,15 @@ namespace fissh_cmdline_interface
             } 
         }
 
-
+        /// mount all folders in "to mount" list
+        /**
+         * mount_them() will mount every folder listed in to_mount list.
+         * Other methods, who want to mount anything, 
+         * will put a Tuple of a ServerModel and a FolderModel and this method.
+         * mount_them will mount every entry of this list by sending their ids to the backend.
+         */
         private static void mount_them()
         {
-
-
             foreach (Tuple<ServerModel,FolderModel> i in to_mount)
             {
                 try
@@ -358,7 +384,14 @@ namespace fissh_cmdline_interface
 
 
 
-    
+        /// unmount all folders in "to unmount" list
+        /**
+         * umount_them() will unmount every folder listed in to_umount list.
+         * Other methods, who want to unmount anything, 
+         * will put a Tuple of a ServerModel and a FolderModel and this method.
+         * umount_them will unmount every entry of this list by sending their ids to the backend.
+         */
+     
         private static void umount_them()
         {
             foreach (Tuple<ServerModel,FolderModel> i in to_umount)
