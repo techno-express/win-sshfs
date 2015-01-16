@@ -8,6 +8,7 @@ using Sshfs;
 using System.Configuration;
 using Sshfs.GuiBackend.Remoteable;
 using System.Xml;
+using System.IO;
 
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
@@ -29,10 +30,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         ///Saving LServermodel into an XML file
         /**
          * SaveServerList() gets a string with the path, where to save the file connections.xml
-         * It saves the LServermodel to this XML file. All information of the ServerModel objects 
-         * are saved
+         * It saves the LServermodel to this XML file. 
+         * Password, Passphrase and Key are not saved.
          * 
-         * @param String Savepath-Path where the XML file wil be saved
+         * @param String Savepath-Path where the XML file will be saved
          * 
          */
         private void SaveServerlist(String Savepath)
@@ -94,7 +95,13 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             doc.InsertBefore(XmlDec, Serverlist);
             try
             {
-                doc.Save(Savepath + "connections.xml");
+
+                if (Savepath.EndsWith(@"\"))
+                {
+                    Savepath.Remove(Savepath.Length - 1);
+                }
+
+                doc.Save(Savepath + @"\connections.xml");
             }
             catch
             {
@@ -102,9 +109,117 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
+        ///Load Serverconfiguration from an XML file
+        /**
+         * LoadServerlist() gets a string with the path, where the file connections.xml is saved.
+         * It loads the configuration saved in the XML file into the Serverlist.
+         * Passwords, Keys etc. are not loaded.
+         * 
+         * @param String Savepath-Path where the XML file is saved
+         * 
+         */
 
         private void LoadServerlist(String Savepath)
         {
+            if (Savepath.EndsWith(@"\"))
+            {
+                Savepath.Remove(Savepath.Length - 1);
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Savepath + @"\connections.xml");
+
+            XmlNodeList sn = doc.DocumentElement.SelectNodes("Serverlist/Server");
+            XmlNodeList fn = doc.DocumentElement.SelectNodes("Serverlist/Server/Folderlist/Folder");
+            List<ServerModel> SL = new List<ServerModel>();
+            List<FolderModel> FL = new List<FolderModel>();
+
+             foreach(XmlNode Snode  in sn)
+             {
+                 ServerModel Server = new ServerModel();
+
+                 Server.Name = Snode.SelectSingleNode("Name").InnerText;
+                 try
+                 {
+                     Server.ID = new Guid(Snode.SelectSingleNode("ServerID").InnerText);
+                 }
+                 catch(Exception e)
+                 {
+                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid.");
+                     Server.ID = Guid.NewGuid();
+                 }
+
+                 Server.Notes = Snode.SelectSingleNode("Notes").InnerText;
+                 Server.PrivateKey = "";
+                 Server.Password = "";
+                 Server.Passphrase = "";
+                 Server.Username = Snode.SelectSingleNode("Username").InnerText;
+                 Server.Host = Snode.SelectSingleNode("Host").InnerText;
+                 try
+                 {
+                     Server.Port = Convert.ToInt32(Snode.SelectSingleNode("Port").InnerText);
+                 }
+
+                 catch(Exception e) {
+                     Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                     Server.Port = 22;
+                 }
+
+                 fn = Snode.SelectSingleNode("Serverlist").SelectNodes("Folder");
+
+                 foreach(XmlNode Fnode in fn)
+                 {
+                     FolderModel Folder = new FolderModel();
+
+                     Folder.Name = Fnode.SelectSingleNode("Name").InnerText;
+                     try
+                     {
+                         Folder.ID = new Guid(Fnode.SelectSingleNode("FolderID").InnerText);
+                     }
+                     catch (Exception e)
+                     {
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid");
+                         Folder.ID = Guid.NewGuid();
+                     }
+                     Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
+                     Folder.Folder = Fnode.SelectSingleNode("Folder").InnerText;
+                     try
+                     {
+                         Folder.Letter = Convert.ToChar(Fnode.SelectSingleNode("Letter").InnerText);
+                     }
+                     catch(Exception e)
+                     {
+                         Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                         Folder.Letter = 'x';
+                     }
+
+                     try
+                     {
+                         Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("Global Login").InnerText);
+                     }
+                     catch
+                     {
+                         Folder.use_global_login = true;
+                     }
+
+                     if(!Folder.use_global_login)
+                     {
+                         Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
+                         Folder.Password = "";
+                         Folder.Passphrase = "";
+                         Folder.PrivatKey = "";
+                     }
+
+                     Folder.Status = DriveStatus.Unmounted;
+
+                     Server.Folders.Add(Folder);
+                 }
+
+                 LServermodel.Add(Server);
+             }
+                
 
 
         }
