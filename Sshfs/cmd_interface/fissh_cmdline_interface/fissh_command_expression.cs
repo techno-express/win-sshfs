@@ -33,17 +33,18 @@ namespace fissh_cmdline_interface
         
         // options are all arguments which look like "-l user" or "-p 22"
         public static option option_login_name = new option();
-        public static option option_port = new option();
-        public static option option_key = new option();
+        public static int_option option_port = new int_option();
         public static option option_path = new option();
         public static option option_letter = new option();
         public static option option_virtual_drive = new option();
+        public static key_option option_key = new key_option();
         
         // parameters are arguments without "-" or "/" as first letter, like "servername" or "folder1,folder2,folderx"
         public static option parameter_host = new option();
         public static option parameter_servername = new option();
         public static option parameter_folderlist = new option();
 
+        
 
 
         /// contructor - it will parse the given arguments
@@ -97,6 +98,43 @@ namespace fissh_cmdline_interface
             }
 
             public string get()
+            {
+                return value;
+            }
+        }
+
+        public class key_option : option
+        {
+            public Sshfs.ConnectionType type;
+
+            public key_option()
+            {
+                is_set_flag = false;
+                value = null;
+            }
+        }
+
+        public class int_option
+        {
+            private int value;
+            public bool is_set_flag;
+
+            public int_option()
+            {
+                is_set_flag = false;
+                value = 0;
+            }
+
+            public void set(int i)
+            {
+                if (i != null)
+                {
+                    is_set_flag = true;
+                    value = i;
+                }
+            }
+
+            public int get()
             {
                 return value;
             }
@@ -180,8 +218,33 @@ namespace fissh_cmdline_interface
             // {"option-switch", "Text for Help(not used here)", what to do when found}
             var p = new OptionSet() {
 		   	    { "l=", "Login Name", v => {option_login_name.set(v); any_option_is_set_flag = true;} },
-                { "p=", "Port", (int v) => {option_port.set(v.ToString()); any_option_is_set_flag = true;}  },
-                { "k=", "Key for Authentification", v => {option_key.set(v); any_option_is_set_flag = true;}  },
+                { "p=", "Port", (int v) => { if(v>0)
+                                             {
+                                                 option_port.set(v);
+                                                 any_option_is_set_flag = true;
+                                            }
+                                            else
+                                                {throw new Exception(v + " is out of range.");}}  },
+                { "k=", "Key for Authentification", v => {
+                                                bool f = false;
+                                                if(v.StartsWith("password=")) 
+                                                {
+                                                    option_key.type = Sshfs.ConnectionType.Password;
+                                                    f = true;
+                                                }
+                                                if(v.StartsWith("privat_key="))
+                                                {
+                                                    option_key.type = Sshfs.ConnectionType.PrivateKey;
+                                                    f = true;
+                                                }
+                                                
+                                                if(f)
+                                                {
+                                                    option_key.set(v.Substring(v.IndexOf("=")+1));
+                                                    any_option_is_set_flag = true;
+                                                } 
+                                            } },
+
                 { "s=", "Path on Server", v => {option_path.set(v); any_option_is_set_flag = true;}  },
                 { "d=", "Driveletter", v => {option_letter.set(v); any_option_is_set_flag = true;}  },
                 { "v=", "Virtualdrive", v => {option_virtual_drive.set(v); any_option_is_set_flag = true;}  },
@@ -279,7 +342,7 @@ namespace fissh_cmdline_interface
                         if (i_end == -1)    //if ther is no ":"
                         {
                             puffer_port = null;
-                            i_end = parameters[0].Length - 1;   //so hostname ends with last char
+                            i_end = parameters[0].Length;   //so hostname ends with last char
                         }
                         else
                         {
@@ -294,13 +357,13 @@ namespace fissh_cmdline_interface
                         }
 
                         //if portnumber is not already set by option, use portnumber from parameter 
-                        if (!option_port.is_set_flag)
+                        if (!option_port.is_set_flag && puffer_port != null)
                         {
-                            option_port.set(puffer_port);
+                            option_port.set(Convert.ToInt32(puffer_port));
                         }
 
                         //isolate hostname
-                        parameter_host.set(parameters[0].Substring(i_start, i_end - i_start + 1));
+                        parameter_host.set(parameters[0].Substring(i_start, i_end - i_start));
                     }
 
                     //User wants to mount an existing server

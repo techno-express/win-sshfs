@@ -21,7 +21,7 @@ namespace Sshfs.GuiBackend
         public string PrivatKey;
         public DriveStatus Status;
 
-        public System.Windows.Forms.TreeNode gui_node;
+        public System.Windows.Forms.TreeNode gui_node = null;
 
     }
 }

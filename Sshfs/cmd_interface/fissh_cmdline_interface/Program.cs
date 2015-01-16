@@ -97,7 +97,7 @@ namespace fissh_cmdline_interface
                             // If Port is not set, use Port 22
                             if (!fissh_command_expression.option_port.is_set_flag)
                             {
-                                fissh_command_expression.option_port.set("22");
+                                fissh_command_expression.option_port.set(22);
                             }
 
                             // If source path is not set, use /
@@ -123,17 +123,12 @@ namespace fissh_cmdline_interface
                             if (!fissh_command_expression.option_key.is_set_flag)
                             {
                                 Console.Write("Enter Password >");
-                                fissh_command_expression.option_key.set(
-                                    "password=" + Console.ReadLine());
+                                fissh_command_expression.option_key.set(Console.ReadLine());
+                                fissh_command_expression.option_key.type = Sshfs.ConnectionType.Password;
                             }
 
-                            //fissh_command.actions.mount_unregistered_folder();
-
-                            //::FIXME::
-                            Console.WriteLine("You want me to mount a server with the URL {0} on Port {1}.", fissh_command_expression.parameter_host.get(), fissh_command_expression.option_port.get());
-                            Console.WriteLine("Path on Server: {0}", fissh_command_expression.option_path.get());
-                            Console.WriteLine("Loginname: {0}", fissh_command_expression.option_login_name.get());
-                            Console.WriteLine("Authentifikation: {0}", fissh_command_expression.option_key.get());
+                            actions.mount_unregistered_folder();
+                            
                         }
                         break;
 

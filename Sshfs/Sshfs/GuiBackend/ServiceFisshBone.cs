@@ -224,6 +224,46 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         }
 
+        private void MountDrive(ServerModel server, FolderModel folder)
+        {
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
+            SftpDrive drive = new SftpDrive();
+
+            LSftpDrive[new Tuple<Guid, Guid>(server.ID, folder.ID)] = drive;
+
+            drive.Host = server.Host;
+            drive.Port = server.Port;
+
+            drive.Letter = folder.Letter;
+            drive.Root = folder.Folder;
+
+            if (folder.use_global_login)
+            {
+                drive.Username = server.Username;
+                drive.Password = server.Password;
+            }
+            else
+            {
+                drive.Username = folder.Username;
+                drive.Password = folder.Password;
+            }
+
+            drive.Mount();
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
+                
+        }
+        
+        /// get a drive to a proper drive letter
+        /**
+         * This method gets a letter and looks this letter up in LSftpDrive.
+         * If there is a mounted drive with the given letter this method will
+         * return the drive's ids.
+         * If there is no such drive it will return empty ids (Guid.Empty)
+         * 
+         * @param letter    drive letter aou want to search for
+         * 
+         * @return ids of found server and folder or empty ids
+         */
         public Tuple<Guid, Guid> GetLetterUsage(char letter)
         {
             foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
@@ -238,6 +278,24 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 }
             }
             return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
+        }
+
+        /// mount a drive which is not in database
+        /**
+         * This methods creats a drive from the given server and its first folder.
+         * 
+         * @param server a ServerModel with at least one FolderModel
+         */
+        public void UnregisteredMount(ServerModel server)
+        {
+            FolderModel folder;
+            server.ID = Guid.NewGuid();
+            folder = server.Folders.ElementAt(0);
+            folder.ID = Guid.NewGuid();
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount unregistered folder \"" + folder.Folder + "\" mounted on server \"" + server.Host + "\"" + " on Port " + server.Port 
+                                                           + " with username " + server.Username + " and password " + server.Password);
+            MountDrive(server, folder);
+            return;
         }
 
 
@@ -284,28 +342,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     throw new FaultException<Fault>(new Fault(message));
                 }
 
- 
-                LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)] = drive;
-                
-                drive.Host = server.Host;
-                drive.Port = server.Port;
-                
-                drive.Letter = folder.Letter;
-                drive.Root = folder.Folder;
+                MountDrive(server, folder);
 
-                if(folder.use_global_login)
-                {
-                    drive.Username = server.Username;
-                    drive.Password = server.Password;
-                }
-                else{
-                    drive.Username = folder.Username;
-                    drive.Password = folder.Password;
-                }
-
-                drive.Mount();
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" mounted on server \"" + ServerID + "\"");
-                
                 return;
             }
             catch(Exception e) {

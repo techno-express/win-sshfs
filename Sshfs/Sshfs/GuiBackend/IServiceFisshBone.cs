@@ -49,6 +49,10 @@ namespace Sshfs.GuiBackend.Remoteable
 
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
+        void UnregisteredMount(ServerModel server);
+
+        [OperationContract]
+        [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void Mount(Guid ServerID, Guid FolderID);
 
         /// disconnects the client from directory on a server

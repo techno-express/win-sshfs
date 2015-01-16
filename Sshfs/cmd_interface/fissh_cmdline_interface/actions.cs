@@ -149,7 +149,37 @@ namespace fissh_cmdline_interface
          */
         public static void mount_unregistered_folder()
         {
-            throw new Exception("not implemented yet");
+            ServerModel server = new ServerModel();
+            FolderModel folder = new FolderModel();
+
+            server.Host = fissh_command_expression.parameter_host.get();
+            server.Port = fissh_command_expression.option_port.get();
+            server.Username = fissh_command_expression.option_login_name.get();
+
+            switch (fissh_command_expression.option_key.type)
+            {
+                case Sshfs.ConnectionType.Password:
+                    server.Password = fissh_command_expression.option_key.get();
+                    break;
+                    
+                default:
+                    throw new Exception("not implemented yet");
+            }
+
+            folder.use_global_login = true;
+            folder.Letter = fissh_command_expression.option_letter.get().ToCharArray()[0];
+            folder.Folder = fissh_command_expression.option_path.get();
+            server.Folders.Add(folder);
+            Init();
+
+            try
+            {
+                bone_server.UnregisteredMount(server);
+            }
+            catch (FaultException<Fault> e)
+            {
+                throw new Exception(e.Detail.Message);
+            }
         }
 
 
@@ -253,9 +283,22 @@ namespace fissh_cmdline_interface
                 }
                 else
                 {
-                    ServerModel server = all_data.Find(x => x.ID == ids.Item1);
-                    FolderModel folder = server.Folders.Find(x => x.ID == ids.Item2);
-
+                    ServerModel server;
+                    FolderModel folder;
+                    try
+                    {
+                        server = all_data.Find(x => x.ID == ids.Item1);
+                        folder = server.Folders.Find(x => x.ID == ids.Item2);
+                    }
+                    catch (NullReferenceException w)
+                    {
+                        server = new ServerModel();
+                        server.ID = ids.Item1;
+                        folder = new FolderModel();
+                        folder.ID = ids.Item2;
+                        server.Folders.Add(folder);
+                    }
+                    folder.Status = Sshfs.DriveStatus.Mounted;
                     to_umount.Add(new Tuple<ServerModel, FolderModel>(server, folder));
                     umount_them();
                 }
