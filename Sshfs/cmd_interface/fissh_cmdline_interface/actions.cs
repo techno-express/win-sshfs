@@ -30,6 +30,7 @@ namespace fissh_cmdline_interface
         private static IServiceFisshBone bone_server = null;
         private static List<ServerModel> all_data = null;
         private static List<Tuple<ServerModel, FolderModel>> to_mount = new List<Tuple<ServerModel,FolderModel>>();
+        private static List<Tuple<ServerModel, FolderModel>> to_umount = new List<Tuple<ServerModel,FolderModel>>();
 
 
         /// init methods
@@ -65,9 +66,6 @@ namespace fissh_cmdline_interface
          * every folder of the server.
          * 
          * 
-         * (This method does not work with Interface yet)
-         * 
-         * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
         public static void mount_complet_server()
@@ -91,19 +89,7 @@ namespace fissh_cmdline_interface
             {
                 throw e;
             }
- 
-
-            /*int server_id;
-            List<int> folder_ids;
-            server_id = icp.search_server(arguments.parameter_servername.get());
-
-            folder_ids = icp.get_folder_ids(server_id);
-
-            folder_ids.ForEach(delegate(int i)
-            {
-                icp.mount(server_id, i);
-            });*/
-        }
+       }
 
         /// mount a folders of one server
         /**
@@ -173,27 +159,33 @@ namespace fissh_cmdline_interface
          * of one given server and unmounts them all.
          * ex: >fissh unmount Servername
          * 
-         * (This method does not work with Interface yet)
-         * 
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
         public static void umount_complet_server()
         {
-            throw new Exception("not implemented yet");
-            /*
-            int server_id;
-            List<int> folder_ids;
-            server_id = icp.search_server(arguments.parameter_servername.get());
+            ServerModel server;
 
-            folder_ids = icp.get_folder_ids(server_id);
-
-            folder_ids.ForEach(delegate(int i)
+            try
             {
-                icp.umount(server_id, i);
-            });
-             */
-        }
+                Init();
+
+                server = name2server(fissh_command_expression.parameter_servername.get());
+
+                logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Adding folders of " + server.Name +" to unmount list:");
+                foreach (FolderModel i in server.Folders)
+                {
+                    to_umount.Add(new Tuple<ServerModel, FolderModel>(server, i));
+                    logger.log.writeLog(Loglevel.Debug, log_cmpnt, "\tAdded folder " + i.Name + " to unmount list.");
+                }
+
+                umount_them();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+      }
 
 
 
@@ -210,25 +202,30 @@ namespace fissh_cmdline_interface
          */
         public static void umount_registered_folders()
         {
-            throw new Exception("not implemented yet");
-            /*
-            int server_id;
+            ServerModel server;
+            List<FolderModel> folders = new List<FolderModel>();
             List<string> folder_names;
-            List<int> folder_ids = new List<int>();
-            server_id = icp.search_server(arguments.parameter_servername.get());
 
-            folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
 
-            folder_names.ForEach(delegate(string puffer)
+            try
             {
-                folder_ids.Add(icp.search_folder(puffer, server_id));
-            });
+                Init();
+                
+                server = name2server(fissh_command_expression.parameter_servername.get());
+                folder_names = fissh_command_expression.parameter_folderlist.get().Split(',').ToList();
 
-            folder_ids.ForEach(delegate(int i)
+                foreach (string i in folder_names)
+                {
+                    to_umount.Add(new Tuple<ServerModel, FolderModel>(server, name2folder(server, i)));
+                }
+
+                umount_them();
+            }
+            catch (Exception e)
             {
-                icp.umount(server_id, i);
-            });*/
-        }
+                throw e;
+            }
+       }
 
         /// unmount a connection which is given by a driveletter
         /**
@@ -324,7 +321,7 @@ namespace fissh_cmdline_interface
                         i.Item2.Status != Sshfs.DriveStatus.Mounting)
                     {
                         bone_server.Mount(i.Item1.ID, i.Item2.ID);
-                        logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Mounted folder " + i.Item2 + " on server " + i.Item1);
+                        logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Mounted folder " + i.Item2.Name + " on server " + i.Item1.Name);
                     }
                     else
                     {
@@ -343,5 +340,35 @@ namespace fissh_cmdline_interface
         }
 
 
+
+
+    
+        private static void umount_them()
+        {
+            foreach (Tuple<ServerModel,FolderModel> i in to_umount)
+            {
+                try
+                {
+                    if (i.Item2.Status != Sshfs.DriveStatus.Unmounted &&
+                        i.Item2.Status != Sshfs.DriveStatus.Unmounting)
+                    {
+                        bone_server.UMount(i.Item1.ID, i.Item2.ID);
+                        logger.log.writeLog(Loglevel.Debug, log_cmpnt, "Unmounted folder " + i.Item2.Name + " on server " + i.Item1.Name);
+                    }
+                    else
+                    {
+                        fissh_print.simple_error_message(i.Item2.Name + " on " + i.Item1.Name + " is already mounted");
+                    }
+                    
+                }
+                catch (FaultException<Fault> e)
+                {
+                    string message = "While unmounting " + i.Item1.Name + " on " + i.Item2.Name +
+                                        ": " + e.Detail.Message;
+                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                    throw new Exception(message);
+                }
+            }
+        }
     }
 }
