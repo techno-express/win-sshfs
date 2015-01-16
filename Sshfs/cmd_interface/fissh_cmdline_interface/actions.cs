@@ -25,6 +25,8 @@ namespace fissh_command
     public static class actions
     {
         private static IServiceFisshBone bone_server = null;
+        private static List<ServerModel> all_data = null;
+        private static List<Tuple<ServerModel, FolderModel>> to_mount = new List<Tuple<ServerModel,FolderModel>>();
 
 
         /// init methods
@@ -39,6 +41,12 @@ namespace fissh_command
             {
                 bone_server = IPCConnection.ClientConnect();
             }
+
+            if (all_data == null)
+            {
+                all_data = bone_server.listAll();
+            }
+
             return;
         }
 
@@ -59,7 +67,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void mount_complet_server(fissh_command_expression arguments)
+        public static void mount_complet_server()
         {
             throw new Exception("not implemented yet");
             /*int server_id;
@@ -92,7 +100,7 @@ namespace fissh_command
          *  
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void mount_registered_folders(fissh_command_expression arguments)
+        public static void mount_registered_folders()
         {
             List<ServerModel> all_data;
             ServerModel server;
@@ -107,44 +115,15 @@ namespace fissh_command
                 Init();
                 all_data = bone_server.listAll();
 
-                try
-                {
-                    server = all_data.Find(x => x.Name == arguments.parameter_servername.get());
-                }
-                catch (NullReferenceException error)
-                {
-                    throw new NullReferenceException(
-                        "Cannot find server with name " + arguments.parameter_servername.get());
-                }
-
-                folder_names = arguments.parameter_folderlist.get().Split(',').ToList();
+                server = name2server(fissh_command_expression.parameter_servername.get());
+                folder_names = fissh_command_expression.parameter_folderlist.get().Split(',').ToList();
 
                 foreach (string i in folder_names)
                 {
-                    try
-                    {
-                        folders.Add(server.Folders.Find(x => x.Name == i));
-                    }
-                    catch (NullReferenceException error)
-                    {
-                        throw new NullReferenceException(
-                               "Cannot find folder with name " + i);
-                    }
+                    to_mount.Add(new Tuple<ServerModel,FolderModel>(server, name2folder(server, i)));
                 }
 
-
-                foreach (FolderModel i in folders)
-                {
-                    try
-                    {
-                        bone_server.Mount(server.ID, i.ID);
-                    }
-                    catch (FaultException<Fault> e)
-                    {
-                        throw new Exception("While mounting " + server.Name + " on " + i.Name +
-                                            ": " + e.Detail.Message);
-                    }
-                }
+                mount_them();
 
             }
             catch (Exception e)
@@ -164,7 +143,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void mount_unregistered_folder(fissh_command_expression arguments)
+        public static void mount_unregistered_folder()
         {
             throw new Exception("not implemented yet");
         }
@@ -181,7 +160,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void umount_complet_server(fissh_command_expression arguments)
+        public static void umount_complet_server()
         {
             throw new Exception("not implemented yet");
             /*
@@ -211,7 +190,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void umount_registered_folders(fissh_command_expression arguments)
+        public static void umount_registered_folders()
         {
             throw new Exception("not implemented yet");
             /*
@@ -242,7 +221,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void umount_driveletter(fissh_command_expression arguments)
+        public static void umount_driveletter()
         {
             throw new Exception("not implemented yet");
             /*Tuple<int, int> puffer_tupel;
@@ -269,7 +248,7 @@ namespace fissh_command
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void umount_virtualdrive(fissh_command_expression arguments)
+        public static void umount_virtualdrive()
         {
             throw new Exception("not implemented yet");
             /*Tuple<int, int> puffer_tupel;
@@ -285,8 +264,51 @@ namespace fissh_command
             }*/
         }
 
+        private static ServerModel name2server(string servername)
+        {
+            try
+            {
+                return all_data.Find(x => x.Name == servername);
+            }
+            catch (NullReferenceException error)
+            {
+                throw new NullReferenceException(
+                    "Cannot find server with name " + fissh_command_expression.parameter_servername.get());
+            }
+        }
+
+        private static FolderModel name2folder(ServerModel server, string foldername)
+        {
+            try
+            {
+                return server.Folders.Find(x => x.Name == foldername);
+            }
+            catch (NullReferenceException error)
+            {
+                throw new NullReferenceException(
+                    "Cannot find folder with name " + fissh_command_expression.parameter_servername.get() +
+                    " in " + server.Name);
+            } 
+        }
 
 
+        private static void mount_them()
+        {
+
+
+            foreach (Tuple<ServerModel,FolderModel> i in to_mount)
+            {
+                try
+                {
+                    bone_server.Mount(i.Item1.ID, i.Item2.ID);
+                }
+                catch (FaultException<Fault> e)
+                {
+                    throw new Exception("While mounting " + i.Item1.Name + " on " + i.Item2.Name +
+                                        ": " + e.Detail.Message);
+                }
+            }
+        }
 
 
     }

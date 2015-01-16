@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="actions.cs" />
     <Compile Include="fissh_print.cs" />
-    <Compile Include="fissh_command.cs" />
+    <Compile Include="fissh_command_expression.cs" />
     <Compile Include="NDesk.Options.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>

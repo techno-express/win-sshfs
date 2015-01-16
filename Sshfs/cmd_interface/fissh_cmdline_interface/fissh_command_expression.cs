@@ -24,25 +24,25 @@ namespace fissh_command
      * no messages will be printed at IO
      * 
      */
-    public class fissh_command_expression
+    public static class fissh_command_expression
     {
 
-        public byte keyword;    //keyword comes from the first argument, eg. "mount", "umount", "help", "status"
+        public static byte keyword;    //keyword comes from the first argument, eg. "mount", "umount", "help", "status"
         
-        public bool any_option_is_set_flag;     //will ne true, if there is any option set
+        public static bool any_option_is_set_flag;     //will ne true, if there is any option set
         
         // options are all arguments which look like "-l user" or "-p 22"
-        public option option_login_name = new option();
-        public option option_port = new option();
-        public option option_key = new option();
-        public option option_path = new option();
-        public option option_drive = new option();
-        public option option_virtual_drive = new option();
+        public static option option_login_name = new option();
+        public static option option_port = new option();
+        public static option option_key = new option();
+        public static option option_path = new option();
+        public static option option_drive = new option();
+        public static option option_virtual_drive = new option();
         
         // parameters are arguments without "-" or "/" as first letter, like "servername" or "folder1,folder2,folderx"
-        public option parameter_host = new option();
-        public option parameter_servername = new option();
-        public option parameter_folderlist = new option();
+        public static option parameter_host = new option();
+        public static option parameter_servername = new option();
+        public static option parameter_folderlist = new option();
 
 
 
@@ -56,7 +56,7 @@ namespace fissh_command
          * 
          * @param args  a string array with all arguments
          */
-        public fissh_command_expression(string[] args)
+        public static void parse(string[] args)
         {
             fetch_keyword(args);    //parse first argument
 
@@ -112,7 +112,7 @@ namespace fissh_command
          * @param args      arguments in a string array as given by Main()
          * 
          */
-        private void fetch_keyword(string[] args)
+        private static void fetch_keyword(string[] args)
         {   
             //if there are no arguments, exit
             if (args.Length == 0)
@@ -169,7 +169,7 @@ namespace fissh_command
          * @return          string list of all arguments which are no options
          * 
          */
-        private List<string> fetch_options(string[] args)
+        private static List<string> fetch_options(string[] args)
         {
             List<string> extra_parameters; // to store the arguments, which are not options
 
@@ -240,7 +240,7 @@ namespace fissh_command
          * @param   string list with all parameter
          *
          */
-        private void fetch_parameters(List<string> parameters)
+        private static void fetch_parameters(List<string> parameters)
         {
             switch (keyword)    //uses of arguments depends on the keyword 
             {
