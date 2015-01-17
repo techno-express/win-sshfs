@@ -56,7 +56,7 @@ namespace fissh_cmdline_interface
             return;
         }
 
-
+        #region mount
         /// mount a complete server
         /**
          * If you got on server but no folderlist in parameters
@@ -183,8 +183,9 @@ namespace fissh_cmdline_interface
                 throw new System.ComponentModel.WarningException(error_message);
             }
         }
+        #endregion
 
-
+        #region umount
         /// unmount a complete server
         /**
          * This method looks for all folders with the status "mounted"
@@ -194,7 +195,7 @@ namespace fissh_cmdline_interface
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void umount_complet_server()
+        public static void umount_complete_server()
         {
             ServerModel server;
 
@@ -218,8 +219,6 @@ namespace fissh_cmdline_interface
                 throw e;
             }
       }
-
-
 
         /// unmount one or more folders of a server
         /**
@@ -327,7 +326,145 @@ namespace fissh_cmdline_interface
         {
             throw new Exception("not implemented yet");
         }
+        #endregion
 
+        #region status
+        /// show all folders of a server and if there are mounted
+        /**
+         * 
+         * @return  if any folder is not mounted or mounting 
+         * it will return unmounted, else mounted
+         */
+        public static Sshfs.DriveStatus status_complete_server() 
+        {
+            ServerModel server;
+            Sshfs.DriveStatus return_value = Sshfs.DriveStatus.Mounted;
+
+            try
+            {
+                Init();
+
+                server = name2server(fissh_command_expression.parameter_servername.get());
+
+                foreach (FolderModel i in server.Folders)
+                {
+                    if (i.Status != Sshfs.DriveStatus.Mounted && i.Status != Sshfs.DriveStatus.Mounting)
+                    {
+                        return_value = Sshfs.DriveStatus.Unmounted;
+                    }
+                    fissh_print.simple_output_message("Folder " + i.Name + " is " + i.Status.ToString() + ".");
+                }
+                return return_value;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+  
+        }
+
+        /// shows if the given folders are mounted or not
+        /**
+         * 
+         * @return  if any folder is not mounted or mounting 
+         * it will return unmounted, else mounted
+         */
+        public static Sshfs.DriveStatus status_registered_folders()
+        {
+            ServerModel server;
+            List<FolderModel> folders = new List<FolderModel>();
+            List<string> folder_names = new List<string>();
+            Sshfs.DriveStatus return_value = Sshfs.DriveStatus.Mounted;
+
+
+            try
+            {
+                Init();
+                
+                server = name2server(fissh_command_expression.parameter_servername.get());
+                folder_names = fissh_command_expression.parameter_folderlist.get().Split(',').ToList();
+
+                foreach (string i in folder_names)
+                {
+                    folders.Add(name2folder(server, i));
+                }
+
+                foreach (FolderModel i in folders)
+                {
+                    if (i.Status != Sshfs.DriveStatus.Mounted && i.Status != Sshfs.DriveStatus.Mounting)
+                    {
+                        return_value = Sshfs.DriveStatus.Unmounted;
+                    }
+                    fissh_print.simple_output_message("Folder " + i.Name + " is " + i.Status.ToString() + ".");
+                }
+                return return_value;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+ 
+        }
+
+        /// shows which folder is mounted under given drive letter
+        public static Sshfs.DriveStatus status_driveletter() 
+        {
+            Tuple<Guid, Guid> ids = null;
+
+
+            try
+            {
+                Init();
+
+                char letter = fissh_command_expression.option_letter.get().ToCharArray()[0];
+                ids = bone_server.GetLetterUsage(letter);
+
+                if (ids.Item1 == Guid.Empty && ids.Item2 == Guid.Empty)
+                {
+                    fissh_print.simple_error_message("Nothing mounted at " + letter + ":");
+                    return Sshfs.DriveStatus.Unmounted;
+                }
+                else
+                {
+                    ServerModel server;
+                    FolderModel folder;
+                    try
+                    {
+                        server = all_data.Find(x => x.ID == ids.Item1);
+                        folder = server.Folders.Find(x => x.ID == ids.Item2);
+                        fissh_print.simple_output_message(
+                            "Folder " + folder.Name + " on server " + server.Name +
+                            " mounted under drive letter " + letter +":." +
+                            " Its status is " + folder.Status.ToString() + ".");
+                        return folder.Status;
+                    }
+                    catch (NullReferenceException w)
+                    {
+                        fissh_print.simple_output_message(
+                            "Unregistered server " +
+                            "mounted under drive letter " + letter + ":.");
+                        return Sshfs.DriveStatus.Mounted;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+ 
+ 
+        }
+
+        /// shows which folder is mounted under given virtual drive
+        public static Sshfs.DriveStatus status_virtualdrive() 
+        {
+            throw new Exception("not implemented yet.");
+        }
+
+        #endregion
+
+        #region tools
         /// find server to given name
         /**
          * This mehtod gets a name of a server and searches
@@ -426,9 +563,6 @@ namespace fissh_cmdline_interface
             }
         }
 
-
-
-
         /// unmount all folders in "to unmount" list
         /**
          * umount_them() will unmount every folder listed in to_umount list.
@@ -469,5 +603,6 @@ namespace fissh_cmdline_interface
                 }
             }
         }
+        #endregion
     }
 }

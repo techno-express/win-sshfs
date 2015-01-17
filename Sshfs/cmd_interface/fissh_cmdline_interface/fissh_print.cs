@@ -54,5 +54,16 @@ namespace fissh_cmdline_interface
 
             logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
         }
+
+
+
+        public static void simple_output_message(string error_message)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("{0}", error_message);
+            Console.WriteLine();
+
+            logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
+        }
     }
 }

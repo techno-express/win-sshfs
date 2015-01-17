@@ -314,7 +314,7 @@ namespace fissh_cmdline_interface
             switch (keyword)    //uses of arguments depends on the keyword 
             {
                 case (byte)fissh_command_keywords.mount:
-
+                    #region mount
 
                     //User wants to mount a uregistered server
                     if (any_option_is_set_flag)
@@ -326,8 +326,6 @@ namespace fissh_cmdline_interface
                         if (parameters.Count() == 0)
                         {
                             throw new Exception("missing parameter");
-                            //fissh_print.error_message("fissh: missing parameter");
-                            //Environment.Exit(-1);
                         }
 
                         //isolate username
@@ -387,10 +385,12 @@ namespace fissh_cmdline_interface
 
                     }
                     break;
+                    #endregion
 
-                    
                 case (byte) fissh_command_keywords.umount:
-                    // If Option -d or -v is set, we allready know wat the want to unmount
+                case (byte) fissh_command_keywords.status:
+                    #region umount_or_status
+                    // If Option -d or -v is set, we allready know what the user wants to unmount
                     if (option_letter.is_set_flag || option_virtual_drive.is_set_flag)
                     {
                         return;
@@ -403,8 +403,6 @@ namespace fissh_cmdline_interface
                         if(parameters.Count() == 0)
                         {
                             throw new Exception("missing parameter");
-                            //fissh_print.error_message("missing parameters");
-                            return;
                         }
                         
                         // If the first Parameter is a driveletter or a Virtualdrive-Path
@@ -435,8 +433,9 @@ namespace fissh_cmdline_interface
 
                     }
                     break;
-                
-                default: return;
+                    #endregion
+
+               default: return;
             }
         }
         #endregion

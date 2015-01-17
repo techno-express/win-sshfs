@@ -152,7 +152,7 @@ namespace fissh_cmdline_interface
                         // If user wants to umount a complet registered server
                         else
                         {
-                            fissh_cmdline_interface.actions.umount_complet_server();
+                            fissh_cmdline_interface.actions.umount_complete_server();
                         }
 
                         break;
@@ -160,7 +160,62 @@ namespace fissh_cmdline_interface
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.status:
                         #region status
-                        Console.WriteLine("You ask for a status.");
+                        {
+                            Sshfs.DriveStatus local_return_value;
+                            // If user asks for a simple drive
+                            if (fissh_command_expression.option_letter.is_set_flag)
+                            {
+                                local_return_value = fissh_cmdline_interface.actions.status_driveletter();
+                            }
+
+                            // If user asks for a virtual drive
+                            else if (fissh_command_expression.option_virtual_drive.is_set_flag)
+                            {
+                                local_return_value = fissh_cmdline_interface.actions.status_virtualdrive();
+                            }
+
+                            // If user asks for folders on a registered server
+                            else if (fissh_command_expression.parameter_folderlist.is_set_flag)
+                            {
+                                local_return_value = fissh_cmdline_interface.actions.status_registered_folders();
+                            }
+
+                            // If user asks for a complete registered server
+                            else
+                            {
+                                local_return_value = fissh_cmdline_interface.actions.status_complete_server();
+                            }
+
+                            switch (local_return_value)
+                            {
+                                case Sshfs.DriveStatus.Error:
+                                    return_value = return_error_codes.drive_status_error;
+                                    break;
+
+                                case Sshfs.DriveStatus.Mounted:
+                                    return_value = return_error_codes.drive_status_mounted;
+                                    break;
+
+                                case Sshfs.DriveStatus.Mounting:
+                                    return_value = return_error_codes.drive_status_mounting;
+                                    break;
+
+                                case Sshfs.DriveStatus.Undefined:
+                                    return_value = return_error_codes.drive_status_undefined;
+                                    break;
+
+                                case Sshfs.DriveStatus.Unmounted:
+                                    return_value = return_error_codes.drive_status_unmounted;
+                                    break;
+
+                                case Sshfs.DriveStatus.Unmounting:
+                                    return_value = return_error_codes.drive_status_unmounting;
+                                    break;
+                            }
+
+                        }
+                        break;
+
                         break;
                         #endregion
 
@@ -174,6 +229,7 @@ namespace fissh_cmdline_interface
                         throw new Exception("Unknown keyword");
                 }
             }
+            #region catching
             // error with IPC connection
             catch (System.ServiceModel.EndpointNotFoundException)
             {
@@ -204,7 +260,7 @@ namespace fissh_cmdline_interface
                 fissh_print.simple_error_message(e.Message);
                 return_value = return_error_codes.any_error;
             }
-
+            #endregion
 
 
             // if programm could not mount or unmount every given drive
@@ -230,6 +286,12 @@ namespace fissh_cmdline_interface
             common_warning = 2,
             ipc_error = 3,
             could_not_mount_every_drive = 4,
+            drive_status_error = 101,
+            drive_status_mounted = 102,
+            drive_status_mounting = 103,
+            drive_status_undefined = 104,
+            drive_status_unmounted = 105,
+            drive_status_unmounting = 106,
             any_error = 244,
             error_in_code = 255    
         }
