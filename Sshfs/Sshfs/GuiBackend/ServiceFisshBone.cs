@@ -288,14 +288,22 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          */
         public void UnregisteredMount(ServerModel server)
         {
-            FolderModel folder;
-            server.ID = Guid.NewGuid();
-            folder = server.Folders.ElementAt(0);
-            folder.ID = Guid.NewGuid();
-            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount unregistered folder \"" + folder.Folder + "\" mounted on server \"" + server.Host + "\"" + " on Port " + server.Port 
-                                                           + " with username " + server.Username + " and password " + server.Password);
-            MountDrive(server, folder);
-            return;
+            try
+            {
+                FolderModel folder;
+                server.ID = Guid.NewGuid();
+                folder = server.Folders.ElementAt(0);
+                folder.ID = Guid.NewGuid();
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount unregistered folder \"" + folder.Folder + "\" mounted on server \"" + server.Host + "\"" + " on Port " + server.Port
+                                                               + " with username " + server.Username + " and password " + server.Password);
+                MountDrive(server, folder);
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
         }
 
 

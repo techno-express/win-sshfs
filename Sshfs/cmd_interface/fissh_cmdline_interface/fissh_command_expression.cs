@@ -156,11 +156,8 @@ namespace fissh_cmdline_interface
             if (args.Length == 0)
             {
                 throw new Exception("no arguments found");
-                //fissh_print.error_message("no arguments found");
-                //Environment.Exit(-1);
             }
 
-            //else: compare first argument with defined keywords
             else
             {
                 switch (args[0])
@@ -170,16 +167,15 @@ namespace fissh_cmdline_interface
                     case "status": keyword = (byte)fissh_command_keywords.status; return;
                     case "help": keyword = (byte)fissh_command_keywords.help; return;
 
-                    default: 
+                    default:
+                        // if first argument looks like a option or a path
                         if(args[0].Substring(0,1) == "-" || args[0].Substring(0,1) == "/")
                         {
                             throw new Exception("no keyword found");
-                            //fissh_print.error_message("no keyword found");
                         }
                         else
                         {
                             throw new Exception("no matching keyword found");
-                            //fissh_print.error_message("no matching keyword found");
                         }
                 }
             }
@@ -246,7 +242,17 @@ namespace fissh_cmdline_interface
                                             } },
 
                 { "s=", "Path on Server", v => {option_path.set(v); any_option_is_set_flag = true;}  },
-                { "d=", "Driveletter", v => {option_letter.set(v); any_option_is_set_flag = true;}  },
+                { "d=", "Driveletter", v => {
+                                                if(v.Length > 2 || (v.Length == 2 && v.ToCharArray()[1] != ':'))
+                                                {
+                                                    throw new Exception(v + " is no drive letter.");   
+                                                }
+                                                else
+                                                { 
+                                                    option_letter.set(v);
+                                                    any_option_is_set_flag = true;
+                                                }
+                                            }  },
                 { "v=", "Virtualdrive", v => {option_virtual_drive.set(v); any_option_is_set_flag = true;}  },
                 //  {"<>", v => Console.WriteLine("unknown option: {0}", v) },
 		    };

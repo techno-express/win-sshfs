@@ -31,9 +31,6 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using fissh_cmdline_interface;
-//using System.Linq;
-//using System.Text;
-
 
 
 namespace fissh_cmdline_interface
@@ -44,18 +41,18 @@ namespace fissh_cmdline_interface
         static int Main(string[] args)
         {
 
-            int return_value = 0;
+            return_error_codes return_value = return_error_codes.no_error;
 
-            //var cmdline_parameters = new fissh_command.fissh_command_expression();
-            //fissh_command.fissh_command_expression cmdline_parameters = null;
 
             try
             {
-                // arguments get parsed by contructor; all parameters will be available in the new object
                 fissh_command_expression.parse(args);
             }
             catch (Exception e)
             {
+                // if there is an error while parsing the arguments
+                // programm will print an error message and syntax exmaples
+                // exit code is 1
                 fissh_cmdline_interface.fissh_print.wrong_use_error_message(e.Message);
                 logger.log.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
                 
@@ -63,19 +60,18 @@ namespace fissh_cmdline_interface
                 Console.ReadLine();
 #endif
 
-                Environment.Exit(-1);
+                return (int) return_error_codes.wrong_use_of_arguments;
             }
 
-            
+
 
 
             try
             {
-                #region Region
                 switch (fissh_command_expression.keyword)
                 {
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.mount:
-
+                        #region mount
                         // If user want to mount a registered server
                         if (!fissh_command_expression.parameter_host.is_set_flag)
                         {
@@ -88,7 +84,7 @@ namespace fissh_cmdline_interface
                             // If no folderlist is used
                             else
                             {
-                                fissh_cmdline_interface.actions.mount_complet_server();
+                                fissh_cmdline_interface.actions.mount_complete_server();
                             }
                         }
                         // If user want to mount a unregisteres Server
@@ -113,7 +109,7 @@ namespace fissh_cmdline_interface
                             }
 
                             // If driveletter is not set, use Z:\
-                            if(!fissh_command_expression.option_letter.is_set_flag
+                            if (!fissh_command_expression.option_letter.is_set_flag
                                 && !fissh_command_expression.option_virtual_drive.is_set_flag)
                             {
                                 fissh_command_expression.option_letter.set("Z:");
@@ -128,12 +124,13 @@ namespace fissh_cmdline_interface
                             }
 
                             actions.mount_unregistered_folder();
-                            
+
                         }
                         break;
-
+                        #endregion
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.umount:
+                        #region umount
                         // If user wants to umount a simple drive
                         if (fissh_command_expression.option_letter.is_set_flag)
                         {
@@ -159,40 +156,83 @@ namespace fissh_cmdline_interface
                         }
 
                         break;
+                        #endregion
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.status:
+                        #region status
                         Console.WriteLine("You ask for a status.");
                         break;
+                        #endregion
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.help:
+                        #region help
                         Console.WriteLine("HELP!!!");
                         break;
-
+                        #endregion
 
                     default:
-                        Console.WriteLine("Unknown keyword");
-                        break;
+                        throw new Exception("Unknown keyword");
                 }
-                Console.WriteLine(" ");
-            #endregion
-
             }
-            catch (Exception e) 
+            // error with IPC connection
+            catch (System.ServiceModel.EndpointNotFoundException)
             {
-                Console.WriteLine(e.Message);
+                string error_message = "Cannot connect to IPC backend server, is fissh service running?";
+                logger.log.writeLog(SimpleMind.Loglevel.Warning, "cmdline", error_message);
+                fissh_print.simple_error_message(error_message);
+                return_value = return_error_codes.ipc_error;
+            }
+            // wrong use of a argument
+            catch (ArgumentException e)
+            {
+                string error_message = "Error in code: " + e.Message;
+                logger.log.writeLog(SimpleMind.Loglevel.Error, "cmdline", error_message);
+                fissh_print.simple_error_message(error_message);
+                return_value = return_error_codes.error_in_code;
+            }
+            // Warnings
+            catch (System.ComponentModel.WarningException e)
+            {
+                string error_message = e.Message;
+                logger.log.writeLog(SimpleMind.Loglevel.Warning, "cmdline", error_message);
+                fissh_print.simple_error_message(error_message);
+                return_value = return_error_codes.common_warning;
+            }
+            catch (Exception e)
+            {
+                logger.log.writeLog(SimpleMind.Loglevel.Error, "cmdline", e.Message);
+                fissh_print.simple_error_message(e.Message);
+                return_value = return_error_codes.any_error;
+            }
+
+
+
+            // if programm could not mount or unmount every given drive
+            if (!actions.no_mounting_error)
+            {
+                return_value = return_error_codes.could_not_mount_every_drive;
             }
  
 #if DEBUG
-            Console.WriteLine("Ended with return value " + return_value + ".");
+            Console.WriteLine("DEBUGGING:");
+            Console.WriteLine("Ended with return value " + (int)return_value + " - " + return_value + ".");
             Console.WriteLine("Press enter to close consol.");
             Console.ReadLine();
 #endif
 
-            return return_value;
-
+            return (int)return_value;
         }
-
-
+        
+        enum return_error_codes 
+        {
+            no_error = 0,
+            wrong_use_of_arguments = 1,
+            common_warning = 2,
+            ipc_error = 3,
+            could_not_mount_every_drive = 4,
+            any_error = 244,
+            error_in_code = 255    
+        }
 
     }
 }

@@ -32,6 +32,8 @@ namespace fissh_cmdline_interface
         private static List<Tuple<ServerModel, FolderModel>> to_mount = new List<Tuple<ServerModel,FolderModel>>();
         private static List<Tuple<ServerModel, FolderModel>> to_umount = new List<Tuple<ServerModel,FolderModel>>();
 
+        // this flag will be set false if programm could not mount or unmount a drive
+        public static bool no_mounting_error = true;
 
         /// init methods
         /**
@@ -68,7 +70,7 @@ namespace fissh_cmdline_interface
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
-        public static void mount_complet_server()
+        public static void mount_complete_server()
         {
             ServerModel server;
 
@@ -141,9 +143,8 @@ namespace fissh_cmdline_interface
         /**
          * The cmd line interface is able to mount a remote directory
          * which is not already listed in Backend.
-         * ex.: >fissh mount user@93.184.216.34:22 -s /home/user -d Z: -k password=3dj92d
+         * ex.: >fissh mount -s /home/user -d Z: -k password=3dj92d user@93.184.216.34:22
          * 
-         * (not implemented yet)
          * 
          * @param   arguments   parsed arguments in a fissh_command_expression object
          */
@@ -178,7 +179,8 @@ namespace fissh_cmdline_interface
             }
             catch (FaultException<Fault> e)
             {
-                throw new Exception(e.Detail.Message);
+                string error_message = "While mounting " + folder.Folder + " on " + server.Host + ": " + e.Detail.Message;
+                throw new System.ComponentModel.WarningException(error_message);
             }
         }
 
@@ -324,17 +326,6 @@ namespace fissh_cmdline_interface
         public static void umount_virtualdrive()
         {
             throw new Exception("not implemented yet");
-            /*Tuple<int, int> puffer_tupel;
-            int server_id, folder_id;
-
-            puffer_tupel = icp.search_virtualdrive(arguments.option_virtual_drive.get());
-            server_id = puffer_tupel.Item1;
-            folder_id = puffer_tupel.Item2;
-
-            if (server_id > 0 && folder_id > 0)
-            {
-                icp.umount(server_id, folder_id);
-            }*/
         }
 
         /// find server to given name
@@ -350,16 +341,18 @@ namespace fissh_cmdline_interface
          */
         private static ServerModel name2server(string servername)
         {
-            try
-            {
-                return all_data.Find(x => x.Name == servername);
-            }
-            catch (NullReferenceException error)
-            {
-                string message = "Cannot find server with name " + fissh_command_expression.parameter_servername.get();
-                logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
-                throw new Exception(message);
-            }
+                ServerModel server = all_data.Find(x => x.Name == servername);
+
+                if (server == null)
+                {
+                    string message = "Cannot find server with name " + fissh_command_expression.parameter_servername.get();
+                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                    throw new System.ComponentModel.WarningException(message);
+                }
+                else
+                {
+                    return server;
+                }
         }
 
         /// find folder to given name
@@ -376,17 +369,19 @@ namespace fissh_cmdline_interface
          */
         private static FolderModel name2folder(ServerModel server, string foldername)
         {
-            try
-            {
-                return server.Folders.Find(x => x.Name == foldername);
-            }
-            catch (NullReferenceException error)
-            {
-                string message = "Cannot find folder with name " + fissh_command_expression.parameter_servername.get() +
-                    " in " + server.Name;
-                logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
-                throw new Exception(message);
-            } 
+                FolderModel folder = server.Folders.Find(x => x.Name == foldername);
+
+                if (folder == null)
+                {
+                    string message = "Cannot find folder with name " + foldername +
+                        " in " + server.Name;
+                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
+                    throw new Exception(message);
+                }
+                else
+                {
+                    return folder;
+                }
         }
 
         /// mount all folders in "to mount" list
@@ -400,6 +395,7 @@ namespace fissh_cmdline_interface
         {
             foreach (Tuple<ServerModel,FolderModel> i in to_mount)
             {
+                // try for every element so you can go on if there is an error with one drive 
                 try
                 {
                     if (i.Item2.Status != Sshfs.DriveStatus.Mounted &&
@@ -416,10 +412,16 @@ namespace fissh_cmdline_interface
                 }
                 catch (FaultException<Fault> e)
                 {
-                    string message = "While mounting " + i.Item1.Name + " on " + i.Item2.Name +
+                    string error_message = "While mounting " + i.Item1.Name + " on " + i.Item2.Name +
                                         ": " + e.Detail.Message;
-                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
-                    throw new Exception(message);
+                    logger.log.writeLog(SimpleMind.Loglevel.Warning, "cmdline", error_message);
+                    fissh_print.simple_error_message(error_message);
+
+                    no_mounting_error = false;
+                }
+                catch (Exception e)
+                {
+                    throw e;
                 }
             }
         }
@@ -455,10 +457,15 @@ namespace fissh_cmdline_interface
                 }
                 catch (FaultException<Fault> e)
                 {
-                    string message = "While unmounting " + i.Item1.Name + " on " + i.Item2.Name +
+                    string error_message = "While unmounting " + i.Item1.Name + " on " + i.Item2.Name +
                                         ": " + e.Detail.Message;
-                    logger.log.writeLog(Loglevel.Warning, log_cmpnt, message);
-                    throw new Exception(message);
+                    logger.log.writeLog(SimpleMind.Loglevel.Warning, "cmdline", error_message);
+                    fissh_print.simple_error_message(error_message);
+                    no_mounting_error = false;
+                }
+                catch (Exception e)
+                {
+                    throw e;
                 }
             }
         }
