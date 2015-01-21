@@ -121,38 +121,38 @@
             this.duplicateToolStripMenuItem1,
             this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(160, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 114);
             // 
             // mountToolStripMenuItem2
             // 
             this.mountToolStripMenuItem2.Name = "mountToolStripMenuItem2";
-            this.mountToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
+            this.mountToolStripMenuItem2.Size = new System.Drawing.Size(182, 22);
             this.mountToolStripMenuItem2.Text = "Mount";
             // 
             // editToolStripMenuItem2
             // 
             this.editToolStripMenuItem2.Name = "editToolStripMenuItem2";
-            this.editToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
+            this.editToolStripMenuItem2.Size = new System.Drawing.Size(182, 22);
             this.editToolStripMenuItem2.Text = "Edit";
             this.editToolStripMenuItem2.Click += new System.EventHandler(this.editToolStripMenuItem2_Click);
             // 
             // deleteToolStripMenuItem2
             // 
             this.deleteToolStripMenuItem2.Name = "deleteToolStripMenuItem2";
-            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
+            this.deleteToolStripMenuItem2.Size = new System.Drawing.Size(182, 22);
             this.deleteToolStripMenuItem2.Text = "Delete";
             // 
             // duplicateToolStripMenuItem1
             // 
             this.duplicateToolStripMenuItem1.Name = "duplicateToolStripMenuItem1";
-            this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
+            this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.duplicateToolStripMenuItem1.Text = "Duplicate";
             // 
             // openInExplorerToolStripMenuItem
             // 
             this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
-            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.openInExplorerToolStripMenuItem.Text = "open in explorer";
+            this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.openInExplorerToolStripMenuItem.Text = "Open in WinExplorer";
             // 
             // contextMenuStrip1
             // 
@@ -162,32 +162,32 @@
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(167, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 92);
             // 
             // editToolStripMenuItem1
             // 
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
             this.editToolStripMenuItem1.Text = "Edit";
             this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             // 
             // mountAllFoldersToolStripMenuItem
             // 
             this.mountAllFoldersToolStripMenuItem.Name = "mountAllFoldersToolStripMenuItem";
-            this.mountAllFoldersToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.mountAllFoldersToolStripMenuItem.Text = "Mount all Folders";
+            this.mountAllFoldersToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.mountAllFoldersToolStripMenuItem.Text = "Mount All Folders";
             // 
             // addNewFolderToolStripMenuItem
             // 
             this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
-            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.addNewFolderToolStripMenuItem.Text = "add new folder";
+            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.addNewFolderToolStripMenuItem.Text = "Add New Folder";
             // 
             // menuStrip1
             // 
@@ -320,6 +320,7 @@
             this.button_server_savechanges.TabIndex = 13;
             this.button_server_savechanges.Text = "Save changes";
             this.button_server_savechanges.UseVisualStyleBackColor = true;
+            this.button_server_savechanges.Click += new System.EventHandler(this.button_server_savechanges_Click);
             // 
             // button1
             // 
@@ -926,20 +927,20 @@
             this.restoreToolStripMenuItem,
             this.closeApplicationToolStripMenuItem});
             this.contextMenuStrip3.Name = "contextMenuStrip3";
-            this.contextMenuStrip3.Size = new System.Drawing.Size(166, 48);
+            this.contextMenuStrip3.Size = new System.Drawing.Size(168, 48);
             // 
             // restoreToolStripMenuItem
             // 
             this.restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
-            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.restoreToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.restoreToolStripMenuItem.Text = "Restore";
             this.restoreToolStripMenuItem.Click += new System.EventHandler(this.restoreToolStripMenuItem_Click);
             // 
             // closeApplicationToolStripMenuItem
             // 
             this.closeApplicationToolStripMenuItem.Name = "closeApplicationToolStripMenuItem";
-            this.closeApplicationToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.closeApplicationToolStripMenuItem.Text = "Close application";
+            this.closeApplicationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.closeApplicationToolStripMenuItem.Text = "Close Application";
             this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
             // 
             // FiSSHForm
