@@ -20,6 +20,7 @@ namespace Sshfs.GuiBackend
         public string Passphrase;
         public string PrivatKey;
         public DriveStatus Status;
+        public ConnectionType Type;
 
         public System.Windows.Forms.TreeNode gui_node = null;
 

@@ -41,14 +41,18 @@ public class Class1
                 ein_server.Host = "10.0.2.13";
                 ein_server.Port = 22;
                 ein_server.Password = "user";
+                ein_server.Type = ConnectionType.Password;
                 ein_server.Username = "user";
                 Guid ein_server_ID = bone_local.addServer(ein_server);
 
                 FolderModel ein_folder = new FolderModel();
                 ein_folder.Letter = 'G';
-                ein_folder.use_global_login = true;
+                ein_folder.use_global_login = false;
                 ein_folder.Folder = "/home/user/ein";
                 ein_folder.Name = "home vom user";
+                ein_folder.Type = ConnectionType.PrivateKey;
+                ein_folder.PrivatKey = "C:\\nopass";
+                ein_folder.Username = "user";
                 Guid ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
                 ein_folder = new FolderModel();

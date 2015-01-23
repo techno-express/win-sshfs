@@ -241,11 +241,15 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 drive.Username = server.Username;
                 drive.Password = server.Password;
+                drive.PrivateKey = server.PrivateKey;
+                drive.ConnectionType = server.Type;
             }
             else
             {
                 drive.Username = folder.Username;
                 drive.Password = folder.Password;
+                drive.PrivateKey = folder.PrivatKey;
+                drive.ConnectionType = folder.Type;
             }
 
             drive.Mount();
