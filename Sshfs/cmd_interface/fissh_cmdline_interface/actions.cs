@@ -156,13 +156,18 @@ namespace fissh_cmdline_interface
             server.Host = fissh_command_expression.parameter_host.get();
             server.Port = fissh_command_expression.option_port.get();
             server.Username = fissh_command_expression.option_login_name.get();
+            server.Type = fissh_command_expression.option_key.type;
 
             switch (fissh_command_expression.option_key.type)
             {
                 case Sshfs.ConnectionType.Password:
                     server.Password = fissh_command_expression.option_key.get();
                     break;
-                    
+
+                case Sshfs.ConnectionType.PrivateKey:
+                    server.PrivateKey = fissh_command_expression.option_key.get();
+                    break;
+
                 default:
                     throw new Exception("not implemented yet");
             }

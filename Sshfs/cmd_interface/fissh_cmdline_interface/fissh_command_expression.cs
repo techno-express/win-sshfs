@@ -228,7 +228,7 @@ namespace fissh_cmdline_interface
                                                     option_key.type = Sshfs.ConnectionType.Password;
                                                     f = true;
                                                 }
-                                                if(v.StartsWith("privat_key="))
+                                                if(v.StartsWith("private_key="))
                                                 {
                                                     option_key.type = Sshfs.ConnectionType.PrivateKey;
                                                     f = true;
