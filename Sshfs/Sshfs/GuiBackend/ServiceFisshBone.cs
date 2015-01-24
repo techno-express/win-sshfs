@@ -310,6 +310,35 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
         }
 
+        /// get a drive to a proper virtual driver
+        /**
+         * This method gets a letter and looks this letter up in LSftpDrive.
+         * If there is a mounted drive with the given virtual drive this method will
+         * return the drive's ids.
+         * If there is no such drive it will return empty ids (Guid.Empty)
+         * 
+         * @param virtual_drive_folder    virtual drive you want to search for
+         * 
+         * @return ids of found server and folder or empty ids
+         */
+        public Tuple<Guid, Guid> GetVirtualDriveUsage(string virtual_drive_folder)
+        {
+            foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+            {
+                if (i.Value.MountPoint == virtual_drive_folder && 
+                    i.Value.Status == DriveStatus.Mounted)
+                {
+                    return i.Key;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
+        }
+
+
         /// mount a drive which is not in database
         /**
          * This methods creats a drive from the given server and its first folder.

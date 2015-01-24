@@ -48,6 +48,9 @@ namespace Sshfs.GuiBackend.Remoteable
         Tuple<Guid, Guid> GetLetterUsage(char letter);
 
         [OperationContract]
+        Tuple<Guid, Guid> GetVirtualDriveUsage(string virtual_drive_folder);
+
+        [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void UnregisteredMount(ServerModel server);
 

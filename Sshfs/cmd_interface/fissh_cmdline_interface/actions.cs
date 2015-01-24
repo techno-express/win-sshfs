@@ -329,8 +329,46 @@ namespace fissh_cmdline_interface
          */
         public static void umount_virtualdrive()
         {
-            throw new Exception("not implemented yet");
-        }
+            Tuple<Guid, Guid> ids = null;
+
+            try
+            {
+                Init();
+
+                string virtual_drive_folder = fissh_command_expression.option_virtual_drive.get();
+                ids = bone_server.GetVirtualDriveUsage(virtual_drive_folder);
+
+                if (ids.Item1 == Guid.Empty && ids.Item2 == Guid.Empty)
+                {
+                    fissh_print.simple_error_message("Nothing mounted at virtual drive" + virtual_drive_folder + ".");
+                }
+                else
+                {
+                    ServerModel server;
+                    FolderModel folder;
+                    try
+                    {
+                        server = all_data.Find(x => x.ID == ids.Item1);
+                        folder = server.Folders.Find(x => x.ID == ids.Item2);
+                    }
+                    catch (NullReferenceException w)
+                    {
+                        server = new ServerModel();
+                        server.ID = ids.Item1;
+                        folder = new FolderModel();
+                        folder.ID = ids.Item2;
+                        server.Folders.Add(folder);
+                    }
+                    folder.Status = Sshfs.DriveStatus.Mounted;
+                    to_umount.Add(new Tuple<ServerModel, FolderModel>(server, folder));
+                    umount_them();
+                }
+           }
+            catch (Exception e)
+            {
+                throw e;
+            }
+       }
         #endregion
 
         #region status

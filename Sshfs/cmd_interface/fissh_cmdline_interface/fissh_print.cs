@@ -29,8 +29,8 @@ namespace fissh_cmdline_interface
             //Console.WriteLine("");
             Console.WriteLine("To mount a drive");
             Console.WriteLine("     fissh mount SERVERNAME [FOLDERLIST]");
-            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| private_key=...]");
-            Console.WriteLine("                 -s PATH -d DRIVE-LETTER [user@]host[:port]");
+            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| privat_key=...]");
+            Console.WriteLine("                 -s PATH [-d DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER] [user@]host[:port]");
             Console.WriteLine("");
             Console.WriteLine("To unmount a drive");
             Console.WriteLine("     fissh umount DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
