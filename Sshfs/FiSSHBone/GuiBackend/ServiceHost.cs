@@ -35,6 +35,8 @@ public class Class1
                 // um statische elemente zu bearneiten
                 ServiceFisshBone bone_local = new ServiceFisshBone();
 
+                ServiceFisshBone.Init();
+
                 //Ein Server mit Ordner zum Testen ins Datenmodel einfügen
                 ServerModel ein_server = new ServerModel();
                 ein_server.Name = "Ubuntu at VBox";
@@ -53,6 +55,7 @@ public class Class1
                 ein_folder.Type = ConnectionType.PrivateKey;
                 ein_folder.PrivatKey = "C:\\nopass";
                 ein_folder.Username = "user";
+                ein_folder.Note = "Folder with private key";
                 Guid ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
                 ein_folder = new FolderModel();
@@ -60,6 +63,9 @@ public class Class1
                 ein_folder.use_global_login = true;
                 ein_folder.Folder = "/home/user/zwei";
                 ein_folder.Name = "home zwei";
+                ein_folder.Note = "Folder with virtual drive";
+                ein_folder.VirtualDriveFolder = "vd_zwei";
+                ein_folder.use_virtual_drive = true;
                 ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
                 ein_folder = new FolderModel();

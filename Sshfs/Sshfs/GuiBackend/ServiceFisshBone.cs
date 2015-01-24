@@ -21,11 +21,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         private static List<ServerModel> LServermodel = new List<ServerModel>();
         //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
         private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
-        private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
-        public static int x;
-
+        //private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
+        private static VirtualDrive VirtualDrive = new VirtualDrive();
+        
 
         public ServiceFisshBone() { }
+
+        /// Initialize everything
+        public static void Init()
+        {
+            VirtualDrive.Letter = 'Z';
+            VirtualDrive.Mount();
+        }
 
         ///Saving LServermodel into an XML file
         /**
@@ -234,7 +241,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             drive.Host = server.Host;
             drive.Port = server.Port;
 
-            drive.Letter = folder.Letter;
             drive.Root = folder.Folder;
 
             if (folder.use_global_login)
@@ -252,9 +258,29 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 drive.ConnectionType = folder.Type;
             }
 
-            drive.Mount();
-            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
+            if (folder.use_virtual_drive) 
+            {
+                drive.MountPoint = folder.VirtualDriveFolder;
+                VirtualDrive.AddSubFS(drive);
                 
+                // look into virtual drive, so it will be mounted
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder;
+                process.StartInfo = startInfo;
+                process.Start();
+
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted in virtual drive.");
+    
+            }
+            else {
+                drive.Letter = folder.Letter;
+                drive.Mount();
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted at drive letter " + folder.Letter + ":.");
+            }
+
         }
         
         /// get a drive to a proper drive letter
@@ -335,7 +361,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             FolderModel folder;
             ServerModel server;
-            SftpDrive drive = new SftpDrive();
             
             try {
                 server = LServermodel.Find(x => x.ID == ServerID);
@@ -381,8 +406,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             try
             {
-                LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Unmount();
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" unmounted on server \"" + ServerID + "\"");
+                SftpDrive drive = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)];
+
+                drive.Unmount();
+                VirtualDrive.RemoveSubFS(drive);
+
+                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" on server \"" + ServerID + "\" unmounted.");
                 return;
             }
             catch(Exception e) {
