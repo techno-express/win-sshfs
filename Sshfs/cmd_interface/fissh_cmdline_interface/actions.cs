@@ -502,7 +502,47 @@ namespace fissh_cmdline_interface
         /// shows which folder is mounted under given virtual drive
         public static Sshfs.DriveStatus status_virtualdrive() 
         {
-            throw new Exception("not implemented yet.");
+            Tuple<Guid, Guid> ids = null;
+
+            try
+            {
+                Init();
+
+                string virtual_drive_folder = fissh_command_expression.option_virtual_drive.get();
+                ids = bone_server.GetVirtualDriveUsage(virtual_drive_folder);
+
+                if (ids.Item1 == Guid.Empty && ids.Item2 == Guid.Empty)
+                {
+                    fissh_print.simple_error_message("Nothing mounted at virtual drive " + virtual_drive_folder + ".");
+                    return Sshfs.DriveStatus.Unmounted;
+                }
+                else
+                {
+                    ServerModel server;
+                    FolderModel folder;
+                    try
+                    {
+                        server = all_data.Find(x => x.ID == ids.Item1);
+                        folder = server.Folders.Find(x => x.ID == ids.Item2);
+                        fissh_print.simple_output_message(
+                            "Folder " + folder.Name + " on server " + server.Name +
+                            " mounted at virtual drive " + virtual_drive_folder + "." +
+                            " Its status is " + folder.Status.ToString() + ".");
+                        return folder.Status;
+                    }
+                    catch (NullReferenceException w)
+                    {
+                        fissh_print.simple_output_message(
+                            "Unregistered server " +
+                            "mounted under virtual drive " + virtual_drive_folder + ".");
+                        return Sshfs.DriveStatus.Mounted;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         #endregion
