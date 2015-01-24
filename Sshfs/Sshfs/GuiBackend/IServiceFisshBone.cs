@@ -56,7 +56,7 @@ namespace Sshfs.GuiBackend.Remoteable
 
         [OperationContract]
         [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
-        void MoveFolderAfter(Guid ServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID);
+        void MoveFolderAfter(Guid SourceServerID, Guid SinkServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID);
 
         [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]

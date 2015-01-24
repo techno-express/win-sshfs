@@ -97,10 +97,12 @@ public class Class1
                     
                     if (puffer == "w")
                     {
-                        ServerModel server = bone_local.listAll().Find(x => x.Name == "Ubuntu at VBox");
-                        Guid id = server.Folders.Find(x => x.Name == "home zwei").ID;
-                        Guid id2 = server.Folders.Find(x => x.Name == "home drei").ID;
-                        bone_local.MoveFolderAfter(server.ID, id, Guid.Empty);
+                        ServerModel server1 = bone_local.listAll().Find(x => x.Name == "Ubuntu at VBox");
+                        ServerModel server2 = bone_local.listAll().Find(x => x.Name == "Ubuntu mit falscher IP");
+
+                        Guid id1 = server1.Folders.Find(x => x.Name == "home zwei").ID;
+                        Guid id2 = server2.Folders.Find(x => x.Name == "home drei").ID;
+                        bone_local.MoveFolderAfter(server1.ID, server2.ID, id1, id2);
                     }
 
                     foreach (ServerModel i in bone_local.listAll())

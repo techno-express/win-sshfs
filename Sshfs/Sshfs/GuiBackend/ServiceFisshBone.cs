@@ -338,9 +338,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
         }
 
-        ///
+        /// Move Server in datamodell
         /**
+         * This method moves a given server.
          * 
+         * @param ServerToMoveID   server id of that server you want to move
+         * @param ServerToInserverAfterID   server id of that server where the moving server should  be inserted after
          * 
          */
         public void MoveServerAfter(Guid ServerToMoveID, Guid ServerToInsertAfterID )
@@ -369,29 +372,39 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
-        ///
+        /// Move folder in datamodell
         /**
+         * This method moves a given folder from one server to an other.
+         * The given folder will be inserted after the folder which is given by the 
+         * second folder parameter (FolderToInsertAfterID).
+         * If you want to push the folder to the first position you need to give a empty id.
+         * If you just want to move a folder inside a server you can give the same source and sink id.
          * 
-         * 
+         * @param SourceServerID        server id, where the folder, which you want to move, is located
+         * @param SinkServerID          server id, where you want to move the folder to
+         * @param FolderToMoveID        folder id of the folder you want to move
+         * @param FolderToInsertAfterID folder id of that folder, where you want to insert the moving folder after
          */
-        public void MoveFolderAfter(Guid ServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID)
+        public void MoveFolderAfter(Guid SourceServerID, Guid SinkServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID)
         {
             try
             {
-                ServerModel server = LServermodel.Find(x => x.ID == ServerID);
-                FolderModel folder = server.Folders.Find(x => x.ID == FolderToMoveID);
+                ServerModel source_server = LServermodel.Find(x => x.ID == SourceServerID);
+                ServerModel sink_server = LServermodel.Find(x => x.ID == SinkServerID);
+
+                FolderModel folder = source_server.Folders.Find(x => x.ID == FolderToMoveID);
                 int IndexToInsertIn;
 
-                server.Folders.Remove(folder);
+                source_server.Folders.Remove(folder);
                 if (FolderToInsertAfterID == Guid.Empty)
                 {
                     IndexToInsertIn = 0;
                 }
                 else
                 {
-                    IndexToInsertIn = 1 + server.Folders.FindIndex(x => x.ID == FolderToInsertAfterID);
+                    IndexToInsertIn = 1 + sink_server.Folders.FindIndex(x => x.ID == FolderToInsertAfterID);
                 }
-                server.Folders.Insert(IndexToInsertIn, folder);
+                sink_server.Folders.Insert(IndexToInsertIn, folder);
 
                 return;
             }
