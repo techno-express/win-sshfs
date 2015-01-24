@@ -91,9 +91,31 @@ public class Class1
                 ein_folder.Name = "home vom user";
                 ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
-                Console.WriteLine("Please enter to stop the server");
-                Console.ReadLine();
+                string puffer = "";
+                while (puffer != "q")
+                {
+                    
+                    if (puffer == "w")
+                    {
+                        ServerModel server = bone_local.listAll().Find(x => x.Name == "Ubuntu at VBox");
+                        Guid id = server.Folders.Find(x => x.Name == "home zwei").ID;
+                        Guid id2 = server.Folders.Find(x => x.Name == "home drei").ID;
+                        bone_local.MoveFolderAfter(server.ID, id, Guid.Empty);
+                    }
 
+                    foreach (ServerModel i in bone_local.listAll())
+                    {
+                        Console.WriteLine("\n" + i.Name + " --- " + i.ID);
+
+                        foreach (FolderModel j in i.Folders)
+                        {
+                            Console.WriteLine("    " + j.Name + " --- " + j.ID);
+                        }
+                    }
+
+                    Console.WriteLine("Please enter \"q\" to stop the server");
+                    puffer = Console.ReadLine();
+                }
                 bone_server.Close();
             }
 

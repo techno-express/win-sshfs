@@ -338,6 +338,70 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
         }
 
+        ///
+        /**
+         * 
+         * 
+         */
+        public void MoveServerAfter(Guid ServerToMoveID, Guid ServerToInsertAfterID )
+        {
+            try 
+            {
+                ServerModel server = LServermodel.Find(x => x.ID == ServerToMoveID);
+                int IndexToInsertIn;
+
+                LServermodel.Remove(server);
+                if (ServerToInsertAfterID == Guid.Empty)
+                {
+                    IndexToInsertIn = 0;
+                }
+                else {
+                    IndexToInsertIn = 1 + LServermodel.FindIndex(x => x.ID == ServerToInsertAfterID);
+                }
+                LServermodel.Insert(IndexToInsertIn, server);
+                
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
+        }
+
+        ///
+        /**
+         * 
+         * 
+         */
+        public void MoveFolderAfter(Guid ServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID)
+        {
+            try
+            {
+                ServerModel server = LServermodel.Find(x => x.ID == ServerID);
+                FolderModel folder = server.Folders.Find(x => x.ID == FolderToMoveID);
+                int IndexToInsertIn;
+
+                server.Folders.Remove(folder);
+                if (FolderToInsertAfterID == Guid.Empty)
+                {
+                    IndexToInsertIn = 0;
+                }
+                else
+                {
+                    IndexToInsertIn = 1 + server.Folders.FindIndex(x => x.ID == FolderToInsertAfterID);
+                }
+                server.Folders.Insert(IndexToInsertIn, folder);
+
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
+        }
+
 
         /// mount a drive which is not in database
         /**
