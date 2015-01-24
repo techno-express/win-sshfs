@@ -173,7 +173,16 @@ namespace fissh_cmdline_interface
             }
 
             folder.use_global_login = true;
-            folder.Letter = fissh_command_expression.option_letter.get().ToCharArray()[0];
+            if (fissh_command_expression.option_virtual_drive.is_set_flag)
+            {
+                folder.VirtualDriveFolder = fissh_command_expression.option_virtual_drive.get();
+                folder.use_virtual_drive = true;
+            }
+            else
+            {
+                folder.Letter = fissh_command_expression.option_letter.get().ToCharArray()[0];
+                folder.use_virtual_drive = false;
+            }
             folder.Folder = fissh_command_expression.option_path.get();
             server.Folders.Add(folder);
             Init();
@@ -184,7 +193,7 @@ namespace fissh_cmdline_interface
             }
             catch (FaultException<Fault> e)
             {
-                string error_message = "While mounting " + folder.Folder + " on " + server.Host + ": " + e.Detail.Message;
+                string error_message = "While mounting " + folder.Folder + " on " + server.Host + " as virtual drive: " + e.Detail.Message;
                 throw new System.ComponentModel.WarningException(error_message);
             }
         }

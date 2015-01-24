@@ -103,7 +103,8 @@ namespace fissh_cmdline_interface
                             }
 
                             //IF user is not set, use root
-                            if (!fissh_command_expression.option_login_name.is_set_flag)
+                            if (!fissh_command_expression.option_login_name.is_set_flag ||
+                                !fissh_command_expression.option_virtual_drive.is_set_flag)
                             {
                                 fissh_command_expression.option_login_name.set("root");
                             }
