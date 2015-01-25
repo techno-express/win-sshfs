@@ -258,6 +258,23 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         }
 
+        /// Look into virtual drive
+        /**
+         * This method executes a "dir" command.
+         * That is necessary so virtual drive will be mounted
+         */
+        private void LookIntoVirtualDrive(string folder)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder;
+            process.StartInfo = startInfo;
+            process.Start();
+            return;
+        }
+
         private void MountDrive(ServerModel server, FolderModel folder)
         {
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
@@ -287,17 +304,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (folder.use_virtual_drive) 
             {
+                // check if virtual drive folder exists
+                if (System.IO.Directory.Exists(VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder))
+                {
+                    throw new FaultException("Such virtual drive folder allready exists.");
+                }
+
+                // Adding folder to virtual drive
                 drive.MountPoint = folder.VirtualDriveFolder;
                 VirtualDrive.AddSubFS(drive);
                 
                 // look into virtual drive, so it will be mounted
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder;
-                process.StartInfo = startInfo;
-                process.Start();
+                LookIntoVirtualDrive(drive.MountPoint);
 
                 Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted in virtual drive.");
     
@@ -862,5 +880,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return r;
         }
         
+
     }
 }
