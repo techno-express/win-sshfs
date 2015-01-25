@@ -45,6 +45,24 @@ namespace Sshfs.GuiBackend.Remoteable
          * 
          */
         [OperationContract]
+        Tuple<Guid, Guid> GetLetterUsage(char letter);
+
+        [OperationContract]
+        Tuple<Guid, Guid> GetVirtualDriveUsage(string virtual_drive_folder);
+
+        [OperationContract]
+        [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void MoveServerAfter(Guid ServerToMoveID, Guid ServerToInsertAfterID);
+
+        [OperationContract]
+        [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void MoveFolderAfter(Guid SourceServerID, Guid SinkServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID);
+
+        [OperationContract]
+        [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
+        void UnregisteredMount(ServerModel server);
+
+        [OperationContract]
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void Mount(Guid ServerID, Guid FolderID);
 

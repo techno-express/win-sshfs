@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace fissh_command
+namespace fissh_cmdline_interface
 {
     /// Class for all text ouput methods
     /**
@@ -12,6 +12,8 @@ namespace fissh_command
      */
     public static class fissh_print
     {
+        private const string cmpnt = "fissh";
+
         /// print error which is caused by wrong syntax
         /**
          * This mehtod prints an error message and shows
@@ -22,15 +24,13 @@ namespace fissh_command
          */
         public static void wrong_use_error_message(string error_message)
         {
-            Console.WriteLine("");
-            Console.WriteLine("fissh: {0}", error_message);
-            Console.WriteLine();
+            simple_error_message(error_message);
             Console.WriteLine("Usage:");
             //Console.WriteLine("");
             Console.WriteLine("To mount a drive");
             Console.WriteLine("     fissh mount SERVERNAME [FOLDERLIST]");
-            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| public_key=...]");
-            Console.WriteLine("                 -s PATH -d DRIVE-LETTER [user@]host[:port]");
+            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| privat_key=...]");
+            Console.WriteLine("                 -s PATH [-d DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER] [user@]host[:port]");
             Console.WriteLine("");
             Console.WriteLine("To unmount a drive");
             Console.WriteLine("     fissh umount DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
@@ -44,6 +44,26 @@ namespace fissh_command
             Console.WriteLine("     fissh help");
             Console.WriteLine("");
 
+        }
+
+        public static void simple_error_message(string error_message)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("fissh: {0}", error_message);
+            Console.WriteLine();
+
+            logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
+        }
+
+
+
+        public static void simple_output_message(string error_message)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("{0}", error_message);
+            Console.WriteLine();
+
+            logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
         }
     }
 }

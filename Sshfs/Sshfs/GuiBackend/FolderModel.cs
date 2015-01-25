@@ -9,7 +9,7 @@ namespace Sshfs.GuiBackend
     /// a class to generate Folder Objects
     public class FolderModel
     {
-        public Boolean use_global_login;
+        public bool use_global_login;
         public Guid ID;
         public string Name;
         public string Note;
@@ -20,8 +20,11 @@ namespace Sshfs.GuiBackend
         public string Passphrase;
         public string PrivatKey;
         public DriveStatus Status;
+        public ConnectionType Type;
+        public string VirtualDriveFolder;
+        public bool use_virtual_drive; 
 
-        public System.Windows.Forms.TreeNode gui_node;
+        public System.Windows.Forms.TreeNode gui_node = null;
 
     }
 }

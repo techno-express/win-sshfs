@@ -43,11 +43,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         private static List<ServerModel> LServermodel = new List<ServerModel>();
         //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
         private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
-        private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
-        public static int x;
-
+        //private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
+        private static VirtualDrive VirtualDrive = new VirtualDrive();
+        
 
         public ServiceFisshBone() { }
+
+        /// Initialize everything
+        public static void Init()
+        {
+            VirtualDrive.Letter = 'Z';
+            VirtualDrive.Mount();
+        }
 
         ///Saving LServermodel into an XML file
         /**
@@ -251,6 +258,217 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         }
 
+        private void MountDrive(ServerModel server, FolderModel folder)
+        {
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
+            SftpDrive drive = new SftpDrive();
+
+            LSftpDrive[new Tuple<Guid, Guid>(server.ID, folder.ID)] = drive;
+
+            drive.Host = server.Host;
+            drive.Port = server.Port;
+
+            drive.Root = folder.Folder;
+
+            if (folder.use_global_login)
+            {
+                drive.Username = server.Username;
+                drive.Password = server.Password;
+                drive.PrivateKey = server.PrivateKey;
+                drive.ConnectionType = server.Type;
+            }
+            else
+            {
+                drive.Username = folder.Username;
+                drive.Password = folder.Password;
+                drive.PrivateKey = folder.PrivatKey;
+                drive.ConnectionType = folder.Type;
+            }
+
+            if (folder.use_virtual_drive) 
+            {
+                drive.MountPoint = folder.VirtualDriveFolder;
+                VirtualDrive.AddSubFS(drive);
+                
+                // look into virtual drive, so it will be mounted
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder;
+                process.StartInfo = startInfo;
+                process.Start();
+
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted in virtual drive.");
+    
+            }
+            else {
+                drive.Letter = folder.Letter;
+                drive.Mount();
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted at drive letter " + folder.Letter + ":.");
+            }
+
+        }
+        
+        /// get a drive to a proper drive letter
+        /**
+         * This method gets a letter and looks this letter up in LSftpDrive.
+         * If there is a mounted drive with the given letter this method will
+         * return the drive's ids.
+         * If there is no such drive it will return empty ids (Guid.Empty)
+         * 
+         * @param letter    drive letter aou want to search for
+         * 
+         * @return ids of found server and folder or empty ids
+         */
+        public Tuple<Guid, Guid> GetLetterUsage(char letter)
+        {
+            foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+            {
+                if (i.Value.Letter == letter && i.Value.Status == DriveStatus.Mounted)
+                {
+                    return i.Key;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
+        }
+
+        /// get a drive to a proper virtual driver
+        /**
+         * This method gets a letter and looks this letter up in LSftpDrive.
+         * If there is a mounted drive with the given virtual drive this method will
+         * return the drive's ids.
+         * If there is no such drive it will return empty ids (Guid.Empty)
+         * 
+         * @param virtual_drive_folder    virtual drive you want to search for
+         * 
+         * @return ids of found server and folder or empty ids
+         */
+        public Tuple<Guid, Guid> GetVirtualDriveUsage(string virtual_drive_folder)
+        {
+            foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+            {
+                if (i.Value.MountPoint == virtual_drive_folder && 
+                    i.Value.Status == DriveStatus.Mounted)
+                {
+                    return i.Key;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return new Tuple<Guid, Guid>(Guid.Empty, Guid.Empty);
+        }
+
+        /// Move Server in datamodell
+        /**
+         * This method moves a given server.
+         * 
+         * @param ServerToMoveID   server id of that server you want to move
+         * @param ServerToInserverAfterID   server id of that server where the moving server should  be inserted after
+         * 
+         */
+        public void MoveServerAfter(Guid ServerToMoveID, Guid ServerToInsertAfterID )
+        {
+            try 
+            {
+                ServerModel server = LServermodel.Find(x => x.ID == ServerToMoveID);
+                int IndexToInsertIn;
+
+                LServermodel.Remove(server);
+                if (ServerToInsertAfterID == Guid.Empty)
+                {
+                    IndexToInsertIn = 0;
+                }
+                else {
+                    IndexToInsertIn = 1 + LServermodel.FindIndex(x => x.ID == ServerToInsertAfterID);
+                }
+                LServermodel.Insert(IndexToInsertIn, server);
+                
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
+        }
+
+        /// Move folder in datamodell
+        /**
+         * This method moves a given folder from one server to an other.
+         * The given folder will be inserted after the folder which is given by the 
+         * second folder parameter (FolderToInsertAfterID).
+         * If you want to push the folder to the first position you need to give a empty id.
+         * If you just want to move a folder inside a server you can give the same source and sink id.
+         * 
+         * @param SourceServerID        server id, where the folder, which you want to move, is located
+         * @param SinkServerID          server id, where you want to move the folder to
+         * @param FolderToMoveID        folder id of the folder you want to move
+         * @param FolderToInsertAfterID folder id of that folder, where you want to insert the moving folder after
+         */
+        public void MoveFolderAfter(Guid SourceServerID, Guid SinkServerID, Guid FolderToMoveID, Guid FolderToInsertAfterID)
+        {
+            try
+            {
+                ServerModel source_server = LServermodel.Find(x => x.ID == SourceServerID);
+                ServerModel sink_server = LServermodel.Find(x => x.ID == SinkServerID);
+
+                FolderModel folder = source_server.Folders.Find(x => x.ID == FolderToMoveID);
+                int IndexToInsertIn;
+
+                source_server.Folders.Remove(folder);
+                if (FolderToInsertAfterID == Guid.Empty)
+                {
+                    IndexToInsertIn = 0;
+                }
+                else
+                {
+                    IndexToInsertIn = 1 + sink_server.Folders.FindIndex(x => x.ID == FolderToInsertAfterID);
+                }
+                sink_server.Folders.Insert(IndexToInsertIn, folder);
+
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
+        }
+
+
+        /// mount a drive which is not in database
+        /**
+         * This methods creats a drive from the given server and its first folder.
+         * 
+         * @param server a ServerModel with at least one FolderModel
+         */
+        public void UnregisteredMount(ServerModel server)
+        {
+            try
+            {
+                FolderModel folder;
+                server.ID = Guid.NewGuid();
+                folder = server.Folders.ElementAt(0);
+                folder.ID = Guid.NewGuid();
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount unregistered folder \"" + folder.Folder + "\" mounted on server \"" + server.Host + "\"" + " on Port " + server.Port
+                                                               + " with username " + server.Username + " and password " + server.Password);
+                MountDrive(server, folder);
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw new FaultException<Fault>(new Fault(e.Message));
+            }
+        }
+
 
         /// create a connection to a directory on a server
         /**
@@ -276,7 +494,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             FolderModel folder;
             ServerModel server;
-            SftpDrive drive = new SftpDrive();
             
             try {
                 server = LServermodel.Find(x => x.ID == ServerID);
@@ -295,28 +512,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     throw new FaultException<Fault>(new Fault(message));
                 }
 
- 
-                LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)] = drive;
-                
-                drive.Host = server.Host;
-                drive.Port = server.Port;
-                
-                drive.Letter = folder.Letter;
-                drive.Root = folder.Folder;
+                MountDrive(server, folder);
 
-                if(folder.use_global_login)
-                {
-                    drive.Username = server.Username;
-                    drive.Password = server.Password;
-                }
-                else{
-                    drive.Username = folder.Username;
-                    drive.Password = folder.Password;
-                }
-
-                drive.Mount();
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" mounted on server \"" + ServerID + "\"");
-                
                 return;
             }
             catch(Exception e) {
@@ -343,8 +540,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             try
             {
-                LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Unmount();
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" unmounted on server \"" + ServerID + "\"");
+                SftpDrive drive = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)];
+
+                drive.Unmount();
+                VirtualDrive.RemoveSubFS(drive);
+
+                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" on server \"" + ServerID + "\" unmounted.");
                 return;
             }
             catch(Exception e) {
@@ -375,11 +576,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             try
             {
                 DriveStatus status = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Status;
-                Console.WriteLine(status.ToString());
+                Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is allready in LSftpDrive with status " + status.ToString());
                 return status;
             }
             catch (NullReferenceException e)
             {
+                Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is not in LSftpDrive");
                 return DriveStatus.Unmounted;
             }
             catch

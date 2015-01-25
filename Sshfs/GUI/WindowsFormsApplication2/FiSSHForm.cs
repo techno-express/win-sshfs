@@ -23,6 +23,9 @@ namespace GUI_WindowsForms
         Boolean gBox2Vis = false;
         int TimerCount = 0;
         Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
+        TreeNode contxMenuDragged = new TreeNode(null);
+        int contxMenuTargetIndex = 0;
+        bool ServerOffline = false;
 
         
         //////////////////////////////////////////////
@@ -48,12 +51,13 @@ namespace GUI_WindowsForms
         /// updated the TreeView and, draws the nodes and describes the nodes
         private void UpdateTreeView(/* STUFF */)
         {
+            treeView1.Nodes.Clear();
             // get all data from backend
             try { datamodel = bone_server.listAll(); }
             catch
-            { 
-                MessageBox.Show("Cannot connect with server."); 
-                datamodel = new List<ServerModel>();
+            {
+                MessageBox.Show("Cannot connect with server.");
+                datamodel = new List<ServerModel>();      
             }
             
             foreach (ServerModel i in datamodel)
@@ -297,17 +301,6 @@ namespace GUI_WindowsForms
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
-/*           
-            if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level != 1)                                //Test für Serverinfo -> ListView
-            {
-               // treeView1.SelectedNode.Text = String.Format("Name: TestServer"+ Environment.NewLine + "IP: 127.0.0.1" + Environment.NewLine + "Note: Testing the new Multiline feature");
-            }
-            if (treeView1.SelectedNode.Index == 0 && treeView1.SelectedNode.Level == 1)                                //Test für Serverinfo -> ListView
-            {
-                mountToolStripMenuItem.Enabled = true;
-                //treeView1.SelectedNode.Text = String.Format("Name: TestFolder" + Environment.NewLine + "Path: /" + Environment.NewLine + "Note: Testing the new Multiline feature");
-            }
-*/
             ServerFolderEdit();
         }
 
@@ -382,19 +375,43 @@ namespace GUI_WindowsForms
 
             // Confirm that the node at the drop location is not  
             // the dragged node or a descendant of the dragged node. 
-            if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode))
+            if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode) && !ServerOrFolderAddNode(draggedNode))
             {
                 // If it is a move operation, remove the node from its current  
                 // location and add it to the node at the drop location. 
                 if (e.Effect == DragDropEffects.Move)
-                {   
-                    if (targetNode != null && (draggedNode.Level > targetNode.Level)) 
+                {
+                    if (targetNode != null && (draggedNode.Level > targetNode.Level) && !ServerOrFolderAddNode(targetNode)) 
                     { 
-                        draggedNode.Remove(); targetNode.Nodes.Add(draggedNode); 
+                       draggedNode.Remove(); targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); // Send operation to backend here -> update TreeView
+                     //  UpdateTreeView();
                     }
+                    if (targetNode != null && (draggedNode.Level == targetNode.Level) && !ServerOrFolderAddNode(targetNode))
+                    {
+                        contxMenuDragged = draggedNode;
+                        contxMenuTargetIndex = targetNode.Index;
+                        TreeNode contxMenuDraggedParent = contxMenuDragged.Parent;
+                        if (contxMenuDraggedParent != null)
+                        {
+                            contxMenuDragged.Remove();
+                            contxMenuDraggedParent.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
+                        }
+                        else
+                        {
+                            contxMenuDragged.Remove();
+                            treeView1.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
+                        }
+
+                        //  UpdateTreeView();
+                    }
+
                     else 
                     {
-                        if (targetNode == null && draggedNode.Level != 1) { draggedNode.Remove(); treeView1.Nodes.Add(draggedNode); }
+                        if (targetNode == null && draggedNode.Level != 1) 
+                        {
+                           draggedNode.Remove(); treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, draggedNode); //Same here
+                        //   UpdateTreeView();
+                        }
                     }
                     
                 }
@@ -403,7 +420,7 @@ namespace GUI_WindowsForms
                 // and add it to the node at the drop location. 
                 else if (e.Effect == DragDropEffects.Copy)
                 {
-                    targetNode.Nodes.Add((TreeNode)draggedNode.Clone());
+                 //   targetNode.Nodes.Add((TreeNode)draggedNode.Clone());
                 }
 
                 // Expand the node at the location  
@@ -411,6 +428,13 @@ namespace GUI_WindowsForms
                 if (targetNode != null) targetNode.Expand();
                 else { }
             }
+        }
+
+        private bool ServerOrFolderAddNode(TreeNode node1)
+        {
+            if (node1.Parent != null && node1.Parent.Nodes[node1.Parent.Nodes.Count - 1].Equals(node1)) return true;
+            if (treeView1.Nodes[treeView1.Nodes.Count - 1].Equals(node1)) return true;
+            else return false;
         }
 
         private bool ContainsNode(TreeNode node1, TreeNode node2)
@@ -749,5 +773,10 @@ namespace GUI_WindowsForms
         }
 
         #endregion
+
+        private void button_server_savechanges_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
