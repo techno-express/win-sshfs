@@ -813,8 +813,31 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         return r;
      }
 
+        private ServerModel DuplicateServer(ServerModel S)
+        {
+            ServerModel r = new ServerModel(S);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
+            
+            foreach(FolderModel F in r.Folders)
+            {
+                F.Name += " Copy";
+                F.ID = Guid.NewGuid();
+                F.Status = DriveStatus.Unmounted;
+            }
 
+            return r;
+        }
 
+        private FolderModel DuplicateFolder(FolderModel F)
+        {
+            FolderModel r = new FolderModel(F);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
+            r.Status = DriveStatus.Unmounted;
+
+            return r;
+        }
         
     }
 }

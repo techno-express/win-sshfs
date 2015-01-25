@@ -26,5 +26,29 @@ namespace Sshfs.GuiBackend
 
         public System.Windows.Forms.TreeNode gui_node = null;
 
+    
+
+        public FolderModel()
+        {}
+
+        public FolderModel(FolderModel F)
+        {
+            use_global_login = F.use_global_login;
+            ID = F.ID;
+            Name = F.Name;
+            Note = F.Note;
+            Folder = F.Folder;
+            Letter = F.Letter;
+            Username = F.Username;
+            Password = F.Password;
+            Passphrase = F.Passphrase;
+            PrivatKey = F.PrivatKey;
+            Status = F.Status;
+            Type = F.Type;
+            VirtualDriveFolder = F.VirtualDriveFolder;
+            use_virtual_drive = F.use_virtual_drive; 
+
+        }
+
     }
 }

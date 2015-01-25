@@ -197,6 +197,35 @@ namespace Sshfs.GuiBackend.Remoteable
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void removeFolder(Guid ID_Server, Guid ID_Folder);
 
+        /// creates a new copy of a ServerModel object
+        /**
+         * DuplicateServer creates an copy of the object S.
+         * The new object has differnt ID an Name as the original.
+         * The folderlist is copied as well. The ID's and names are
+         * different, too. The Folder.Status is unmounted.
+         * 
+         * @param ServerModel S, object to copy
+         * 
+         * @return new ServerModel object
+         * 
+         */
+        [OperationContract]
+        private ServerModel DuplicateServer(ServerModel S);
+
+        /// creates a new copy of a FolderModel object
+        /**
+         * DuplicateFolder creates an copy of the object F.
+         * The new object has differnt ID an Name as the original.
+         * The Folder.Status is unmounted.
+         * 
+         * @param FolderModel F, object to copy
+         * 
+         * @return new FolderModel object
+         * 
+         */
+        [OperationContract]
+        private FolderModel DuplicateFolder(FolderModel F);
+       
         /// Set the Loglevel in Backend return value is the Loglevel after update
         //[OperationContract]
         //SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
