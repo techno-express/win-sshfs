@@ -1,4 +1,26 @@
-﻿using System;
+﻿/*
+Copyright (c) 2014 2015 thb42 bjoe-phi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -30,7 +52,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         /// Initialize everything
         public static void Init()
         {
-            VirtualDrive.Letter = 'Z';
+            VirtualDrive.Letter = GetFreeDriveLetter();
             VirtualDrive.Mount();
         }
 
@@ -110,9 +132,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                 doc.Save(Savepath + @"\connections.xml");
             }
-            catch
+            catch(Exception e)
             {
                 Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could save Serverlist.");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
             }
         }
 
@@ -152,8 +175,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                  }
                  catch(Exception e)
                  {
-                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
-                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid.");
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read Guid from XML file, generate new Guid.");
                      Server.ID = Guid.NewGuid();
                  }
 
@@ -169,7 +192,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                  }
 
                  catch(Exception e) {
-                     Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read port from XML file, set port to 22");
                      Server.Port = 22;
                  }
 
@@ -186,8 +210,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      }
                      catch (Exception e)
                      {
-                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, e.Message);
-                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Generate new Guid");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Generate new Guid");
                          Folder.ID = Guid.NewGuid();
                      }
                      Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
@@ -198,7 +222,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      }
                      catch(Exception e)
                      {
-                         Log.writeLog(SimpleMind.Loglevel.Error, Comp, e.Message);
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read drive letter from XML file, set letter to x");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
                          Folder.Letter = 'x';
                      }
 
@@ -206,8 +231,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                      {
                          Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("Global Login").InnerText);
                      }
-                     catch
+                     catch(Exception e)
                      {
+                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load folder login");
+                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
                          Folder.use_global_login = true;
                      }
 
@@ -229,6 +256,23 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 
 
 
+        }
+
+        /// Look into virtual drive
+        /**
+         * This method executes a "dir" command.
+         * That is necessary so virtual drive will be mounted
+         */
+        private void LookIntoVirtualDrive(string folder)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder;
+            process.StartInfo = startInfo;
+            process.Start();
+            return;
         }
 
         private void MountDrive(ServerModel server, FolderModel folder)
@@ -260,17 +304,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (folder.use_virtual_drive) 
             {
+                // check if virtual drive folder exists
+                if (System.IO.Directory.Exists(VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder))
+                {
+                    throw new FaultException("Such virtual drive folder allready exists.");
+                }
+
+                // Adding folder to virtual drive
                 drive.MountPoint = folder.VirtualDriveFolder;
                 VirtualDrive.AddSubFS(drive);
                 
                 // look into virtual drive, so it will be mounted
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/C dir " + VirtualDrive.Letter + ":\\" + folder.VirtualDriveFolder;
-                process.StartInfo = startInfo;
-                process.Start();
+                LookIntoVirtualDrive(drive.MountPoint);
 
                 Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + folder.ID + "\" on server \"" + server.ID + "\" mounted in virtual drive.");
     
@@ -491,6 +536,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             catch(Exception e) {
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not mount drive");
                 throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
@@ -521,7 +567,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return;
             }
             catch(Exception e) {
-                Log.writeLog(SimpleMind.Loglevel.Error , Comp, e.Message);
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not unmount drive");
+                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
                 throw new FaultException<Fault>(new Fault(e.Message));
             }
         }
@@ -758,7 +805,81 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return;
        }
 
+        /// Get s free dirve letter
+        /**
+         * This method chechs every drive letter starting with 'Z'
+         * and going down till 'A'.
+         * If it has found one, it will return it.
+         * If there is no available drive letter, a execption will be thrown.
+         * 
+         * It starts with the highest drive letter 
+         * because user is used to have memory sticks at the lower ones.
+         * 
+         * @return  last free drive letter
+         */
+        private static char GetFreeDriveLetter()
+        {
+            // Check every letter starting at 'Z'
+            // and going down till 'A'
+            for (int i = 'Z'; i >= 'A'; i--)
+            {
+                if (IsDriveAvailable((char)i))
+                {
+                    return (char)i;
+                }
+            }
 
+            //if we could not find any free drive letter
+            string message = "Couldn't find free Drive Letter";
+            Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+            throw new Exception(message);
+        }
+
+        private static bool IsDriveAvailable(char letter)
+        {
+            List<char> not_available = new List<char>();
+            not_available.Add('a');
+            not_available.Add('A');
+            not_available.Add('b');
+            not_available.Add('B');
+
+            if (not_available.Contains(letter) ||
+                Directory.GetLogicalDrives().Contains(((letter).ToString() + @":\")))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public ServerModel DuplicateServer(ServerModel S)
+        {
+            ServerModel r = new ServerModel(S);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
+            
+            foreach(FolderModel F in r.Folders)
+            {
+                F.Name += " Copy";
+                F.ID = Guid.NewGuid();
+                F.Status = DriveStatus.Unmounted;
+            }
+
+            return r;
+        }
+
+        public FolderModel DuplicateFolder(FolderModel F)
+        {
+            FolderModel r = new FolderModel(F);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
+            r.Status = DriveStatus.Unmounted;
+
+            return r;
+        }
         
+
     }
 }

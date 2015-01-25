@@ -48,6 +48,29 @@ namespace Sshfs.GuiBackend
             Folders = new List<FolderModel>();
         }
 
+        public ServerModel(ServerModel S)
+        { 
+            Name = S.Name;
+            ID = S.ID;
+            Notes = S.Notes;
+            PrivateKey = S.PrivateKey;
+            Password = S.Password;
+            Passphrase = S.Passphrase;
+            Username = S.Username;
+            Host = S.Host;
+            Port = S.Port;
+            Type = S.Type;
+
+            List<FolderModel>Folders = new List<FolderModel>();
+
+            foreach (FolderModel F in S.Folders)
+            {
+                Folders.Add(new FolderModel(F));
+            }
+        
+        }
+
+
 
 
 #endregion
