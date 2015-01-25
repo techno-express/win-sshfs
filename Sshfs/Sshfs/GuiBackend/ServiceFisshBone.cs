@@ -52,7 +52,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         /// Initialize everything
         public static void Init()
         {
-            VirtualDrive.Letter = 'Z';
+            VirtualDrive.Letter = GetFreeDriveLetter();
             VirtualDrive.Mount();
         }
 
@@ -786,6 +786,33 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             return;
        }
+
+        private static char GetFreeDriveLetter()
+        {
+        char r = '0';
+
+        for(int i = 'A'; i<='Z'; i++)
+        {
+        
+            try
+            {
+                if (!Directory.GetLogicalDrives().Contains(((char)i).ToString() + @":\"))
+                {
+                    r = (char)i;
+                    break;
+                }
+            }
+
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find free Drive Letter");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+            }
+        }
+
+        return r;
+     }
+
 
 
         
