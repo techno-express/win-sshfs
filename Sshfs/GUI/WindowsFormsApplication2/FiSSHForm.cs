@@ -205,11 +205,15 @@ namespace GUI_WindowsForms
                             textBox_folder_entry.Text = folder.Name;
                             textBox_folder_password.Text = folder.Password;
                             textBox_folder_privat_key.Text = folder.PrivatKey;
-                            textBox8_folder_username.Text = folder.Username;
+                            textBox_folder_username.Text = folder.Username;
                             textBox9_folder_remotedirectory.Text = folder.Folder;
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
 
+                            //server properties 
+                            textBox_server_name.Text = server.Name;
+                            textBox_server_ip.Text = server.Host;
+                            numericUpDown_server_port.Value = server.Port;
                            
                             switch (folder.Status)
                             {
@@ -252,7 +256,7 @@ namespace GUI_WindowsForms
                             textBox_folder_entry.Text = null;
                             textBox_folder_password.Text = null;
                             textBox_folder_privat_key.Text = null;
-                            textBox8_folder_username.Text = null;
+                            textBox_folder_username.Text = null;
                             textBox9_folder_remotedirectory.Text = null;
                             //checkBox_folder_usedefaultaccound.Checked = null;
                             // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
@@ -549,10 +553,58 @@ namespace GUI_WindowsForms
             comboBox_folder_driveletter.Enabled = false;
         }
 
+        private void button_server_savechanges_Click(object sender, EventArgs e)
+        {
+            ServerModel server = GetSelectedServerNode();
+            server.Name = textBox_server_name.Text;
+            server.Notes = richTextBox_server_notes.Text;
+            server.Username = textbox_server_username.Text;
+            server.Password = textBox_server_password.Text;
+            server.Host = textBox_server_ip.Text;
+            server.Port = (int) numericUpDown_server_port.Value;
+        }
+
         private void button_folder_savechanges_Click(object sender, EventArgs e)
         {
+            // ausgewählten Ordners in die Variable "folder" schreiben und der zugehörige Server in "server"
+            FolderModel folder = GetSelectedFolderNode();
+            ServerModel server = GetSelectedServerNode();
+
+            // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
+            folder.Name = textBox_folder_entry.Text;
+            // folder.Note = textBox_folder_note.Text;
+            folder.Folder = textBox9_folder_remotedirectory.Text;
+            if (radioButton_folder_usedrive.Checked == true)
+            {
+                folder.Letter = comboBox_folder_driveletter.Text[0];
+            }
+
+            if (checkBox_folder_usedefaultaccound.Checked == true)
+            {
+                folder.Username = server.Username;
+                folder.Password = server.Password;
+                folder.Passphrase = server.Passphrase;
+                folder.PrivatKey = server.PrivateKey;
+            }
+            else
+            {
+                folder.Username = textBox_folder_username.Text;
+                if (radioButton_folder_password.Checked == true)
+                {
+                    folder.Password = textBox_folder_password.Text;
+                }
+                if (radioButton_folder_privatkey.Checked == true)
+                {
+                    folder.PrivatKey = textBox_folder_privat_key.Text; // oder muss etwas anderes als der Text übergeben werden?
+                }
+                if (radioButton_folder_pageant.Checked == true)
+                {
+                    // ???
+                }
+            }
+            folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
+
             //Add feature: button2.Enabled = false; while no changes are made -> Later
-           
         }
 
         /// focused the first text box on the right side by clicking the edit-button
@@ -772,11 +824,19 @@ namespace GUI_WindowsForms
             mountToolStripMenuItem.Text = "Mount";
         }
 
-        #endregion
-
-        private void button_server_savechanges_Click(object sender, EventArgs e)
+        private void addServer()
         {
-
+            ServerModel server = new ServerModel();
+            bone_server.addServer(server);
+            server.Name = "new Server";
         }
+
+        private void addFolder()
+        {
+            FolderModel folder = new FolderModel();
+            bone_server.addFolder(GetSelectedServerNode().ID, folder);
+            folder.Name = "new Folder";
+        }
+        #endregion
     }
 }

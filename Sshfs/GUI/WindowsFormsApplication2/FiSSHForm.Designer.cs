@@ -84,7 +84,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox8_folder_username = new System.Windows.Forms.TextBox();
+            this.textBox_folder_username = new System.Windows.Forms.TextBox();
             this.textBox_folder_privat_key = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox_folder_password = new System.Windows.Forms.TextBox();
@@ -730,7 +730,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Controls.Add(this.textBox8_folder_username);
+            this.groupBox3.Controls.Add(this.textBox_folder_username);
             this.groupBox3.Controls.Add(this.textBox_folder_privat_key);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.textBox_folder_password);
@@ -758,15 +758,15 @@
             this.button4.Text = "..";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // textBox8_folder_username
+            // textBox_folder_username
             // 
-            this.textBox8_folder_username.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.textBox_folder_username.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox8_folder_username.Location = new System.Drawing.Point(149, 21);
-            this.textBox8_folder_username.Name = "textBox8_folder_username";
-            this.textBox8_folder_username.Size = new System.Drawing.Size(236, 20);
-            this.textBox8_folder_username.TabIndex = 16;
+            this.textBox_folder_username.Location = new System.Drawing.Point(149, 21);
+            this.textBox_folder_username.Name = "textBox_folder_username";
+            this.textBox_folder_username.Size = new System.Drawing.Size(236, 20);
+            this.textBox_folder_username.TabIndex = 16;
             // 
             // textBox_folder_privat_key
             // 
@@ -1022,7 +1022,7 @@
         private System.Windows.Forms.CheckBox checkBox_folder_usedefaultaccound;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox8_folder_username;
+        private System.Windows.Forms.TextBox textBox_folder_username;
         private System.Windows.Forms.TextBox textBox_folder_privat_key;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_folder_password;
