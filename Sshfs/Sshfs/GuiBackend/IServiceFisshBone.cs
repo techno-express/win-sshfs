@@ -210,7 +210,7 @@ namespace Sshfs.GuiBackend.Remoteable
          * 
          */
         [OperationContract]
-        private ServerModel DuplicateServer(ServerModel S);
+        ServerModel DuplicateServer(ServerModel S);
 
         /// creates a new copy of a FolderModel object
         /**
@@ -224,7 +224,7 @@ namespace Sshfs.GuiBackend.Remoteable
          * 
          */
         [OperationContract]
-        private FolderModel DuplicateFolder(FolderModel F);
+        FolderModel DuplicateFolder(FolderModel F);
        
         /// Set the Loglevel in Backend return value is the Loglevel after update
         //[OperationContract]

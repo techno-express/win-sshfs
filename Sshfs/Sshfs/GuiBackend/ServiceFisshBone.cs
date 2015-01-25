@@ -787,33 +787,56 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return;
        }
 
+        /// Get s free dirve letter
+        /**
+         * This method chechs every drive letter starting with 'Z'
+         * and going down till 'A'.
+         * If it has found one, it will return it.
+         * If there is no available drive letter, a execption will be thrown.
+         * 
+         * It starts with the highest drive letter 
+         * because user is used to have memory sticks at the lower ones.
+         * 
+         * @return  last free drive letter
+         */
         private static char GetFreeDriveLetter()
         {
-        char r = '0';
-
-        for(int i = 'A'; i<='Z'; i++)
-        {
-        
-            try
+            // Check every letter starting at 'Z'
+            // and going down till 'A'
+            for (int i = 'Z'; i >= 'A'; i--)
             {
-                if (!Directory.GetLogicalDrives().Contains(((char)i).ToString() + @":\"))
+                if (IsDriveAvailable((char)i))
                 {
-                    r = (char)i;
-                    break;
+                    return (char)i;
                 }
             }
 
-            catch (Exception e)
+            //if we could not find any free drive letter
+            string message = "Couldn't find free Drive Letter";
+            Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+            throw new Exception(message);
+        }
+
+        private static bool IsDriveAvailable(char letter)
+        {
+            List<char> not_available = new List<char>();
+            not_available.Add('a');
+            not_available.Add('A');
+            not_available.Add('b');
+            not_available.Add('B');
+
+            if (not_available.Contains(letter) ||
+                Directory.GetLogicalDrives().Contains(((letter).ToString() + @":\")))
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Couldn't find free Drive Letter");
-                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
-        return r;
-     }
-
-        private ServerModel DuplicateServer(ServerModel S)
+        public ServerModel DuplicateServer(ServerModel S)
         {
             ServerModel r = new ServerModel(S);
             r.ID = Guid.NewGuid();
@@ -829,7 +852,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return r;
         }
 
-        private FolderModel DuplicateFolder(FolderModel F)
+        public FolderModel DuplicateFolder(FolderModel F)
         {
             FolderModel r = new FolderModel(F);
             r.ID = Guid.NewGuid();
