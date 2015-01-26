@@ -41,7 +41,7 @@ namespace Sshfs.GuiBackend
         //public List<FolderModel> Mountpoints = new List<FolderModel>();
         //public List<string> Mountpoint;
         public List<FolderModel>Folders;// = new Dictionary<Guid, FolderModel>();
-
+#endregion
         public ServerModel()
         {
 //            Mountpoints = new List<FolderModel>();
@@ -71,9 +71,32 @@ namespace Sshfs.GuiBackend
         }
 
 
+        /// creates a new copy of a ServerModel object
+        /**
+         * DuplicateServer creates an copy of the object.
+         * The new object has differnt ID and Name as the original.
+         * The folderlist is copied as well. The ID's and names are
+         * different, too. The Folder.Status is unmounted.
+         * 
+         * 
+         * @return new ServerModel object
+         * 
+         */
+        public ServerModel DuplicateServer()
+        {
+            ServerModel r = new ServerModel(this);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
 
+            foreach (FolderModel F in r.Folders)
+            {
+                F.Name += " Copy";
+                F.ID = Guid.NewGuid();
+                F.Status = DriveStatus.Unmounted;
+            }
 
-#endregion
+            return r;
+        }
 
     }
 }

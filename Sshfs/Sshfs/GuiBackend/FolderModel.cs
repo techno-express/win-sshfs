@@ -50,5 +50,24 @@ namespace Sshfs.GuiBackend
 
         }
 
+        /// creates a new copy of a FolderModel object
+        /**
+         * DuplicateFolder creates an copy of the object.
+         * The new object has differnt ID and Name as the original.
+         * The Folder.Status is unmounted.
+         * 
+         * 
+         * @return new FolderModel object
+         * 
+         */
+        public FolderModel DuplicateFolder()
+        {
+            FolderModel r = new FolderModel(this);
+            r.ID = Guid.NewGuid();
+            r.Name += " Copy";
+            r.Status = DriveStatus.Unmounted;
+            return r;
+        }
+
     }
 }
