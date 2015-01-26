@@ -102,6 +102,11 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unmountToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -116,12 +121,13 @@
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mountToolStripMenuItem2,
+            this.unmountToolStripMenuItem1,
             this.editToolStripMenuItem2,
             this.deleteToolStripMenuItem2,
             this.duplicateToolStripMenuItem1,
             this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 136);
             // 
             // mountToolStripMenuItem2
             // 
@@ -285,6 +291,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.button_server_savechanges);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.textBox_server_privatkey);
@@ -552,21 +559,24 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.richTextBox1);
             this.groupBox2.Controls.Add(this.button_folder_savechanges);
+            this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.textBox_folder_entry);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.comboBox_folder_driveletter);
             this.groupBox2.Controls.Add(this.radioButton_folder_virtualdrive);
             this.groupBox2.Controls.Add(this.radioButton_folder_usedrive);
+            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.textBox9_folder_remotedirectory);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.checkBox_folder_usedefaultaccound);
-            this.groupBox2.Location = new System.Drawing.Point(801, 221);
+            this.groupBox2.Location = new System.Drawing.Point(0, 120);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(399, 449);
+            this.groupBox2.Size = new System.Drawing.Size(399, 462);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
@@ -574,7 +584,7 @@
             // 
             // button_folder_savechanges
             // 
-            this.button_folder_savechanges.Location = new System.Drawing.Point(244, 346);
+            this.button_folder_savechanges.Location = new System.Drawing.Point(244, 431);
             this.button_folder_savechanges.Name = "button_folder_savechanges";
             this.button_folder_savechanges.Size = new System.Drawing.Size(141, 25);
             this.button_folder_savechanges.TabIndex = 29;
@@ -587,7 +597,7 @@
             this.textBox_folder_entry.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_folder_entry.Location = new System.Drawing.Point(149, 34);
+            this.textBox_folder_entry.Location = new System.Drawing.Point(149, 26);
             this.textBox_folder_entry.Name = "textBox_folder_entry";
             this.textBox_folder_entry.Size = new System.Drawing.Size(236, 20);
             this.textBox_folder_entry.TabIndex = 14;
@@ -598,7 +608,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 34);
+            this.label12.Location = new System.Drawing.Point(6, 29);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(34, 13);
             this.label12.TabIndex = 23;
@@ -612,7 +622,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox2.AutoSize = true;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(6, 351);
+            this.checkBox2.Location = new System.Drawing.Point(6, 436);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(144, 17);
             this.checkBox2.TabIndex = 27;
@@ -654,7 +664,7 @@
             "X:",
             "Y:",
             "Z:"});
-            this.comboBox_folder_driveletter.Location = new System.Drawing.Point(301, 283);
+            this.comboBox_folder_driveletter.Location = new System.Drawing.Point(301, 349);
             this.comboBox_folder_driveletter.Name = "comboBox_folder_driveletter";
             this.comboBox_folder_driveletter.Size = new System.Drawing.Size(51, 21);
             this.comboBox_folder_driveletter.TabIndex = 25;
@@ -665,7 +675,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton_folder_virtualdrive.AutoSize = true;
-            this.radioButton_folder_virtualdrive.Location = new System.Drawing.Point(149, 306);
+            this.radioButton_folder_virtualdrive.Location = new System.Drawing.Point(149, 372);
             this.radioButton_folder_virtualdrive.Name = "radioButton_folder_virtualdrive";
             this.radioButton_folder_virtualdrive.Size = new System.Drawing.Size(125, 17);
             this.radioButton_folder_virtualdrive.TabIndex = 26;
@@ -683,7 +693,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton_folder_usedrive.AutoSize = true;
             this.radioButton_folder_usedrive.Checked = true;
-            this.radioButton_folder_usedrive.Location = new System.Drawing.Point(149, 284);
+            this.radioButton_folder_usedrive.Location = new System.Drawing.Point(149, 350);
             this.radioButton_folder_usedrive.Name = "radioButton_folder_usedrive";
             this.radioButton_folder_usedrive.Size = new System.Drawing.Size(50, 17);
             this.radioButton_folder_usedrive.TabIndex = 24;
@@ -698,7 +708,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 286);
+            this.label11.Location = new System.Drawing.Point(6, 352);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(54, 13);
             this.label11.TabIndex = 4;
@@ -709,7 +719,7 @@
             this.textBox9_folder_remotedirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox9_folder_remotedirectory.Location = new System.Drawing.Point(149, 257);
+            this.textBox9_folder_remotedirectory.Location = new System.Drawing.Point(149, 323);
             this.textBox9_folder_remotedirectory.Name = "textBox9_folder_remotedirectory";
             this.textBox9_folder_remotedirectory.Size = new System.Drawing.Size(236, 20);
             this.textBox9_folder_remotedirectory.TabIndex = 23;
@@ -720,15 +730,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 260);
+            this.label10.Location = new System.Drawing.Point(6, 326);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(87, 13);
+            this.label10.Size = new System.Drawing.Size(92, 13);
             this.label10.TabIndex = 2;
-            this.label10.Text = "Remotedirectory:";
+            this.label10.Text = "Remote Directory:";
             this.toolTip1.SetToolTip(this.label10, "e.g. /home/username/pictures");
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Controls.Add(this.textBox_folder_username);
             this.groupBox3.Controls.Add(this.textBox_folder_privat_key);
@@ -739,7 +750,7 @@
             this.groupBox3.Controls.Add(this.radioButton_folder_password);
             this.groupBox3.Controls.Add(this.radioButton_folder_privatkey);
             this.groupBox3.Enabled = false;
-            this.groupBox3.Location = new System.Drawing.Point(0, 85);
+            this.groupBox3.Location = new System.Drawing.Point(0, 172);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(399, 142);
             this.groupBox3.TabIndex = 1;
@@ -871,7 +882,7 @@
             this.checkBox_folder_usedefaultaccound.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_folder_usedefaultaccound.Checked = true;
             this.checkBox_folder_usedefaultaccound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_folder_usedefaultaccound.Location = new System.Drawing.Point(6, 52);
+            this.checkBox_folder_usedefaultaccound.Location = new System.Drawing.Point(6, 158);
             this.checkBox_folder_usedefaultaccound.Name = "checkBox_folder_usedefaultaccound";
             this.checkBox_folder_usedefaultaccound.Size = new System.Drawing.Size(125, 17);
             this.checkBox_folder_usedefaultaccound.TabIndex = 15;
@@ -943,6 +954,51 @@
             this.closeApplicationToolStripMenuItem.Text = "Close Application";
             this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
             // 
+            // unmountToolStripMenuItem1
+            // 
+            this.unmountToolStripMenuItem1.Enabled = false;
+            this.unmountToolStripMenuItem1.Name = "unmountToolStripMenuItem1";
+            this.unmountToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
+            this.unmountToolStripMenuItem1.Text = "Unmount";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(149, 56);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(236, 96);
+            this.richTextBox1.TabIndex = 14;
+            this.richTextBox1.Text = "";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 59);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 13);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "Notes:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(149, 395);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(236, 20);
+            this.textBox1.TabIndex = 30;
+            this.toolTip1.SetToolTip(this.textBox1, "Enter Name for the folder inside the Virtual Drive.");
+            // 
+            // button2
+            // 
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(358, 86);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(27, 21);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "..";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -950,11 +1006,10 @@
             this.AutoScroll = true;
             this.AutoScrollMinSize = new System.Drawing.Size(0, 600);
             this.ClientSize = new System.Drawing.Size(1227, 682);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_windowexpand);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(600, 400);
@@ -1053,6 +1108,11 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
         private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeApplicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unmountToolStripMenuItem1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button2;
     }
 }
 
