@@ -46,9 +46,29 @@ namespace testclient
                 FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.Name == "home vom user");
 
                 // Editiern 
-                gesuchter_server.Port = 22;
-                bone.editServer(gesuchter_server);
+                Console.WriteLine("Editieren ...");
+                    Console.ReadLine();
 
+                // edit test
+                ServerModel vbx_ubuntu = gesuchter_server;
+                vbx_ubuntu.Name += " editiert";
+                vbx_ubuntu.Port = 1337;
+                vbx_ubuntu.Notes = "hui, tolle notizen";
+                bone.editServer(vbx_ubuntu);
+
+                Console.WriteLine("Editiert.");
+                    Console.ReadLine();
+                
+                
+                // edit test
+                FolderModel home = gesuchter_folder;
+                home.Name += " editiert";
+                home.Note = "hui, noch tollere notizen";
+                bone.editFolder(gesuchter_server.ID, home);
+
+                Console.WriteLine("Editiert.");
+                    Console.ReadLine();
+                    return;
                 // So Mountet man einen Eintrag
                 bone.Mount(gesuchter_server.ID, gesuchter_folder.ID);
                 Console.WriteLine("Gemounted, Enter drücken um Unmounten");

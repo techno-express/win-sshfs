@@ -53,7 +53,7 @@ public class Class1
                 ein_folder.Folder = "/home/user/ein";
                 ein_folder.Name = "home vom user";
                 ein_folder.Type = ConnectionType.PrivateKey;
-                ein_folder.PrivatKey = "C:\\nopass";
+                ein_folder.PrivateKey = "C:\\nopass";
                 ein_folder.Username = "user";
                 ein_folder.Note = "Folder with private key";
                 Guid ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
@@ -104,6 +104,7 @@ public class Class1
 
                 bone_local.duplicateServer(ein_server_ID);
                 bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                
 
                 string puffer = "";
                 while (puffer != "q")
@@ -117,6 +118,11 @@ public class Class1
                         Guid id1 = server1.Folders.Find(x => x.Name == "home zwei").ID;
                         Guid id2 = server2.Folders.Find(x => x.Name == "home drei").ID;
                         bone_local.MoveFolderAfter(server1.ID, server2.ID, id1, id2);
+                    }
+                    if (puffer == "e")
+                    {
+                        ein_folder.Name += " eee";
+                        bone_local.editFolder(ein_server_ID, ein_folder);
                     }
 
                     foreach (ServerModel i in bone_local.listAll())

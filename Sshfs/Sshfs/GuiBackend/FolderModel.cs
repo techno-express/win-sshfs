@@ -18,7 +18,7 @@ namespace Sshfs.GuiBackend
         public string Username;
         public string Password;
         public string Passphrase;
-        public string PrivatKey;
+        public string PrivateKey;
         public DriveStatus Status;
         public ConnectionType Type;
         public string VirtualDriveFolder;
@@ -42,7 +42,7 @@ namespace Sshfs.GuiBackend
             Username = F.Username;
             Password = F.Password;
             Passphrase = F.Passphrase;
-            PrivatKey = F.PrivatKey;
+            PrivateKey = F.PrivateKey;
             Status = F.Status;
             Type = F.Type;
             VirtualDriveFolder = F.VirtualDriveFolder;

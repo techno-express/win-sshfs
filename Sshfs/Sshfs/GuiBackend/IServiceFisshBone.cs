@@ -131,6 +131,10 @@ namespace Sshfs.GuiBackend.Remoteable
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void editServer(ServerModel Server);
 
+        [OperationContract]
+        [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void editFolder(Guid ServerID, FolderModel Folder);
+
         /// Adding Server to List of known Server
         /**
          * addServer() gets a new ServerModel from client.

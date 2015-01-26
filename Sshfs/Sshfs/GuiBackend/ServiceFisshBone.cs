@@ -357,7 +357,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                          Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
                          Folder.Password = "";
                          Folder.Passphrase = "";
-                         Folder.PrivatKey = "";
+                         Folder.PrivateKey = "";
                      }
 
                      Folder.Status = DriveStatus.Unmounted;
@@ -413,7 +413,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 drive.Username = folder.Username;
                 drive.Password = folder.Password;
-                drive.PrivateKey = folder.PrivatKey;
+                drive.PrivateKey = folder.PrivateKey;
                 drive.ConnectionType = folder.Type;
             }
 
@@ -781,13 +781,58 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             local_server_reference.Notes = Server.Notes;
             local_server_reference.PrivateKey = Server.PrivateKey;
             local_server_reference.Username = Server.Username;
-            local_server_reference.ID = Server.ID;
+            local_server_reference.Type = Server.Type;
             local_server_reference.Host = Server.Host;
             local_server_reference.Port = Server.Port;
-                
+
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "server " + Server.ID + " has been edit");
             return;
        }
+
+        /// overwrites the folder properties
+        /**
+         * editFolder() gets a ServerModel from client and a server id.
+         * It will search for a server with same id in
+         * 
+         * @param ServerID  id of server where wanted folder is located
+         * @param Folder    edited folder, with same id as original folder
+         */
+        public void editFolder(Guid ServerID, FolderModel Folder)
+        {
+            ServerModel local_server_reference = LServermodel.Find(x => x.ID == ServerID);
+
+            if (local_server_reference == null)
+            {
+                string message = "editFolder() got unkown server id";
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
+            }
+
+            
+            FolderModel local_folder_reference = local_server_reference.Folders.Find(x => x.ID == Folder.ID);
+
+            if (local_folder_reference == null)
+            {
+                string message = "editFolder() got unkown folder id";
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, message);
+                throw new FaultException<Fault>(new Fault(message));
+            }
+
+            local_folder_reference.Name = Folder.Name;
+            local_folder_reference.Password = Folder.Password;
+            local_folder_reference.Passphrase = Folder.Passphrase;
+            local_folder_reference.PrivateKey = Folder.PrivateKey;
+            local_folder_reference.Username = Folder.Username;
+            local_folder_reference.Letter = Folder.Letter;
+            local_folder_reference.Type = Folder.Type;
+            local_folder_reference.Username = Folder.Username;
+            local_folder_reference.VirtualDriveFolder = Folder.VirtualDriveFolder;
+            local_folder_reference.use_virtual_drive = Folder.use_virtual_drive;
+            local_folder_reference.use_global_login = Folder.use_global_login;
+
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder " + Folder.ID + " has been edit");
+            return;
+        }
 
 
         /// add a new server to Servermodel list

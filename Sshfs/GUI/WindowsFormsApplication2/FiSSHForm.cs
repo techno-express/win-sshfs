@@ -204,7 +204,7 @@ namespace GUI_WindowsForms
                             // write data in edit box
                             textBox_folder_entry.Text = folder.Name;
                             textBox_folder_password.Text = folder.Password;
-                            textBox_folder_privat_key.Text = folder.PrivatKey;
+                            textBox_folder_privat_key.Text = folder.PrivateKey;
                             textBox_folder_username.Text = folder.Username;
                             textBox9_folder_remotedirectory.Text = folder.Folder;
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
@@ -584,7 +584,7 @@ namespace GUI_WindowsForms
                 folder.Username = server.Username;
                 folder.Password = server.Password;
                 folder.Passphrase = server.Passphrase;
-                folder.PrivatKey = server.PrivateKey;
+                folder.PrivateKey = server.PrivateKey;
             }
             else
             {
@@ -595,7 +595,7 @@ namespace GUI_WindowsForms
                 }
                 if (radioButton_folder_privatkey.Checked == true)
                 {
-                    folder.PrivatKey = textBox_folder_privat_key.Text; // oder muss etwas anderes als der Text übergeben werden?
+                    folder.PrivateKey = textBox_folder_privat_key.Text; // oder muss etwas anderes als der Text übergeben werden?
                 }
                 if (radioButton_folder_pageant.Checked == true)
                 {
