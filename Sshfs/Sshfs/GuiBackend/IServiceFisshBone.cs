@@ -226,9 +226,21 @@ namespace Sshfs.GuiBackend.Remoteable
         [OperationContract]
         FolderModel DuplicateFolder(FolderModel F);
        
-        /// Set the Loglevel in Backend return value is the Loglevel after update
-        //[OperationContract]
-        //SimpleMind.Loglevel setLogLevel(SimpleMind.Loglevel newLogLevel);
+        /// Set the Loglevel in Backend
+        [OperationContract]
+        void setLogLevel(SimpleMind.Loglevel newLogLevel);
+
+        /// Get the Loglevel in Backend return value is the Loglevel after update
+        [OperationContract]
+        SimpleMind.Loglevel getLogLevel();
+
+        /// Get "Start Software with Systemstart" flag
+        [OperationContract]
+        bool IsStartBySystemStartSet();
+
+        /// Set "Start Software with Systemstart flag; true means yes-"start with systemstart"
+        [OperationContract]
+        void SetStartBySystemStart(bool TrueMeansYes);
 
         /*[OperationContract]
         void Connect(Guid ID);

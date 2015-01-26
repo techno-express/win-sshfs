@@ -38,7 +38,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
     {
         const String Comp = "Backend";
 
+        private static SimpleMind.Loglevel LogLevel;
         private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
+
+        private static bool StartWithSystemstartFlag;
 
         private static List<ServerModel> LServermodel = new List<ServerModel>();
         //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
@@ -54,6 +57,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             VirtualDrive.Letter = GetFreeDriveLetter();
             VirtualDrive.Mount();
+
+            LogLevel = SimpleMind.Loglevel.Debug;
+            Log.setLogLevel((int) LogLevel);
+
+            StartWithSystemstartFlag = false;
         }
 
         ///Saving LServermodel into an XML file
@@ -804,6 +812,33 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             return;
        }
+
+        /// Set the Loglevel in Backend
+        public void setLogLevel(SimpleMind.Loglevel newLogLevel)
+        {
+            LogLevel = newLogLevel;
+            Log.setLogLevel((int)LogLevel);
+            // Hier Speicherfunktion aufrufen :::FIXME:::
+        }
+
+        /// Get the Loglevel in Backend return value is the Loglevel after update
+        public SimpleMind.Loglevel getLogLevel()
+        {
+            return LogLevel;
+        }
+
+        /// Get "Start Software with Systemstart" flag
+        public bool IsStartBySystemStartSet()
+        {
+            return StartWithSystemstartFlag;
+        }
+
+        /// Set "Start Software with Systemstart flag; true means yes-"start with systemstart§
+        void SetStartBySystemStart(bool TrueMeansYes)
+        {
+            StartWithSystemstartFlag = TrueMeansYes;
+            // Hier soeicherfunktion einfügen :::FIXME:::
+        }
 
         /// Get s free dirve letter
         /**
