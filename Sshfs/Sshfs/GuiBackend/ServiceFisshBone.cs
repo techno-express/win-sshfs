@@ -31,6 +31,9 @@ using System.Configuration;
 using Sshfs.GuiBackend.Remoteable;
 using System.Xml;
 using System.IO;
+// For reconnect after wakeup
+using Microsoft.Win32;
+
 
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
@@ -56,6 +59,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         /// Initialize everything
         public static void Init()
         {
+            // Wake up event handler
+            SystemEvents.PowerModeChanged += WakeUpHandler;
+
             VirtualDrive.Letter = GetFreeDriveLetter();
             VirtualDrive.Mount();
 
@@ -63,6 +69,60 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             Log.setLogLevel((int) LogLevel);
 
             StartWithSystemstartFlag = false;
+        }
+
+        /// Handle reconnection after wake up
+        private static void WakeUpHandler(object s, PowerModeChangedEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                // When going to sleep
+                case PowerModes.Suspend:
+                    Console.WriteLine("WakeUpHandler(): System is going to sleep.");
+                    Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is going to sleep.");
+                    //LSftpDriveGarbageCollection();
+                    foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+                    {
+                        if (i.Value.Letter == ' ')
+                        {
+                            VirtualDrive.RemoveSubFS(i.Value);
+                        }
+                        else
+                        {
+                            i.Value.Unmount();
+                        }
+                    }
+
+                    break;
+
+                // When waking up
+                case PowerModes.Resume:
+                    Console.WriteLine("WakeUpHandler(): System is waking up.");
+                    Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is waking up.");
+                    foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+                    {
+                        Console.WriteLine("Wake up " + i.Value.Name);
+
+
+                        if (i.Value.Letter == ' ')
+                        {
+                            VirtualDrive.AddSubFS(i.Value);
+                            LookIntoVirtualDrive(i.Value.MountPoint);
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp,
+                                                "WakeUpHandler() reconnected virtual drive " + i.Value.MountPoint +
+                                                ": folder " + i.Value.Root +
+                                                " on server " + i.Value.Host + " with id ");// + i.Key.ToString());
+                        }
+                        else
+                        {
+                            i.Value.Mount();
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp,
+                               "WakeUpHandler() reconnected folder " + i.Value.Root +
+                               " on server " + i.Value.Host + " with id ");// + i.Key.ToString());
+                        }
+                    }
+                    break;
+            }
         }
 
         ///Saving LServermodel into an XML file
@@ -272,7 +332,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * This method executes a "dir" command.
          * That is necessary so virtual drive will be mounted
          */
-        private void LookIntoVirtualDrive(string folder)
+        private static void LookIntoVirtualDrive(string folder)
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
@@ -295,6 +355,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             drive.Port = server.Port;
 
             drive.Root = folder.Folder;
+            drive.Name = folder.Name;
 
             if (folder.use_global_login)
             {
@@ -573,6 +634,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                 drive.Unmount();
                 VirtualDrive.RemoveSubFS(drive);
+                LSftpDrive.Remove(new Tuple<Guid, Guid>(ServerID, FolderID));
 
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" on server \"" + ServerID + "\" unmounted.");
                 return;
