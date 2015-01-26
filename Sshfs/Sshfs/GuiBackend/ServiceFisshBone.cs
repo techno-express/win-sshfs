@@ -677,8 +677,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 SftpDrive drive = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)];
 
-                drive.Unmount();
                 VirtualDrive.RemoveSubFS(drive);
+                drive.Unmount();
                 LSftpDrive.Remove(new Tuple<Guid, Guid>(ServerID, FolderID));
 
                 Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" on server \"" + ServerID + "\" unmounted.");
