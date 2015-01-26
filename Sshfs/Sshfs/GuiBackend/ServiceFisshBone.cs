@@ -50,6 +50,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         private static List<ServerModel> LServermodel = new List<ServerModel>();
         //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
         private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
+        private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDriveWakeUp = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
         //private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
         private static VirtualDrive VirtualDrive = new VirtualDrive();
         
@@ -69,18 +70,27 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             Log.setLogLevel((int) LogLevel);
 
             StartWithSystemstartFlag = false;
+            ReconnectAfterWakeUpFlag = true;
         }
 
         /// Handle reconnection after wake up
         private static void WakeUpHandler(object s, PowerModeChangedEventArgs e)
         {
+
             switch (e.Mode)
             {
                 // When going to sleep
                 case PowerModes.Suspend:
                     Console.WriteLine("WakeUpHandler(): System is going to sleep.");
                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is going to sleep.");
-                    //LSftpDriveGarbageCollection();
+
+
+                    if (ReconnectAfterWakeUpFlag)
+                    {
+                        LSftpDriveGarbageCollection();
+                        LSftpDriveWakeUp = LSftpDrive;
+                    }
+                    
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
                         if (i.Value.Letter == ' ')
@@ -93,16 +103,22 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         }
                     }
 
+                    LSftpDrive = new Dictionary<Tuple<Guid,Guid>,SftpDrive>();
+
                     break;
 
                 // When waking up
                 case PowerModes.Resume:
+                    if (!ReconnectAfterWakeUpFlag) break;
+
                     Console.WriteLine("WakeUpHandler(): System is waking up.");
                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is waking up.");
+
+                    System.Threading.Thread.Sleep(10000);
+                    LSftpDrive = LSftpDriveWakeUp;
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
                         Console.WriteLine("Wake up " + i.Value.Name);
-
 
                         if (i.Value.Letter == ' ')
                         {
@@ -120,10 +136,30 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                                "WakeUpHandler() reconnected folder " + i.Value.Root +
                                " on server " + i.Value.Host + " with id ");// + i.Key.ToString());
                         }
+                        
                     }
+                    Console.WriteLine("resumeEnd");
                     break;
             }
         }
+
+         /// Remove every unmounted drive
+         private static void LSftpDriveGarbageCollection ()
+         {
+             foreach(KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive) 
+             {
+                 // When drive is neither mounted nor mounting
+                 if( i.Value.Status != DriveStatus.Mounted &&
+                     i.Value.Status != DriveStatus.Mounting)
+                 {
+                     LSftpDrive.Remove(i.Key);
+                     VirtualDrive.RemoveSubFS(i.Value);
+                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp,
+                         "LSftpGarbageCollection() removed folder " + i.Value.Root +
+                         " on server " + i.Value.Host + " with id " + i.Key.ToString());
+                 }
+             }
+         }
 
         ///Saving LServermodel into an XML file
         /**
