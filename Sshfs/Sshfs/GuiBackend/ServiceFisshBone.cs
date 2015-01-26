@@ -319,6 +319,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     throw new FaultException("Such virtual drive folder allready exists.");
                 }
 
+                drive.Letter = ' ';
+
                 // Adding folder to virtual drive
                 drive.MountPoint = folder.VirtualDriveFolder;
                 VirtualDrive.AddSubFS(drive);
@@ -854,7 +856,39 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             // Hier Speicherfunktion einfügen :::FIXME:::
         }
         
+        /// Get virtual drive letter
+        public char GetVirtualDriveLetter()
+        {
+            return VirtualDrive.Letter;
+        }
 
+        /// Set virtual drive letter
+        public void SetVirtualDriveLetter(char letter)
+        {
+            if (IsDriveAvailable(letter))
+            {
+                VirtualDrive.Unmount();
+                VirtualDrive.Letter = letter;
+                VirtualDrive.Mount();
+
+                // look into every virtual drive so they will be mounted
+                foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+                {
+                    if (i.Value.Letter == ' ') 
+                    {
+                        LookIntoVirtualDrive(i.Value.MountPoint);
+                    }
+                }
+            }
+            else
+            {
+                string message = "Drive letter is not available";
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "SetVirtualDriveLetter() got an unavailible drive letter.");
+                throw new FaultException(message);
+            }
+        }
+
+        
         /// Get s free dirve letter
         /**
          * This method chechs every drive letter starting with 'Z'

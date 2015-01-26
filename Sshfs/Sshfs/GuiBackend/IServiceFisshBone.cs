@@ -250,6 +250,13 @@ namespace Sshfs.GuiBackend.Remoteable
         [OperationContract]
         void SetReconnectAfterWakeUp(bool TrueMeansYes);
         
+        /// Get virtual drive letter
+        [OperationContract]
+        char GetVirtualDriveLetter();
+
+        /// Set virtual drive letter
+        [OperationContract]
+        void SetVirtualDriveLetter(char letter);
 
         /*[OperationContract]
         void Connect(Guid ID);
