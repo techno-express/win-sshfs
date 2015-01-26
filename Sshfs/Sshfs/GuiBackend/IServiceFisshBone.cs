@@ -197,7 +197,15 @@ namespace Sshfs.GuiBackend.Remoteable
         [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
         void removeFolder(Guid ID_Server, Guid ID_Folder);
 
-
+        /// Duplicate a Server
+        [OperationContract]
+        [FaultContractAttribute( typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign )]
+        Guid duplicateServer(Guid ServerID);
+        
+        /// Duplicate a folder
+        [OperationContract]
+        [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        Guid duplicateFolder(Guid ServerID, Guid FolderID);
     
        
         /// Set the Loglevel in Backend

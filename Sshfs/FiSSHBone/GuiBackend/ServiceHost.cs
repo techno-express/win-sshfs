@@ -101,6 +101,10 @@ public class Class1
                 ein_folder.Name = "home vom user";
                 ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
+
+                bone_local.duplicateServer(ein_server_ID);
+                bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+
                 string puffer = "";
                 while (puffer != "q")
                 {

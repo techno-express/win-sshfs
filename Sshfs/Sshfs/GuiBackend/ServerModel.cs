@@ -84,15 +84,16 @@ namespace Sshfs.GuiBackend
          */
         public ServerModel DuplicateServer()
         {
-            ServerModel r = new ServerModel(this);
+            ServerModel r = (ServerModel)this.MemberwiseClone();
             r.ID = Guid.NewGuid();
-            r.Name += " Copy";
 
-            foreach (FolderModel F in r.Folders)
+            r.Folders = new List<FolderModel>();
+            foreach (FolderModel F in this.Folders)
             {
-                F.Name += " Copy";
-                F.ID = Guid.NewGuid();
-                F.Status = DriveStatus.Unmounted;
+                FolderModel nF = F.DuplicateFolder();
+                r.Folders.Add(nF);
+                nF.ID = Guid.NewGuid();
+                nF.Status = DriveStatus.Unmounted;
             }
 
             return r;

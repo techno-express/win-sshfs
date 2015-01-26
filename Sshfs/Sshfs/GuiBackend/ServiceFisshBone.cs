@@ -856,7 +856,42 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             return Folder.ID;
         }
+
+        /// Duplicate a Server
+        public Guid duplicateServer(Guid ServerID)
+        {
+            try
+            {
+                ServerModel server = LServermodel.Find(x => x.ID == ServerID);
+                ServerModel newServer = server.DuplicateServer();
+                newServer.Name += " Copy";
+                LServermodel.Add(newServer);
+                return newServer.ID;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "duplicateServer(): " + e.Message);
+                throw new FaultException(e.Message);
+            }
+        }
         
+        /// Duplicate a folder
+        public Guid duplicateFolder(Guid ServerID, Guid FolderID)
+        {
+            try
+            {
+                ServerModel server = LServermodel.Find(x => x.ID == ServerID);
+                FolderModel newFolder = server.Folders.Find(x => x.ID == FolderID).DuplicateFolder();
+                newFolder.Name += " Copy";
+                server.Folders.Add(newFolder);
+                return newFolder.ID;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "duplicateServer(): " + e.Message);
+                throw new FaultException(e.Message);
+            }
+        }
 
         /// removes fodler from a server
         /**

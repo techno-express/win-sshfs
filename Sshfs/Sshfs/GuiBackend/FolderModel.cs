@@ -62,9 +62,8 @@ namespace Sshfs.GuiBackend
          */
         public FolderModel DuplicateFolder()
         {
-            FolderModel r = new FolderModel(this);
+            FolderModel r = (FolderModel)this.MemberwiseClone();
             r.ID = Guid.NewGuid();
-            r.Name += " Copy";
             r.Status = DriveStatus.Unmounted;
             return r;
         }
