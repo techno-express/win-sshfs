@@ -102,6 +102,82 @@ namespace GUI_WindowsForms
             Node2.ImageIndex = 5;
         }
 
+        private void UpdateMenuBar()
+        {
+            // While mounting no data updates
+            if (MountingIDs.Count() == 0)
+            { GetDataFromServer(); }
+
+            if (treeView1.SelectedNode == null) { return; }
+
+            switch (treeView1.SelectedNode.Level)
+            {
+                case 0:
+                    #region server_node
+                    // get server which is presented by selected node 
+                    //ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+
+                    mountToolStripMenuItem.Enabled = false;
+                    unmountToolStripMenuItem.Enabled = false;
+                    MountAnimatonStop();
+
+                    break;
+                    #endregion
+
+                case 1:
+                    #region folder_node
+                    // get server which is presented by selected parent node
+                    ServerModel server = GetSelectedServerNode();
+                    // get folder which is presented by selected node
+                    FolderModel folder = null;
+                    try { folder = GetSelectedFolderNode(); }
+                    catch { }
+
+                    if (folder != null)
+                    {
+                        switch (folder.Status)
+                        {
+                            case Sshfs.DriveStatus.Mounted:
+                                MountAnimatonStop();
+                                mountToolStripMenuItem.Enabled = false;
+                                unmountToolStripMenuItem.Enabled = true;
+                                break;
+
+                            case Sshfs.DriveStatus.Mounting:
+                                if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                                    || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                                {
+                                    folder.Status = Sshfs.DriveStatus.Mounted;
+                                    mountToolStripMenuItem.Enabled = false;
+                                    MountAnimatonStop();
+                                }
+                                else
+                                {
+                                    MountAnimationStart();
+                                    mountToolStripMenuItem.Enabled = true;
+                                    unmountToolStripMenuItem.Enabled = false;
+                                }
+                                break;
+
+                            default:
+                                MountAnimatonStop();
+                                mountToolStripMenuItem.Enabled = true;
+                                unmountToolStripMenuItem.Enabled = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        mountToolStripMenuItem.Enabled = false;
+                        unmountToolStripMenuItem.Enabled = false;
+                    }
+
+                    break;
+                    #endregion
+
+                default: break;
+            }
+        }
 
         private void GetDataFromServer()
         {
@@ -146,12 +222,7 @@ namespace GUI_WindowsForms
                         groupBox2.Visible = false;
                         
                         // get server which is presented by selected node 
-                        ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
-
-                        mountToolStripMenuItem.Enabled = false;
-                        unmountToolStripMenuItem.Enabled = false;
-                        MountAnimatonStop();
-
+                        ServerModel server = GetSelectedServerNode();
 
                         if (server != null)
                         {
@@ -193,10 +264,10 @@ namespace GUI_WindowsForms
                         groupBox2.Visible = true;
 
                         // get server which is presented by selected parent node
-                        ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+                        ServerModel server = GetSelectedServerNode();
                         // get folder which is presented by selected node
                         FolderModel folder = null;
-                        try { folder = server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node)); }
+                        try { folder = GetSelectedFolderNode(); }
                         catch { }
 
                         if (folder != null)
@@ -215,37 +286,6 @@ namespace GUI_WindowsForms
                             textBox_server_ip.Text = server.Host;
                             numericUpDown_server_port.Value = server.Port;
                            
-                            switch (folder.Status)
-                            {
-                                case Sshfs.DriveStatus.Mounted:
-                                    MountAnimatonStop();
-                                    mountToolStripMenuItem.Enabled = false;
-                                    unmountToolStripMenuItem.Enabled = true;
-                                    break;
-
-                                case Sshfs.DriveStatus.Mounting:
-                                    if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                                        || ToMount.Contains(new Tuple<Guid,Guid>(server.ID, folder.ID) ))
-                                    {
-                                        folder.Status = Sshfs.DriveStatus.Mounted;
-                                        mountToolStripMenuItem.Enabled = false;
-                                        MountAnimatonStop();
-                                    }
-                                    else
-                                    {
-                                        MountAnimationStart();
-                                        mountToolStripMenuItem.Enabled = true;
-                                        unmountToolStripMenuItem.Enabled = false;
-                                    }
-                                    break;
-
-                                default:
-                                    MountAnimatonStop();
-                                    mountToolStripMenuItem.Enabled = true;
-                                    unmountToolStripMenuItem.Enabled = false;
-                                    break;
-                            }
-                            
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
@@ -258,17 +298,10 @@ namespace GUI_WindowsForms
                             textBox_folder_privat_key.Text = null;
                             textBox_folder_username.Text = null;
                             textBox9_folder_remotedirectory.Text = null;
-                            //checkBox_folder_usedefaultaccound.Checked = null;
-                            // Laufwerksbuchstaben zuweisen, funktioniert so nicht :::FIXME:::
-                            //comboBox_folder_driveletter.Text = null;
 
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
-
-                            mountToolStripMenuItem.Enabled = false;
-                            unmountToolStripMenuItem.Enabled = false;
-
                         }
                         
                     }
@@ -633,7 +666,8 @@ namespace GUI_WindowsForms
         /// Updates frequently all icons
         private void time_viewupdate_Tick(object sender, EventArgs e)
         {
-            ServerFolderEdit();
+            UpdateMenuBar();
+            //ServerFolderEdit();
         }
 
 
