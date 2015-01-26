@@ -218,7 +218,6 @@ namespace GUI_WindowsForms
                 case 0:
                     if (Expanded)
                     {
-                        groupBox1.Enabled = true;
                         groupBox2.Visible = false;
                         
                         // get server which is presented by selected node 
@@ -260,7 +259,6 @@ namespace GUI_WindowsForms
                 case 1:
                     if (Expanded)
                     {
-                        groupBox1.Enabled = false;
                         groupBox2.Visible = true;
 
                         // get server which is presented by selected parent node
@@ -286,13 +284,12 @@ namespace GUI_WindowsForms
                             textBox_server_ip.Text = server.Host;
                             numericUpDown_server_port.Value = server.Port;
                            
-                            groupBox1.Enabled = false;
+                            groupBox1.Enabled = true;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
                         }
                         else
                         {
-                            // write data in edit box
                             textBox_folder_entry.Text = null;
                             textBox_folder_password.Text = null;
                             textBox_folder_privat_key.Text = null;
