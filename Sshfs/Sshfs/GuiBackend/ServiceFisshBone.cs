@@ -95,6 +95,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         if (i.Value.Letter == ' ')
                         {
                             VirtualDrive.RemoveSubFS(i.Value);
+                            i.Value.Unmount();
                         }
                         else
                         {
@@ -112,12 +113,25 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is waking up.");
 
-                    System.Threading.Thread.Sleep(30000);
+                    int k = 0;
+                    while(! System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        
+                        k++;
+                        if ( k > 60 )
+                        {
+                            return;
+                        }
+
+                    }
+
                     LSftpDrive = LSftpDriveWakeUp;
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
                         if (i.Value.Letter == ' ')
                         {
+
                             VirtualDrive.AddSubFS(i.Value);
                             LookIntoVirtualDrive(i.Value.MountPoint);
                             Log.writeLog(SimpleMind.Loglevel.Debug, Comp,
