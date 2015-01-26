@@ -46,10 +46,11 @@ namespace GUI_WindowsForms
             bone_server = IPCConnection.bone_client;
 
             InitializeComponent();
+            CreateTreeView();
         }
 
         /// updated the TreeView and, draws the nodes and describes the nodes
-        private void UpdateTreeView(/* STUFF */)
+        private void CreateTreeView(/* STUFF */)
         {
             treeView1.Nodes.Clear();
             // get all data from backend
@@ -58,6 +59,76 @@ namespace GUI_WindowsForms
             {
                 MessageBox.Show("Cannot connect with server.");
                 datamodel = new List<ServerModel>();      
+            }
+
+            foreach (ServerModel i in datamodel)
+            {
+                // Adding server node 
+                TreeNode ParentNode = treeView1.Nodes.Add(String.Format(
+                                        "Name: " + i.Name + Environment.NewLine +
+                                        "IP: " + i.Host + Environment.NewLine +
+                                        "Notes: " + i.Notes));
+                ParentNode.SelectedImageIndex = 6;
+                ParentNode.ImageIndex = 6;
+                ParentNode.ContextMenuStrip = this.contextMenuStrip1;
+                ParentNode.Name = i.ID.ToString();
+//                i.gui_node = ParentNode;
+
+
+                // Adding folder nodes
+                foreach (FolderModel j in i.Folders)
+                {
+                    TreeNode ChildNode = ParentNode.Nodes.Add( String.Format(
+                                        "Name: " + j.Name + Environment.NewLine + 
+                                        "Path: " + j.Folder + Environment.NewLine + 
+                                        "Note: " + j.Note));
+                    //j.gui_node = ChildNode;
+                    ChildNode.SelectedImageIndex = 4;
+                    ChildNode.ImageIndex = 4;
+                    ChildNode.ContextMenuStrip = this.contextMenuStrip2;
+                    ChildNode.Name = i.ID.ToString();
+                }
+
+                // Adding "new folder" node
+                TreeNode Node = ParentNode.Nodes.Add(String.Format(
+                                        "\n" + Environment.NewLine + 
+                                        "Add new Folder" + Environment.NewLine));
+                Node.SelectedImageIndex = 3;
+                Node.ImageIndex = 3;
+            }
+
+            // Adding "new server" node
+            TreeNode Node2  = treeView1.Nodes.Add(String.Format(
+                                        "\n" + Environment.NewLine + 
+                                        "Add new Server" + Environment.NewLine));
+            Node2.SelectedImageIndex = 5;
+            Node2.ImageIndex = 5;
+        }
+
+
+        /// updated the TreeView and, draws the nodes and describes the nodes
+        private void UpdateTreeView(/* STUFF */)
+        {/*
+            // get all data from backend
+            try { datamodel = bone_server.listAll(); }
+            catch
+            {
+                MessageBox.Show("Cannot connect with server.");
+                datamodel = new List<ServerModel>();      
+            }
+
+            // First delet all old nodes
+            foreach (TreeNode i in treeView1.Nodes)
+            {
+                TreeNode[] Nodes = treeView1.Nodes.Find(i.ID.ToString(), false);
+            }
+
+            for (int i = 0; i <= datamodel.Count(); i++ )
+            {
+                ServerModel iServer = datamodel.ElementAt(i);
+                TreeNode iNode = treeView1.Nodes[i];
+
+                if 
             }
             
             foreach (ServerModel i in datamodel)
@@ -99,7 +170,7 @@ namespace GUI_WindowsForms
                                         "\n" + Environment.NewLine + 
                                         "Add new Server" + Environment.NewLine));
             Node2.SelectedImageIndex = 5;
-            Node2.ImageIndex = 5;
+            Node2.ImageIndex = 5;*/
         }
 
         private void UpdateMenuBar()
@@ -181,7 +252,10 @@ namespace GUI_WindowsForms
 
         private void GetDataFromServer()
         {
-            List<ServerModel> tmp = new List<ServerModel>(datamodel);
+            List<ServerModel> tmp = new List<ServerModel>();
+
+            if (datamodel != null)
+                tmp = new List<ServerModel>(datamodel);
             
             try { datamodel = bone_server.listAll(); }
             catch
@@ -189,7 +263,7 @@ namespace GUI_WindowsForms
                 MessageBox.Show("Cannot connect with server.");
                 return;
             }
-
+/*
             foreach(ServerModel i in datamodel)
             {
                 ServerModel tmp_server = tmp.Find(x => x.ID == i.ID);
@@ -201,6 +275,7 @@ namespace GUI_WindowsForms
                     j.gui_node = tmp_folder.gui_node;
                 }
             }
+ */
         }
 
         
@@ -842,7 +917,7 @@ namespace GUI_WindowsForms
                 default: return null;
             }
         }
- 
+
         private void MountAnimationStart()
         {
             timer_animation.Enabled = true;
