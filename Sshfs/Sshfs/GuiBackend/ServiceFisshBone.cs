@@ -81,7 +81,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             {
                 // When going to sleep
                 case PowerModes.Suspend:
-                    Console.WriteLine("WakeUpHandler(): System is going to sleep.");
                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is going to sleep.");
 
 
@@ -111,15 +110,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 case PowerModes.Resume:
                     if (!ReconnectAfterWakeUpFlag) break;
 
-                    Console.WriteLine("WakeUpHandler(): System is waking up.");
                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "WakeUpHandler(): System is waking up.");
 
-                    System.Threading.Thread.Sleep(10000);
+                    System.Threading.Thread.Sleep(30000);
                     LSftpDrive = LSftpDriveWakeUp;
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
-                        Console.WriteLine("Wake up " + i.Value.Name);
-
                         if (i.Value.Letter == ' ')
                         {
                             VirtualDrive.AddSubFS(i.Value);
@@ -138,7 +134,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         }
                         
                     }
-                    Console.WriteLine("resumeEnd");
                     break;
             }
         }
