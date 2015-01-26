@@ -242,6 +242,15 @@ namespace Sshfs.GuiBackend.Remoteable
         [OperationContract]
         void SetStartBySystemStart(bool TrueMeansYes);
 
+        /// Get "Reconnect after wake up" flag
+        [OperationContract]
+        bool IsReconnectAfterWakeUpSet();
+
+        /// Set "Reconnect after wake up" flag; true means yes-"start with systemstart"
+        [OperationContract]
+        void SetReconnectAfterWakeUp(bool TrueMeansYes);
+        
+
         /*[OperationContract]
         void Connect(Guid ID);
 

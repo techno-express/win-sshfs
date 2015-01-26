@@ -42,6 +42,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
 
         private static bool StartWithSystemstartFlag;
+        private static bool ReconnectAfterWakeUpFlag;
 
         private static List<ServerModel> LServermodel = new List<ServerModel>();
         //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
@@ -834,11 +835,25 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
         /// Set "Start Software with Systemstart flag; true means yes-"start with systemstart§
-        void SetStartBySystemStart(bool TrueMeansYes)
+        public void SetStartBySystemStart(bool TrueMeansYes)
         {
             StartWithSystemstartFlag = TrueMeansYes;
-            // Hier soeicherfunktion einfügen :::FIXME:::
+            // Hier Speicherfunktion einfügen :::FIXME:::
         }
+
+        /// Get "Reconnect after wake up" flag
+        public bool IsReconnectAfterWakeUpSet()
+        {
+            return ReconnectAfterWakeUpFlag;
+        }
+
+        /// Set "Reconnect after wake up" flag; true means yes-"start with systemstart"
+        public void SetReconnectAfterWakeUp(bool TrueMeansYes)
+        {
+            ReconnectAfterWakeUpFlag = TrueMeansYes;
+            // Hier Speicherfunktion einfügen :::FIXME:::
+        }
+        
 
         /// Get s free dirve letter
         /**
