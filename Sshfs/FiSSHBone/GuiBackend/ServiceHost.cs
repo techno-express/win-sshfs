@@ -143,6 +143,14 @@ public class Class1
                         tmp.Name = "eingefügt";
                         bone_local.addFolder(ein_server_ID, tmp);
                     }
+                    if (puffer == "d1")
+                    {
+                        bone_local.duplicateServer(ein_server_ID);
+                    }
+                    if (puffer == "d2")
+                    {
+                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                    }
 
 
                     foreach (ServerModel i in bone_local.listAll())

@@ -97,90 +97,43 @@ namespace GUI_WindowsForms
                 datamodel = new List<ServerModel>();      
             }
 
-            // First delet all old nodes
-            for (int i = 0; i < treeView1.Nodes.Count-1; i++)
+
+            for (int i = 0; i < datamodel.Count(); i++)
             {
-                ServerModel server = null;
+                ServerModel server = datamodel[i];
                 TreeNode ParentNode = treeView1.Nodes[i];
 
-                server = datamodel.Find(x => x.ID.ToString() == ParentNode.Name);
-
-                if (server == null)
-                {
-                    ParentNode.Remove();
-                }
-                else
-                {
-                    for (int j = 0; j < ParentNode.Nodes.Count - 1; j++)
-                    {
-                        FolderModel folder = null;
-                        TreeNode ChildNode = ParentNode.Nodes[j];
-
-                        folder = server.Folders.Find(x => x.ID.ToString() == ChildNode.Name);
-
-                        if (folder == null)
-                        {
-                            ChildNode.Remove();
-                        }
-                    }
-                }
-            }
-
-
-
-            for (int i = 0; i < datamodel.Count(); i++ )
-            {
-                ServerModel iServer = datamodel[i];
-                TreeNode ParentNode = treeView1.Nodes[i];
-
-                if (ParentNode.Name == iServer.ID.ToString())
+                if (ParentNode.Name == server.ID.ToString())
                 {
                     //:::FIXME:::
+
+                    for (int j = 0; j < server.Folders.Count; j++)
+                    {
+                        FolderModel folder = server.Folders[j];
+                        TreeNode ChildNode = ParentNode.Nodes[j];
+
+                        if (ChildNode.Name == folder.ID.ToString())
+                        {
+                            //:::FIXME:::
+                            continue;
+                        }
+                        else
+                        {
+                            CreateTreeView();
+                            return;
+                       }
+                    }
                 }
                 // if tree node does not fit to datamodel element
                 // add a new tree node and remove every other node with same id
                 else
                 {
-                    // remove every other node with same id
-                    TreeNode[] a = treeView1.Nodes.Find(iServer.ID.ToString(), false);
-                    for (int j = 0; j < a.Length; j++)
-                    {
-                        a[j].Remove();
-                    }
+                    CreateTreeView();
+                    return;
+               }
 
-                    // insert tree node
-                    TreeNode newNode = MakeServerNode(iServer);
-                    treeView1.Nodes.Insert(i, newNode);
-
-                    CreateAddFolderNode(newNode);
-                }
-
-                // Same Game for every folder
-                for(int j = 0; j < iServer.Folders.Count; j++)
-                {
-                    FolderModel folder = iServer.Folders[j];
-                    TreeNode ChildNode = ParentNode.Nodes[j];
-
-                    if (ChildNode.Name == folder.ID.ToString())
-                    {
-                        //:::FIXME:::
-                        continue;
-                    }
-                    else
-                    {
-                        // remove every other node with same id
-                        TreeNode[] a = ParentNode.Nodes.Find(iServer.ID.ToString(), false);
-                        for (int k = 0; k < a.Length; k++)
-                        {
-                            a[k].Remove();
-                        }
-
-                        TreeNode newNode = MakeFolderNode(folder);
-                        ParentNode.Nodes.Insert(j, newNode);
-                    }
-                }
             }
-        }
+       }
 
         private void UpdateMenuBar()
         {
@@ -194,9 +147,6 @@ namespace GUI_WindowsForms
             {
                 case 0:
                     #region server_node
-                    // get server which is presented by selected node 
-                    //ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
-
                     mountToolStripMenuItem.Enabled = false;
                     unmountToolStripMenuItem.Enabled = false;
                     MountAnimatonStop();
@@ -499,39 +449,70 @@ namespace GUI_WindowsForms
                 // location and add it to the node at the drop location. 
                 if (e.Effect == DragDropEffects.Move)
                 {
-                    if (targetNode != null && (draggedNode.Level > targetNode.Level) && !ServerOrFolderAddNode(targetNode)) 
-                    { 
-                       draggedNode.Remove(); targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); // Send operation to backend here -> update TreeView
-                     //  UpdateTreeView();
-                    }
-                    if (targetNode != null && (draggedNode.Level == targetNode.Level) && !ServerOrFolderAddNode(targetNode))
-                    {
-                        contxMenuDragged = draggedNode;
-                        contxMenuTargetIndex = targetNode.Index;
-                        TreeNode contxMenuDraggedParent = contxMenuDragged.Parent;
-                        if (contxMenuDraggedParent != null)
-                        {
-                            contxMenuDragged.Remove();
-                            contxMenuDraggedParent.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
-                        }
-                        else
-                        {
-                            contxMenuDragged.Remove();
-                            treeView1.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
-                        }
 
-                        //  UpdateTreeView();
-                    }
-
-                    else 
-                    {
-                        if (targetNode == null && draggedNode.Level != 1) 
+                        if (draggedNode.Level == 0)
                         {
-                           draggedNode.Remove(); treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, draggedNode); //Same here
-                        //   UpdateTreeView();
+                            if (targetNode != null && targetNode.Level == 0)
+                            {
+                                draggedNode.Remove();
+                                treeView1.Nodes.Insert(targetNode.Index + 1, draggedNode);
+
+                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Name);
+                                ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
+                                bone_server.MoveServerAfter(draggedServer.ID, targedServer.ID);
+                            }
                         }
-                    }
-                    
+                        if (draggedNode.Level == 1)
+                        {
+                            if (targetNode != null && targetNode.Level == 1)
+                            {
+                                draggedNode.Remove();
+                                targetNode.Parent.Nodes.Insert(targetNode.Index + 1, draggedNode);
+
+                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
+                                ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
+                                FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
+                                FolderModel targedFolder = targedServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
+                                bone_server.MoveFolderAfter(
+                                    draggedServer.ID, targedServer.ID,
+                                    draggedFolder.ID, targedFolder.ID);
+                            }
+                        }
+                    /*
+                   if (targetNode != null && (draggedNode.Level > targetNode.Level) && !ServerOrFolderAddNode(targetNode)) 
+                   { 
+                      draggedNode.Remove(); targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); // Send operation to backend here -> update TreeView
+                    //  UpdateTreeView();
+                   }
+                   if (targetNode != null && (draggedNode.Level == targetNode.Level) && !ServerOrFolderAddNode(targetNode))
+                   {
+                       contxMenuDragged = draggedNode;
+                       contxMenuTargetIndex = targetNode.Index;
+                       TreeNode contxMenuDraggedParent = contxMenuDragged.Parent;
+                       if (contxMenuDraggedParent != null)
+                       {
+                           contxMenuDragged.Remove();
+                           contxMenuDraggedParent.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
+                       }
+                       else
+                       {
+                           contxMenuDragged.Remove();
+                           treeView1.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
+                       }
+
+                       //  UpdateTreeView();
+                   }
+
+                   else 
+                   {
+                       if (targetNode == null && draggedNode.Level != 1) 
+                       {
+                          draggedNode.Remove(); treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, draggedNode); //Same here
+                       //   UpdateTreeView();
+                       }
+                   }*/
+ 
+                   
                 }
 
                 // If it is a copy operation, clone the dragged node  
@@ -749,7 +730,6 @@ namespace GUI_WindowsForms
         {
             UpdateMenuBar();
             UpdateTreeView();
-            //ServerFolderEdit();
         }
 
 
@@ -919,7 +899,6 @@ namespace GUI_WindowsForms
                                     "Name: " + folder.Name + Environment.NewLine +
                                     "Path: " + folder.Folder + Environment.NewLine +
                                     "Note: " + folder.Note));
-            //j.gui_node = ChildNode;
             ChildNode.SelectedImageIndex = 4;
             ChildNode.ImageIndex = 4;
             ChildNode.ContextMenuStrip = this.contextMenuStrip2;
