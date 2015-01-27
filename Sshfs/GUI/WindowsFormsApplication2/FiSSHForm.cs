@@ -1128,6 +1128,7 @@ namespace GUI_WindowsForms
                     ServerModel server = new ServerModel();
                     server.Name = "New Server";
                     TreeNode newNode = MakeServerNode(server);
+                    CreateAddFolderNode(newNode);
                     newNode.Name = bone_server.addServer(server).ToString();
                     treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, newNode);
                 }
