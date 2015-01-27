@@ -534,6 +534,26 @@ namespace GUI_WindowsForms
                                     draggedServer.ID, targedServer.ID,
                                     draggedFolder.ID, targedFolder.ID);
                             }
+
+                            if (targetNode != null && targetNode.Level == 0)
+                            {
+                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
+                                ServerModel targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
+                                FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
+                                
+                                Guid targetFolderID = Guid.Empty;
+                                if (targetServer.Folders.Count > 0)
+                                {
+                                    targetFolderID = targetServer.Folders.Last().ID;
+                                }
+
+                                draggedNode.Remove();
+                                targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); //inserted at end before "add folder" node
+
+                                bone_server.MoveFolderAfter(
+                                    draggedServer.ID, targetServer.ID,
+                                    draggedFolder.ID, targetFolderID);
+                            }
                         }
                     /*
                    if (targetNode != null && (draggedNode.Level > targetNode.Level) && !ServerOrFolderAddNode(targetNode)) 
