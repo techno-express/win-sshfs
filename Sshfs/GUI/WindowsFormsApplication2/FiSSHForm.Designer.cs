@@ -40,6 +40,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mountAllFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -107,7 +108,6 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -194,6 +194,12 @@
             this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // duplicateToolStripMenuItem
+            // 
+            this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
+            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.duplicateToolStripMenuItem.Text = "Duplicate";
             // 
             // mountAllFoldersToolStripMenuItem
             // 
@@ -914,7 +920,7 @@
             this.treeView1.FullRowSelect = true;
             this.treeView1.ImageIndex = 4;
             this.treeView1.ImageList = this.imageList1;
-            this.treeView1.ItemHeight = 70;
+            this.treeView1.ItemHeight = 60;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
@@ -1009,12 +1015,6 @@
             this.closeApplicationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.closeApplicationToolStripMenuItem.Text = "Close Application";
             this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
-            // 
-            // duplicateToolStripMenuItem
-            // 
-            this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.duplicateToolStripMenuItem.Text = "Duplicate";
             // 
             // FiSSHForm
             // 
