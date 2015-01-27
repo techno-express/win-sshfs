@@ -160,6 +160,7 @@
             this.duplicateToolStripMenuItem1.Name = "duplicateToolStripMenuItem1";
             this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.duplicateToolStripMenuItem1.Text = "Duplicate";
+            this.duplicateToolStripMenuItem1.Click += new System.EventHandler(this.duplicateToolStripMenuItem1_Click);
             // 
             // openInExplorerToolStripMenuItem
             // 
