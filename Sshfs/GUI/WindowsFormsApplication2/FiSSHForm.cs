@@ -26,6 +26,7 @@ namespace GUI_WindowsForms
         TreeNode contxMenuDragged = new TreeNode(null);
         int contxMenuTargetIndex = 0;
         bool ServerOffline = false;
+        bool ConnectionFailBoxFlag = false;     // This flag is true, when there is already a IPCConnectionfial Message
 
         
         //////////////////////////////////////////////
@@ -160,19 +161,9 @@ namespace GUI_WindowsForms
                                 break;
 
                             case Sshfs.DriveStatus.Mounting:
-                                if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                                    || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
-                                {
-                                    folder.Status = Sshfs.DriveStatus.Mounted;
-                                    mountToolStripMenuItem.Enabled = false;
-                                    MountAnimatonStop();
-                                }
-                                else
-                                {
-                                    MountAnimationStart();
-                                    mountToolStripMenuItem.Enabled = true;
-                                    unmountToolStripMenuItem.Enabled = false;
-                                }
+                                MountAnimationStart();
+                                mountToolStripMenuItem.Enabled = true;
+                                unmountToolStripMenuItem.Enabled = false;
                                 break;
 
                             default:
@@ -206,7 +197,12 @@ namespace GUI_WindowsForms
             try { datamodel = bone_server.listAll(); }
             catch
             {
-                MessageBox.Show("Cannot connect with server.");
+                if (!ConnectionFailBoxFlag)
+                {
+                    ConnectionFailBoxFlag = true;
+                    MessageBox.Show("Cannot connect with server.");
+                    ConnectionFailBoxFlag = false;
+                }
                 return;
             }
    }
@@ -396,6 +392,7 @@ namespace GUI_WindowsForms
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
+            UpdateMenuBar();
             ServerFolderEdit();
         }
 
