@@ -907,10 +907,12 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             try
             {
-                ServerModel server = LServermodel.Find(x => x.ID == ServerID);
+
+                int i = LServermodel.FindIndex(x => x.ID == ServerID);
+                ServerModel server = LServermodel[i];
                 ServerModel newServer = server.DuplicateServer();
                 newServer.Name += " Copy";
-                LServermodel.Add(newServer);
+                LServermodel.Insert(i+1, newServer);
                 return newServer.ID;
             }
             catch (Exception e)
@@ -926,9 +928,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             try
             {
                 ServerModel server = LServermodel.Find(x => x.ID == ServerID);
-                FolderModel newFolder = server.Folders.Find(x => x.ID == FolderID).DuplicateFolder();
+                int i = server.Folders.FindIndex(x => x.ID == FolderID);
+                FolderModel newFolder = server.Folders[i].DuplicateFolder();
                 newFolder.Name += " Copy";
-                server.Folders.Add(newFolder);
+                server.Folders.Insert(i+1, newFolder);
                 return newFolder.ID;
             }
             catch (Exception e)
