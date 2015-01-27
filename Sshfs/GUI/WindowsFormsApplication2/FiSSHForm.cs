@@ -509,11 +509,12 @@ namespace GUI_WindowsForms
                         {
                             if (targetNode != null && targetNode.Level == 0)
                             {
+                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Name);
+                                ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
+                                
                                 draggedNode.Remove();
                                 treeView1.Nodes.Insert(targetNode.Index + 1, draggedNode);
 
-                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Name);
-                                ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
                                 bone_server.MoveServerAfter(draggedServer.ID, targedServer.ID);
                             }
                         }
@@ -521,13 +522,14 @@ namespace GUI_WindowsForms
                         {
                             if (targetNode != null && targetNode.Level == 1)
                             {
-                                draggedNode.Remove();
-                                targetNode.Parent.Nodes.Insert(targetNode.Index + 1, draggedNode);
-
                                 ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
                                 ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
                                 FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
                                 FolderModel targedFolder = targedServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
+                                
+                                draggedNode.Remove();
+                                targetNode.Parent.Nodes.Insert(targetNode.Index + 1, draggedNode);
+
                                 bone_server.MoveFolderAfter(
                                     draggedServer.ID, targedServer.ID,
                                     draggedFolder.ID, targedFolder.ID);
