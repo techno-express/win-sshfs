@@ -1167,27 +1167,32 @@ namespace GUI_WindowsForms
 
                 ServerModel server = GetSelectedServerNode();
                 FolderModel folder = GetSelectedFolderNode();
-
-                if (server == null || folder == null)
-                {
-                    //:::FIXME:::
-                    return;
+                if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting){
+                    
                 }
-
-
-                if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                       || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                else
                 {
-                    return;
-                }
+                    if (server == null || folder == null)
+                    {
+                        //:::FIXME:::
+                        return;
+                    }
 
-                ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
-                folder.Status = Sshfs.DriveStatus.Mounting;
-                //   MountAnimationStart();
 
-                this.MountThread =
-                     new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
-                MountThread.Start();         
+                    if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                           || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                    {
+                        return;
+                    }
+
+                    ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
+                    folder.Status = Sshfs.DriveStatus.Mounting;
+                    //   MountAnimationStart();
+
+                    this.MountThread =
+                         new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
+                    MountThread.Start();
+                }                        
 
 
                 i++;

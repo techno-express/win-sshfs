@@ -107,6 +107,7 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -127,7 +128,7 @@
             this.duplicateToolStripMenuItem1,
             this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 136);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 158);
             // 
             // mountToolStripMenuItem2
             // 
@@ -174,10 +175,11 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem1,
             this.deleteToolStripMenuItem1,
+            this.duplicateToolStripMenuItem,
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 114);
             // 
             // editToolStripMenuItem1
             // 
@@ -1008,6 +1010,12 @@
             this.closeApplicationToolStripMenuItem.Text = "Close Application";
             this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
             // 
+            // duplicateToolStripMenuItem
+            // 
+            this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
+            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.duplicateToolStripMenuItem.Text = "Duplicate";
+            // 
             // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1122,6 +1130,7 @@
         private System.Windows.Forms.RichTextBox richTextBox_folder_notes;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
     }
 }
 
