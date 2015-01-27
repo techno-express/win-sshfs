@@ -61,54 +61,34 @@ namespace GUI_WindowsForms
                 datamodel = new List<ServerModel>();      
             }
 
-            foreach (ServerModel i in datamodel)
+            for (int i = 0; i < datamodel.Count; i++)
             {
+                ServerModel server = datamodel[i];
                 // Adding server node 
-                TreeNode ParentNode = treeView1.Nodes.Add(String.Format(
-                                        "Name: " + i.Name + Environment.NewLine +
-                                        "IP: " + i.Host + Environment.NewLine +
-                                        "Notes: " + i.Notes));
-                ParentNode.SelectedImageIndex = 6;
-                ParentNode.ImageIndex = 6;
-                ParentNode.ContextMenuStrip = this.contextMenuStrip1;
-                ParentNode.Name = i.ID.ToString();
-//                i.gui_node = ParentNode;
-
+                TreeNode ParentNode = MakeServerNode(server);
+                treeView1.Nodes.Add(ParentNode);
 
                 // Adding folder nodes
-                foreach (FolderModel j in i.Folders)
+                for (int j = 0; j < server.Folders.Count(); j++ )
                 {
-                    TreeNode ChildNode = ParentNode.Nodes.Add( String.Format(
-                                        "Name: " + j.Name + Environment.NewLine + 
-                                        "Path: " + j.Folder + Environment.NewLine + 
-                                        "Note: " + j.Note));
-                    //j.gui_node = ChildNode;
-                    ChildNode.SelectedImageIndex = 4;
-                    ChildNode.ImageIndex = 4;
-                    ChildNode.ContextMenuStrip = this.contextMenuStrip2;
-                    ChildNode.Name = i.ID.ToString();
+                    FolderModel folder = server.Folders[j];
+                    TreeNode ChildNode = MakeFolderNode(folder);
+                    ParentNode.Nodes.Add(ChildNode);
+
                 }
 
                 // Adding "new folder" node
-                TreeNode Node = ParentNode.Nodes.Add(String.Format(
-                                        "\n" + Environment.NewLine + 
-                                        "Add new Folder" + Environment.NewLine));
-                Node.SelectedImageIndex = 3;
-                Node.ImageIndex = 3;
-            }
+                CreateAddFolderNode(ParentNode);
+           }
 
             // Adding "new server" node
-            TreeNode Node2  = treeView1.Nodes.Add(String.Format(
-                                        "\n" + Environment.NewLine + 
-                                        "Add new Server" + Environment.NewLine));
-            Node2.SelectedImageIndex = 5;
-            Node2.ImageIndex = 5;
-        }
+            CreateAddServerNode();
+       }
 
 
         /// updated the TreeView and, draws the nodes and describes the nodes
         private void UpdateTreeView(/* STUFF */)
-        {/*
+        {
             // get all data from backend
             try { datamodel = bone_server.listAll(); }
             catch
@@ -118,20 +98,90 @@ namespace GUI_WindowsForms
             }
 
             // First delet all old nodes
-            foreach (TreeNode i in treeView1.Nodes)
+            for (int i = 0; i < treeView1.Nodes.Count-1; i++)
             {
-                TreeNode[] Nodes = treeView1.Nodes.Find(i.ID.ToString(), false);
+                ServerModel server = null;
+                TreeNode ParentNode = treeView1.Nodes[i];
+
+                server = datamodel.Find(x => x.ID.ToString() == ParentNode.Name);
+
+                if (server == null)
+                {
+                    ParentNode.Remove();
+                }
+                else
+                {
+                    for (int j = 0; j < ParentNode.Nodes.Count - 1; j++)
+                    {
+                        FolderModel folder = null;
+                        TreeNode ChildNode = ParentNode.Nodes[j];
+
+                        folder = server.Folders.Find(x => x.ID.ToString() == ChildNode.Name);
+
+                        if (folder == null)
+                        {
+                            ChildNode.Remove();
+                        }
+                    }
+                }
             }
 
-            for (int i = 0; i <= datamodel.Count(); i++ )
-            {
-                ServerModel iServer = datamodel.ElementAt(i);
-                TreeNode iNode = treeView1.Nodes[i];
 
-                if 
+
+            for (int i = 0; i < datamodel.Count(); i++ )
+            {
+                ServerModel iServer = datamodel[i];
+                TreeNode ParentNode = treeView1.Nodes[i];
+
+                if (ParentNode.Name == iServer.ID.ToString())
+                {
+                    //:::FIXME:::
+                }
+                // if tree node does not fit to datamodel element
+                // add a new tree node and remove every other node with same id
+                else
+                {
+                    // remove every other node with same id
+                    TreeNode[] a = treeView1.Nodes.Find(iServer.ID.ToString(), false);
+                    for (int j = 0; j < a.Length; j++)
+                    {
+                        a[j].Remove();
+                    }
+
+                    // insert tree node
+                    TreeNode newNode = MakeServerNode(iServer);
+                    treeView1.Nodes.Insert(i, newNode);
+
+                    CreateAddFolderNode(newNode);
+                }
+
+                // Same Game for every folder
+                for(int j = 0; j < iServer.Folders.Count; j++)
+                {
+                    FolderModel folder = iServer.Folders[j];
+                    TreeNode ChildNode = ParentNode.Nodes[j];
+
+                    if (ChildNode.Name == folder.ID.ToString())
+                    {
+                        //:::FIXME:::
+                        continue;
+                    }
+                    else
+                    {
+                        // remove every other node with same id
+                        TreeNode[] a = ParentNode.Nodes.Find(iServer.ID.ToString(), false);
+                        for (int k = 0; k < a.Length; k++)
+                        {
+                            a[k].Remove();
+                        }
+
+                        TreeNode newNode = MakeFolderNode(folder);
+                        ParentNode.Nodes.Insert(j, newNode);
+                    }
+                }
             }
             
-            foreach (ServerModel i in datamodel)
+/*            foreach (ServerModel i in datamodel)
             {
                 // Adding server node 
                 TreeNode ParentNode = treeView1.Nodes.Add(String.Format(
@@ -739,6 +789,7 @@ namespace GUI_WindowsForms
         private void time_viewupdate_Tick(object sender, EventArgs e)
         {
             UpdateMenuBar();
+            UpdateTreeView();
             //ServerFolderEdit();
         }
 
@@ -887,6 +938,55 @@ namespace GUI_WindowsForms
 
 
         #region TOOLS
+        private TreeNode MakeServerNode (/*int index,*/ ServerModel server)
+        {
+            //TreeNode ParentNode = treeView1.Nodes.Insert(index, String.Format(
+            TreeNode ParentNode = new TreeNode(String.Format(
+                                    "Name: " + server.Name + Environment.NewLine +
+                                    "IP: " + server.Host + Environment.NewLine +
+                                    "Notes: " + server.Notes));
+            ParentNode.SelectedImageIndex = 6;
+            ParentNode.ImageIndex = 6;
+            ParentNode.ContextMenuStrip = this.contextMenuStrip1;
+            ParentNode.Name = server.ID.ToString();
+
+            return ParentNode;
+        }
+
+        private TreeNode MakeFolderNode (/*int index, TreeNode ParentNode,*/ FolderModel folder)
+        {
+            //TreeNode ChildNode = ParentNode.Nodes.Insert(index, String.Format(
+            TreeNode ChildNode = new TreeNode(String.Format(
+                                    "Name: " + folder.Name + Environment.NewLine +
+                                    "Path: " + folder.Folder + Environment.NewLine +
+                                    "Note: " + folder.Note));
+            //j.gui_node = ChildNode;
+            ChildNode.SelectedImageIndex = 4;
+            ChildNode.ImageIndex = 4;
+            ChildNode.ContextMenuStrip = this.contextMenuStrip2;
+            ChildNode.Name = folder.ID.ToString();
+            return ChildNode;
+        }
+
+        private void CreateAddServerNode()
+        {
+            TreeNode Node2 = treeView1.Nodes.Add(String.Format(
+                                        "\n" + Environment.NewLine +
+                                        "Add new Server" + Environment.NewLine));
+            Node2.SelectedImageIndex = 5;
+            Node2.ImageIndex = 5;
+            Node2.Name = Guid.Empty.ToString();
+        }
+
+        private void CreateAddFolderNode(TreeNode ParentNode)
+        {
+            TreeNode Node = ParentNode.Nodes.Add(String.Format(
+                                      "\n" + Environment.NewLine +
+                                      "Add new Folder" + Environment.NewLine));
+            Node.SelectedImageIndex = 3;
+            Node.ImageIndex = 3;
+            Node.Name = Guid.Empty.ToString();
+        }
 
         private ServerModel GetSelectedServerNode()
         {

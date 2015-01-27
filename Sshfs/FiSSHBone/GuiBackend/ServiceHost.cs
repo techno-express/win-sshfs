@@ -102,9 +102,6 @@ public class Class1
                 ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
 
 
-                bone_local.duplicateServer(ein_server_ID);
-                bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
-                
 
                 string puffer = "";
                 while (puffer != "q")
@@ -124,6 +121,29 @@ public class Class1
                         ein_folder.Name += " eee";
                         bone_local.editFolder(ein_server_ID, ein_folder);
                     }
+                    if(puffer == "r1")
+                    {
+                        bone_local.removeFolder(ein_server_ID, ein_folder_ID);
+//                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                    }
+                    if(puffer == "r2")
+                    {
+                        bone_local.removeServer(ein_server_ID);
+//                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                    }
+                    if(puffer == "i1")
+                    {
+                        ServerModel tmp = new ServerModel();
+                        tmp.Name = "eingefügt";
+                        bone_local.addServer(tmp);
+                    }
+                    if (puffer == "i2")
+                    {
+                        FolderModel tmp = new FolderModel();
+                        tmp.Name = "eingefügt";
+                        bone_local.addFolder(ein_server_ID, tmp);
+                    }
+
 
                     foreach (ServerModel i in bone_local.listAll())
                     {
