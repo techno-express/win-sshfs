@@ -1066,6 +1066,23 @@ namespace GUI_WindowsForms
         }
         #endregion
 
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ServerModel server = GetSelectedServerNode();
+            FolderModel folder = GetSelectedFolderNode();
+
+            if (treeView1.SelectedNode.Level == 1)
+            {
+                bone_server.removeFolder(server.ID, folder.ID);
+                treeView1.SelectedNode.Remove();
+            }
+            else if(treeView1.SelectedNode.Level == 0)
+            {
+                bone_server.removeServer(server.ID);
+                treeView1.SelectedNode.Remove();
+            }
+        }
+
         private void duplicateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ServerModel server = GetSelectedServerNode();
