@@ -28,13 +28,13 @@ namespace GUI_WindowsForms
         int iLocation = 10;
         int contxMenuTargetIndex = 0;
         bool ServerOffline = false;
+        bool ConnectionFailBoxFlag = false;     // This flag is true, when there is already a IPCConnectionfial Message
 
         
         //////////////////////////////////////////////
         // For connection with Backend
 
         // Server connection object
-        IServiceFisshBone bone_server;// = IPCConnection.ServerConnect();
         List<ServerModel> datamodel;
         private System.Threading.Thread MountThread = null; // Thread for mounting
         private Queue<Tuple<Guid, Guid>> ToMount = new Queue<Tuple<Guid,Guid>>(); // Mailbox for the Thread
@@ -44,9 +44,6 @@ namespace GUI_WindowsForms
 
         public FiSSHForm()
         {
-            // get server object, has been already connected in Main()
-            bone_server = IPCConnection.bone_client;
-
             InitializeComponent();
             CreateTreeView();
         }
@@ -55,15 +52,7 @@ namespace GUI_WindowsForms
         private void CreateTreeView(/* STUFF */)
         {
             GetDataFromServer();
-
             treeView1.Nodes.Clear();
-            // get all data from backend
-            try { datamodel = bone_server.listAll(); }
-            catch
-            {
-                MessageBox.Show("Cannot connect with server.");
-                datamodel = new List<ServerModel>();      
-            }
 
             for (int i = 0; i < datamodel.Count; i++)
             {
@@ -174,19 +163,9 @@ namespace GUI_WindowsForms
                                 break;
 
                             case Sshfs.DriveStatus.Mounting:
-                                if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                                    || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
-                                {
-                                    folder.Status = Sshfs.DriveStatus.Mounted;
-                                    mountToolStripMenuItem.Enabled = false;
-                                    MountAnimatonStop();
-                                }
-                                else
-                                {
-                                    MountAnimationStart();
-                                    mountToolStripMenuItem.Enabled = true;
-                                    unmountToolStripMenuItem.Enabled = false;
-                                }
+                                MountAnimationStart();
+                                mountToolStripMenuItem.Enabled = true;
+                                unmountToolStripMenuItem.Enabled = false;
                                 break;
 
                             default:
@@ -211,35 +190,24 @@ namespace GUI_WindowsForms
 
         private void GetDataFromServer()
         {
-            // While mounting no data updates
-            if (MountingIDs.Count() == 0)
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+            List<ServerModel> tmp = new List<ServerModel>();
+
+            if (datamodel != null)
+                tmp = new List<ServerModel>(datamodel);
+
+            try { datamodel = bone_server.listAll(); }
+            catch
             {
-                List<ServerModel> tmp = new List<ServerModel>();
-
-                if (datamodel != null)
-                    tmp = new List<ServerModel>(datamodel);
-
-                try { datamodel = bone_server.listAll(); }
-                catch
+                if (!ConnectionFailBoxFlag)
                 {
+                    ConnectionFailBoxFlag = true;
                     MessageBox.Show("Cannot connect with server.");
-                    return;
+                    ConnectionFailBoxFlag = false;
                 }
+                return;
             }
-/*
-            foreach(ServerModel i in datamodel)
-            {
-                ServerModel tmp_server = tmp.Find(x => x.ID == i.ID);
-                i.gui_node = tmp_server.gui_node;
-
-                foreach(FolderModel j in i.Folders)
-                {
-                    FolderModel tmp_folder = tmp_server.Folders.Find(x => x.ID == j.ID);
-                    j.gui_node = tmp_folder.gui_node;
-                }
-            }
- */
-        }
+   }
 
         
         /// Updates menu strip and edit area
@@ -426,6 +394,7 @@ namespace GUI_WindowsForms
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
+            UpdateMenuBar();
             ServerFolderEdit();
         }
 
@@ -489,6 +458,7 @@ namespace GUI_WindowsForms
         /// allows to use drag&drop in the treeView
         private void treeView1_DragDrop(object sender, DragEventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             // Retrieve the client coordinates of the drop location.
             Point targetPoint = treeView1.PointToClient(new Point(e.X, e.Y));
 
@@ -739,6 +709,7 @@ namespace GUI_WindowsForms
 
         private void button_server_savechanges_Click(object sender, EventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
 
             server.Name = textBox_server_name.Text;
@@ -761,6 +732,7 @@ namespace GUI_WindowsForms
 
         private void button_folder_savechanges_Click(object sender, EventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             // ausgewählten Ordners in die Variable "folder" schreiben und der zugehörige Server in "server"
             FolderModel folder = GetSelectedFolderNode();
             ServerModel server = GetSelectedServerNode();
@@ -826,6 +798,7 @@ namespace GUI_WindowsForms
 
         private void mountToolStripMenuItem_Click_help()
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             Tuple<Guid, Guid> IDs = ToMount.Dequeue();
             MountingIDs.Add(IDs);
             //MountingFlagPipe.Enqueue(true);
@@ -883,6 +856,7 @@ namespace GUI_WindowsForms
         private void unmountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be unmounted
 
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
 
@@ -1092,6 +1066,7 @@ namespace GUI_WindowsForms
 
         private void addServer()
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = new ServerModel();
             bone_server.addServer(server);
             server.Name = "new Server";
@@ -1099,6 +1074,7 @@ namespace GUI_WindowsForms
 
         private void addFolder()
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             FolderModel folder = new FolderModel();
             bone_server.addFolder(GetSelectedServerNode().ID, folder);
             folder.Name = "new Folder";
@@ -1107,6 +1083,7 @@ namespace GUI_WindowsForms
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
 
@@ -1124,6 +1101,7 @@ namespace GUI_WindowsForms
 
         private void duplicateToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
             TreeNode node = new TreeNode();
@@ -1149,6 +1127,7 @@ namespace GUI_WindowsForms
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             if (ServerOrFolderAddNode(treeView1.SelectedNode))
             {
                 if (treeView1.SelectedNode.Level == 1)
