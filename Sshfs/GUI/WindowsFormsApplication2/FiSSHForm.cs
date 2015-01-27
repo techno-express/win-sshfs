@@ -52,6 +52,8 @@ namespace GUI_WindowsForms
         /// updated the TreeView and, draws the nodes and describes the nodes
         private void CreateTreeView(/* STUFF */)
         {
+            GetDataFromServer();
+
             treeView1.Nodes.Clear();
             // get all data from backend
             try { datamodel = bone_server.listAll(); }
@@ -89,13 +91,7 @@ namespace GUI_WindowsForms
         /// updated the TreeView and, draws the nodes and describes the nodes
         private void UpdateTreeView(/* STUFF */)
         {
-            // get all data from backend
-            try { datamodel = bone_server.listAll(); }
-            catch
-            {
-                MessageBox.Show("Cannot connect with server.");
-                datamodel = new List<ServerModel>();      
-            }
+            GetDataFromServer();
 
             try
             {
@@ -141,9 +137,7 @@ namespace GUI_WindowsForms
 
         private void UpdateMenuBar()
         {
-            // While mounting no data updates
-            if (MountingIDs.Count() == 0)
-            { GetDataFromServer(); }
+             GetDataFromServer();
 
             if (treeView1.SelectedNode == null) { return; }
 
@@ -215,16 +209,20 @@ namespace GUI_WindowsForms
 
         private void GetDataFromServer()
         {
-            List<ServerModel> tmp = new List<ServerModel>();
-
-            if (datamodel != null)
-                tmp = new List<ServerModel>(datamodel);
-            
-            try { datamodel = bone_server.listAll(); }
-            catch
+            // While mounting no data updates
+            if (MountingIDs.Count() == 0)
             {
-                MessageBox.Show("Cannot connect with server.");
-                return;
+                List<ServerModel> tmp = new List<ServerModel>();
+
+                if (datamodel != null)
+                    tmp = new List<ServerModel>(datamodel);
+
+                try { datamodel = bone_server.listAll(); }
+                catch
+                {
+                    MessageBox.Show("Cannot connect with server.");
+                    return;
+                }
             }
 /*
             foreach(ServerModel i in datamodel)
@@ -245,9 +243,7 @@ namespace GUI_WindowsForms
         /// Updates menu strip and edit area
         private void ServerFolderEdit()
         {
-            // While mounting no data updates
-            if (MountingIDs.Count() == 0)
-            { GetDataFromServer(); }
+            GetDataFromServer(); 
 
             if (treeView1.SelectedNode == null) { return; }
 
