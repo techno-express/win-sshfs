@@ -267,10 +267,29 @@ namespace GUI_WindowsForms
                             textbox_server_username.Text = server.Username;
                             textBox_server_privatkey.Text = server.PrivateKey;
                             textBox_server_password.Text = server.Password;
+
+
+                            switch (server.Type)
+                            {
+                                case Sshfs.ConnectionType.Password:
+                                    radioButton_folder_password.Checked = true;
+                                    break;
+
+                                case Sshfs.ConnectionType.PrivateKey:
+                                    radioButton_server_privatekey.Checked = true;
+                                    break;
+
+                                case Sshfs.ConnectionType.Pageant:
+                                    radioButton_server_pageant.Checked = true;
+                                    break;
+                            }
                             
                             groupBox1.Enabled = true;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
+
+                            button_server_savechanges.Enabled = true;
+                            button_folder_savechanges.Enabled = false;
                         }
                         else
                         {
@@ -286,6 +305,9 @@ namespace GUI_WindowsForms
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
+
+                            button_server_savechanges.Enabled = false;
+                            button_folder_savechanges.Enabled = false;
                         }
                     }
                     else gBox2Vis = false;
@@ -312,15 +334,38 @@ namespace GUI_WindowsForms
                             textBox9_folder_remotedirectory.Text = folder.Folder;
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
+                            radioButton_folder_virtualdrive.Checked = folder.use_virtual_drive;
+                            radioButton_folder_usedrive.Checked = ! folder.use_virtual_drive;
+                            textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
 
                             //server properties 
                             textBox_server_name.Text = server.Name;
                             textBox_server_ip.Text = server.Host;
                             numericUpDown_server_port.Value = server.Port;
-                           
+
+                            switch (folder.Type)
+                            {
+                                case Sshfs.ConnectionType.Password:
+                                    radioButton_folder_password.Checked = true;
+                                    break;
+
+                                case Sshfs.ConnectionType.PrivateKey:
+                                    radioButton_folder_privatekey.Checked = true;
+                                    break;
+
+                                case Sshfs.ConnectionType.Pageant:
+                                    radioButton_folder_pageant.Checked = true;
+                                    break;
+                            }
+
+
+
                             groupBox1.Enabled = true;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
+
+                            button_server_savechanges.Enabled = false;
+                            button_folder_savechanges.Enabled = true;
                         }
                         else
                         {
@@ -333,6 +378,9 @@ namespace GUI_WindowsForms
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
+
+                            button_server_savechanges.Enabled = false;
+                            button_folder_savechanges.Enabled = false;
                         }
                         
                     }
@@ -651,12 +699,23 @@ namespace GUI_WindowsForms
         private void button_server_savechanges_Click(object sender, EventArgs e)
         {
             ServerModel server = GetSelectedServerNode();
+
             server.Name = textBox_server_name.Text;
             server.Notes = richTextBox_server_notes.Text;
             server.Username = textbox_server_username.Text;
             server.Password = textBox_server_password.Text;
+            server.PrivateKey = textBox_server_privatkey.Text;
             server.Host = textBox_server_ip.Text;
             server.Port = (int) numericUpDown_server_port.Value;
+
+            if (radioButton_server_pageant.Checked)
+                server.Type = Sshfs.ConnectionType.Password;
+            else if (radioButton_server_privatekey.Checked)
+                server.Type = Sshfs.ConnectionType.PrivateKey;
+            else
+                server.Type = Sshfs.ConnectionType.Password;
+
+            bone_server.editServer(server);
         }
 
         private void button_folder_savechanges_Click(object sender, EventArgs e)
@@ -667,39 +726,29 @@ namespace GUI_WindowsForms
 
             // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
             folder.Name = textBox_folder_entry.Text;
-            // folder.Note = textBox_folder_note.Text;
-            folder.Folder = textBox9_folder_remotedirectory.Text;
-            if (radioButton_folder_usedrive.Checked == true)
-            {
-                folder.Letter = comboBox_folder_driveletter.Text[0];
-            }
-
-            if (checkBox_folder_usedefaultaccound.Checked == true)
-            {
-                folder.Username = server.Username;
-                folder.Password = server.Password;
-                folder.Passphrase = server.Passphrase;
-                folder.PrivateKey = server.PrivateKey;
-            }
-            else
-            {
-                folder.Username = textBox_folder_username.Text;
-                if (radioButton_folder_password.Checked == true)
-                {
-                    folder.Password = textBox_folder_password.Text;
-                }
-                if (radioButton_folder_privatkey.Checked == true)
-                {
-                    folder.PrivateKey = textBox_folder_privat_key.Text; // oder muss etwas anderes als der Text übergeben werden?
-                }
-                if (radioButton_folder_pageant.Checked == true)
-                {
-                    // ???
-                }
-            }
+            folder.Note = richTextBox_folder_notes.Text;
+            folder.Password = textBox_folder_password.Text;
+            folder.PrivateKey = textBox_folder_privat_key.Text;
+            folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
             folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
+            folder.Username = textBox_folder_username.Text;
+            folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
+            folder.Folder = textBox9_folder_remotedirectory.Text;
 
-            //Add feature: button2.Enabled = false; while no changes are made -> Later
+            if (radioButton_folder_password.Checked == true)
+            {
+                folder.Type = Sshfs.ConnectionType.Password;
+            }
+            if (radioButton_folder_privatekey.Checked == true)
+            {
+                folder.Type = Sshfs.ConnectionType.PrivateKey;
+            }
+            if (radioButton_folder_pageant.Checked == true)
+            {
+                folder.Type = Sshfs.ConnectionType.Pageant;
+            }
+
+            bone_server.editFolder(server.ID, folder);
         }
 
         /// focused the first text box on the right side by clicking the edit-button
