@@ -818,7 +818,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            local_folder_reference.Name = Folder.Name;
+            local_folder_reference.Name = CheckFolderName(local_server_reference, Folder.Name);
             local_folder_reference.Password = Folder.Password;
             local_folder_reference.Passphrase = Folder.Passphrase;
             local_folder_reference.PrivateKey = Folder.PrivateKey;
@@ -891,6 +891,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
 
             Folder.ID = Guid.NewGuid();
+            Folder.Name = CheckFolderName(server, Folder.Name);
+
             if (Folder.ID == Guid.Empty)
             {
                 addFolder(ServerID, Folder);
@@ -931,7 +933,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 ServerModel server = LServermodel.Find(x => x.ID == ServerID);
                 int i = server.Folders.FindIndex(x => x.ID == FolderID);
                 FolderModel newFolder = server.Folders[i].DuplicateFolder();
-                newFolder.Name += " Copy";
+                newFolder.Name = CheckFolderName(server, newFolder.Name += " Copy");
                 server.Folders.Insert(i+1, newFolder);
                 return newFolder.ID;
             }
@@ -1086,7 +1088,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return CheckServerName("New server");
             }
 
-            if(LServermodel.Find(x => x.Name == name) == null)
+            if (LServermodel.Find(x => x.Name == name) == null)
             {
                 return name;
             }
@@ -1101,7 +1103,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 // if last char is less as a nine
                 else if (name_array.Last() < '9')
                 {
-                    name_array[name_array.Length-1]++;
+                    name_array[name_array.Length - 1]++;
                     return CheckServerName(new String(name_array));
                 }
                 else
@@ -1112,7 +1114,42 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 }
             }
         }
-        
+
+        public string CheckFolderName(ServerModel server, string name)
+        {
+
+            if (name == "" || name == null)
+            {
+                return CheckFolderName(server, "New folder");
+            }
+
+            if (server.Folders.Find(x => x.Name == name) == null)
+            {
+                return name;
+            }
+            else
+            {
+                var name_array = name.ToArray();
+                // if last char is not a letter
+                if (name_array.Last() < '1' || name_array.Last() > '9')
+                {
+                    return CheckFolderName(server, String.Format(name.ToString() + " 1"));
+                }
+                // if last char is less as a nine
+                else if (name_array.Last() < '9')
+                {
+                    name_array[name_array.Length - 1]++;
+                    return CheckFolderName(server, new String(name_array));
+                }
+                else
+                {
+                    // It would be nice if there is a algorithm which works with higher numbers
+                    // But i wanted to solve this quick without brainfucks
+                    return CheckFolderName(server, new String(name_array) + "-1");
+                }
+            }
+        }
+ 
         /// Get s free dirve letter
         /**
          * This method chechs every drive letter starting with 'Z'
