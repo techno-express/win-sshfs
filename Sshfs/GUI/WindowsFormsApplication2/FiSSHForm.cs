@@ -1107,5 +1107,30 @@ namespace GUI_WindowsForms
             }
 
         }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (ServerOrFolderAddNode(treeView1.SelectedNode))
+            {
+                if (treeView1.SelectedNode.Level == 1)
+                {
+                    ServerModel server = GetSelectedServerNode();
+                    FolderModel folder = new FolderModel();
+                    folder.Name = "New Folder";
+                    TreeNode newNode = MakeFolderNode(folder);
+                    newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
+                    treeView1.SelectedNode.Parent.Nodes.Insert(treeView1.SelectedNode.Nodes.Count, newNode);
+
+                }
+                else if (treeView1.SelectedNode.Level == 0)
+                {
+                    ServerModel server = new ServerModel();
+                    server.Name = "New Server";
+                    TreeNode newNode = MakeServerNode(server);
+                    newNode.Name = bone_server.addServer(server).ToString();
+                    treeView1.Nodes.Insert(treeView1.Nodes.Count, newNode);
+                }
+            }
+        }
     }
 }
