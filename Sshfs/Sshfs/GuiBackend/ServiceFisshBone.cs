@@ -775,7 +775,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            local_server_reference.Name = CheckServerName(Server.Name);
+            if (local_server_reference.Name != Server.Name)
+            {
+                local_server_reference.Name = CheckServerName(Server.Name);
+            }
             local_server_reference.Password = Server.Password;
             local_server_reference.Passphrase = Server.Passphrase;
             local_server_reference.Notes = Server.Notes;
@@ -818,7 +821,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            local_folder_reference.Name = CheckFolderName(local_server_reference, Folder.Name);
+            if (local_folder_reference.Name != Folder.Name)
+            {
+                local_folder_reference.Name = CheckFolderName(local_server_reference, Folder.Name);
+            }
             local_folder_reference.Password = Folder.Password;
             local_folder_reference.Passphrase = Folder.Passphrase;
             local_folder_reference.PrivateKey = Folder.PrivateKey;
