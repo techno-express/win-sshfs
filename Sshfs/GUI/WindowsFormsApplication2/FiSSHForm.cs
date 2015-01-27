@@ -180,47 +180,6 @@ namespace GUI_WindowsForms
                     }
                 }
             }
-            
-/*            foreach (ServerModel i in datamodel)
-            {
-                // Adding server node 
-                TreeNode ParentNode = treeView1.Nodes.Add(String.Format(
-                                        "Name: " + i.Name + Environment.NewLine +
-                                        "IP: " + i.Host + Environment.NewLine +
-                                        "Notes: " + i.Notes));
-                ParentNode.SelectedImageIndex = 6;
-                ParentNode.ImageIndex = 6;
-                ParentNode.ContextMenuStrip = this.contextMenuStrip1;
-                i.gui_node = ParentNode;
-
-
-                // Adding folder nodes
-                foreach (FolderModel j in i.Folders)
-                {
-                    TreeNode ChildNode = ParentNode.Nodes.Add( String.Format(
-                                        "Name: " + j.Name + Environment.NewLine + 
-                                        "Path: " + j.Folder + Environment.NewLine + 
-                                        "Note: " + j.Note));
-                    j.gui_node = ChildNode;
-                    ChildNode.SelectedImageIndex = 4;
-                    ChildNode.ImageIndex = 4;
-                    ChildNode.ContextMenuStrip = this.contextMenuStrip2;
-                }
-
-                // Adding "new folder" node
-                TreeNode Node = ParentNode.Nodes.Add(String.Format(
-                                        "\n" + Environment.NewLine + 
-                                        "Add new Folder" + Environment.NewLine));
-                Node.SelectedImageIndex = 3;
-                Node.ImageIndex = 3;
-            }
-
-            // Adding "new server" node
-            TreeNode Node2  = treeView1.Nodes.Add(String.Format(
-                                        "\n" + Environment.NewLine + 
-                                        "Add new Server" + Environment.NewLine));
-            Node2.SelectedImageIndex = 5;
-            Node2.ImageIndex = 5;*/
         }
 
         private void UpdateMenuBar()
@@ -993,10 +952,10 @@ namespace GUI_WindowsForms
             switch (treeView1.SelectedNode.Level)
             {
                 case 0: //return datamodel.ElementAt(treeView1.SelectedNode.Index);
-                    return datamodel.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+                    return datamodel.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
 
                 case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index);
-                    return datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
+                    return datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
 
                 default: return null;
             }
@@ -1009,10 +968,9 @@ namespace GUI_WindowsForms
             {
                 case 0: return null;
 
-                case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index)
-                        //            .Folders.ElementAt(treeView1.SelectedNode.Index);
-                    ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Equals(x.gui_node));
-                    return server.Folders.Find(x => treeView1.SelectedNode.Equals(x.gui_node));
+                case 1: 
+                    ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
+                    return server.Folders.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
 
                 default: return null;
             }
