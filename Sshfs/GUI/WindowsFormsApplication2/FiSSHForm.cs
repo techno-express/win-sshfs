@@ -999,7 +999,7 @@ namespace GUI_WindowsForms
             string text = String.Format(
                                   //  "Name: " + server.Name + Environment.NewLine +
                                     "IP: " + server.Host + Environment.NewLine);
-            if (server.Notes != "" || server.Notes == null)
+            if (server.Notes != "" && server.Notes != null)
             {
                 text += "Notes: " + server.Notes;
             }
@@ -1017,7 +1017,7 @@ namespace GUI_WindowsForms
             string text = String.Format(String.Format(
                                   //  "Name: " + folder.Name + Environment.NewLine +
                                     "Path: " + folder.Folder + Environment.NewLine));
-            if (folder.Note != "" || folder == null)
+            if (folder.Note != "" && folder.Note != null)
             {
                 text += "Notes: " + folder.Note;
             }
