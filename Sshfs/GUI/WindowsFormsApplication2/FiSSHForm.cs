@@ -22,8 +22,10 @@ namespace GUI_WindowsForms
         Boolean Expanded = true;
         Boolean gBox2Vis = false;
         int TimerCount = 0;
-        Font font = new Font("Microsoft Sans Serif", (float) 8, FontStyle.Regular);
+        Font font = new Font("Microsoft Sans Serif", (float)8, FontStyle.Regular);
+        Font fontBold = new Font("Microsoft Sans Serif", (float)8, FontStyle.Bold);
         TreeNode contxMenuDragged = new TreeNode(null);
+        int iLocation = 10;
         int contxMenuTargetIndex = 0;
         bool ServerOffline = false;
 
@@ -681,7 +683,14 @@ namespace GUI_WindowsForms
 
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
-            e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, Rectangle.Inflate(e.Bounds, 2, 0));
+            if (!ServerOrFolderAddNode(e.Node))
+            {
+                float iHeight = e.Graphics.MeasureString("Name: ", fontBold).Height;
+                e.Graphics.DrawString("Name: "+e.Node.Tag, fontBold, Brushes.Black, e.Bounds.X + 2, e.Bounds.Y + 5);//Rectangle.Inflate(e.Bounds, 2, -5)
+                e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, e.Bounds.X +2, e.Bounds.Y + iHeight+5);
+            }
+            else
+                e.Graphics.DrawString(e.Node.Text, fontBold, Brushes.Green, e.Bounds.X + 2, e.Bounds.Y + 5);
         }
 
         private void radioButton_folder_password_CheckedChanged(object sender, EventArgs e)
@@ -986,7 +995,7 @@ namespace GUI_WindowsForms
         private void CreateAddServerNode()
         {
             TreeNode Node2 = treeView1.Nodes.Add(String.Format(
-                                        "\n" + Environment.NewLine +
+                                        "\n" +
                                         "Add new Server" + Environment.NewLine));
             Node2.SelectedImageIndex = 5;
             Node2.ImageIndex = 5;
@@ -996,7 +1005,7 @@ namespace GUI_WindowsForms
         private void CreateAddFolderNode(TreeNode ParentNode)
         {
             TreeNode Node = ParentNode.Nodes.Add(String.Format(
-                                      "\n" + Environment.NewLine +
+                                      "\n" +
                                       "Add new Folder" + Environment.NewLine));
             Node.SelectedImageIndex = 3;
             Node.ImageIndex = 3;
@@ -1006,7 +1015,7 @@ namespace GUI_WindowsForms
         private void UpdateServerNode(ServerModel server, TreeNode node)
         {
             string text = String.Format(
-                                    "Name: " + server.Name + Environment.NewLine +
+                                  //  "Name: " + server.Name + Environment.NewLine +
                                     "IP: " + server.Host + Environment.NewLine);
             if (server.Notes != "" || server.Notes == null)
             {
@@ -1016,6 +1025,7 @@ namespace GUI_WindowsForms
 
             if (text != node.Text)
             {
+                node.Tag = server.Name;
                 node.Text = text;
             }
         }
@@ -1023,7 +1033,7 @@ namespace GUI_WindowsForms
         private void UpdateFolderNode(FolderModel folder, TreeNode node)
         {
             string text = String.Format(String.Format(
-                                    "Name: " + folder.Name + Environment.NewLine +
+                                  //  "Name: " + folder.Name + Environment.NewLine +
                                     "Path: " + folder.Folder + Environment.NewLine));
             if (folder.Note != "" || folder == null)
             {
@@ -1032,6 +1042,7 @@ namespace GUI_WindowsForms
 
             if (text != node.Text)
             {
+                node.Tag = folder.Name;
                 node.Text = text;
             }
         }

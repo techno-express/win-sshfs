@@ -177,7 +177,7 @@
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 92);
             // 
             // editToolStripMenuItem1
             // 
@@ -909,12 +909,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.treeView1.FullRowSelect = true;
             this.treeView1.ImageIndex = 4;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 70;
             this.treeView1.Location = new System.Drawing.Point(18, 93);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
+            this.treeView1.ShowLines = false;
             this.treeView1.ShowRootLines = false;
             this.treeView1.Size = new System.Drawing.Size(777, 577);
             this.treeView1.TabIndex = 4;
