@@ -18,7 +18,6 @@ namespace GUI_WindowsForms
 {
     public partial class FiSSHForm : Form
     {
-
         Boolean Expanded = true;
         Boolean gBox2Vis = false;
         int TimerCount = 0;
@@ -53,29 +52,36 @@ namespace GUI_WindowsForms
         {
             GetDataFromServer();
             treeView1.Nodes.Clear();
-
-            for (int i = 0; i < datamodel.Count; i++)
+            try
             {
-                ServerModel server = datamodel[i];
-                // Adding server node 
-                TreeNode ParentNode = MakeServerNode(server);
-                treeView1.Nodes.Add(ParentNode);
-
-                // Adding folder nodes
-                for (int j = 0; j < server.Folders.Count(); j++ )
+                for (int i = 0; i < datamodel.Count; i++)
                 {
-                    FolderModel folder = server.Folders[j];
-                    TreeNode ChildNode = MakeFolderNode(folder);
-                    ParentNode.Nodes.Add(ChildNode);
+                    ServerModel server = datamodel[i];
+                    // Adding server node 
+                    TreeNode ParentNode = MakeServerNode(server);
+                    treeView1.Nodes.Add(ParentNode);
 
+                    // Adding folder nodes
+                    for (int j = 0; j < server.Folders.Count(); j++)
+                    {
+                        FolderModel folder = server.Folders[j];
+                        TreeNode ChildNode = MakeFolderNode(folder);
+                        ParentNode.Nodes.Add(ChildNode);
+
+                    }
+
+                    // Adding "new folder" node
+                    CreateAddFolderNode(ParentNode);
                 }
-
-                // Adding "new folder" node
-                CreateAddFolderNode(ParentNode);
-           }
-
-            // Adding "new server" node
-            CreateAddServerNode();
+                // Adding "new server" node
+                CreateAddServerNode();
+            }
+            catch
+            {
+                Application.Exit();
+            }
+            
+           
        }
 
 
@@ -202,8 +208,10 @@ namespace GUI_WindowsForms
                 if (!ConnectionFailBoxFlag)
                 {
                     ConnectionFailBoxFlag = true;
-                    MessageBox.Show("Cannot connect with server.");
-                    ConnectionFailBoxFlag = false;
+                    MessageBox.Show("Cannot connect with IPC-Server. Application will now close.");
+                    Application.Exit();
+                    
+                    // ConnectionFailBoxFlag = false;
                 }
                 return;
             }
