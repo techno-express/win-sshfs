@@ -252,6 +252,7 @@ namespace GUI_WindowsForms
                 case 0:
                     if (Expanded)
                     {
+                        groupBox1.Enabled = true;
                         groupBox2.Visible = false;
                         
                         // get server which is presented by selected node 
@@ -285,6 +286,9 @@ namespace GUI_WindowsForms
                             }
                             
                             groupBox1.Enabled = true;
+                            textBox_server_name.Enabled = true;
+                            textBox_server_ip.Enabled = true;
+                            numericUpDown_server_port.Enabled = true;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
 
@@ -361,6 +365,9 @@ namespace GUI_WindowsForms
 
 
                             groupBox1.Enabled = true;
+                            textBox_server_name.Enabled = false;
+                            textBox_server_ip.Enabled = false;
+                            numericUpDown_server_port.Enabled = false;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
 
@@ -856,7 +863,7 @@ namespace GUI_WindowsForms
 
             ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID,folder.ID));
             folder.Status = Sshfs.DriveStatus.Mounting;
-            MountAnimationStart();
+         //   MountAnimationStart();
 
            this.MountThread =
                 new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
@@ -1061,6 +1068,7 @@ namespace GUI_WindowsForms
         private void MountAnimationStart()
         {
             timer_animation.Enabled = true;
+            deleteToolStripMenuItem.Enabled = false;
         }
 
         private void MountAnimatonStop()
@@ -1068,6 +1076,7 @@ namespace GUI_WindowsForms
             timer_animation.Enabled = false;
             mountToolStripMenuItem.Image = imageList1.Images[0];
             mountToolStripMenuItem.Text = "Mount";
+            deleteToolStripMenuItem.Enabled = true;
         }
 
         private void addServer()
@@ -1156,6 +1165,43 @@ namespace GUI_WindowsForms
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Right) treeView1.SelectedNode = treeView1.GetNodeAt(e.X, e.Y);
+        }
+
+        private void mountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            TreeNode CountNode = treeView1.SelectedNode;
+            while (CountNode.Nodes.Count - 1 != i)
+            {
+                treeView1.SelectedNode = CountNode.Nodes[i];
+
+                ServerModel server = GetSelectedServerNode();
+                FolderModel folder = GetSelectedFolderNode();
+
+                if (server == null || folder == null)
+                {
+                    //:::FIXME:::
+                    return;
+                }
+
+
+                if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                       || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                {
+                    return;
+                }
+
+                ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
+                folder.Status = Sshfs.DriveStatus.Mounting;
+                //   MountAnimationStart();
+
+                this.MountThread =
+                     new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
+                MountThread.Start();         
+
+
+                i++;
+            }
         }
     }
 }
