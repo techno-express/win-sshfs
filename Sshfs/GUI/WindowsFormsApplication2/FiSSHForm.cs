@@ -664,7 +664,7 @@ namespace GUI_WindowsForms
             if (!ServerOrFolderAddNode(e.Node))
             {
                 float iHeight = e.Graphics.MeasureString("Name: ", fontBold).Height;
-                e.Graphics.DrawString("Name: "+e.Node.Tag, fontBold, Brushes.Black, e.Bounds.X + 2, e.Bounds.Y + 5);//Rectangle.Inflate(e.Bounds, 2, -5)
+                e.Graphics.DrawString("Name: "+e.Node.Tag, fontBold, Brushes.Black, e.Bounds.X + 2, e.Bounds.Y + 5);
                 e.Graphics.DrawString(e.Node.Text, font, Brushes.Black, e.Bounds.X +2, e.Bounds.Y + iHeight+5);
             }
             else
@@ -1004,6 +1004,7 @@ namespace GUI_WindowsForms
 
         private void UpdateServerNode(ServerModel server, TreeNode node)
         {
+
             string text = String.Format(
                                   //  "Name: " + server.Name + Environment.NewLine +
                                     "IP: " + server.Host + Environment.NewLine);
@@ -1013,7 +1014,7 @@ namespace GUI_WindowsForms
             }
 
 
-            if (text != node.Text)
+            if (text != node.Text || (string) node.Tag != server.Name)
             {
                 node.Tag = server.Name;
                 node.Text = text;
@@ -1030,7 +1031,7 @@ namespace GUI_WindowsForms
                 text += "Notes: " + folder.Note;
             }
 
-            if (text != node.Text)
+            if (text != node.Text || (string)node.Tag != folder.Name)
             {
                 node.Tag = folder.Name;
                 node.Text = text;
