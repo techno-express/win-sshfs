@@ -179,7 +179,7 @@
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 136);
             // 
             // editToolStripMenuItem1
             // 
@@ -213,6 +213,7 @@
             this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
             this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.addNewFolderToolStripMenuItem.Text = "Add New Folder";
+            this.addNewFolderToolStripMenuItem.Click += new System.EventHandler(this.addNewFolderToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 

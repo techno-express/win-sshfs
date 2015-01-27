@@ -1215,5 +1215,10 @@ namespace GUI_WindowsForms
                 i++;
             }
         }
+
+        private void addNewFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addFolder();
+        }
     }
 }
