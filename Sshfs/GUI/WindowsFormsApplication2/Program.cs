@@ -15,9 +15,6 @@ namespace GUI_WindowsForms
         [STAThread]
         static void Main()
         {
-            // Open a IPC server
-            IPCConnection.ClientConnect();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FiSSHForm());

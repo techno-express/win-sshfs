@@ -17,13 +17,13 @@ namespace Sshfs.GuiBackend.Remoteable
     /// is used by server and client to establish a connection
     public class IPCConnection
     {
-        public static IServiceFisshBone bone_client;
         public static ServiceHost bone_server;
 
         public IPCConnection() { }
 
         public static IServiceFisshBone ClientConnect ()
         {
+            IServiceFisshBone bone_client;
             ChannelFactory<IServiceFisshBone> pipeFactory =
               new ChannelFactory<IServiceFisshBone>(
                 new NetNamedPipeBinding(),
