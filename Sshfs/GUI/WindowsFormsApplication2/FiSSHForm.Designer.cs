@@ -128,7 +128,7 @@
             this.duplicateToolStripMenuItem1,
             this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 158);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(183, 136);
             // 
             // mountToolStripMenuItem2
             // 
@@ -223,7 +223,7 @@
             this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1227, 90);
+            this.menuStrip1.Size = new System.Drawing.Size(704, 90);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -325,7 +325,7 @@
             this.groupBox1.Controls.Add(this.textBox_server_name);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(801, 88);
+            this.groupBox1.Location = new System.Drawing.Point(278, 88);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(399, 582);
             this.groupBox1.TabIndex = 3;
@@ -920,7 +920,7 @@
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.ShowLines = false;
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(777, 577);
+            this.treeView1.Size = new System.Drawing.Size(254, 577);
             this.treeView1.TabIndex = 4;
             this.treeView1.TabStop = false;
             this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
@@ -949,7 +949,7 @@
             // button_windowexpand
             // 
             this.button_windowexpand.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button_windowexpand.Location = new System.Drawing.Point(1206, 334);
+            this.button_windowexpand.Location = new System.Drawing.Point(683, 334);
             this.button_windowexpand.Name = "button_windowexpand";
             this.button_windowexpand.Size = new System.Drawing.Size(21, 79);
             this.button_windowexpand.TabIndex = 0;
@@ -1022,14 +1022,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.AutoScrollMinSize = new System.Drawing.Size(0, 600);
-            this.ClientSize = new System.Drawing.Size(1227, 682);
+            this.ClientSize = new System.Drawing.Size(704, 682);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_windowexpand);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.treeView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(600, 400);
+            this.MinimumSize = new System.Drawing.Size(720, 400);
             this.Name = "FiSSHForm";
             this.Text = "FiSSH";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FiSSHForm_Closing);
