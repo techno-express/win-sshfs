@@ -720,6 +720,7 @@ namespace GUI_WindowsForms
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
 
+
             server.Name = textBox_server_name.Text;
             server.Notes = richTextBox_server_notes.Text;
             server.Username = textbox_server_username.Text;
@@ -745,31 +746,38 @@ namespace GUI_WindowsForms
             FolderModel folder = GetSelectedFolderNode();
             ServerModel server = GetSelectedServerNode();
 
-            // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
-            folder.Name = textBox_folder_entry.Text;
-            folder.Note = richTextBox_folder_notes.Text;
-            folder.Password = textBox_folder_password.Text;
-            folder.PrivateKey = textBox_folder_privat_key.Text;
-            folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
-            folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
-            folder.Username = textBox_folder_username.Text;
-            folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
-            folder.Folder = textBox9_folder_remotedirectory.Text;
+            if (folder.Status == Sshfs.DriveStatus.Mounting || folder.Status == Sshfs.DriveStatus.Mounted)
+            {
+                MessageBox.Show("Error: Folder can only be edited in unmounted state.");
+            }
+            else
+            {
+                // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
+                folder.Name = textBox_folder_entry.Text;
+                folder.Note = richTextBox_folder_notes.Text;
+                folder.Password = textBox_folder_password.Text;
+                folder.PrivateKey = textBox_folder_privat_key.Text;
+                folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
+                folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
+                folder.Username = textBox_folder_username.Text;
+                folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
+                folder.Folder = textBox9_folder_remotedirectory.Text;
 
-            if (radioButton_folder_password.Checked == true)
-            {
-                folder.Type = Sshfs.ConnectionType.Password;
-            }
-            if (radioButton_folder_privatekey.Checked == true)
-            {
-                folder.Type = Sshfs.ConnectionType.PrivateKey;
-            }
-            if (radioButton_folder_pageant.Checked == true)
-            {
-                folder.Type = Sshfs.ConnectionType.Pageant;
-            }
+                if (radioButton_folder_password.Checked == true)
+                {
+                    folder.Type = Sshfs.ConnectionType.Password;
+                }
+                if (radioButton_folder_privatekey.Checked == true)
+                {
+                    folder.Type = Sshfs.ConnectionType.PrivateKey;
+                }
+                if (radioButton_folder_pageant.Checked == true)
+                {
+                    folder.Type = Sshfs.ConnectionType.Pageant;
+                }
 
-            bone_server.editFolder(server.ID, folder);
+                bone_server.editFolder(server.ID, folder);
+            }
         }
 
         /// focused the first text box on the right side by clicking the edit-button
