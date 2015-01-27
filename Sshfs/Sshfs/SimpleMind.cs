@@ -28,6 +28,7 @@ namespace SimpleMind
         Warning = 2, 
         Debug = 3, 
     }
+    
 
     /// writes a logfile with 4 loglevels
     /**
@@ -42,8 +43,7 @@ namespace SimpleMind
         private string _Folder; // folder to Logfile
         private string _PathToLogFile;
         private static int _LogLevel;
-        //public enum Loglevel {None = 0,Error = 1,Warning = 2,Debug = 3}; 
-       
+        private byte attempts; //to prevent deathlocks      
 
         public SimpleMind(int iLogLevel, string sFile, string sPath)
         {
@@ -97,7 +97,7 @@ namespace SimpleMind
             catch (Exception e)
             {
                 // FIXME: define behavior in case of excepetion
-                Console.WriteLine("Error: Couldn't create File or Directory: \" " + _Folder + _LogFile + "\"");
+                Console.WriteLine("Error: Could not create File or Directory: \" " + _Folder + _LogFile + "\"");
             }
 
         }
@@ -117,7 +117,7 @@ namespace SimpleMind
             {
                 //FIXME MyDocuments does not exist
                 MyDocDir = @"C:\";
-                Console.WriteLine(@"Warning: Coluldn't find MyDocuments, Saving under C:\");
+                Console.WriteLine(@"Warning: Could not find MyDocuments. Saving at C:\");
             }
 
             //init
@@ -169,51 +169,70 @@ namespace SimpleMind
         #region
         //*** private ***
         // writing LogMsg into Logfile with current timestamp no LogLevel is checked
-        private void write(Loglevel iLogType,string cmpnt ,string LogMsg)
+        private void write(Loglevel iLogType, string cmpnt, string LogMsg, byte attempts)
         {
             DateTime Now = DateTime.Now;
 
-            try
+            if (attempts < 100)   
             {
-                using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
+                try
                 {
-                    switch (iLogType)
+                    using (StreamWriter fs = new StreamWriter(_PathToLogFile, true))
                     {
-                        case Loglevel.Error:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" + cmpnt + "] " + LogMsg);
-                            break;
-                        case Loglevel.Warning:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" + cmpnt + "] " + LogMsg);
-                            break;
-                        case Loglevel.Debug:
-                            fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" + cmpnt + "] " + LogMsg);
-                            break;
-                    }
+                        switch (iLogType)
+                        {
+                            case Loglevel.Error:
+                                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Error]" + "[" + cmpnt + "] " + LogMsg + " ");
+                                break;
+                            case Loglevel.Warning:
+                                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Warning]" + "[" + cmpnt + "] " + LogMsg + " ");
+                                break;
+                            case Loglevel.Debug:
+                                fs.WriteLine("[" + Now.ToString("yyyy/MM/dd HH:mm:ss") + "]" + "[Debug]" + "[" + cmpnt + "] " + LogMsg + " ");
+                                break;
+                        }
 
-                    /*
-                     //no zero when time got one digit elements
-                   fs.WriteLine("[" + Now.Year.ToString() + @"/"
-                      + Now.Month.ToString() + @"/"
-                      + Now.Day.ToString() + " "
-                      + Now.Hour.ToString() + ":"
-                      + Now.Minute.ToString() + ":"
-                      + Now.Second.ToString() + "] " + LogMsg);*/
+                        /*
+                         //no zero when time got one digit elements
+                       fs.WriteLine("[" + Now.Year.ToString() + @"/"
+                          + Now.Month.ToString() + @"/"
+                          + Now.Day.ToString() + " "
+                          + Now.Hour.ToString() + ":"
+                          + Now.Minute.ToString() + ":"
+                          + Now.Second.ToString() + "] " + LogMsg);*/
+                    }
+                }
+                catch (IOException e)                       //put current thread on hold if another one is already writing in the logfile 
+                {
+                    attempts++;
+                    Thread.Sleep(attempts);
+                    write(iLogType, cmpnt, LogMsg, attempts);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+
+                    System.Windows.Forms.MessageBox.Show("An error while logging has occurred. Check if file is write protected. Loglevel has been set to \"None\"");
+                    SimpleMind._LogLevel = 0;
+                   
+                } 
+                catch (Exception e)
+                {
+                    System.Windows.Forms.MessageBox.Show("An error while logging has occurred. Check if path exists. Loglevel has been set to \"None\"");
+                    SimpleMind._LogLevel = 0;
                 }
             }
-            catch (IOException e)                       //put current thread on hold if another one is already writing in the logfile 
-            {
-                Thread.Sleep(1);
-                write(iLogType, cmpnt, LogMsg);
-            }
+            
+            
+           
         }
-
 
         //*** public ***
         public void writeLog(Loglevel iLogType, string cmpnt, string Msg)
         {
             if ((int)iLogType >= 0 && (int)iLogType <= _LogLevel)
             {
-                write(iLogType,cmpnt, Msg);
+                attempts = 0;
+                write(iLogType,cmpnt, Msg, attempts);
             }
 
         }
