@@ -775,7 +775,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            local_server_reference.Name = Server.Name;
+            local_server_reference.Name = CheckServerName(Server.Name);
             local_server_reference.Password = Server.Password;
             local_server_reference.Passphrase = Server.Passphrase;
             local_server_reference.Notes = Server.Notes;
@@ -850,7 +850,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          */
         public  Guid addServer(ServerModel newServer)
         {
-            
+            newServer.Name = CheckServerName(newServer.Name);
             newServer.ID = Guid.NewGuid();
 
             if(newServer.ID == Guid.Empty)
@@ -911,7 +911,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 int i = LServermodel.FindIndex(x => x.ID == ServerID);
                 ServerModel server = LServermodel[i];
                 ServerModel newServer = server.DuplicateServer();
-                newServer.Name += " Copy";
+ 
+                newServer.Name = CheckServerName(newServer.Name += " Copy");
                 LServermodel.Insert(i+1, newServer);
                 return newServer.ID;
             }
@@ -1078,6 +1079,39 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
+        public string CheckServerName(string name)
+        {
+            if (name == "" || name == null)
+            {
+                return CheckServerName("New server");
+            }
+
+            if(LServermodel.Find(x => x.Name == name) == null)
+            {
+                return name;
+            }
+            else
+            {
+                var name_array = name.ToArray();
+                // if last char is not a letter
+                if (name_array.Last() < '1' || name_array.Last() > '9')
+                {
+                    return CheckServerName(String.Format(name.ToString() + " 1"));
+                }
+                // if last char is less as a nine
+                else if (name_array.Last() < '9')
+                {
+                    name_array[name_array.Length-1]++;
+                    return CheckServerName(new String(name_array));
+                }
+                else
+                {
+                    // It would be nice if there is a algorithm which works with higher numbers
+                    // But i wanted to solve this quick without brainfucks
+                    return CheckServerName(new String(name_array) + "-1");
+                }
+            }
+        }
         
         /// Get s free dirve letter
         /**
