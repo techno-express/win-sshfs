@@ -495,7 +495,10 @@ namespace GUI_WindowsForms
 
             // Confirm that the node at the drop location is not  
             // the dragged node or a descendant of the dragged node. 
-            if (!draggedNode.Equals(targetNode) && !ContainsNode(draggedNode, targetNode) && !ServerOrFolderAddNode(draggedNode))
+            if (!draggedNode.Equals(targetNode) && 
+                !ContainsNode(draggedNode, targetNode) && 
+                !ServerOrFolderAddNode(draggedNode) &&
+                !ServerOrFolderAddNode(targetNode))
             {
                 // If it is a move operation, remove the node from its current  
                 // location and add it to the node at the drop location. 
@@ -985,7 +988,6 @@ namespace GUI_WindowsForms
                 text += "Notes: " + server.Notes;
             }
 
-            text += node.Index;
 
             if (text != node.Text)
             {
@@ -1002,7 +1004,6 @@ namespace GUI_WindowsForms
             {
                 text += "Notes: " + folder.Note;
             }
-            text += node.Index;
 
             if (text != node.Text)
             {
@@ -1071,12 +1072,12 @@ namespace GUI_WindowsForms
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = GetSelectedFolderNode();
 
-            if (treeView1.SelectedNode.Level == 1)
+            if (treeView1.SelectedNode.Level == 1 && folder != null)
             {
                 bone_server.removeFolder(server.ID, folder.ID);
                 treeView1.SelectedNode.Remove();
             }
-            else if(treeView1.SelectedNode.Level == 0)
+            else if(treeView1.SelectedNode.Level == 0 && server != null)
             {
                 bone_server.removeServer(server.ID);
                 treeView1.SelectedNode.Remove();
@@ -1119,7 +1120,7 @@ namespace GUI_WindowsForms
                     folder.Name = "New Folder";
                     TreeNode newNode = MakeFolderNode(folder);
                     newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
-                    treeView1.SelectedNode.Parent.Nodes.Insert(treeView1.SelectedNode.Nodes.Count, newNode);
+                    treeView1.SelectedNode.Parent.Nodes.Insert(treeView1.SelectedNode.Parent.Nodes.Count - 1, newNode);
 
                 }
                 else if (treeView1.SelectedNode.Level == 0)
@@ -1128,7 +1129,7 @@ namespace GUI_WindowsForms
                     server.Name = "New Server";
                     TreeNode newNode = MakeServerNode(server);
                     newNode.Name = bone_server.addServer(server).ToString();
-                    treeView1.Nodes.Insert(treeView1.Nodes.Count, newNode);
+                    treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, newNode);
                 }
             }
         }
