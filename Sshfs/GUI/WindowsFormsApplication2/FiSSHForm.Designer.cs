@@ -179,7 +179,7 @@
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 114);
             // 
             // editToolStripMenuItem1
             // 
@@ -917,8 +917,10 @@
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.BackColor = System.Drawing.SystemColors.Info;
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.treeView1.FullRowSelect = true;
+            this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 4;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.ItemHeight = 60;
@@ -943,7 +945,7 @@
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.TransparentColor = System.Drawing.Color.Black;
             this.imageList1.Images.SetKeyName(0, "Mount.png");
             this.imageList1.Images.SetKeyName(1, "Einstellungen.png");
             this.imageList1.Images.SetKeyName(2, "Löschen.png");
@@ -952,6 +954,10 @@
             this.imageList1.Images.SetKeyName(5, "Server hinzufügen.png");
             this.imageList1.Images.SetKeyName(6, "Server.png");
             this.imageList1.Images.SetKeyName(7, "Unmount.png");
+            this.imageList1.Images.SetKeyName(8, "Server.png");
+            this.imageList1.Images.SetKeyName(9, "Ordner hinzufügen.png");
+            this.imageList1.Images.SetKeyName(10, "Ordner.png");
+            this.imageList1.Images.SetKeyName(11, "Server hinzufügen.png");
             // 
             // button_windowexpand
             // 
