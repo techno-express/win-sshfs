@@ -566,6 +566,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 {
                     IndexToInsertIn = 1 + sink_server.Folders.FindIndex(x => x.ID == FolderToInsertAfterID);
                 }
+
+                if (sink_server != source_server)
+                {
+                    folder.Name = CheckFolderName(sink_server, folder.Name);
+                }
                 sink_server.Folders.Insert(IndexToInsertIn, folder);
 
                 return;
