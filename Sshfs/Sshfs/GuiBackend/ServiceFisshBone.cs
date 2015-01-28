@@ -71,6 +71,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             StartWithSystemstartFlag = false;
             ReconnectAfterWakeUpFlag = true;
+
+            LoadServerlist(@"c:\Users\thomas");
         }
 
         /// Handle reconnection after wake up
@@ -248,7 +250,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             catch(Exception e)
             {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could save Serverlist.");
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not save Serverlist.");
                 Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
             }
         }
@@ -263,7 +265,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * 
          */
 
-        private void LoadServerlist(String Savepath)
+        private static void LoadServerlist(String Savepath)
         {
             if (Savepath.EndsWith(@"\"))
             {

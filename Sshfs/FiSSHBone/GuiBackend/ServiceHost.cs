@@ -38,7 +38,7 @@ public class Class1
                 ServiceFisshBone.Init();
 
                 //Ein Server mit Ordner zum Testen ins Datenmodel einfügen
-                ServerModel ein_server = new ServerModel();
+            /*    ServerModel ein_server = new ServerModel();
                 ein_server.Name = "Ubuntu at VBox";
                 ein_server.Host = "10.0.2.13";
                 ein_server.Port = 22;
@@ -99,7 +99,7 @@ public class Class1
                 ein_folder.use_global_login = true;
                 ein_folder.Folder = "/home/user";
                 ein_folder.Name = "home vom user";
-                ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);
+                ein_folder_ID = bone_local.addFolder(ein_server_ID, ein_folder);*/
 
 
 
@@ -118,17 +118,17 @@ public class Class1
                     }
                     if (puffer == "e")
                     {
-                        ein_folder.Name += " eee";
-                        bone_local.editFolder(ein_server_ID, ein_folder);
+                        //ein_folder.Name += " eee";
+                        //bone_local.editFolder(ein_server_ID, ein_folder);
                     }
                     if(puffer == "r1")
                     {
-                        bone_local.removeFolder(ein_server_ID, ein_folder_ID);
-//                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                        //bone_local.removeFolder(ein_server_ID, ein_folder_ID);
+                        //bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
                     }
                     if(puffer == "r2")
                     {
-                        bone_local.removeServer(ein_server_ID);
+                        //bone_local.removeServer(ein_server_ID);
 //                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
                     }
                     if(puffer == "i1")
@@ -141,20 +141,20 @@ public class Class1
                     {
                         FolderModel tmp = new FolderModel();
                         tmp.Name = "eingefügt";
-                        bone_local.addFolder(ein_server_ID, tmp);
+                        //bone_local.addFolder(ein_server_ID, tmp);
                     }
                     if (puffer == "d1")
                     {
-                        bone_local.duplicateServer(ein_server_ID);
+                        //bone_local.duplicateServer(ein_server_ID);
                     }
                     if (puffer == "d2")
                     {
-                        bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
+                       // bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
                     }
 
                     if (puffer == "s1")
                     {
-                        bone_local.SaveServerlist(@"c:\user\thomas\");
+                        bone_local.SaveServerlist(@"c:\Users\thomas");
                     }
 
                     foreach (ServerModel i in bone_local.listAll())
