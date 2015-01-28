@@ -179,7 +179,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * @param String Savepath-Path where the XML file will be saved
          * 
          */
-        private void SaveServerlist(String Savepath)
+        public void SaveServerlist(String Savepath)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -215,7 +215,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                 foreach(FolderModel FElement in element.Folders)
                 {
-                    Folder.AppendChild(doc.CreateElement("Global Login")).InnerText = FElement.use_global_login.ToString();
+                    Folder.AppendChild(doc.CreateElement("GlobalLogin")).InnerText = (FElement.use_global_login.ToString());
                     Folder.AppendChild(doc.CreateElement("FolderID")).InnerText = FElement.ID.ToString();
                     Folder.AppendChild(doc.CreateElement("Name")).InnerText = FElement.Name;
                     Folder.AppendChild(doc.CreateElement("Note")).InnerText = FElement.Note;
@@ -224,7 +224,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Folder.AppendChild(doc.CreateElement("Username")).InnerText = FElement.Username;
                     Folder.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
                     Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
-                    Folder.AppendChild(doc.CreateElement("Private Key")).InnerText = "Not Saved";
+                    Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
                     //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
@@ -343,7 +343,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                      try
                      {
-                         Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("Global Login").InnerText);
+                         Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("GlobalLogin").InnerText);
                      }
                      catch(Exception e)
                      {

@@ -152,6 +152,10 @@ public class Class1
                         bone_local.duplicateFolder(ein_server_ID, ein_folder_ID);
                     }
 
+                    if (puffer == "s1")
+                    {
+                        bone_local.SaveServerlist(@"c:\user\thomas\");
+                    }
 
                     foreach (ServerModel i in bone_local.listAll())
                     {
