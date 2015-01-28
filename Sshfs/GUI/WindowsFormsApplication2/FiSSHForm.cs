@@ -1092,9 +1092,21 @@ namespace GUI_WindowsForms
         private void addFolder()
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+            ServerModel server = GetSelectedServerNode();
             FolderModel folder = new FolderModel();
-            bone_server.addFolder(GetSelectedServerNode().ID, folder);
-            folder.Name = "new Folder";
+            folder.Name = "New Folder";
+            TreeNode newNode = MakeFolderNode(folder);
+            newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
+
+            if (treeView1.SelectedNode.Level == 1)
+            {
+                treeView1.SelectedNode.Parent.Nodes.Insert(treeView1.SelectedNode.Parent.Nodes.Count - 1, newNode);
+            }
+            else if (treeView1.SelectedNode.Level == 0)
+            {
+                treeView1.SelectedNode.Nodes.Insert(treeView1.SelectedNode.Nodes.Count - 1, newNode);
+
+            }
         }
         #endregion
 
@@ -1144,21 +1156,15 @@ namespace GUI_WindowsForms
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
-            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             if (ServerOrFolderAddNode(treeView1.SelectedNode))
             {
                 if (treeView1.SelectedNode.Level == 1)
                 {
-                    ServerModel server = GetSelectedServerNode();
-                    FolderModel folder = new FolderModel();
-                    folder.Name = "New Folder";
-                    TreeNode newNode = MakeFolderNode(folder);
-                    newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
-                    treeView1.SelectedNode.Parent.Nodes.Insert(treeView1.SelectedNode.Parent.Nodes.Count - 1, newNode);
-
+                    addFolder();
                 }
                 else if (treeView1.SelectedNode.Level == 0)
                 {
+                    IServiceFisshBone bone_server = IPCConnection.ClientConnect();
                     ServerModel server = new ServerModel();
                     server.Name = "New Server";
                     TreeNode newNode = MakeServerNode(server);
