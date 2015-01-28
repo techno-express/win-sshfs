@@ -925,7 +925,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 ServerModel server = LServermodel[i];
                 ServerModel newServer = server.DuplicateServer();
  
-                newServer.Name = CheckServerName(newServer.Name += " Copy");
+                newServer.Name = CheckServerName(newServer.Name);
                 LServermodel.Insert(i+1, newServer);
                 return newServer.ID;
             }
@@ -944,7 +944,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 ServerModel server = LServermodel.Find(x => x.ID == ServerID);
                 int i = server.Folders.FindIndex(x => x.ID == FolderID);
                 FolderModel newFolder = server.Folders[i].DuplicateFolder();
-                newFolder.Name = CheckFolderName(server, newFolder.Name += " Copy");
+                newFolder.Name = CheckFolderName(server, newFolder.Name);
                 server.Folders.Insert(i+1, newFolder);
                 return newFolder.ID;
             }
