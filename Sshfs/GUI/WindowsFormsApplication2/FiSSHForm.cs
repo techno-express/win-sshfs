@@ -1128,7 +1128,7 @@ namespace GUI_WindowsForms
             }
         }
 
-        private void duplicateToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void duplicateToolStripMenuItem_all_Click(object sender, EventArgs e)
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
