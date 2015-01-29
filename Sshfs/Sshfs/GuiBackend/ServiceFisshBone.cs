@@ -505,6 +505,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 // Adding folder to virtual drive
                 drive.MountPoint = folder.VirtualDriveFolder;
                 VirtualDrive.AddSubFS(drive);
+                drive.Mount();
                 
                 // look into virtual drive, so it will be mounted
                 LookIntoVirtualDrive(drive.MountPoint);
