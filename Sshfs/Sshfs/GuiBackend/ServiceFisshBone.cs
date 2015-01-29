@@ -260,6 +260,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Folder.AppendChild(doc.CreateElement("Password")).InnerText = FElement.Password;
                     Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = FElement.Passphrase;
                     Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = FElement.PrivateKey;
+                    Folder.AppendChild(doc.CreateElement("ConnectionType")).InnerText = FElement.Type.ToString();
+                    Folder.AppendChild(doc.CreateElement("UseVirtualDrive")).InnerText = FElement.use_virtual_drive.ToString();
+                    Folder.AppendChild(doc.CreateElement("VirtualDrive")).InnerText = FElement.VirtualDriveFolder;
                     //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
@@ -384,9 +387,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                             Folder.ID = Guid.NewGuid();
                         }
 
-                        Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
-                        Folder.Folder = Fnode.SelectSingleNode("Folder").InnerText;
-                        
+                        try
+                        {
+                            Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
+                            Folder.Folder = Fnode.SelectSingleNode("Folder").InnerText;
+                            Folder.use_virtual_drive = Convert.ToBoolean(Fnode.SelectSingleNode("UseVirtualDrive").InnerText);
+                            Folder.Type = (ConnectionType)Enum.Parse(typeof(ConnectionType), Fnode.SelectSingleNode("ConnectionType").InnerText);
+                            Folder.VirtualDriveFolder = Fnode.SelectSingleNode("VirtualDrive").InnerText;
+                        }
+                        catch { }
+
                         try
                         {
                             Folder.Letter = Convert.ToChar(Fnode.SelectSingleNode("Letter").InnerText);
