@@ -86,16 +86,24 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         /// Mount at Software startup
         private static void AutoMountAtStartUp()
         {
-            foreach(ServerModel server in LServermodel)
+            try
             {
-                foreach (FolderModel folder in server.Folders)
+                foreach (ServerModel server in LServermodel)
                 {
-                    if(folder.Automount)
+                    foreach (FolderModel folder in server.Folders)
                     {
-                        MountDrive(server, folder); 
+                        if (folder.Automount)
+                        {
+                            try
+                            {
+                                MountDrive(server, folder);
+                            }
+                            catch { }
+                        }
                     }
                 }
             }
+            catch { }
         }
 
         /// Handle reconnection after wake up
