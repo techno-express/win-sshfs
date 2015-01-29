@@ -162,7 +162,7 @@
             this.duplicateToolStripMenuItem1.Name = "duplicateToolStripMenuItem1";
             this.duplicateToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.duplicateToolStripMenuItem1.Text = "Duplicate";
-            this.duplicateToolStripMenuItem1.Click += new System.EventHandler(this.duplicateToolStripMenuItem1_Click);
+            this.duplicateToolStripMenuItem1.Click += new System.EventHandler(this.duplicateToolStripMenuItem_all_Click);
             // 
             // openInExplorerToolStripMenuItem
             // 
@@ -179,7 +179,7 @@
             this.mountAllFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 136);
             // 
             // editToolStripMenuItem1
             // 
@@ -200,6 +200,7 @@
             this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
             this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.duplicateToolStripMenuItem.Text = "Duplicate";
+            this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.duplicateToolStripMenuItem_all_Click);
             // 
             // mountAllFoldersToolStripMenuItem
             // 
