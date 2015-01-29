@@ -73,7 +73,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             ReconnectAfterWakeUpFlag = true;
 
             //FIXME: finding better place to save connections.xml
-            //LoadServerlist(@"c:\Users\" + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+            LoadServerlist(@"c:\Users\thomas");
         }
 
         /// Handle reconnection after wake up
@@ -229,7 +229,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Folder.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
                     Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
                     Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
-                    //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
+                    Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
                     Folder = doc.CreateElement("Folder");
@@ -273,110 +273,128 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         private static void LoadServerlist(String Savepath)
         {
+            bool error_on_load = false;
+            XmlDocument doc = new XmlDocument();
+            
             if (Savepath.EndsWith(@"\"))
             {
                 Savepath.Remove(Savepath.Length - 1);
             }
 
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Savepath + @"\connections.xml");
+            try
+            {
+                doc.Load(Savepath + @"\connections.xml");
+            }
 
-            XmlNodeList sn = doc.DocumentElement.SelectNodes("Serverlist/Server");
-            XmlNodeList fn = doc.DocumentElement.SelectNodes("Serverlist/Server/Folderlist/Folder");
-            List<ServerModel> SL = new List<ServerModel>();
-            List<FolderModel> FL = new List<FolderModel>();
+            catch(Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not load connections!");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                error_on_load = true;
+            }
 
-             foreach(XmlNode Snode  in sn)
-             {
-                 ServerModel Server = new ServerModel();
+            if (!error_on_load)
+            {
+                XmlNodeList sn = doc.DocumentElement.SelectNodes("Server");
+                XmlNodeList fn;// = doc.DocumentElement.SelectNodes("Serverlist/Server/Folderlist/Folder");
+                List<ServerModel> SL = new List<ServerModel>();
+                List<FolderModel> FL = new List<FolderModel>();
 
-                 Server.Name = Snode.SelectSingleNode("Name").InnerText;
-                 try
-                 {
-                     Server.ID = new Guid(Snode.SelectSingleNode("ServerID").InnerText);
-                 }
-                 catch(Exception e)
-                 {
-                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
-                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read Guid from XML file, generate new Guid.");
-                     Server.ID = Guid.NewGuid();
-                 }
 
-                 Server.Notes = Snode.SelectSingleNode("Notes").InnerText;
-                 Server.PrivateKey = "";
-                 Server.Password = "";
-                 Server.Passphrase = "";
-                 Server.Username = Snode.SelectSingleNode("Username").InnerText;
-                 Server.Host = Snode.SelectSingleNode("Host").InnerText;
-                 try
-                 {
-                     Server.Port = Convert.ToInt32(Snode.SelectSingleNode("Port").InnerText);
-                 }
+                foreach (XmlNode Snode in sn)
+                {
+                    ServerModel Server = new ServerModel();
 
-                 catch(Exception e) {
-                     Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
-                     Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read port from XML file, set port to 22");
-                     Server.Port = 22;
-                 }
+                    Server.Name = Snode.SelectSingleNode("Name").InnerText;
+                    try
+                    {
+                        Server.ID = new Guid(Snode.SelectSingleNode("ServerID").InnerText);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                        Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read Guid from XML file, generate new Guid.");
+                        Server.ID = Guid.NewGuid();
+                    }
 
-                 fn = Snode.SelectSingleNode("Serverlist").SelectNodes("Folder");
+                    Server.Notes = Snode.SelectSingleNode("Notes").InnerText;
+                    Server.PrivateKey = "";
+                    Server.Password = "";
+                    Server.Passphrase = "";
+                    Server.Username = Snode.SelectSingleNode("Username").InnerText;
+                    Server.Host = Snode.SelectSingleNode("Host").InnerText;
+                    try
+                    {
+                        Server.Port = Convert.ToInt32(Snode.SelectSingleNode("Port").InnerText);
+                    }
 
-                 foreach(XmlNode Fnode in fn)
-                 {
-                     FolderModel Folder = new FolderModel();
+                    catch (Exception e)
+                    {
+                        Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                        Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read port from XML file, set port to 22");
+                        Server.Port = 22;
+                    }
 
-                     Folder.Name = Fnode.SelectSingleNode("Name").InnerText;
-                     try
-                     {
-                         Folder.ID = new Guid(Fnode.SelectSingleNode("FolderID").InnerText);
-                     }
-                     catch (Exception e)
-                     {
-                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
-                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Generate new Guid");
-                         Folder.ID = Guid.NewGuid();
-                     }
-                     Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
-                     Folder.Folder = Fnode.SelectSingleNode("Folder").InnerText;
-                     try
-                     {
-                         Folder.Letter = Convert.ToChar(Fnode.SelectSingleNode("Letter").InnerText);
-                     }
-                     catch(Exception e)
-                     {
-                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read drive letter from XML file, set letter to x");
-                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
-                         Folder.Letter = 'x';
-                     }
+                    fn = Snode.SelectSingleNode("Folderlist").SelectNodes("Folder");
 
-                     try
-                     {
-                         Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("GlobalLogin").InnerText);
-                     }
-                     catch(Exception e)
-                     {
-                         Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load folder login");
-                         Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
-                         Folder.use_global_login = true;
-                     }
+                    foreach (XmlNode Fnode in fn)
+                    {
+                        FolderModel Folder = new FolderModel();
 
-                     if(!Folder.use_global_login)
-                     {
-                         Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
-                         Folder.Password = "";
-                         Folder.Passphrase = "";
-                         Folder.PrivateKey = "";
-                     }
+                        Folder.Name = Fnode.SelectSingleNode("Name").InnerText;
+                        try
+                        {
+                            Folder.ID = new Guid(Fnode.SelectSingleNode("FolderID").InnerText);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                            Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Generate new Guid");
+                            Folder.ID = Guid.NewGuid();
+                        }
 
-                     Folder.Status = DriveStatus.Unmounted;
+                        Folder.Note = Fnode.SelectSingleNode("Note").InnerText;
+                        Folder.Folder = Fnode.SelectSingleNode("Folder").InnerText;
+                        
+                        try
+                        {
+                            Folder.Letter = Convert.ToChar(Fnode.SelectSingleNode("Letter").InnerText);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not read drive letter from XML file, set letter to x");
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                            Folder.Letter = 'x';
+                        }
 
-                     Server.Folders.Add(Folder);
-                 }
+                        try
+                        {
+                            Folder.use_global_login = Convert.ToBoolean(Fnode.SelectSingleNode("GlobalLogin").InnerText);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load folder login");
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                            Folder.use_global_login = true;
+                        }
 
-                 LServermodel.Add(Server);
-             }
-                
+                        if (!Folder.use_global_login)
+                        {
+                            Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
+                            Folder.Password = "";
+                            Folder.Passphrase = "";
+                            Folder.PrivateKey = "";
+                        }
 
+                        Folder.Status = DriveStatus.Unmounted;
+
+                        Server.Folders.Add(Folder);
+                    }
+
+                    LServermodel.Add(Server);
+                }
+
+            }
 
         }
 
