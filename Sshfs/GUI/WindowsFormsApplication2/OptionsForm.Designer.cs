@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             this.Loglevel = new System.Windows.Forms.ComboBox();
             this.virtualdriveletter = new System.Windows.Forms.ComboBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox_startup = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -94,16 +94,16 @@
             this.virtualdriveletter.TabIndex = 4;
             this.virtualdriveletter.SelectedIndexChanged += new System.EventHandler(this.virtualdriveletter_SelectedIndexChanged);
             // 
-            // checkBox1
+            // checkBox_startup
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(11, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(158, 17);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "Start program with Windows";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged_1);
+            this.checkBox_startup.AutoSize = true;
+            this.checkBox_startup.Location = new System.Drawing.Point(11, 19);
+            this.checkBox_startup.Name = "checkBox_startup";
+            this.checkBox_startup.Size = new System.Drawing.Size(158, 17);
+            this.checkBox_startup.TabIndex = 6;
+            this.checkBox_startup.Text = "Start program with Windows";
+            this.checkBox_startup.UseVisualStyleBackColor = true;
+            this.checkBox_startup.CheckedChanged += new System.EventHandler(this.checkBox_startup_CheckedChanged_1);
             // 
             // checkBox3
             // 
@@ -178,7 +178,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.checkBox_startup);
             this.groupBox1.Controls.Add(this.Loglevel);
             this.groupBox1.Controls.Add(this.virtualdriveletter);
             this.groupBox1.Controls.Add(this.checkBox3);
@@ -217,7 +217,7 @@
 
         private System.Windows.Forms.ComboBox Loglevel;
         private System.Windows.Forms.ComboBox virtualdriveletter;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox_startup;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

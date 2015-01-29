@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using Microsoft.Win32;
 
 namespace GUI_WindowsForms
@@ -19,6 +20,8 @@ namespace GUI_WindowsForms
         {
             InitializeComponent();
             Loglevel.SelectedIndex = 0;// Debugging ist beim Start der Form ausgewählt
+            writeAvailableDrivesInCombo();
+
         }
        
         private void Loglevel_SelectedIndexChanged(object sender, EventArgs e)
@@ -57,9 +60,9 @@ namespace GUI_WindowsForms
         }
 
 
-        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        private void checkBox_startup_CheckedChanged_1(object sender, EventArgs e)
         {     
-            RegisterInStartup(checkBox1.Checked);
+            RegisterInStartup(checkBox_startup.Checked);
         }
 
 
@@ -76,6 +79,34 @@ namespace GUI_WindowsForms
             else
             {
                 registryKey.DeleteValue("FiSSH");
+            }
+        }
+
+        private static bool IsDriveAvailable(char letter)
+        {
+            List<char> not_available = new List<char>();
+            not_available.Add('a');
+            not_available.Add('A');
+            not_available.Add('b');
+            not_available.Add('B');
+
+            if (not_available.Contains(letter) ||
+                Directory.GetLogicalDrives().Contains(((letter).ToString() + @":\")))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void writeAvailableDrivesInCombo()
+        {
+            this.virtualdriveletter.Items.Clear();
+            for (int i = 'Z'; i >= 'A'; i--)
+            {
+                if (IsDriveAvailable((char)i) == true) this.virtualdriveletter.Items.Add((char)i + ":");
             }
         }
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 using Sshfs.GuiBackend.Remoteable;
 using System.Runtime.Remoting;
@@ -315,6 +316,7 @@ namespace GUI_WindowsForms
                             textBox_folder_username.Text = folder.Username;
                             textBox9_folder_remotedirectory.Text = folder.Folder;
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
+                            writeAvailableDrivesInCombo();
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
                             radioButton_folder_virtualdrive.Checked = folder.use_virtual_drive;
                             radioButton_folder_usedrive.Checked = ! folder.use_virtual_drive;
@@ -1118,6 +1120,34 @@ namespace GUI_WindowsForms
             {
                 treeView1.SelectedNode.Nodes.Insert(treeView1.SelectedNode.Nodes.Count - 1, newNode);
 
+            }
+        }
+
+        private static bool IsDriveAvailable(char letter)
+        {
+            List<char> not_available = new List<char>();
+            not_available.Add('a');
+            not_available.Add('A');
+            not_available.Add('b');
+            not_available.Add('B');
+
+            if (not_available.Contains(letter) ||
+                Directory.GetLogicalDrives().Contains(((letter).ToString() + @":\")))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void writeAvailableDrivesInCombo()
+        {
+            this.comboBox_folder_driveletter.Items.Clear();
+            for (int i = 'Z'; i >= 'A'; i--)
+            {
+                if (IsDriveAvailable((char)i) == true) this.comboBox_folder_driveletter.Items.Add((char)i + ":");
             }
         }
         #endregion
