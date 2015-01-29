@@ -72,7 +72,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             StartWithSystemstartFlag = false;
             ReconnectAfterWakeUpFlag = true;
 
-            LoadServerlist(@"c:\Users\thomas");
+            //FIXME: finding better place to save connections.xml
+            //LoadServerlist(@"c:\Users\" + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
         }
 
         /// Handle reconnection after wake up
@@ -197,6 +198,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             foreach (ServerModel element in LServermodel)
             {
+
                 Server.AppendChild(doc.CreateElement("Name")).InnerText = element.Name;
 
                 Server.AppendChild(doc.CreateElement("ServerID")).InnerText = element.ID.ToString();
@@ -230,9 +232,13 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
+                    Folder = doc.CreateElement("Folder");
                 }
+
                 Server.AppendChild(Folderlist);
                 Serverlist.AppendChild(Server);
+                Server = doc.CreateElement("Server");
+                Folderlist = doc.CreateElement("Folderlist");
             }
 
             
