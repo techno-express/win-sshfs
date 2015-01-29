@@ -79,6 +79,23 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 Directory.CreateDirectory(path_to_config_directory);
             }
             LoadServerlist(path_to_config_directory);
+
+//            AutoMountAtStartUp();
+        }
+
+        /// Mount at Software startup
+        private static void AutoMountAtStartUp()
+        {
+            foreach(ServerModel server in LServermodel)
+            {
+                foreach (FolderModel folder in server.Folders)
+                {
+                    if(folder.Automount)
+                    {
+                        MountDrive(server, folder); 
+                    }
+                }
+            }
         }
 
         /// Handle reconnection after wake up
@@ -160,8 +177,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
-         /// Remove every unmounted drive
-         private static void LSftpDriveGarbageCollection ()
+        /// Remove every unmounted drive
+        private static void LSftpDriveGarbageCollection ()
          {
              foreach(KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive) 
              {
@@ -210,11 +227,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
                 Server.AppendChild(doc.CreateElement("Notes")).InnerText = element.Notes;
 
-                Server.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
+                Server.AppendChild(doc.CreateElement("PrivateKey")).InnerText = element.PrivateKey;
 
-                Server.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
+                Server.AppendChild(doc.CreateElement("Password")).InnerText = element.Password;
 
-                Server.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
+                Server.AppendChild(doc.CreateElement("Passphrase")).InnerText = element.Passphrase;
 
                 Server.AppendChild(doc.CreateElement("Username")).InnerText = element.Username;
 
@@ -232,9 +249,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Folder.AppendChild(doc.CreateElement("Folder")).InnerText = FElement.Folder;
                     Folder.AppendChild(doc.CreateElement("Letter")).InnerText = FElement.Letter.ToString();
                     Folder.AppendChild(doc.CreateElement("Username")).InnerText = FElement.Username;
-                    Folder.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
-                    Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
-                    Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
+                    Folder.AppendChild(doc.CreateElement("Password")).InnerText = FElement.Password;
+                    Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = FElement.Passphrase;
+                    Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = FElement.PrivateKey;
                     //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
@@ -324,9 +341,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     }
 
                     Server.Notes = Snode.SelectSingleNode("Notes").InnerText;
-                    Server.PrivateKey = "";
-                    Server.Password = "";
-                    Server.Passphrase = "";
+                    Server.PrivateKey = Snode.SelectSingleNode("PrivateKey").InnerText;
+                    Server.Password = Snode.SelectSingleNode("Password").InnerText;
+                    Server.Passphrase = Snode.SelectSingleNode("Passphrase").InnerText;
                     Server.Username = Snode.SelectSingleNode("Username").InnerText;
                     Server.Host = Snode.SelectSingleNode("Host").InnerText;
                     try
@@ -395,13 +412,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                             Folder.Automount = false;
                         }
 
-                        if (!Folder.use_global_login)
-                        {
-                            Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
-                            Folder.Password = "";
-                            Folder.Passphrase = "";
-                            Folder.PrivateKey = "";
-                        }
+                        Folder.Username = Fnode.SelectSingleNode("Username").InnerText;
+                        Folder.Password = Fnode.SelectSingleNode("Password").InnerText;
+                        Folder.Passphrase = Fnode.SelectSingleNode("Passphrase").InnerText;
+                        Folder.PrivateKey = Fnode.SelectSingleNode("PrivateKey").InnerText;
 
                         Folder.Status = DriveStatus.Unmounted;
 
@@ -432,7 +446,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return;
         }
 
-        private void MountDrive(ServerModel server, FolderModel folder)
+        private static void MountDrive(ServerModel server, FolderModel folder)
         {
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "Client tries to mount folder \"" + folder.ID + "\" mounted on server \"" + server.ID + "\"");
             SftpDrive drive = new SftpDrive();
