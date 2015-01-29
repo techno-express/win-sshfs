@@ -251,7 +251,7 @@ namespace GUI_WindowsForms
                             switch (server.Type)
                             {
                                 case Sshfs.ConnectionType.Password:
-                                    radioButton_folder_password.Checked = true;
+                                    radioButton_server_password.Checked = true;
                                     break;
 
                                 case Sshfs.ConnectionType.PrivateKey:
@@ -730,7 +730,7 @@ namespace GUI_WindowsForms
             server.Port = (int) numericUpDown_server_port.Value;
 
             if (radioButton_server_pageant.Checked)
-                server.Type = Sshfs.ConnectionType.Password;
+                server.Type = Sshfs.ConnectionType.Pageant;
             else if (radioButton_server_privatekey.Checked)
                 server.Type = Sshfs.ConnectionType.PrivateKey;
             else
@@ -762,18 +762,19 @@ namespace GUI_WindowsForms
                 folder.Username = textBox_folder_username.Text;
                 folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
                 folder.Folder = textBox9_folder_remotedirectory.Text;
+                folder.Automount = checkBox_automount;
 
-                if (radioButton_folder_password.Checked == true)
-                {
-                    folder.Type = Sshfs.ConnectionType.Password;
-                }
                 if (radioButton_folder_privatekey.Checked == true)
                 {
                     folder.Type = Sshfs.ConnectionType.PrivateKey;
                 }
-                if (radioButton_folder_pageant.Checked == true)
+                else if (radioButton_folder_pageant.Checked == true)
                 {
                     folder.Type = Sshfs.ConnectionType.Pageant;
+                }
+                else
+                {
+                    folder.Type = Sshfs.ConnectionType.Password;
                 }
 
                 bone_server.editFolder(server.ID, folder);
