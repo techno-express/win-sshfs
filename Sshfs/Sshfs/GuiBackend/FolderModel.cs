@@ -22,7 +22,9 @@ namespace Sshfs.GuiBackend
         public DriveStatus Status;
         public ConnectionType Type;
         public string VirtualDriveFolder;
-        public bool use_virtual_drive; 
+        public bool use_virtual_drive;
+        public bool Automount;
+
 
         public System.Windows.Forms.TreeNode gui_node = null;
 

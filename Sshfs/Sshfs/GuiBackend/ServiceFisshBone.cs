@@ -220,6 +220,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 foreach(FolderModel FElement in element.Folders)
                 {
                     Folder.AppendChild(doc.CreateElement("GlobalLogin")).InnerText = (FElement.use_global_login.ToString());
+                    Folder.AppendChild(doc.CreateElement("Automount")).InnerText = (FElement.Automount.ToString());
                     Folder.AppendChild(doc.CreateElement("FolderID")).InnerText = FElement.ID.ToString();
                     Folder.AppendChild(doc.CreateElement("Name")).InnerText = FElement.Name;
                     Folder.AppendChild(doc.CreateElement("Note")).InnerText = FElement.Note;
@@ -376,6 +377,17 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                             Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load folder login");
                             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
                             Folder.use_global_login = true;
+                        }
+
+                        try
+                        {
+                            Folder.Automount = Convert.ToBoolean(Fnode.SelectSingleNode("Automount").InnerText);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.writeLog(SimpleMind.Loglevel.Warning, Comp, "Could not load attribute Automount. Set to false");
+                            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                            Folder.Automount = false;
                         }
 
                         if (!Folder.use_global_login)
