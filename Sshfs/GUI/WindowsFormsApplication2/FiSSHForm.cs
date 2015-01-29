@@ -765,6 +765,16 @@ namespace GUI_WindowsForms
                 folder.Folder = textBox9_folder_remotedirectory.Text;
                 folder.Automount = checkBox_automount.Checked;
 
+                try
+                {
+                    folder.Letter = comboBox_folder_driveletter.SelectedItem.ToString().ToCharArray()[0];
+                }
+                catch (NullReferenceException)
+                {
+                    folder.Letter = ' ';
+                }
+
+
                 if (radioButton_folder_privatekey.Checked == true)
                 {
                     folder.Type = Sshfs.ConnectionType.PrivateKey;
