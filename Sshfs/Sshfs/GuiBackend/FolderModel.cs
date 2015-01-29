@@ -35,6 +35,11 @@ namespace Sshfs.GuiBackend
 
         public FolderModel(FolderModel F)
         {
+            this.Set(F);
+        }
+
+        public void Set(FolderModel F)
+        {
             use_global_login = F.use_global_login;
             ID = F.ID;
             Name = F.Name;
@@ -48,10 +53,9 @@ namespace Sshfs.GuiBackend
             Status = F.Status;
             Type = F.Type;
             VirtualDriveFolder = F.VirtualDriveFolder;
-            use_virtual_drive = F.use_virtual_drive; 
-
+            use_virtual_drive = F.use_virtual_drive;
+            Automount = F.Automount;
         }
-
         /// creates a new copy of a FolderModel object
         /**
          * DuplicateFolder creates an copy of the object.

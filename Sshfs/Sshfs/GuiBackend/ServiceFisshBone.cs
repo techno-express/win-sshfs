@@ -866,9 +866,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (local_folder_reference.Name != Folder.Name)
             {
-                local_folder_reference.Name = CheckFolderName(local_server_reference, Folder.Name);
+                Folder.Name = CheckFolderName(local_server_reference, Folder.Name);
             }
-            local_folder_reference.Password = Folder.Password;
+            local_folder_reference.Set(Folder);
+            /*local_folder_reference.Password = Folder.Password;
             local_folder_reference.Passphrase = Folder.Passphrase;
             local_folder_reference.PrivateKey = Folder.PrivateKey;
             local_folder_reference.Username = Folder.Username;
@@ -877,7 +878,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             local_folder_reference.Username = Folder.Username;
             local_folder_reference.VirtualDriveFolder = Folder.VirtualDriveFolder;
             local_folder_reference.use_virtual_drive = Folder.use_virtual_drive;
-            local_folder_reference.use_global_login = Folder.use_global_login;
+            local_folder_reference.use_global_login = Folder.use_global_login;*/
 
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder " + Folder.ID + " has been edit");
             return;
