@@ -39,7 +39,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     public class ServiceFisshBone : IServiceFisshBone 
     {
-        const String Comp = "Backend";
+        const string Comp = "Backend";
+        private static string path_to_config_directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
 
         private static SimpleMind.Loglevel LogLevel;
         private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
@@ -73,7 +74,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             ReconnectAfterWakeUpFlag = true;
 
             //FIXME: finding better place to save connections.xml
-            LoadServerlist(@"c:\Users\thomas");
+            if(!Directory.Exists(path_to_config_directory))
+            {
+                Directory.CreateDirectory(path_to_config_directory);
+            }
+            LoadServerlist(path_to_config_directory);
         }
 
         /// Handle reconnection after wake up
@@ -230,7 +235,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     Folder.AppendChild(doc.CreateElement("Password")).InnerText = "Not Saved";
                     Folder.AppendChild(doc.CreateElement("Passphrase")).InnerText = "Not Saved";
                     Folder.AppendChild(doc.CreateElement("PrivateKey")).InnerText = "Not Saved";
-                    Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
+                    //Folder.AppendChild(doc.CreateElement("Drive Status")).InnerText = DriveStatus.Unmounted.ToString();
 
                     Folderlist.AppendChild(Folder);
                     Folder = doc.CreateElement("Folder");
@@ -832,6 +837,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             local_server_reference.Port = Server.Port;
 
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "server " + Server.ID + " has been edit");
+            SaveServerlist(path_to_config_directory);
             return;
        }
 
@@ -881,6 +887,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             local_folder_reference.use_global_login = Folder.use_global_login;*/
 
             Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder " + Folder.ID + " has been edit");
+            SaveServerlist(path_to_config_directory);
             return;
         }
 
@@ -911,6 +918,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             else
             {
                 LServermodel.Add(newServer);
+                SaveServerlist(path_to_config_directory);
                 return newServer.ID;
             }
         }
@@ -945,13 +953,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (Folder.ID == Guid.Empty)
             {
-                addFolder(ServerID, Folder);
+                return addFolder(ServerID, Folder);
             }
             else
             {
                 server.Folders.Add(Folder);
+                SaveServerlist(path_to_config_directory);
+                return Folder.ID;
             }
-            return Folder.ID;
         }
 
         /// Duplicate a Server
@@ -966,6 +975,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
  
                 newServer.Name = CheckServerName(newServer.Name);
                 LServermodel.Insert(i+1, newServer);
+                SaveServerlist(path_to_config_directory);
                 return newServer.ID;
             }
             catch (Exception e)
@@ -985,6 +995,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 FolderModel newFolder = server.Folders[i].DuplicateFolder();
                 newFolder.Name = CheckFolderName(server, newFolder.Name);
                 server.Folders.Insert(i+1, newFolder);
+                SaveServerlist(path_to_config_directory);
                 return newFolder.ID;
             }
             catch (Exception e)
@@ -1030,6 +1041,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             server.Folders.Remove(folder);
 
+            SaveServerlist(path_to_config_directory);
             return;
         }
 
@@ -1056,6 +1068,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             LServermodel.Remove(server);
 
+            SaveServerlist(path_to_config_directory);
             return;
        }
 
