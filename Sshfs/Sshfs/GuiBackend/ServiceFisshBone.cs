@@ -80,7 +80,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             LoadServerlist(path_to_config_directory);
 
-//            AutoMountAtStartUp();
+            AutoMountAtStartUp();
         }
 
         /// Mount at Software startup
