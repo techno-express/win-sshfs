@@ -319,6 +319,7 @@ namespace GUI_WindowsForms
                             radioButton_folder_virtualdrive.Checked = folder.use_virtual_drive;
                             radioButton_folder_usedrive.Checked = ! folder.use_virtual_drive;
                             textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
+                            checkBox_automount.Checked = folder.Automount;
 
                             //server properties 
                             textBox_server_name.Text = server.Name;
@@ -762,7 +763,7 @@ namespace GUI_WindowsForms
                 folder.Username = textBox_folder_username.Text;
                 folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
                 folder.Folder = textBox9_folder_remotedirectory.Text;
-                folder.Automount = checkBox_automount;
+                folder.Automount = checkBox_automount.Checked;
 
                 if (radioButton_folder_privatekey.Checked == true)
                 {

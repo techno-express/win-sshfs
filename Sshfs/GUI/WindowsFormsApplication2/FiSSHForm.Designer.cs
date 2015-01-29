@@ -59,7 +59,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.textBox_folder_entry = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox_automount = new System.Windows.Forms.CheckBox();
             this.comboBox_folder_driveletter = new System.Windows.Forms.ComboBox();
             this.radioButton_folder_virtualdrive = new System.Windows.Forms.RadioButton();
             this.radioButton_folder_usedrive = new System.Windows.Forms.RadioButton();
@@ -350,7 +350,7 @@
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.textBox_folder_entry);
             this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.checkBox_automount);
             this.groupBox2.Controls.Add(this.comboBox_folder_driveletter);
             this.groupBox2.Controls.Add(this.radioButton_folder_virtualdrive);
             this.groupBox2.Controls.Add(this.radioButton_folder_usedrive);
@@ -428,19 +428,19 @@
             this.label12.Text = "Entry:";
             this.toolTip1.SetToolTip(this.label12, "Here you can write your own name for the connection e.g. pictures");
             // 
-            // checkBox2
+            // checkBox_automount
             // 
-            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.checkBox_automount.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(6, 436);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(144, 17);
-            this.checkBox2.TabIndex = 27;
-            this.checkBox2.Text = "Mount at program startup";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox_automount.AutoSize = true;
+            this.checkBox_automount.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_automount.Location = new System.Drawing.Point(6, 436);
+            this.checkBox_automount.Name = "checkBox_automount";
+            this.checkBox_automount.Size = new System.Drawing.Size(144, 17);
+            this.checkBox_automount.TabIndex = 27;
+            this.checkBox_automount.Text = "Mount at program startup";
+            this.checkBox_automount.UseVisualStyleBackColor = true;
             // 
             // comboBox_folder_driveletter
             // 
@@ -1110,7 +1110,7 @@
         private System.Windows.Forms.RadioButton radioButton_folder_pageant;
         private System.Windows.Forms.RadioButton radioButton_folder_password;
         private System.Windows.Forms.RadioButton radioButton_folder_privatekey;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox_automount;
         private System.Windows.Forms.ComboBox comboBox_folder_driveletter;
         private System.Windows.Forms.RadioButton radioButton_folder_virtualdrive;
         private System.Windows.Forms.RadioButton radioButton_folder_usedrive;
