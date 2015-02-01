@@ -48,14 +48,15 @@
             this.Loglevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Loglevel.FormattingEnabled = true;
             this.Loglevel.Items.AddRange(new object[] {
-            "Debugging",
-            "Warnings",
-            "Errors",
-            "No log"});
+            SimpleMind.Loglevel.Debug,
+            SimpleMind.Loglevel.Warning,
+            SimpleMind.Loglevel.Error,
+            SimpleMind.Loglevel.None});
             this.Loglevel.Location = new System.Drawing.Point(131, 78);
             this.Loglevel.Name = "Loglevel";
             this.Loglevel.Size = new System.Drawing.Size(121, 21);
             this.Loglevel.TabIndex = 2;
+            this.Loglevel.SelectionChangeCommitted += new System.EventHandler(this.Loglevel_SelectedIndexChanged);
             // 
             // virtualdriveletter
             // 
@@ -92,7 +93,7 @@
             this.virtualdriveletter.Name = "virtualdriveletter";
             this.virtualdriveletter.Size = new System.Drawing.Size(121, 21);
             this.virtualdriveletter.TabIndex = 4;
-            this.virtualdriveletter.SelectedIndexChanged += new System.EventHandler(this.virtualdriveletter_SelectedIndexChanged);
+            this.virtualdriveletter.DropDownClosed += new System.EventHandler(this.virtualdriveletter_DropDownClosed);
             // 
             // checkBox_startup
             // 
@@ -114,6 +115,7 @@
             this.checkBox3.TabIndex = 7;
             this.checkBox3.Text = "Reconnect all active connections at wake up";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // label2
             // 

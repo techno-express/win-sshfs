@@ -10,38 +10,55 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.Win32;
 
+using Sshfs.GuiBackend.Remoteable;
+
 namespace GUI_WindowsForms
 {
 
     /// this Form is a combination of the about-window and the Option-Window
     public partial class OptionsForm : Form
     {
+        IServiceFisshBone bone_server;
+
         public OptionsForm()
         {
+            bone_server = IPCConnection.ClientConnect();
             InitializeComponent();
-            Loglevel.SelectedIndex = 0;// Debugging ist beim Start der Form ausgewählt
             writeAvailableDrivesInCombo();
+
+            // Look into registry for autostart and set check box
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey
+                    ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if(registryKey.GetValue("FiSSH") == null)
+            {
+                checkBox_startup.Checked = false;
+            }
+            else
+            {
+                checkBox_startup.Checked = true;
+            }
+
+            checkBox3.Checked = bone_server.IsReconnectAfterWakeUpSet();
+            Loglevel.SelectedIndex = Loglevel.Items.IndexOf(bone_server.getLogLevel());
+
+            char VirtualDriveLetter = bone_server.GetVirtualDriveLetter();
+            virtualdriveletter.Items.Add(VirtualDriveLetter + ":");
+            virtualdriveletter.SelectedIndex = virtualdriveletter.Items.IndexOf(VirtualDriveLetter + ":");
 
         }
        
         private void Loglevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            bone_server.setLogLevel( (SimpleMind.Loglevel) Loglevel.SelectedItem );
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void virtualdriveletter_DropDownClosed(object sender, EventArgs e)
         {
-
-        }
-
-        private void virtualdriveletter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Utilities.GetAvailableDrives() schaut nach den verfügbaren drive letters 
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
+            char c = virtualdriveletter.SelectedItem.ToString().ToCharArray()[0];
+            if (bone_server.GetVirtualDriveLetter() != c)
+            {
+                bone_server.SetVirtualDriveLetter(c);
+            }
         }
 
         /// open the link by clicking the hyperlink
@@ -59,9 +76,14 @@ namespace GUI_WindowsForms
             this.Close();
         }
 
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            bone_server.SetReconnectAfterWakeUp(checkBox3.Checked);
+        }
+
 
         private void checkBox_startup_CheckedChanged_1(object sender, EventArgs e)
-        {     
+        {   
             RegisterInStartup(checkBox_startup.Checked);
         }
 
@@ -109,5 +131,7 @@ namespace GUI_WindowsForms
                 if (IsDriveAvailable((char)i) == true) this.virtualdriveletter.Items.Add((char)i + ":");
             }
         }
+
+
     }
 }
