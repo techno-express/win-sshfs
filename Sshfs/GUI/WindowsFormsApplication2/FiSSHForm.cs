@@ -1224,43 +1224,32 @@ namespace GUI_WindowsForms
 
         private void mountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            TreeNode CountNode = treeView1.SelectedNode;
-            while (CountNode.Nodes.Count - 1 != i)
+            ServerModel server = GetSelectedServerNode();
+            foreach (FolderModel folder in server.Folders)
             {
-                treeView1.SelectedNode = CountNode.Nodes[i];
-
-                ServerModel server = GetSelectedServerNode();
-                FolderModel folder = GetSelectedFolderNode();
-                if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting){
-                    
-                }
-                else
+                try
                 {
-                    if (server == null || folder == null)
+                    if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting)
                     {
-                        //:::FIXME:::
-                        return;
+                        continue;
                     }
-
-
-                    if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                           || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                    else
                     {
-                        return;
+                        if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                               || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
+                        {
+                            return;
+                        }
+
+                        ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
+                        folder.Status = Sshfs.DriveStatus.Mounting;
+
+                        this.MountThread =
+                             new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
+                        MountThread.Start();
                     }
-
-                    ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID, folder.ID));
-                    folder.Status = Sshfs.DriveStatus.Mounting;
-                    //   MountAnimationStart();
-
-                    this.MountThread =
-                         new System.Threading.Thread(new System.Threading.ThreadStart(this.mountToolStripMenuItem_Click_help));
-                    MountThread.Start();
-                }                        
-
-
-                i++;
+                }
+                catch { }
             }
         }
 
