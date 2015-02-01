@@ -1272,25 +1272,19 @@ namespace GUI_WindowsForms
         private void umountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
-            int i = 0;
-            TreeNode CountNode = treeView1.SelectedNode;
-            while (CountNode.Nodes.Count - 1 != i)
+
+            GetDataFromServer();
+            ServerModel server = GetSelectedServerNode();
+            foreach (FolderModel folder in server.Folders)
             {
-                treeView1.SelectedNode = CountNode.Nodes[i];
-
-                ServerModel server = GetSelectedServerNode();
-                FolderModel folder = GetSelectedFolderNode();
-                if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting)
+                try
                 {
-                    if (server == null || folder == null)
+                    if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting)
                     {
-                        //:::FIXME:::
-                        return;
+                        bone_server.UMount(server.ID, folder.ID);
                     }
-
-                    bone_server.UMount(server.ID, folder.ID);
-               }
-                i++;
+                }
+                catch { }
             }
         }
     }
