@@ -642,7 +642,20 @@ namespace GUI_WindowsForms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Title = "Select a private key file";
+
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (treeView1.SelectedNode.Level == 0)
+                {
+                    textBox_server_privatkey.Text = openFileDialog1.FileName;
+                }
+                else if(treeView1.SelectedNode.Level == 1)
+                {
+                    textBox_folder_privat_key.Text = openFileDialog1.FileName;
+                }
+            }
         }
 
         /// opens the option-Form by clicking the option-button
@@ -684,6 +697,7 @@ namespace GUI_WindowsForms
         {
             textBox_folder_privat_key.Enabled = button4.Enabled = true;
             textBox_folder_password.Enabled = false;
+            button2.Enabled = radioButton_folder_privatekey.Checked;
         }
 
         private void radioButton_folder_pageant_CheckedChanged(object sender, EventArgs e)
