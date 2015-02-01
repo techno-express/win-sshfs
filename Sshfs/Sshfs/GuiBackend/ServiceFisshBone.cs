@@ -1184,31 +1184,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return CheckServerName("New server");
             }
 
-            if (LServermodel.Find(x => x.Name == name) == null)
+            while (LServermodel.Find(x => x.Name == name) != null)
             {
-                return name;
+                name = NameExtensionAdd(name);
             }
-            else
-            {
-                var name_array = name.ToArray();
-                // if last char is not a letter
-                if (name_array.Last() < '1' || name_array.Last() > '9')
-                {
-                    return CheckServerName(String.Format(name.ToString() + " 1"));
-                }
-                // if last char is less as a nine
-                else if (name_array.Last() < '9')
-                {
-                    name_array[name_array.Length - 1]++;
-                    return CheckServerName(new String(name_array));
-                }
-                else
-                {
-                    // It would be nice if there is a algorithm which works with higher numbers
-                    // But i wanted to solve this quick without brainfucks
-                    return CheckServerName(new String(name_array) + "-1");
-                }
-            }
+            return name;
         }
 
         public string CheckFolderName(ServerModel server, string name)
@@ -1219,31 +1199,33 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return CheckFolderName(server, "New folder");
             }
 
-            if (server.Folders.Find(x => x.Name == name) == null)
+            
+            while (server.Folders.Find(x => x.Name == name) != null)
             {
-                return name;
+                name = NameExtensionAdd(name);
             }
-            else
+            return name;
+        }
+
+
+        private static string NameExtensionAdd(string name)
+        {
+            int start = name.LastIndexOf('(');
+            int end = name.LastIndexOf(')');
+
+            if (start > 0 && start < end)
             {
-                var name_array = name.ToArray();
-                // if last char is not a letter
-                if (name_array.Last() < '1' || name_array.Last() > '9')
+                string substring = name.Substring(start + 1, end - start - 1);
+                int number = Convert.ToInt32(substring);
+
+                if (substring == number.ToString())
                 {
-                    return CheckFolderName(server, String.Format(name.ToString() + " 1"));
-                }
-                // if last char is less as a nine
-                else if (name_array.Last() < '9')
-                {
-                    name_array[name_array.Length - 1]++;
-                    return CheckFolderName(server, new String(name_array));
-                }
-                else
-                {
-                    // It would be nice if there is a algorithm which works with higher numbers
-                    // But i wanted to solve this quick without brainfucks
-                    return CheckFolderName(server, new String(name_array) + "-1");
+                    number++;
+                    return name.Substring(0, start) + "(" + number + ")";
                 }
             }
+
+            return name + "(1)";
         }
  
         /// Get s free dirve letter
