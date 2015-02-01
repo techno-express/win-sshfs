@@ -108,6 +108,7 @@
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unmountALLFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -177,42 +178,43 @@
             this.deleteToolStripMenuItem1,
             this.duplicateToolStripMenuItem,
             this.mountAllFoldersToolStripMenuItem,
+            this.unmountALLFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(169, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(190, 158);
             // 
             // editToolStripMenuItem1
             // 
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
             this.editToolStripMenuItem1.Text = "Edit";
             this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // deleteToolStripMenuItem1
             // 
             this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
             this.deleteToolStripMenuItem1.Text = "Delete";
             this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // duplicateToolStripMenuItem
             // 
             this.duplicateToolStripMenuItem.Name = "duplicateToolStripMenuItem";
-            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.duplicateToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.duplicateToolStripMenuItem.Text = "Duplicate";
             this.duplicateToolStripMenuItem.Click += new System.EventHandler(this.duplicateToolStripMenuItem_all_Click);
             // 
             // mountAllFoldersToolStripMenuItem
             // 
             this.mountAllFoldersToolStripMenuItem.Name = "mountAllFoldersToolStripMenuItem";
-            this.mountAllFoldersToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.mountAllFoldersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.mountAllFoldersToolStripMenuItem.Text = "Mount All Folders";
             this.mountAllFoldersToolStripMenuItem.Click += new System.EventHandler(this.mountAllFoldersToolStripMenuItem_Click);
             // 
             // addNewFolderToolStripMenuItem
             // 
             this.addNewFolderToolStripMenuItem.Name = "addNewFolderToolStripMenuItem";
-            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.addNewFolderToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.addNewFolderToolStripMenuItem.Text = "Add New Folder";
             this.addNewFolderToolStripMenuItem.Click += new System.EventHandler(this.addNewFolderToolStripMenuItem_Click);
             // 
@@ -1024,6 +1026,13 @@
             this.closeApplicationToolStripMenuItem.Text = "Close Application";
             this.closeApplicationToolStripMenuItem.Click += new System.EventHandler(this.closeApplicationToolStripMenuItem_Click);
             // 
+            // unmountALLFoldersToolStripMenuItem
+            // 
+            this.unmountALLFoldersToolStripMenuItem.Name = "unmountALLFoldersToolStripMenuItem";
+            this.unmountALLFoldersToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.unmountALLFoldersToolStripMenuItem.Text = "Unmount ALL Folders";
+            this.unmountALLFoldersToolStripMenuItem.Click += new System.EventHandler(this.umountAllFoldersToolStripMenuItem_Click);
+            // 
             // FiSSHForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1139,6 +1148,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripMenuItem duplicateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unmountALLFoldersToolStripMenuItem;
     }
 }
 

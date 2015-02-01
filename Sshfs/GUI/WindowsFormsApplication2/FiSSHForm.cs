@@ -1268,5 +1268,30 @@ namespace GUI_WindowsForms
         {
             addFolder();
         }
+
+        private void umountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+            int i = 0;
+            TreeNode CountNode = treeView1.SelectedNode;
+            while (CountNode.Nodes.Count - 1 != i)
+            {
+                treeView1.SelectedNode = CountNode.Nodes[i];
+
+                ServerModel server = GetSelectedServerNode();
+                FolderModel folder = GetSelectedFolderNode();
+                if (folder.Status == Sshfs.DriveStatus.Mounted || folder.Status == Sshfs.DriveStatus.Mounting)
+                {
+                    if (server == null || folder == null)
+                    {
+                        //:::FIXME:::
+                        return;
+                    }
+
+                    bone_server.UMount(server.ID, folder.ID);
+               }
+                i++;
+            }
+        }
     }
 }
