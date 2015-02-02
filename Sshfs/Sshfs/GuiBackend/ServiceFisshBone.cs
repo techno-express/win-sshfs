@@ -42,7 +42,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         const string Comp = "Backend";
         private static string path_to_config_directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
 
-        private static SimpleMind.Loglevel LogLevel;
         private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
 
         private static bool StartWithSystemstartFlag;
@@ -64,16 +63,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             // Wake up event handler
             SystemEvents.PowerModeChanged += WakeUpHandler;
 
-            VirtualDrive.Letter = GetFreeDriveLetter();
+            LoadConfiguration(path_to_config_directory);
+
+            if(! IsDriveAvailable(VirtualDrive.Letter))
+            {
+                VirtualDrive.Letter = GetFreeDriveLetter();
+            }
             VirtualDrive.Mount();
 
-            LogLevel = SimpleMind.Loglevel.Debug;
-            Log.setLogLevel((int) LogLevel);
-
-            StartWithSystemstartFlag = false;
-            ReconnectAfterWakeUpFlag = true;
-
-            //FIXME: finding better place to save connections.xml
             if(!Directory.Exists(path_to_config_directory))
             {
                 Directory.CreateDirectory(path_to_config_directory);
@@ -446,6 +443,104 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
 
         }
+
+
+        ///Saving Configurations into an XML file
+        /**
+         * SaveConfiguration() gets a string with the path, where to save the file config.xml
+         * It saves all configurations to this XML file. 
+         * 
+         * @param String Savepath-Path where the XML file will be saved
+         * 
+         */
+        public void SaveConfiguration(String Savepath)
+        {
+
+            XmlDocument doc = new XmlDocument();
+            XmlNode Config;
+            XmlDeclaration XmlDec;
+
+            Config = doc.CreateElement("Configuration");
+
+            XmlDec = doc.CreateXmlDeclaration("1.0", null, null);
+
+            Config.AppendChild(doc.CreateElement("VirtualDriveLetter")).InnerText = VirtualDrive.Letter.ToString();
+            Config.AppendChild(doc.CreateElement("ReconnectAfterWakeUp")).InnerText = ReconnectAfterWakeUpFlag.ToString();
+            Config.AppendChild(doc.CreateElement("LogLevel")).InnerText = "" + (int) Log.getLogLevel();
+
+            doc.AppendChild(Config);
+            doc.InsertBefore(XmlDec, Config);
+            try
+            {
+
+                if (Savepath.EndsWith(@"\"))
+                {
+                    Savepath.Remove(Savepath.Length - 1);
+                }
+
+                doc.Save(Savepath + @"\config.xml");
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not save Configuration.");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+            }
+        }
+
+        ///Load Configuration from an XML file
+        /**
+         * LoadConfiguration() gets a string with the path, where the file config.xml is saved.
+         * It loads the configuration saved in the XML file.
+         * 
+         * @param String Savepath-Path where the XML file is saved
+         * 
+         */
+        private static void LoadConfiguration(String Savepath)
+        {
+            bool error_on_load = false;
+            XmlDocument doc = new XmlDocument();
+
+            if (Savepath.EndsWith(@"\"))
+            {
+                Savepath.Remove(Savepath.Length - 1);
+            }
+
+            try
+            {
+                doc.Load(Savepath + @"\config.xml");
+            }
+
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not load configurations!");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                error_on_load = true;
+                VirtualDrive.Letter = 'Z';
+                ReconnectAfterWakeUpFlag = false;
+                Log.setLogLevel((int)SimpleMind.Loglevel.None);
+            }
+
+            if (!error_on_load)
+            {
+                XmlNode config = doc.DocumentElement;//.SelectSingleNode("Configuration");
+
+
+                try
+                {
+                    VirtualDrive.Letter = config.SelectSingleNode("VirtualDriveLetter").InnerText.ToCharArray()[0];
+                    ReconnectAfterWakeUpFlag = Convert.ToBoolean(config.SelectSingleNode("ReconnectAfterWakeUp").InnerText);
+                    Log.setLogLevel(Convert.ToInt32(config.SelectSingleNode("LogLevel").InnerText));
+                }
+                catch
+                {
+                    VirtualDrive.Letter = 'Z';
+                    ReconnectAfterWakeUpFlag = false;
+                    Log.setLogLevel((int)SimpleMind.Loglevel.None);
+                }
+            }
+
+        }
+
 
         /// Look into virtual drive
         /**
@@ -1108,15 +1203,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         /// Set the Loglevel in Backend
         public void setLogLevel(SimpleMind.Loglevel newLogLevel)
         {
-            LogLevel = newLogLevel;
-            Log.setLogLevel((int)LogLevel);
-            // Hier Speicherfunktion aufrufen :::FIXME:::
+            Log.setLogLevel((int)newLogLevel);
+            SaveConfiguration(path_to_config_directory);
         }
 
         /// Get the Loglevel in Backend return value is the Loglevel after update
         public SimpleMind.Loglevel getLogLevel()
         {
-            return LogLevel;
+            return (SimpleMind.Loglevel)Log.getLogLevel();
         }
 
         /// Get "Start Software with Systemstart" flag
@@ -1142,7 +1236,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         public void SetReconnectAfterWakeUp(bool TrueMeansYes)
         {
             ReconnectAfterWakeUpFlag = TrueMeansYes;
-            // Hier Speicherfunktion einfügen :::FIXME:::
+            SaveConfiguration(path_to_config_directory);
         }
         
         /// Get virtual drive letter
@@ -1168,6 +1262,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         LookIntoVirtualDrive(i.Value.MountPoint);
                     }
                 }
+
+                SaveConfiguration(path_to_config_directory);
             }
             else
             {
