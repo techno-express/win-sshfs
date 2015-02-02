@@ -138,7 +138,24 @@ namespace GUI_WindowsForms
             GetDataFromServer();
             ServerModel server = GetSelectedServerNode();
 
-            if (server == null) { return; }
+            if (server == null)
+            {
+                mountToolStripMenuItem.Enabled = 
+                    unmountToolStripMenuItem.Enabled =
+                    editToolStripMenuItem1.Enabled =
+                    editToolStripMenuItem.Enabled =
+                    deleteToolStripMenuItem.Enabled =
+                    deleteToolStripMenuItem1.Enabled =
+                    mountToolStripMenuItem.Enabled =
+                    mountToolStripMenuItem2.Enabled =
+                    editToolStripMenuItem.Enabled =
+                    editToolStripMenuItem2.Enabled =
+                    deleteToolStripMenuItem1.Enabled =
+                    deleteToolStripMenuItem2.Enabled =
+                    unmountToolStripMenuItem1.Enabled =
+                    unmountToolStripMenuItem.Enabled =
+                    openInExplorerToolStripMenuItem.Enabled = false;
+                return; }
 
             switch (treeView1.SelectedNode.Level)
             {
@@ -176,7 +193,23 @@ namespace GUI_WindowsForms
                     try { folder = GetSelectedFolderNode(); }
                     catch { }
 
-                    if (folder != null)
+                    if (folder == null)
+                    {
+                         mountToolStripMenuItem.Enabled =
+                            mountToolStripMenuItem2.Enabled = 
+                            editToolStripMenuItem.Enabled =
+                            editToolStripMenuItem2.Enabled =
+                            deleteToolStripMenuItem.Enabled =
+                            deleteToolStripMenuItem1.Enabled =
+                            deleteToolStripMenuItem2.Enabled =
+                            unmountToolStripMenuItem1.Enabled =
+                            unmountToolStripMenuItem.Enabled = 
+                            openInExplorerToolStripMenuItem.Enabled = false;
+                            mountToolStripMenuItem.Enabled = false;
+                            unmountToolStripMenuItem.Enabled = false;
+                        return;
+                    }
+                    else
                     {
                         mountToolStripMenuItem.Enabled =
                             mountToolStripMenuItem2.Enabled = 
@@ -225,11 +258,7 @@ namespace GUI_WindowsForms
                                 break;
                         }
                     }
-                    else
-                    {
-                        mountToolStripMenuItem.Enabled = false;
-                        unmountToolStripMenuItem.Enabled = false;
-                    }
+
 
                     break;
                     #endregion
@@ -1261,7 +1290,7 @@ namespace GUI_WindowsForms
             timer_animation.Enabled = false;
             mountToolStripMenuItem.Image = imageList1.Images[0];
             mountToolStripMenuItem.Text = "Mount";
-            deleteToolStripMenuItem.Enabled = true;
+            //deleteToolStripMenuItem.Enabled = true;
         }
 
         private void addServer()
