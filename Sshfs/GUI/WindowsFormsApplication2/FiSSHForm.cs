@@ -730,6 +730,18 @@ namespace GUI_WindowsForms
         private void radioButton_folder_virtualdrive_CheckedChanged(object sender, EventArgs e)
         {
             comboBox_folder_driveletter.Enabled = false;
+
+            FolderModel folder = GetSelectedFolderNode();
+
+            // default virtual drive directory
+            if (folder.VirtualDriveFolder == "")
+            {
+                textBox_folder_virtual_drive.Text = folder.Name + " directory";
+            }
+            else
+            {
+                textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
+            }
         }
 
         private void button_server_savechanges_Click(object sender, EventArgs e)
