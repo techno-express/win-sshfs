@@ -689,37 +689,62 @@ namespace GUI_WindowsForms
 
         private void radioButton_folder_password_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_folder_privat_key.Enabled = button4.Enabled = false;
-            textBox_folder_password.Enabled = true;
+            if (radioButton_folder_password.Checked)
+            {
+                textBox_folder_password.Enabled = true;
+
+                textBox_folder_privat_key.Enabled =
+                    button2.Enabled =
+                    textBox_folder_virtual_drive.Enabled = false;
+            }
         }
 
         private void radioButton_folder_privatkey_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_folder_privat_key.Enabled = button4.Enabled = true;
-            textBox_folder_password.Enabled = false;
-            button2.Enabled = radioButton_folder_privatekey.Checked;
+            if(radioButton_folder_privatekey.Checked)
+            {
+                textBox_folder_privat_key.Enabled =
+                    button2.Enabled = true;
+
+                textBox_folder_password.Enabled =
+                    textBox_folder_virtual_drive.Enabled = false;
+            }
         }
 
         private void radioButton_folder_pageant_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_folder_privat_key.Enabled = button4.Enabled = textBox_folder_password.Enabled = false;
+            if (radioButton_folder_pageant.Checked)
+            {
+                textBox_folder_privat_key.Enabled = 
+                    button2.Enabled = 
+                    textBox_folder_password.Enabled = false;
+            }
         }
 
         private void radioButton_server_password_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_server_privatkey.Enabled = button1.Enabled = false;
-            textBox_server_password.Enabled = true;
+            if (radioButton_server_password.Checked)
+            {
+                textBox_server_privatkey.Enabled = button1.Enabled = false;
+                textBox_server_password.Enabled = true;
+            }
         }
 
-        private void radioButton_folder_privatekey_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_serverprivatekey_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_server_privatkey.Enabled = button1.Enabled = true;
-            textBox_server_password.Enabled = false;
+            if (radioButton_server_privatekey.Checked)
+            {
+                textBox_server_privatkey.Enabled = button1.Enabled = true;
+                textBox_server_password.Enabled = false;
+            }
         }
 
         private void radioButton_server_pageant_CheckedChanged(object sender, EventArgs e)
         {
-            textBox_server_privatkey.Enabled = button1.Enabled = textBox_server_password.Enabled = false;
+            if (radioButton_server_pageant.Checked)
+            {
+                textBox_server_privatkey.Enabled = button1.Enabled = textBox_server_password.Enabled = false;
+            }
         }
 
         private void radioButton_folder_usedrive_CheckedChanged(object sender, EventArgs e)

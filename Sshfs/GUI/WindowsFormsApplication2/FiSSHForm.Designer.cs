@@ -784,7 +784,7 @@
             this.radioButton_server_privatekey.TabStop = true;
             this.radioButton_server_privatekey.Text = "Private Key";
             this.radioButton_server_privatekey.UseVisualStyleBackColor = true;
-            this.radioButton_server_privatekey.CheckedChanged += new System.EventHandler(this.radioButton_folder_privatekey_CheckedChanged);
+            this.radioButton_server_privatekey.CheckedChanged += new System.EventHandler(this.radioButton_serverprivatekey_CheckedChanged);
             // 
             // radioButton_server_password
             // 
