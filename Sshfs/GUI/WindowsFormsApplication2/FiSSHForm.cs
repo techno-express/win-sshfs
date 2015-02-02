@@ -373,6 +373,12 @@ namespace GUI_WindowsForms
                             textBox_server_name.Text = server.Name;
                             textBox_server_ip.Text = server.Host;
                             numericUpDown_server_port.Value = server.Port;
+                            if (checkBox_folder_usedefaultaccound.Checked)
+                            {
+                                textBox_folder_username.Text = server.Username;
+                                textBox_folder_password.Text = server.Password;
+                                textBox_folder_privat_key.Text = server.PrivateKey;
+                            }
 
                             switch (folder.Type)
                             {
@@ -1241,6 +1247,7 @@ namespace GUI_WindowsForms
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = new FolderModel();
             folder.Name = "New Folder";
+            folder.use_global_login = true;
             TreeNode newNode = MakeFolderNode(folder);
             newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
 
