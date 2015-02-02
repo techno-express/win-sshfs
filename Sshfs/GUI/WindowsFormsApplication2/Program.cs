@@ -23,6 +23,7 @@ namespace GUI_WindowsForms
             ProcessStartInfo startEXE = new ProcessStartInfo();
             startEXE.FileName = "ConsoleApplication1.exe";
             startEXE.WorkingDirectory = @"C:\Users\thomas\Documents\GitHub\win-sshfs\Sshfs\FiSSHBone\bin\Debug";
+            startEXE.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startEXE.ErrorDialog = true;
 
             if (Process.Start(startEXE) != null && StartGUI)
