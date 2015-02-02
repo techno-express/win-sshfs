@@ -1174,6 +1174,43 @@ namespace GUI_WindowsForms
                 node.Tag = folder.Name;
                 node.Text = text;
             }
+            
+            switch (folder.Status)
+            {
+                case Sshfs.DriveStatus.Mounting:
+                    if (node.ImageIndex != 13)
+                    {
+                        node.ImageIndex =
+                        node.SelectedImageIndex = 13;
+                    }
+
+                    break;
+
+                case Sshfs.DriveStatus.Mounted:
+                    if (node.ImageIndex != 12)
+                    {
+                        node.ImageIndex =
+                            node.SelectedImageIndex = 12;
+                    }
+                        break;
+
+                case Sshfs.DriveStatus.Error:
+                        if (node.ImageIndex != 14)
+                        {
+                            node.ImageIndex =
+                                node.SelectedImageIndex = 14;
+                        }
+                    break;
+
+                default:
+                    if (node.ImageIndex != 4)
+                    {
+                        node.ImageIndex =
+                            node.SelectedImageIndex = 4;
+                    }
+                    break;
+            }
+             
         }
 
         private ServerModel GetSelectedServerNode()

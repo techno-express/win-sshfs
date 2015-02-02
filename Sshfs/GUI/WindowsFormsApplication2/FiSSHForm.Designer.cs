@@ -973,6 +973,9 @@
             this.imageList1.Images.SetKeyName(9, "Ordner hinzufügen.png");
             this.imageList1.Images.SetKeyName(10, "Ordner.png");
             this.imageList1.Images.SetKeyName(11, "Server hinzufügen.png");
+            this.imageList1.Images.SetKeyName(12, "Ordner gemountet.png");
+            this.imageList1.Images.SetKeyName(13, "Ordner mounten.png");
+            this.imageList1.Images.SetKeyName(14, "Ordner fehler.png");
             // 
             // button_windowexpand
             // 
