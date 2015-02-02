@@ -1079,6 +1079,11 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             Folder.ID = Guid.NewGuid();
             Folder.Name = CheckFolderName(server, Folder.Name);
 
+            if(Folder.Letter <= 'A' || Folder.Letter >= 'Z')
+            {
+                Folder.Letter = GetFreeDriveLetter();
+            }
+
             if (Folder.ID == Guid.Empty)
             {
                 return addFolder(ServerID, Folder);
@@ -1369,6 +1374,16 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             else
             {
+                foreach(ServerModel server in LServermodel)
+                {
+                    foreach(FolderModel folder in server.Folders)
+                    {
+                        if(! folder.use_virtual_drive && folder.Letter == letter)
+                        {
+                            return false;
+                        }
+                    }
+                }
                 return true;
             }
         }
