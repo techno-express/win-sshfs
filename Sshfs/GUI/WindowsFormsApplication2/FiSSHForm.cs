@@ -161,24 +161,31 @@ namespace GUI_WindowsForms
 
                     if (folder != null)
                     {
+                        mountToolStripMenuItem.Enabled =
+                            mountToolStripMenuItem2.Enabled = true;
+
+                        unmountToolStripMenuItem1.Enabled =
+                            unmountToolStripMenuItem.Enabled = 
+                            openInExplorerToolStripMenuItem.Enabled = false;
+
                         switch (folder.Status)
                         {
                             case Sshfs.DriveStatus.Mounted:
                                 MountAnimatonStop();
-                                mountToolStripMenuItem.Enabled = false;
-                                unmountToolStripMenuItem.Enabled = true;
+                                mountToolStripMenuItem.Enabled = 
+                                    mountToolStripMenuItem2.Enabled = false;
+    
+                                unmountToolStripMenuItem.Enabled =
+                                    unmountToolStripMenuItem1.Enabled =
+                                    openInExplorerToolStripMenuItem.Enabled = true;
                                 break;
 
                             case Sshfs.DriveStatus.Mounting:
                                 MountAnimationStart();
-                                mountToolStripMenuItem.Enabled = true;
-                                unmountToolStripMenuItem.Enabled = false;
                                 break;
 
                             default:
                                 MountAnimatonStop();
-                                mountToolStripMenuItem.Enabled = true;
-                                unmountToolStripMenuItem.Enabled = false;
                                 break;
                         }
                     }
@@ -1413,29 +1420,6 @@ namespace GUI_WindowsForms
                 }
             }
 
-        }
-
-        private void contextMenuStrip2_Opened(object sender, EventArgs e)
-        {
-            FolderModel folder = GetSelectedFolderNode();
-
-            if (folder == null)
-            {
-                return;
-            }
-
-            if (folder.Status == Sshfs.DriveStatus.Mounted)
-            {
-                mountToolStripMenuItem2.Enabled = false;
-                    unmountToolStripMenuItem1.Enabled =
-                    openInExplorerToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                mountToolStripMenuItem2.Enabled = true;
-                    unmountToolStripMenuItem1.Enabled =
-                    openInExplorerToolStripMenuItem.Enabled = false;
-            }
         }
     }
 }
