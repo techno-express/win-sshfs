@@ -1293,14 +1293,7 @@ namespace GUI_WindowsForms
             //deleteToolStripMenuItem.Enabled = true;
         }
 
-        private void addServer()
-        {
-            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
-            ServerModel server = new ServerModel();
-            bone_server.addServer(server);
-            server.Name = "new Server";
-            server.Port = 22;
-        }
+
 
         private void addFolder()
         {
@@ -1464,6 +1457,7 @@ namespace GUI_WindowsForms
                     IServiceFisshBone bone_server = IPCConnection.ClientConnect();
                     ServerModel server = new ServerModel();
                     server.Name = "New Server";
+                    server.Port = 22;
                     TreeNode newNode = MakeServerNode(server);
                     CreateAddFolderNode(newNode);
                     newNode.Name = bone_server.addServer(server).ToString();

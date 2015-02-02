@@ -723,6 +723,7 @@
             this.checkBox_folder_usedefaultaccound.Size = new System.Drawing.Size(125, 17);
             this.checkBox_folder_usedefaultaccound.TabIndex = 15;
             this.checkBox_folder_usedefaultaccound.Text = "Use Default Account";
+            this.toolTip1.SetToolTip(this.checkBox_folder_usedefaultaccound, "use account that has been stored in server tree node");
             this.checkBox_folder_usedefaultaccound.UseVisualStyleBackColor = true;
             this.checkBox_folder_usedefaultaccound.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
