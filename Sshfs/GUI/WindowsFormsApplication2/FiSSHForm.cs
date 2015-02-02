@@ -1344,11 +1344,18 @@ namespace GUI_WindowsForms
 
             if (treeView1.SelectedNode.Level == 1 && folder != null)
             {
-                bone_server.removeFolder(server.ID, folder.ID);
-                treeView1.SelectedNode.Remove();
+                DialogResult dialogResult = MessageBox.Show("Do you want to delete the folder?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    bone_server.removeFolder(server.ID, folder.ID);
+                    treeView1.SelectedNode.Remove();
+                }
+                
             }
             else if(treeView1.SelectedNode.Level == 0 && server != null)
             {
+                DialogResult dialogResult = MessageBox.Show("Do you want to delete the server and all including folders?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 bone_server.removeServer(server.ID);
                 treeView1.SelectedNode.Remove();
             }
