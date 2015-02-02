@@ -292,6 +292,9 @@ namespace GUI_WindowsForms
                             textBox_server_privatkey.Text = server.PrivateKey;
                             textBox_server_password.Text = server.Password;
 
+                            radioButton_folder_pageant.Checked =
+                                radioButton_folder_password.Checked =
+                                radioButton_folder_privatekey.Checked = false;
 
                             switch (server.Type)
                             {
@@ -810,7 +813,7 @@ namespace GUI_WindowsForms
                 FolderModel folder = GetSelectedFolderNode();
 
                 // default virtual drive directory
-                if (folder.VirtualDriveFolder == "")
+                if (folder.VirtualDriveFolder == "" || folder.VirtualDriveFolder == null)
                 {
                     textBox_folder_virtual_drive.Text = folder.Name + " directory";
                 }
@@ -818,6 +821,10 @@ namespace GUI_WindowsForms
                 {
                     textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
                 }
+            }
+            else
+            {
+                textBox_folder_virtual_drive.Enabled = false;
             }
         }
 
