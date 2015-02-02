@@ -916,24 +916,28 @@ namespace GUI_WindowsForms
        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
 
-            ServerModel server = GetSelectedServerNode();
-            FolderModel folder = GetSelectedFolderNode();
+           ServerModel server = GetSelectedServerNode();
+           FolderModel folder = GetSelectedFolderNode();
 
-            if (server == null || folder == null)
-            {
-                //:::FIXME:::
-                return;
-            }
+           if (server == null || folder == null)
+           {
+               //:::FIXME:::
+               return;
+           }
 
+           if (!IsEveryThingSet(server, folder))
+           {
+               return;
+           }
           
-            if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
-                   || ToMount.Contains(new Tuple<Guid,Guid>(server.ID, folder.ID) ))
-            {
-                return;
-            }
+           if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
+                  || ToMount.Contains(new Tuple<Guid,Guid>(server.ID, folder.ID) ))
+           {
+               return;
+           }
 
-            ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID,folder.ID));
-            folder.Status = Sshfs.DriveStatus.Mounting;
+           ToMount.Enqueue(new Tuple<Guid, Guid>(server.ID,folder.ID));
+           folder.Status = Sshfs.DriveStatus.Mounting;
          //   MountAnimationStart();
 
            this.MountThread =
@@ -1209,6 +1213,42 @@ namespace GUI_WindowsForms
                 if (IsDriveAvailable((char)i) == true) this.comboBox_folder_driveletter.Items.Add((char)i + ":");
             }
         }
+
+        private bool IsEveryThingSet(ServerModel server, FolderModel folder)
+        {
+            string not_set = "";
+
+            if(server.Host == "" || server.Host == null)
+            {
+                not_set += "IP address, ";
+            }
+
+            if (folder.use_global_login)
+            {
+                if(server.Username == "" || server.Username == null)
+                {
+                    not_set += "default username, ";
+                }
+            }
+            else
+            {
+                if(folder.Username == "" || folder.Username == null)
+                {
+                    not_set += "username, ";
+                }
+            }
+
+            if(not_set == "")
+            {
+                return true;
+            }
+            else
+            {
+                not_set = not_set.Substring(0, not_set.Length-2);
+                MessageBox.Show("Cannot mount drive. Following parameters are not set: " + not_set );
+                return false;
+            }
+        }
         #endregion
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1294,6 +1334,11 @@ namespace GUI_WindowsForms
                     }
                     else
                     {
+                        if (!IsEveryThingSet(server, folder))
+                        {
+                            continue;
+                        }
+
                         if (0 < MountingIDs.IndexOf(new Tuple<Guid, Guid>(server.ID, folder.ID))
                                || ToMount.Contains(new Tuple<Guid, Guid>(server.ID, folder.ID)))
                         {
