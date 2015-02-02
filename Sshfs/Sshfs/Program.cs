@@ -18,7 +18,6 @@ namespace Sshfs
         [STAThread]
         private static void Main(params string[] args )
         {
-
 #if DEBUG
             Debug.AutoFlush = true;
             Debug.Listeners.Clear();

@@ -28,8 +28,7 @@ namespace Sshfs.GuiBackend
 
         public System.Windows.Forms.TreeNode gui_node = null;
 
-        public bool Automount { get; set; }
-
+        
         //public ConnectionType ConnectionType {get; set; }
         //public DriveStatus Status { get; set; }
 

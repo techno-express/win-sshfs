@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sshfs.GuiBackend.Remoteable;
+using System.Diagnostics;
 
 namespace GUI_WindowsForms
 {
@@ -15,9 +16,18 @@ namespace GUI_WindowsForms
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FiSSHForm());
+            //start ServiceHost
+            ProcessStartInfo startEXE = new ProcessStartInfo();
+            startEXE.FileName = "ConsoleApplication1.exe";
+            startEXE.WorkingDirectory = @"C:\Users\thomas\Documents\GitHub\win-sshfs\Sshfs\FiSSHBone\bin\Debug";
+            startEXE.ErrorDialog = true;
+
+            if (Process.Start(startEXE) != null)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FiSSHForm());
+            }
         }
     }
 }
