@@ -65,11 +65,19 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             LoadConfiguration(path_to_config_directory);
 
-            if(! IsDriveAvailable(VirtualDrive.Letter))
+            try
             {
-                VirtualDrive.Letter = GetFreeDriveLetter();
+                if (!IsDriveAvailable(VirtualDrive.Letter))
+                {
+                    VirtualDrive.Letter = GetFreeDriveLetter();
+                }
+                VirtualDrive.Mount();
             }
-            VirtualDrive.Mount();
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("Cannot start Software. There is no free drive letter.");
+                Environment.Exit(1);
+            }
 
             if(!Directory.Exists(path_to_config_directory))
             {
@@ -1081,7 +1089,14 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if(Folder.Letter <= 'A' || Folder.Letter >= 'Z')
             {
-                Folder.Letter = GetFreeDriveLetter();
+                try
+                {
+                    Folder.Letter = GetFreeDriveLetter();
+                }
+                catch
+                {
+                    Folder.Letter = 'Z';
+                }
             }
 
             if (Folder.ID == Guid.Empty)
@@ -1256,8 +1271,25 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             if (IsDriveAvailable(letter))
             {
                 VirtualDrive.Unmount();
-                VirtualDrive.Letter = letter;
-                VirtualDrive.Mount();
+
+                if (IsDriveAvailable(letter))
+                {
+                    VirtualDrive.Letter = letter;
+                }
+                else
+                {
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "SetVirtualDriveLetter() got unavailable drive letter.");
+                }
+
+                try
+                {
+                    VirtualDrive.Mount();
+                }
+                catch
+                {
+                    Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Cannot mount virtual drive. Maybe there is not available drive letter.");
+                    Environment.Exit(1);
+                }
 
                 // look into every virtual drive so they will be mounted
                 foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
