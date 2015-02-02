@@ -1369,5 +1369,28 @@ namespace GUI_WindowsForms
             }
 
         }
+
+        private void contextMenuStrip2_Opened(object sender, EventArgs e)
+        {
+            FolderModel folder = GetSelectedFolderNode();
+
+            if (folder == null)
+            {
+                return;
+            }
+
+            if (folder.Status == Sshfs.DriveStatus.Mounted)
+            {
+                mountToolStripMenuItem2.Enabled = false;
+                    unmountToolStripMenuItem1.Enabled =
+                    openInExplorerToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                mountToolStripMenuItem2.Enabled = true;
+                    unmountToolStripMenuItem1.Enabled =
+                    openInExplorerToolStripMenuItem.Enabled = false;
+            }
+        }
     }
 }

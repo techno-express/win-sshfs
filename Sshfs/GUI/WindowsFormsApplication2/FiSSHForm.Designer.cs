@@ -130,6 +130,7 @@
             this.openInExplorerToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
             this.contextMenuStrip2.Size = new System.Drawing.Size(183, 136);
+            this.contextMenuStrip2.Opened += new System.EventHandler(this.contextMenuStrip2_Opened);
             // 
             // mountToolStripMenuItem2
             // 
