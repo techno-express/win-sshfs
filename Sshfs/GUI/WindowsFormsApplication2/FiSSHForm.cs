@@ -1277,9 +1277,18 @@ namespace GUI_WindowsForms
         private void writeAvailableDrivesInCombo()
         {
             this.comboBox_folder_driveletter.Items.Clear();
+            FolderModel folder = GetSelectedFolderNode();
             for (int i = 'Z'; i >= 'A'; i--)
             {
-                if (IsDriveAvailable((char)i) == true) this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                if (IsDriveAvailable((char)i) == true) 
+                    this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                else if(folder != null)
+                {
+                    if(folder.Letter == (char)i)
+                    {
+                        this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                    }  
+                }
             }
         }
 
