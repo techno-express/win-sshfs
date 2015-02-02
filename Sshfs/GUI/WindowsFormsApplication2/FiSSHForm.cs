@@ -1356,8 +1356,11 @@ namespace GUI_WindowsForms
             {
                 DialogResult dialogResult = MessageBox.Show("Do you want to delete the server and all including folders?", "", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
-                bone_server.removeServer(server.ID);
-                treeView1.SelectedNode.Remove();
+                {
+                    bone_server.removeServer(server.ID);
+                    treeView1.SelectedNode.Remove();
+                }
+                
             }
         }
 
