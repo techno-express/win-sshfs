@@ -749,23 +749,31 @@ namespace GUI_WindowsForms
 
         private void radioButton_folder_usedrive_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox_folder_driveletter.Enabled = true;
+            if (radioButton_folder_usedrive.Checked)
+            {
+                comboBox_folder_driveletter.Enabled = true;
+                textBox_folder_virtual_drive.Enabled = false;
+            }
         }
 
         private void radioButton_folder_virtualdrive_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox_folder_driveletter.Enabled = false;
-
-            FolderModel folder = GetSelectedFolderNode();
-
-            // default virtual drive directory
-            if (folder.VirtualDriveFolder == "")
+            if (radioButton_folder_virtualdrive.Checked)
             {
-                textBox_folder_virtual_drive.Text = folder.Name + " directory";
-            }
-            else
-            {
-                textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
+                comboBox_folder_driveletter.Enabled = false;
+                textBox_folder_virtual_drive.Enabled = true;
+
+                FolderModel folder = GetSelectedFolderNode();
+
+                // default virtual drive directory
+                if (folder.VirtualDriveFolder == "")
+                {
+                    textBox_folder_virtual_drive.Text = folder.Name + " directory";
+                }
+                else
+                {
+                    textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
+                }
             }
         }
 
