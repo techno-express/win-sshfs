@@ -135,9 +135,10 @@ namespace GUI_WindowsForms
 
         private void UpdateMenuBar()
         {
-             GetDataFromServer();
+            GetDataFromServer();
+            ServerModel server = GetSelectedServerNode();
 
-            if (treeView1.SelectedNode == null) { return; }
+            if (server == null) { return; }
 
             switch (treeView1.SelectedNode.Level)
             {
@@ -170,8 +171,6 @@ namespace GUI_WindowsForms
 
                 case 1:
                     #region folder_node
-                    // get server which is presented by selected parent node
-                    ServerModel server = GetSelectedServerNode();
                     // get folder which is presented by selected node
                     FolderModel folder = null;
                     try { folder = GetSelectedFolderNode(); }
@@ -1173,30 +1172,44 @@ namespace GUI_WindowsForms
 
         private ServerModel GetSelectedServerNode()
         {
-            switch (treeView1.SelectedNode.Level)
+            try
             {
-                case 0: //return datamodel.ElementAt(treeView1.SelectedNode.Index);
-                    return datamodel.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
+                switch (treeView1.SelectedNode.Level)
+                {
+                    case 0: //return datamodel.ElementAt(treeView1.SelectedNode.Index);
+                        return datamodel.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
 
-                case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index);
-                    return datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
+                    case 1: //return datamodel.ElementAt(treeView1.SelectedNode.Parent.Index);
+                        return datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
 
-                default: return null;
+                    default: return null;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
 
         private FolderModel GetSelectedFolderNode()
         {
-            switch (treeView1.SelectedNode.Level)
+            try
             {
-                case 0: return null;
+                switch (treeView1.SelectedNode.Level)
+                {
+                    case 0: return null;
 
-                case 1: 
-                    ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
-                    return server.Folders.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
+                    case 1:
+                        ServerModel server = datamodel.Find(x => treeView1.SelectedNode.Parent.Name == x.ID.ToString());
+                        return server.Folders.Find(x => treeView1.SelectedNode.Name == x.ID.ToString());
 
-                default: return null;
+                    default: return null;
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
 
