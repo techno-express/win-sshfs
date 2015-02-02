@@ -170,6 +170,7 @@
             this.openInExplorerToolStripMenuItem.Name = "openInExplorerToolStripMenuItem";
             this.openInExplorerToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.openInExplorerToolStripMenuItem.Text = "Open in WinExplorer";
+            this.openInExplorerToolStripMenuItem.Click += new System.EventHandler(this.openInExplorerToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 

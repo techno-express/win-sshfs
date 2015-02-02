@@ -1335,5 +1335,39 @@ namespace GUI_WindowsForms
                 catch { }
             }
         }
+
+        private void openInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+            FolderModel folder = GetSelectedFolderNode();
+
+
+            if (folder != null)
+            {
+                if (folder.Status == Sshfs.DriveStatus.Mounted)
+                {
+                    string path;
+
+                    if (folder.use_virtual_drive)
+                    {
+                        path = bone_server.GetVirtualDriveLetter() + @":\";
+                        path += folder.VirtualDriveFolder;
+                    }
+                    else
+                    {
+                        path = folder.Letter + @":\";
+                    }
+
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/C explorer " + path;
+                    process.StartInfo = startInfo;
+                    process.Start();
+                }
+            }
+
+        }
     }
 }
