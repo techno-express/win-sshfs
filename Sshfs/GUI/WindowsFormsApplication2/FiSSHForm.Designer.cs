@@ -137,6 +137,7 @@
             this.mountToolStripMenuItem2.Name = "mountToolStripMenuItem2";
             this.mountToolStripMenuItem2.Size = new System.Drawing.Size(182, 22);
             this.mountToolStripMenuItem2.Text = "Mount";
+            this.mountToolStripMenuItem2.Click += new System.EventHandler(this.mountToolStripMenuItem_Click);
             // 
             // unmountToolStripMenuItem1
             // 
@@ -144,6 +145,7 @@
             this.unmountToolStripMenuItem1.Name = "unmountToolStripMenuItem1";
             this.unmountToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.unmountToolStripMenuItem1.Text = "Unmount";
+            this.unmountToolStripMenuItem1.Click += new System.EventHandler(this.unmountToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem2
             // 
