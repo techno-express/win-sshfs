@@ -461,8 +461,8 @@ namespace GUI_WindowsForms
         {
             UpdateTreeView();
             // Balloon tip for the systemtray
-            FiSSH.BalloonTipText = "Application Minimized.";
-            FiSSH.BalloonTipTitle = "FiSSH";
+            //FiSSH.BalloonTipText = "Application Minimized.";
+            //FiSSH.BalloonTipTitle = "FiSSH";
         }
 
 
