@@ -997,7 +997,7 @@ namespace GUI_WindowsForms
             if (this.WindowState == FormWindowState.Minimized && cursorNotInBar)
             {
                this.ShowInTaskbar = false;
-               FiSSH.ShowBalloonTip(1000);
+               //FiSSH.ShowBalloonTip(1000);
             }
         }
 
