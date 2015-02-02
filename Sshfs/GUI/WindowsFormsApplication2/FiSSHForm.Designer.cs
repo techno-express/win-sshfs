@@ -184,7 +184,7 @@
             this.unmountALLFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(190, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(190, 136);
             // 
             // editToolStripMenuItem1
             // 
@@ -932,7 +932,7 @@
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.BackColor = System.Drawing.SystemColors.Info;
+            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.treeView1.FullRowSelect = true;
             this.treeView1.HideSelection = false;
