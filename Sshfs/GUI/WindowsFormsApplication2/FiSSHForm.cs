@@ -145,6 +145,24 @@ namespace GUI_WindowsForms
                     #region server_node
                     mountToolStripMenuItem.Enabled = false;
                     unmountToolStripMenuItem.Enabled = false;
+
+                    editToolStripMenuItem1.Enabled =
+                        editToolStripMenuItem.Enabled =
+                        deleteToolStripMenuItem.Enabled = 
+                        deleteToolStripMenuItem1.Enabled = true;
+
+                    foreach(FolderModel i in GetSelectedServerNode().Folders)
+                    {
+                        if( i.Status == Sshfs.DriveStatus.Mounted ||
+                            i.Status == Sshfs.DriveStatus.Mounting)
+                        {
+                            editToolStripMenuItem1.Enabled =
+                                editToolStripMenuItem.Enabled =
+                                deleteToolStripMenuItem.Enabled =
+                                deleteToolStripMenuItem1.Enabled = false;
+                        }
+                    }
+
                     MountAnimatonStop();
 
                     break;
@@ -162,7 +180,11 @@ namespace GUI_WindowsForms
                     if (folder != null)
                     {
                         mountToolStripMenuItem.Enabled =
-                            mountToolStripMenuItem2.Enabled = true;
+                            mountToolStripMenuItem2.Enabled = 
+                            editToolStripMenuItem.Enabled =
+                            editToolStripMenuItem2.Enabled =
+                            deleteToolStripMenuItem1.Enabled =
+                            deleteToolStripMenuItem2.Enabled = true;
 
                         unmountToolStripMenuItem1.Enabled =
                             unmountToolStripMenuItem.Enabled = 
@@ -172,7 +194,12 @@ namespace GUI_WindowsForms
                         {
                             case Sshfs.DriveStatus.Mounted:
                                 MountAnimatonStop();
-                                mountToolStripMenuItem.Enabled = 
+                                
+                                editToolStripMenuItem2.Enabled =
+                                    editToolStripMenuItem.Enabled =
+                                    deleteToolStripMenuItem.Enabled =
+                                    deleteToolStripMenuItem2.Enabled =
+                                    mountToolStripMenuItem.Enabled = 
                                     mountToolStripMenuItem2.Enabled = false;
     
                                 unmountToolStripMenuItem.Enabled =
@@ -182,6 +209,16 @@ namespace GUI_WindowsForms
 
                             case Sshfs.DriveStatus.Mounting:
                                 MountAnimationStart();
+                                mountToolStripMenuItem.Enabled = true;
+
+                                editToolStripMenuItem2.Enabled =
+                                    editToolStripMenuItem.Enabled =
+                                    deleteToolStripMenuItem.Enabled =
+                                    deleteToolStripMenuItem2.Enabled =
+                                    mountToolStripMenuItem2.Enabled = 
+                                    unmountToolStripMenuItem.Enabled =
+                                    unmountToolStripMenuItem1.Enabled =
+                                    openInExplorerToolStripMenuItem.Enabled = false;
                                 break;
 
                             default:
@@ -929,6 +966,11 @@ namespace GUI_WindowsForms
            if (server == null || folder == null)
            {
                //:::FIXME:::
+               return;
+           }
+
+           if (folder.Status == Sshfs.DriveStatus.Mounting)
+           {
                return;
            }
 
