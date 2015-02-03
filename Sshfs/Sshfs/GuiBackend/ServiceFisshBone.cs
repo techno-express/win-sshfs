@@ -959,7 +959,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            if (local_server_reference.Name != Server.Name)
+            if (local_server_reference.Name != RemoveIllegalChars(Server.Name))
             {
                 local_server_reference.Name = CheckServerName(Server.Name);
             }
@@ -1006,7 +1006,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 throw new FaultException<Fault>(new Fault(message));
             }
 
-            if (local_folder_reference.Name != Folder.Name)
+            if (local_folder_reference.Name != RemoveIllegalChars(Folder.Name))
             {
                 Folder.Name = CheckFolderName(local_server_reference, Folder.Name);
             }
@@ -1079,7 +1079,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
             if (server == null)
             {
-                string message = "editServer() got unkown server id";
+                string message = "addFolder() got unkown server id";
                 Log.writeLog(SimpleMind.Loglevel.Error , Comp, message);
                 throw new FaultException<Fault>(new Fault(message));
             }
@@ -1312,6 +1312,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         public string CheckServerName(string name)
         {
+            name = RemoveIllegalChars(name);
+            
             if (name == "" || name == null)
             {
                 return CheckServerName("New server");
@@ -1327,17 +1329,37 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         public string CheckFolderName(ServerModel server, string name)
         {
 
+            name = RemoveIllegalChars(name);
+            
             if (name == "" || name == null)
             {
                 return CheckFolderName(server, "New folder");
             }
 
-            
             while (server.Folders.Find(x => x.Name == name) != null)
             {
                 name = NameExtensionAdd(name);
             }
             return name;
+        }
+
+        private string RemoveIllegalChars(string name)
+        {
+            try
+            {
+                name = name.Replace(":", "");
+                name = name.Replace("/", "");
+                name = name.Replace("\\", "");
+                while (name.First() == '-')
+                {
+                    name = name.Substring(1, name.Length - 1);
+                }
+                return name;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
 
