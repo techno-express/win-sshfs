@@ -28,7 +28,9 @@ namespace GUI_WindowsForms
             catch
             {
                 ProcessStartInfo startEXE = new ProcessStartInfo();
-                startEXE.FileName = "FiSSHBone.exe";
+                string path = Application.ExecutablePath;
+                path = path.Substring(0, path.LastIndexOf('\\') + 1);
+                startEXE.FileName = path + "FiSSHBone.exe";
                 startEXE.WorkingDirectory = "";
                 startEXE.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startEXE.ErrorDialog = true;
