@@ -1294,7 +1294,7 @@ namespace GUI_WindowsForms
         }
 
 
-
+        /// add a new Folder
         private void addFolder()
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
@@ -1315,7 +1315,7 @@ namespace GUI_WindowsForms
 
             }
         }
-
+        /// check if the requestet driveletter is available
         private static bool IsDriveAvailable(char letter)
         {
             List<char> not_available = new List<char>();
@@ -1334,7 +1334,7 @@ namespace GUI_WindowsForms
                 return true;
             }
         }
-
+        /// write all driveletters in the comboBox that are available
         private void writeAvailableDrivesInCombo()
         {
             this.comboBox_folder_driveletter.Items.Clear();
@@ -1443,7 +1443,7 @@ namespace GUI_WindowsForms
             }
 
         }
-
+        /// add a server or a Folder by double click add Server or add Folder node
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
             if (ServerOrFolderAddNode(treeView1.SelectedNode))
