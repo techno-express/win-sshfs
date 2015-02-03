@@ -65,5 +65,40 @@ namespace fissh_cmdline_interface
 
             logger.log.writeLog(SimpleMind.Loglevel.Debug, cmpnt, error_message);
         }
+
+        public static void help_message()
+        {
+            Console.WriteLine("This is a command line interface for the SSHfs client FiSSH.");
+            Console.WriteLine("You should start the FiSSH software before using this interface.");
+            Console.WriteLine();
+            Console.WriteLine("To mount a drive");
+            Console.WriteLine("     fissh mount SERVERNAME [FOLDERLIST]");
+            Console.WriteLine("ex.: this will mount all folder entries of server entry \"DB-Server\"");
+            Console.WriteLine("     > fissh mount DB-Server");
+            Console.WriteLine("ex.: this will mount folder \"One\", \"Two\" and \"Home\" of \"DB-Server\"");
+            Console.WriteLine("     > fissh mount DB-Server One,Two,Home");
+            Console.WriteLine("");
+            Console.WriteLine("To mount a drive which is not registered in backend");
+            Console.WriteLine("     fissh mount [-l user] [-p port] [-k password=...| privat_key=...]");
+            Console.WriteLine("                 -s PATH [-d DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER] [user@]host[:port]");
+            Console.WriteLine("ex.: > fissh mount -k password=s3cr3t -s /home/user -d Z: user@93.216.119:22");
+            Console.WriteLine("");
+            Console.WriteLine("To unmount a drive");
+            Console.WriteLine("     fissh umount DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
+            Console.WriteLine("ex.: > fissh umount Z:");
+            Console.WriteLine("     fissh umount SERVERNAME [FOLDERLIST]");
+            Console.WriteLine("ex.: > fissh umount DB-Server One,Two,Home");
+            Console.WriteLine("");
+            Console.WriteLine("Ask if a drive is mounted");
+            Console.WriteLine("     fissh status DRIVE-LETTER | -v VIRTUAL_DRIVE_FOLDER");
+            Console.WriteLine("ex.: > fissh status Z:");
+            Console.WriteLine("     fissh status SERVERNAME FOLDER");
+            Console.WriteLine("ex.: > fissh status DB-Server One,Two,Home");
+            Console.WriteLine("");
+            Console.WriteLine("To print this info page");
+            Console.WriteLine("     fissh help");
+            Console.WriteLine("");
+
+        }
     }
 }

@@ -243,7 +243,7 @@ namespace fissh_cmdline_interface
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.help:
                         #region help
-                        Console.WriteLine("HELP!!!");
+                        fissh_print.help_message();
                         break;
                         #endregion
 
