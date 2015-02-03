@@ -184,7 +184,7 @@
             this.unmountALLFoldersToolStripMenuItem,
             this.addNewFolderToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(190, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(190, 136);
             // 
             // editToolStripMenuItem1
             // 
@@ -723,6 +723,7 @@
             this.checkBox_folder_usedefaultaccound.Size = new System.Drawing.Size(125, 17);
             this.checkBox_folder_usedefaultaccound.TabIndex = 15;
             this.checkBox_folder_usedefaultaccound.Text = "Use Default Account";
+            this.toolTip1.SetToolTip(this.checkBox_folder_usedefaultaccound, "use account that has been stored in server tree node");
             this.checkBox_folder_usedefaultaccound.UseVisualStyleBackColor = true;
             this.checkBox_folder_usedefaultaccound.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -932,7 +933,7 @@
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.BackColor = System.Drawing.SystemColors.Info;
+            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
             this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.treeView1.FullRowSelect = true;
             this.treeView1.HideSelection = false;
@@ -973,6 +974,9 @@
             this.imageList1.Images.SetKeyName(9, "Ordner hinzufügen.png");
             this.imageList1.Images.SetKeyName(10, "Ordner.png");
             this.imageList1.Images.SetKeyName(11, "Server hinzufügen.png");
+            this.imageList1.Images.SetKeyName(12, "Ordner gemountet.png");
+            this.imageList1.Images.SetKeyName(13, "Ordner mounten.png");
+            this.imageList1.Images.SetKeyName(14, "Ordner fehler.png");
             // 
             // button_windowexpand
             // 

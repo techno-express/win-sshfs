@@ -138,7 +138,24 @@ namespace GUI_WindowsForms
             GetDataFromServer();
             ServerModel server = GetSelectedServerNode();
 
-            if (server == null) { return; }
+            if (server == null)
+            {
+                mountToolStripMenuItem.Enabled = 
+                    unmountToolStripMenuItem.Enabled =
+                    editToolStripMenuItem1.Enabled =
+                    editToolStripMenuItem.Enabled =
+                    deleteToolStripMenuItem.Enabled =
+                    deleteToolStripMenuItem1.Enabled =
+                    mountToolStripMenuItem.Enabled =
+                    mountToolStripMenuItem2.Enabled =
+                    editToolStripMenuItem.Enabled =
+                    editToolStripMenuItem2.Enabled =
+                    deleteToolStripMenuItem1.Enabled =
+                    deleteToolStripMenuItem2.Enabled =
+                    unmountToolStripMenuItem1.Enabled =
+                    unmountToolStripMenuItem.Enabled =
+                    openInExplorerToolStripMenuItem.Enabled = false;
+                return; }
 
             switch (treeView1.SelectedNode.Level)
             {
@@ -176,7 +193,23 @@ namespace GUI_WindowsForms
                     try { folder = GetSelectedFolderNode(); }
                     catch { }
 
-                    if (folder != null)
+                    if (folder == null)
+                    {
+                         mountToolStripMenuItem.Enabled =
+                            mountToolStripMenuItem2.Enabled = 
+                            editToolStripMenuItem.Enabled =
+                            editToolStripMenuItem2.Enabled =
+                            deleteToolStripMenuItem.Enabled =
+                            deleteToolStripMenuItem1.Enabled =
+                            deleteToolStripMenuItem2.Enabled =
+                            unmountToolStripMenuItem1.Enabled =
+                            unmountToolStripMenuItem.Enabled = 
+                            openInExplorerToolStripMenuItem.Enabled = false;
+                            mountToolStripMenuItem.Enabled = false;
+                            unmountToolStripMenuItem.Enabled = false;
+                        return;
+                    }
+                    else
                     {
                         mountToolStripMenuItem.Enabled =
                             mountToolStripMenuItem2.Enabled = 
@@ -225,11 +258,7 @@ namespace GUI_WindowsForms
                                 break;
                         }
                     }
-                    else
-                    {
-                        mountToolStripMenuItem.Enabled = false;
-                        unmountToolStripMenuItem.Enabled = false;
-                    }
+
 
                     break;
                     #endregion
@@ -373,7 +402,7 @@ namespace GUI_WindowsForms
                             textBox_server_name.Text = server.Name;
                             textBox_server_ip.Text = server.Host;
                             numericUpDown_server_port.Value = server.Port;
-
+                            
                             switch (folder.Type)
                             {
                                 case Sshfs.ConnectionType.Password:
@@ -1168,6 +1197,43 @@ namespace GUI_WindowsForms
                 node.Tag = folder.Name;
                 node.Text = text;
             }
+            
+            switch (folder.Status)
+            {
+                case Sshfs.DriveStatus.Mounting:
+                    if (node.ImageIndex != 13)
+                    {
+                        node.ImageIndex =
+                        node.SelectedImageIndex = 13;
+                    }
+
+                    break;
+
+                case Sshfs.DriveStatus.Mounted:
+                    if (node.ImageIndex != 12)
+                    {
+                        node.ImageIndex =
+                            node.SelectedImageIndex = 12;
+                    }
+                        break;
+
+                case Sshfs.DriveStatus.Error:
+                        if (node.ImageIndex != 14)
+                        {
+                            node.ImageIndex =
+                                node.SelectedImageIndex = 14;
+                        }
+                    break;
+
+                default:
+                    if (node.ImageIndex != 4)
+                    {
+                        node.ImageIndex =
+                            node.SelectedImageIndex = 4;
+                    }
+                    break;
+            }
+             
         }
 
         private ServerModel GetSelectedServerNode()
@@ -1224,23 +1290,18 @@ namespace GUI_WindowsForms
             timer_animation.Enabled = false;
             mountToolStripMenuItem.Image = imageList1.Images[0];
             mountToolStripMenuItem.Text = "Mount";
-            deleteToolStripMenuItem.Enabled = true;
+            //deleteToolStripMenuItem.Enabled = true;
         }
 
-        private void addServer()
-        {
-            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
-            ServerModel server = new ServerModel();
-            bone_server.addServer(server);
-            server.Name = "new Server";
-        }
 
+        /// add a new Folder
         private void addFolder()
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = new FolderModel();
             folder.Name = "New Folder";
+            folder.use_global_login = true;
             TreeNode newNode = MakeFolderNode(folder);
             newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
 
@@ -1254,7 +1315,7 @@ namespace GUI_WindowsForms
 
             }
         }
-
+        /// check if the requestet driveletter is available
         private static bool IsDriveAvailable(char letter)
         {
             List<char> not_available = new List<char>();
@@ -1273,13 +1334,22 @@ namespace GUI_WindowsForms
                 return true;
             }
         }
-
+        /// write all driveletters in the comboBox that are available
         private void writeAvailableDrivesInCombo()
         {
             this.comboBox_folder_driveletter.Items.Clear();
+            FolderModel folder = GetSelectedFolderNode();
             for (int i = 'Z'; i >= 'A'; i--)
             {
-                if (IsDriveAvailable((char)i) == true) this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                if (IsDriveAvailable((char)i) == true) 
+                    this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                else if(folder != null)
+                {
+                    if(folder.Letter == (char)i)
+                    {
+                        this.comboBox_folder_driveletter.Items.Add((char)i + ":");
+                    }  
+                }
             }
         }
 
@@ -1328,13 +1398,23 @@ namespace GUI_WindowsForms
 
             if (treeView1.SelectedNode.Level == 1 && folder != null)
             {
-                bone_server.removeFolder(server.ID, folder.ID);
-                treeView1.SelectedNode.Remove();
+                DialogResult dialogResult = MessageBox.Show("Do you want to delete the folder?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    bone_server.removeFolder(server.ID, folder.ID);
+                    treeView1.SelectedNode.Remove();
+                }
+                
             }
             else if(treeView1.SelectedNode.Level == 0 && server != null)
             {
-                bone_server.removeServer(server.ID);
-                treeView1.SelectedNode.Remove();
+                DialogResult dialogResult = MessageBox.Show("Do you want to delete the server and all including folders?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    bone_server.removeServer(server.ID);
+                    treeView1.SelectedNode.Remove();
+                }
+                
             }
         }
 
@@ -1363,7 +1443,7 @@ namespace GUI_WindowsForms
             }
 
         }
-
+        /// add a server or a Folder by double click add Server or add Folder node
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
             if (ServerOrFolderAddNode(treeView1.SelectedNode))
@@ -1377,6 +1457,7 @@ namespace GUI_WindowsForms
                     IServiceFisshBone bone_server = IPCConnection.ClientConnect();
                     ServerModel server = new ServerModel();
                     server.Name = "New Server";
+                    server.Port = 22;
                     TreeNode newNode = MakeServerNode(server);
                     CreateAddFolderNode(newNode);
                     newNode.Name = bone_server.addServer(server).ToString();

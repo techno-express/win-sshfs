@@ -7,8 +7,8 @@
     <ProjectGuid>{8AAEC127-624E-4298-B32D-250888E402F3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>FiSSHBone</RootNamespace>
+    <AssemblyName>FiSSHBone</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>C:\Users\thomas\Downloads\</PublishUrl>

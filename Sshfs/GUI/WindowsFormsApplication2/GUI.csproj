@@ -7,8 +7,8 @@
     <ProjectGuid>{715AAC89-346A-4CBC-BC89-10B56AEF7AAB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GUI</RootNamespace>
-    <AssemblyName>GUI</AssemblyName>
+    <RootNamespace>FiSSHGui</RootNamespace>
+    <AssemblyName>FiSSHGui</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -119,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\cmd_interface\fissh_cmdline_interface\fissh_cmdline_interface.csproj">
+      <Project>{c6b56944-02cd-44f8-9711-455a6bf56c2f}</Project>
+      <Name>fissh_cmdline_interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\FiSSHBone\FiSSHBone.csproj">
       <Project>{8aaec127-624e-4298-b32d-250888e402f3}</Project>
       <Name>FiSSHBone</Name>
