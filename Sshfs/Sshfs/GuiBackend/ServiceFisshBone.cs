@@ -101,7 +101,28 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         {
                             try
                             {
-                                MountDrive(server, folder);
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    MountDrive(server, folder);
+
+                                    if (folder.use_virtual_drive)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        if (IsDriveAvailable(folder.Letter))
+                                        {
+                                            LSftpDrive[new Tuple<Guid, Guid>(server.ID, folder.ID)].Unmount();
+                                            System.Threading.Thread.Sleep(500);
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+
                             }
                             catch { }
                         }
