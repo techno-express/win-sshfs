@@ -397,6 +397,7 @@ namespace GUI_WindowsForms
                             radioButton_folder_usedrive.Checked = ! folder.use_virtual_drive;
                             textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
                             checkBox_automount.Checked = folder.Automount;
+                            richTextBox_folder_notes.Text = folder.Note;
 
                             //server properties 
                             textBox_server_name.Text = server.Name;
