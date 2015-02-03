@@ -75,7 +75,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("Cannot start Software. There is no free drive letter.");
+                System.Windows.Forms.MessageBox.Show("Cannot start Software. There is no free drive letter or you library is not installed: http://dokan-dev.net/en/download");
                 Environment.Exit(1);
             }
 
