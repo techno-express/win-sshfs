@@ -1,0 +1,2 @@
+Please make sure you have installed the Microsoft .net framework, before installing this software.
+You can receive .net redistributable package from: http://www.microsoft.com/de-de/download/details.aspx?id=26
