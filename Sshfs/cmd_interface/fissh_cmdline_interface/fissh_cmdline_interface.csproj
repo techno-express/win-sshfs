@@ -7,8 +7,8 @@
     <ProjectGuid>{C6B56944-02CD-44F8-9711-455A6BF56C2F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fissh_cmdline_interface</RootNamespace>
-    <AssemblyName>fissh_cmdline_interface</AssemblyName>
+    <RootNamespace>FiSSHCmd</RootNamespace>
+    <AssemblyName>FiSSHCmd</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
