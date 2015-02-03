@@ -24,7 +24,6 @@ THE SOFTWARE.
 // This Software is a interface to controll FiSSH over Command-Line
 
 
-#define DEBUG
 
 
 
@@ -56,10 +55,6 @@ namespace fissh_cmdline_interface
                 fissh_cmdline_interface.fissh_print.wrong_use_error_message(e.Message);
                 logger.log.writeLog(SimpleMind.Loglevel.Debug, "cmdline", e.Message );
                 
-#if DEBUG
-                Console.ReadLine();
-#endif
-
                 return (int) return_error_codes.wrong_use_of_arguments;
             }
 
@@ -290,13 +285,7 @@ namespace fissh_cmdline_interface
             {
                 return_value = return_error_codes.could_not_mount_every_drive;
             }
- 
-#if DEBUG
-            Console.WriteLine("DEBUGGING:");
-            Console.WriteLine("Ended with return value " + (int)return_value + " - " + return_value + ".");
-            Console.WriteLine("Press enter to close consol.");
-            Console.ReadLine();
-#endif
+
 
             return (int)return_value;
         }
