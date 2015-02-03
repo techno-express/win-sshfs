@@ -120,7 +120,28 @@ namespace fissh_cmdline_interface
                             if (!fissh_command_expression.option_key.is_set_flag)
                             {
                                 Console.Write("Enter Password >");
-                                fissh_command_expression.option_key.set(Console.ReadLine());
+       
+                                string password = "";
+                                ConsoleKeyInfo info = Console.ReadKey(true);
+                                while (info.Key != ConsoleKey.Enter)
+                                {
+                                    if (info.Key != ConsoleKey.Backspace)
+                                    {
+                                        password += info.KeyChar;
+                                        info = Console.ReadKey(true);
+                                    }
+                                    else if (info.Key == ConsoleKey.Backspace)
+                                    {
+                                        if (!string.IsNullOrEmpty(password))
+                                        {
+                                            password = password.Substring
+                                            (0, password.Length - 1);
+                                        }
+                                        info = Console.ReadKey(true);
+                                    }
+                                }
+
+                                fissh_command_expression.option_key.set(password);
                                 fissh_command_expression.option_key.type = Sshfs.ConnectionType.Password;
                             }
 
