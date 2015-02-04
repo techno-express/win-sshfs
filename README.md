@@ -8,12 +8,12 @@ This project is a new version of „WinSshFS 4every1“ which can be found at ht
 Our prime objective was to change the graphical user interface to improve user-friendliness.
 
 Main changes we made:
--completely redesigned the GUI  
--created a hierarchy to separate between server and their folders (mount directory) to add multiple   
+- completely redesigned the GUI  
+- created a hierarchy to separate between server and their folders (mount directory) to add multiple   
   folders to one server easily
--added a command line to automate the program without the GUI
--server and file arrangement can be changed via drag&drop
--program can now start with windows startup
+- added a command line to automate the program without the GUI
+- server and file arrangement can be changed via drag&drop
+- program can now start with windows startup
 
 ![Screenshot](https://raw.githubusercontent.com/thb42/win-sshfs/GuiDesign/FiSSH_Example_Screenshot.jpg)
 
