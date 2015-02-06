@@ -587,16 +587,25 @@ namespace GUI_WindowsForms
                             if (targetNode != null && targetNode.Level == 1)
                             {
                                 ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
-                                ServerModel targedServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
+                                ServerModel targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
                                 FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
-                                FolderModel targedFolder = targedServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
+                                FolderModel targetFolder = targetServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
                                 
+                                if(!draggedServer.Equals(targetServer))
+                                {
+                                    try
+                                    {
+                                        bone_server.UMount(draggedServer.ID, draggedFolder.ID);
+                                    }
+                                    catch { }
+                                }
+
                                 draggedNode.Remove();
                                 targetNode.Parent.Nodes.Insert(targetNode.Index + 1, draggedNode);
 
                                 bone_server.MoveFolderAfter(
-                                    draggedServer.ID, targedServer.ID,
-                                    draggedFolder.ID, targedFolder.ID);
+                                    draggedServer.ID, targetServer.ID,
+                                    draggedFolder.ID, targetFolder.ID);
                             }
 
                             if (targetNode != null && targetNode.Level == 0)
@@ -604,7 +613,16 @@ namespace GUI_WindowsForms
                                 ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
                                 ServerModel targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
                                 FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
-                                
+
+                                if (!draggedServer.Equals(targetServer))
+                                {
+                                    try
+                                    {
+                                        bone_server.UMount(draggedServer.ID, draggedFolder.ID);
+                                    }
+                                    catch { }
+                                }
+
                                 Guid targetFolderID = Guid.Empty;
                                 if (targetServer.Folders.Count > 0)
                                 {
