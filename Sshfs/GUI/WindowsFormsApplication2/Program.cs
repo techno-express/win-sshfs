@@ -10,12 +10,14 @@ namespace GUI_WindowsForms
 {
     static class Program
     {
+        
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(String[] args)
         {
+            LoadingForm.ShowSplashScreen();
             //if argument for no gui start is given, set this false
             bool StartGUI = true;
 
@@ -53,9 +55,10 @@ namespace GUI_WindowsForms
                 }
             }
 
-
+            
             if (StartGUI)
             {
+                LoadingForm.CloseForm();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 // Original startup

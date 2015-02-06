@@ -43,11 +43,7 @@ namespace GUI_WindowsForms
             ms_frmSplash = new LoadingForm();
             Application.Run(ms_frmSplash);
         }
-        // A static method to close the SplashScreen
-        static public void CloseForm()
-        {
-            ms_frmSplash.Close();
-        }
+
 
         public LoadingForm()
         {
@@ -83,6 +79,7 @@ namespace GUI_WindowsForms
 
         static public void CloseForm()
         {
+            //ms_frmSplash.Close();
             if (ms_frmSplash != null)
             {
                 // Make it start going away.
@@ -90,6 +87,7 @@ namespace GUI_WindowsForms
             }
             ms_oThread = null;  // we do not need these any more.
             ms_frmSplash = null;
+            
         }
 
     }
