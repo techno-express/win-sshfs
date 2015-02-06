@@ -999,6 +999,18 @@ namespace GUI_WindowsForms
          */
        private void mountToolStripMenuItem_Click(object sender, EventArgs e)
         {// Only folders can be mounted
+            if (button_folder_savechanges.Enabled)
+            {
+                DialogResult dialogResult = MessageBox.Show("Do you want to save changes before mounting?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    button_folder_savechanges_Click(null, null);
+                }
+                else
+                {
+                    return;
+                }
+            }
 
            ServerModel server = GetSelectedServerNode();
            FolderModel folder = GetSelectedFolderNode();
@@ -1013,6 +1025,7 @@ namespace GUI_WindowsForms
            {
                return;
            }
+
 
            if (!IsEveryThingSet(server, folder))
            {
@@ -1478,6 +1491,19 @@ namespace GUI_WindowsForms
 
         private void mountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (button_server_savechanges.Enabled)
+            {
+                DialogResult dialogResult = MessageBox.Show("Do you want to save changes before mounting?", "", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    button_server_savechanges_Click(null, null);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             ServerModel server = GetSelectedServerNode();
             foreach (FolderModel folder in server.Folders)
             {
