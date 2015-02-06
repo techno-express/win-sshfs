@@ -1477,6 +1477,7 @@ namespace GUI_WindowsForms
                     CreateAddFolderNode(newNode);
                     newNode.Name = bone_server.addServer(server).ToString();
                     treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, newNode);
+                    newNode.Expand();
                 }
             }
         }

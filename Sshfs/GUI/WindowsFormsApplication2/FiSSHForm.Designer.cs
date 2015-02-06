@@ -1049,7 +1049,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.AutoScrollMinSize = new System.Drawing.Size(0, 600);
+            this.AutoScrollMinSize = new System.Drawing.Size(0, 680);
             this.ClientSize = new System.Drawing.Size(704, 682);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button_windowexpand);
