@@ -710,6 +710,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     IndexToInsertIn = 1 + LServermodel.FindIndex(x => x.ID == ServerToInsertAfterID);
                 }
                 LServermodel.Insert(IndexToInsertIn, server);
+
+                SaveServerlist(path_to_config_directory);
                 
                 return;
             }
@@ -758,6 +760,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     folder.Name = CheckFolderName(sink_server, folder.Name);
                 }
                 sink_server.Folders.Insert(IndexToInsertIn, folder);
+
+                SaveServerlist(path_to_config_directory);
 
                 return;
             }
