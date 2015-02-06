@@ -169,6 +169,7 @@ namespace GUI_WindowsForms
                         deleteToolStripMenuItem.Enabled = 
                         deleteToolStripMenuItem1.Enabled = true;
 
+                    groupBox1.Enabled = true;
                     foreach(FolderModel i in GetSelectedServerNode().Folders)
                     {
                         if( i.Status == Sshfs.DriveStatus.Mounted ||
@@ -178,6 +179,8 @@ namespace GUI_WindowsForms
                                 editToolStripMenuItem.Enabled =
                                 deleteToolStripMenuItem.Enabled =
                                 deleteToolStripMenuItem1.Enabled = false;
+
+                            groupBox1.Enabled = false;
                         }
                     }
 
@@ -238,6 +241,8 @@ namespace GUI_WindowsForms
                                 unmountToolStripMenuItem.Enabled =
                                     unmountToolStripMenuItem1.Enabled =
                                     openInExplorerToolStripMenuItem.Enabled = true;
+
+                                groupBox1.Enabled = false;
                                 break;
 
                             case Sshfs.DriveStatus.Mounting:
@@ -252,10 +257,13 @@ namespace GUI_WindowsForms
                                     unmountToolStripMenuItem.Enabled =
                                     unmountToolStripMenuItem1.Enabled =
                                     openInExplorerToolStripMenuItem.Enabled = false;
+
+                                groupBox1.Enabled = false;
                                 break;
 
                             default:
                                 MountAnimatonStop();
+                                groupBox1.Enabled = true;
                                 break;
                         }
                     }
