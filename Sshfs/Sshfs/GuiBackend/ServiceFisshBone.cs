@@ -1485,7 +1485,17 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 return true;
             }
         }
-        
+
+        // Deconstructor
+        ~ServiceFisshBone()
+        { 
+            foreach(  var e in LSftpDrive)
+            {
+                this.UMount(e.Key.Item1, e.Key.Item2);
+            }
+
+            VirtualDrive.Unmount();
+        }
 
     }
 }
