@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using System.Windows.Forms;
 
 
 namespace GUI_WindowsForms
@@ -19,7 +20,14 @@ namespace GUI_WindowsForms
 
         protected override void OnStartupNextInstance(StartupNextInstanceEventArgs eventArgs)
         {
-            (MainForm as FiSSHForm).ReShow();
+            if(MainForm.WindowState == FormWindowState.Normal)
+            {
+                MessageBox.Show("FiSSH is allready running.");
+            }
+            else
+            {
+                (MainForm as FiSSHForm).ReShow();
+            }
         }
     }
 }
