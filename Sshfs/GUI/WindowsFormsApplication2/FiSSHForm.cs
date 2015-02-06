@@ -582,97 +582,68 @@ namespace GUI_WindowsForms
                                 bone_server.MoveServerAfter(draggedServer.ID, targedServer.ID);
                             }
                         }
-                        if (draggedNode.Level == 1)
+                        else if (draggedNode.Level == 1)
                         {
-                            if (targetNode != null && targetNode.Level == 1)
+                            ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
+                            FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
+                            ServerModel targetServer = null;
+                            FolderModel targetFolder = null;
+                            TreeNode serverTargetNode = null;
+                            int indexToInsert = 0;
+ 
+                            if(targetNode == null)
                             {
-                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
-                                ServerModel targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
-                                FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
-                                FolderModel targetFolder = targetServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
+                                return;
+                            }
+                            else if(targetNode.Level == 1)
+                            {
+                                targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Parent.Name);
+                                targetFolder = targetServer.Folders.Find(x => x.ID.ToString() == targetNode.Name);
                                 
-                                if(!draggedServer.Equals(targetServer))
+                                serverTargetNode = targetNode.Parent;
+                                indexToInsert = targetNode.Index + 1;
+
+                            }
+                            else if(targetNode.Level == 0)
+                            {
+                                targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
+                                serverTargetNode = targetNode;
+
+                                indexToInsert = targetNode.Nodes.Count - 1; //inserted at end before "add folder" node
+                                targetFolder = new FolderModel();
+                                targetFolder.ID = Guid.Empty;
+                                if (targetServer.Folders.Count > 0)
                                 {
-                                    try
-                                    {
-                                        bone_server.UMount(draggedServer.ID, draggedFolder.ID);
-                                    }
-                                    catch { }
+                                    targetFolder.ID = targetServer.Folders.Last().ID;
                                 }
 
+                            }
+
+                            if( draggedServer.ID == targetServer.ID)
+                            {
+                                if(draggedNode.Index < indexToInsert)
+                                {
+                                    indexToInsert--;
+                                }
+                            }
+                            else if(draggedFolder.Status == Sshfs.DriveStatus.Mounted ||
+                                draggedFolder.Status == Sshfs.DriveStatus.Mounting)
+                            {
+                                MessageBox.Show("You tried to move a mounted folder. Unmount it first!");
+                                return;
+                            }
+
+                            if (targetServer != null && targetFolder != null)
+                            {
                                 draggedNode.Remove();
-                                targetNode.Parent.Nodes.Insert(targetNode.Index + 1, draggedNode);
+                                serverTargetNode.Nodes.Insert(indexToInsert, draggedNode);
 
                                 bone_server.MoveFolderAfter(
                                     draggedServer.ID, targetServer.ID,
                                     draggedFolder.ID, targetFolder.ID);
                             }
-
-                            if (targetNode != null && targetNode.Level == 0)
-                            {
-                                ServerModel draggedServer = datamodel.Find(x => x.ID.ToString() == draggedNode.Parent.Name);
-                                ServerModel targetServer = datamodel.Find(x => x.ID.ToString() == targetNode.Name);
-                                FolderModel draggedFolder = draggedServer.Folders.Find(x => x.ID.ToString() == draggedNode.Name);
-
-                                if (!draggedServer.Equals(targetServer))
-                                {
-                                    try
-                                    {
-                                        bone_server.UMount(draggedServer.ID, draggedFolder.ID);
-                                    }
-                                    catch { }
-                                }
-
-                                Guid targetFolderID = Guid.Empty;
-                                if (targetServer.Folders.Count > 0)
-                                {
-                                    targetFolderID = targetServer.Folders.Last().ID;
-                                }
-
-                                draggedNode.Remove();
-                                targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); //inserted at end before "add folder" node
-
-                                bone_server.MoveFolderAfter(
-                                    draggedServer.ID, targetServer.ID,
-                                    draggedFolder.ID, targetFolderID);
-                            }
                         }
-                    /*
-                   if (targetNode != null && (draggedNode.Level > targetNode.Level) && !ServerOrFolderAddNode(targetNode)) 
-                   { 
-                      draggedNode.Remove(); targetNode.Nodes.Insert(targetNode.Nodes.Count - 1, draggedNode); // Send operation to backend here -> update TreeView
-                    //  UpdateTreeView();
-                   }
-                   if (targetNode != null && (draggedNode.Level == targetNode.Level) && !ServerOrFolderAddNode(targetNode))
-                   {
-                       contxMenuDragged = draggedNode;
-                       contxMenuTargetIndex = targetNode.Index;
-                       TreeNode contxMenuDraggedParent = contxMenuDragged.Parent;
-                       if (contxMenuDraggedParent != null)
-                       {
-                           contxMenuDragged.Remove();
-                           contxMenuDraggedParent.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
-                       }
-                       else
-                       {
-                           contxMenuDragged.Remove();
-                           treeView1.Nodes.Insert(contxMenuTargetIndex, contxMenuDragged);
-                       }
-
-                       //  UpdateTreeView();
-                   }
-
-                   else 
-                   {
-                       if (targetNode == null && draggedNode.Level != 1) 
-                       {
-                          draggedNode.Remove(); treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, draggedNode); //Same here
-                       //   UpdateTreeView();
-                       }
-                   }*/
- 
-                   
-                }
+               }
 
                 // If it is a copy operation, clone the dragged node  
                 // and add it to the node at the drop location. 
@@ -690,9 +661,17 @@ namespace GUI_WindowsForms
 
         private bool ServerOrFolderAddNode(TreeNode node1)
         {
-            if (node1.Parent != null && node1.Parent.Nodes[node1.Parent.Nodes.Count - 1].Equals(node1)) return true;
-            if (treeView1.Nodes[treeView1.Nodes.Count - 1].Equals(node1)) return true;
-            else return false;
+            try
+            {
+                if (node1.Parent != null && node1.Parent.Nodes[node1.Parent.Nodes.Count - 1].Equals(node1)) return true;
+                if (treeView1.Nodes[treeView1.Nodes.Count - 1].Equals(node1)) return true;
+                else return false;
+            }
+            catch
+            {
+                UpdateTreeView();
+                return false;
+            }
         }
 
         private bool ContainsNode(TreeNode node1, TreeNode node2)
