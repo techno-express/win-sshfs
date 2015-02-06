@@ -346,9 +346,6 @@ namespace GUI_WindowsForms
                             numericUpDown_server_port.Enabled = true;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
-
-                            button_server_savechanges.Enabled = true;
-                            button_folder_savechanges.Enabled = false;
                         }
                         else
                         {
@@ -364,9 +361,6 @@ namespace GUI_WindowsForms
                             groupBox1.Enabled = false;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
-
-                            button_server_savechanges.Enabled = false;
-                            button_folder_savechanges.Enabled = false;
                         }
                     }
                     else gBox2Vis = false;
@@ -429,9 +423,6 @@ namespace GUI_WindowsForms
                             numericUpDown_server_port.Enabled = false;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
-
-                            button_server_savechanges.Enabled = false;
-                            button_folder_savechanges.Enabled = true;
                         }
                         else
                         {
@@ -483,6 +474,10 @@ namespace GUI_WindowsForms
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             editToolStripMenuItem.Enabled = true;
+
+            button_folder_savechanges.Enabled = 
+                button_server_savechanges.Enabled = false;
+
             UpdateMenuBar();
             ServerFolderEdit();
         }
@@ -878,6 +873,7 @@ namespace GUI_WindowsForms
                 server.Type = Sshfs.ConnectionType.Password;
 
             bone_server.editServer(server);
+            button_server_savechanges.Enabled = false;
         }
 
         private void button_folder_savechanges_Click(object sender, EventArgs e)
@@ -929,6 +925,7 @@ namespace GUI_WindowsForms
                 }
 
                 bone_server.editFolder(server.ID, folder);
+                button_folder_savechanges.Enabled = false;
             }
         }
 
@@ -1563,6 +1560,16 @@ namespace GUI_WindowsForms
                 }
             }
 
+        }
+
+        private void enableServerSaveButton(object sender, EventArgs e)
+        {
+            button_server_savechanges.Enabled = true;
+        }
+
+        private void enableFolderSaveButton(object sender, EventArgs e)
+        {
+            button_folder_savechanges.Enabled = true;
         }
     }
 }

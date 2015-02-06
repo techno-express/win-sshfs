@@ -351,6 +351,7 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Server Properties";
+            this.groupBox1.Enter += new System.EventHandler(this.enableServerSaveButton);
             // 
             // groupBox2
             // 
@@ -378,6 +379,7 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Folder Properties:";
             this.groupBox2.Visible = false;
+            this.groupBox2.Enter += new System.EventHandler(this.enableFolderSaveButton);
             // 
             // textBox_folder_virtual_drive
             // 
