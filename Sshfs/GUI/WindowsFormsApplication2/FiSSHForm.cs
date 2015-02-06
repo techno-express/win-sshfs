@@ -215,6 +215,7 @@ namespace GUI_WindowsForms
                             mountToolStripMenuItem2.Enabled = 
                             editToolStripMenuItem.Enabled =
                             editToolStripMenuItem2.Enabled =
+                            deleteToolStripMenuItem.Enabled =
                             deleteToolStripMenuItem1.Enabled =
                             deleteToolStripMenuItem2.Enabled = true;
 
