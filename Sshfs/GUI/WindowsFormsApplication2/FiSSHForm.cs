@@ -364,7 +364,7 @@ namespace GUI_WindowsForms
                             textBox_server_privatkey.Text = null;
                             textBox_server_password.Text = null;
                             
-                            groupBox1.Enabled = false;
+                            groupBox1.Enabled = true;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
                         }
@@ -437,8 +437,11 @@ namespace GUI_WindowsForms
                             textBox_folder_username.Text = null;
                             textBox9_folder_remotedirectory.Text = null;
 
-                            groupBox1.Enabled = false;
-                            groupBox2.Enabled = false;
+                            groupBox1.Enabled = true;
+                            textBox_server_name.Enabled = false;
+                            textBox_server_ip.Enabled = false;
+                            numericUpDown_server_port.Enabled = false;
+                            groupBox2.Enabled = true;
                             groupBox3.Enabled = false;
 
                             button_server_savechanges.Enabled = false;
@@ -858,79 +861,115 @@ namespace GUI_WindowsForms
 
         private void button_server_savechanges_Click(object sender, EventArgs e)
         {
-            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
-            ServerModel server = GetSelectedServerNode();
 
 
-            server.Name = textBox_server_name.Text;
-            server.Notes = richTextBox_server_notes.Text;
-            server.Username = textbox_server_username.Text;
-            server.Password = textBox_server_password.Text;
-            server.PrivateKey = textBox_server_privatkey.Text;
-            server.Host = textBox_server_ip.Text;
-            server.Port = (int) numericUpDown_server_port.Value;
+            if (ServerOrFolderAddNode(treeView1.SelectedNode))
+            {
+                IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+                ServerModel server = new ServerModel();
+                if (textBox_server_name.Text == "") server.Name = "New Server";
+                else server.Name = textBox_server_name.Text;
 
-            if (radioButton_server_pageant.Checked)
-                server.Type = Sshfs.ConnectionType.Pageant;
-            else if (radioButton_server_privatekey.Checked)
-                server.Type = Sshfs.ConnectionType.PrivateKey;
+                server.Notes = richTextBox_server_notes.Text;
+                server.Username = textbox_server_username.Text;
+                server.Password = textBox_server_password.Text;
+                server.PrivateKey = textBox_server_privatkey.Text;
+                server.Host = textBox_server_ip.Text;
+                server.Port = (int)numericUpDown_server_port.Value;
+                TreeNode newNode = MakeServerNode(server);
+                CreateAddFolderNode(newNode);
+                newNode.Name = bone_server.addServer(server).ToString();
+                treeView1.Nodes.Insert(treeView1.Nodes.Count - 1, newNode);
+                newNode.Expand();
+            }
             else
-                server.Type = Sshfs.ConnectionType.Password;
+            {
+                IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+                ServerModel server = GetSelectedServerNode();
 
-            bone_server.editServer(server);
-            button_server_savechanges.Enabled = false;
+
+                server.Name = textBox_server_name.Text;
+                server.Notes = richTextBox_server_notes.Text;
+                server.Username = textbox_server_username.Text;
+                server.Password = textBox_server_password.Text;
+                server.PrivateKey = textBox_server_privatkey.Text;
+                server.Host = textBox_server_ip.Text;
+                server.Port = (int)numericUpDown_server_port.Value;
+
+                if (radioButton_server_pageant.Checked)
+                    server.Type = Sshfs.ConnectionType.Pageant;
+                else if (radioButton_server_privatekey.Checked)
+                    server.Type = Sshfs.ConnectionType.PrivateKey;
+                else
+                    server.Type = Sshfs.ConnectionType.Password;
+
+                bone_server.editServer(server);
+                button_server_savechanges.Enabled = false;
+            }
         }
 
         private void button_folder_savechanges_Click(object sender, EventArgs e)
         {
-            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
-            // ausgewählten Ordners in die Variable "folder" schreiben und der zugehörige Server in "server"
-            FolderModel folder = GetSelectedFolderNode();
-            ServerModel server = GetSelectedServerNode();
 
-            if (folder.Status == Sshfs.DriveStatus.Mounting || folder.Status == Sshfs.DriveStatus.Mounted)
+
+            if (ServerOrFolderAddNode(treeView1.SelectedNode))
             {
-                MessageBox.Show("Error: Folder can only be edited in unmounted state.");
+                addFolder(true);
             }
+
             else
             {
-                // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
-                folder.Name = textBox_folder_entry.Text;
-                folder.Note = richTextBox_folder_notes.Text;
-                folder.Password = textBox_folder_password.Text;
-                folder.PrivateKey = textBox_folder_privat_key.Text;
-                folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
-                folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
-                folder.Username = textBox_folder_username.Text;
-                folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
-                folder.Folder = textBox9_folder_remotedirectory.Text;
-                folder.Automount = checkBox_automount.Checked;
-
-                try
-                {
-                    folder.Letter = comboBox_folder_driveletter.SelectedItem.ToString().ToCharArray()[0];
-                }
-                catch (NullReferenceException)
-                {
-                    folder.Letter = ' ';
-                }
+                IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+                // ausgewählten Ordners in die Variable "folder" schreiben und der zugehörige Server in "server"
+                FolderModel folder = GetSelectedFolderNode();
+                ServerModel server = GetSelectedServerNode();
 
 
-                if (radioButton_folder_privatekey.Checked == true)
+
+                if (folder.Status == Sshfs.DriveStatus.Mounting || folder.Status == Sshfs.DriveStatus.Mounted)
                 {
-                    folder.Type = Sshfs.ConnectionType.PrivateKey;
-                }
-                else if (radioButton_folder_pageant.Checked == true)
-                {
-                    folder.Type = Sshfs.ConnectionType.Pageant;
+                    MessageBox.Show("Error: Folder can only be edited in unmounted state.");
                 }
                 else
                 {
-                    folder.Type = Sshfs.ConnectionType.Password;
-                }
+                    // Ordnereigenschaften ersetzen mit dem was in den Textboxen steht
+                    folder.Name = textBox_folder_entry.Text;
+                    folder.Note = richTextBox_folder_notes.Text;
+                    folder.Password = textBox_folder_password.Text;
+                    folder.PrivateKey = textBox_folder_privat_key.Text;
+                    folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
+                    folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
+                    folder.Username = textBox_folder_username.Text;
+                    folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
+                    folder.Folder = textBox9_folder_remotedirectory.Text;
+                    folder.Automount = checkBox_automount.Checked;
 
-                bone_server.editFolder(server.ID, folder);
-                button_folder_savechanges.Enabled = false;
+                    try
+                    {
+                        folder.Letter = comboBox_folder_driveletter.SelectedItem.ToString().ToCharArray()[0];
+                    }
+                    catch (NullReferenceException)
+                    {
+                        folder.Letter = ' ';
+                    }
+
+
+                    if (radioButton_folder_privatekey.Checked == true)
+                    {
+                        folder.Type = Sshfs.ConnectionType.PrivateKey;
+                    }
+                    else if (radioButton_folder_pageant.Checked == true)
+                    {
+                        folder.Type = Sshfs.ConnectionType.Pageant;
+                    }
+                    else
+                    {
+                        folder.Type = Sshfs.ConnectionType.Password;
+                    }
+
+                    bone_server.editFolder(server.ID, folder);
+                    button_folder_savechanges.Enabled = false;
+                }
             }
         }
 
@@ -1310,13 +1349,57 @@ namespace GUI_WindowsForms
 
 
         /// add a new Folder
-        private void addFolder()
+        private void addFolder(bool viaButton)
         {
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = new FolderModel();
-            folder.Name = "New Folder";
-            folder.use_global_login = true;
+            
+            if (!viaButton)
+            {
+                folder.Name = "New Folder";
+                folder.use_global_login = true; 
+                bone_server.editFolder(server.ID, folder);
+                button_folder_savechanges.Enabled = false;
+            }
+            else
+            {
+                folder.Name = textBox_folder_entry.Text;
+                folder.Note = richTextBox_folder_notes.Text;
+                folder.Password = textBox_folder_password.Text;
+                folder.PrivateKey = textBox_folder_privat_key.Text;
+                folder.use_global_login = checkBox_folder_usedefaultaccound.Checked;
+                folder.use_virtual_drive = radioButton_folder_virtualdrive.Checked;
+                folder.Username = textBox_folder_username.Text;
+                folder.VirtualDriveFolder = textBox_folder_virtual_drive.Text;
+                folder.Folder = textBox9_folder_remotedirectory.Text;
+                folder.Automount = checkBox_automount.Checked;
+
+                try
+                {
+                    folder.Letter = comboBox_folder_driveletter.SelectedItem.ToString().ToCharArray()[0];
+                }
+                catch (NullReferenceException)
+                {
+                    folder.Letter = ' ';
+                }
+
+
+                if (radioButton_folder_privatekey.Checked == true)
+                {
+                    folder.Type = Sshfs.ConnectionType.PrivateKey;
+                }
+                else if (radioButton_folder_pageant.Checked == true)
+                {
+                    folder.Type = Sshfs.ConnectionType.Pageant;
+                }
+                else
+                {
+                    folder.Type = Sshfs.ConnectionType.Password;
+                }
+
+                
+            }
             TreeNode newNode = MakeFolderNode(folder);
             newNode.Name = bone_server.addFolder(server.ID, folder).ToString();
 
@@ -1465,7 +1548,7 @@ namespace GUI_WindowsForms
             {
                 if (treeView1.SelectedNode.Level == 1)
                 {
-                    addFolder();
+                    addFolder(false);
                 }
                 else if (treeView1.SelectedNode.Level == 0)
                 {
@@ -1538,7 +1621,7 @@ namespace GUI_WindowsForms
 
         private void addNewFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addFolder();
+            addFolder(false);
         }
 
         private void umountAllFoldersToolStripMenuItem_Click(object sender, EventArgs e)
