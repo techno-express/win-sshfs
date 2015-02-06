@@ -21,7 +21,7 @@ Main changes we made:
 
 User manual:
 - Download and unzip the FiSSH_Package.zip file (https://github.com/thb42/win-sshfs/releases)
-- Install NetFramework and Dokan 
+- Install NetFramework and Dokan (Note: If you are using Windows 8 or a newer version, install Dokan with compatibility set to Windows 7 (right click > Properties > Compatibility) 
 - Launch FiSSHGui
 
 
