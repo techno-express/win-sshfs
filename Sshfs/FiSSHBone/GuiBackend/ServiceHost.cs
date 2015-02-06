@@ -21,12 +21,7 @@ public class Class1
                 ServiceHost bone_server = IPCConnection.ServerConnect();
                 ServiceFisshBone.Init();
                 
-                string puffer = "";
-                while (puffer != "q")
-                {
-                    Console.WriteLine("Please enter \"q\" to stop the server");
-                    puffer = Console.ReadLine();
-                }
+                while (!ServiceFisshBone.ShutMeDown) { }
                 bone_server.Close();
             }
 

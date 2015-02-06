@@ -39,6 +39,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     public class ServiceFisshBone : IServiceFisshBone 
     {
+        public static bool ShutMeDown = false;
         const string Comp = "Backend";
         private static string path_to_config_directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
 
@@ -130,7 +131,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
-                        if (i.Value.Letter == ' ')
+                        UnmountDrive(i.Key.Item1, i.Key.Item2);
+                        /*if (i.Value.Letter == ' ')
                         {
                             VirtualDrive.RemoveSubFS(i.Value);
                             i.Value.Unmount();
@@ -138,7 +140,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                         else
                         {
                             i.Value.Unmount();
-                        }
+                        }*/
                     }
 
                     LSftpDrive = new Dictionary<Tuple<Guid,Guid>,SftpDrive>();
@@ -461,7 +463,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * @param String Savepath-Path where the XML file will be saved
          * 
          */
-        public void SaveConfiguration(String Savepath)
+        private void SaveConfiguration(String Savepath)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -631,6 +633,45 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
 
         }
         
+        private static void UnmountDrive(Guid ServerID, Guid FolderID)
+        {
+            try
+            {
+                SftpDrive drive = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)];
+
+                VirtualDrive.RemoveSubFS(drive);
+                drive.Unmount();
+                LSftpDrive.Remove(new Tuple<Guid, Guid>(ServerID, FolderID));
+
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "folder \"" + FolderID + "\" on server \"" + ServerID + "\" unmounted.");
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not unmount drive");
+                Log.writeLog(SimpleMind.Loglevel.Debug, Comp, e.Message);
+                throw e;
+            }
+        }
+
+        public void Shutdown()
+        {
+            try
+            {
+                var keys = new List<Tuple<Guid, Guid>>(LSftpDrive.Keys);
+                foreach (Tuple<Guid, Guid> i in keys)
+                {
+                    UnmountDrive(i.Item1, i.Item2);
+                }
+                ShutMeDown = true;
+            }
+            catch(Exception e)
+            {
+                throw new FaultException(e.Message);
+            }
+
+        }
+
         /// get a drive to a proper drive letter
         /**
          * This method gets a letter and looks this letter up in LSftpDrive.
@@ -870,18 +911,10 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             try
             {
-                SftpDrive drive = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)];
-
-                VirtualDrive.RemoveSubFS(drive);
-                drive.Unmount();
-                LSftpDrive.Remove(new Tuple<Guid, Guid>(ServerID, FolderID));
-
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, "folder \"" + FolderID +"\" on server \"" + ServerID + "\" unmounted.");
+                UnmountDrive(ServerID, FolderID);
                 return;
             }
             catch(Exception e) {
-                Log.writeLog(SimpleMind.Loglevel.Error, Comp, "Could not unmount drive");
-                Log.writeLog(SimpleMind.Loglevel.Debug , Comp, e.Message);
                 throw new FaultException<Fault>(new Fault(e.Message));
             }
         }

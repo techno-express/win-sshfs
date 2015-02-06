@@ -24,6 +24,10 @@ namespace Sshfs.GuiBackend.Remoteable
         /*[OperationContract]
         ServerModel search(char letter);*/
 
+        [OperationContract]
+        [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
+        void Shutdown();
+
         /// create a connection to a directory on a server
         /**
          *  Mount() gets IDs of a Server and Folder as parameters.

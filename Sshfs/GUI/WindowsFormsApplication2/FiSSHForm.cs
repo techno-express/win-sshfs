@@ -1155,7 +1155,17 @@ namespace GUI_WindowsForms
 
         private void closeApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            IServiceFisshBone bone_server = IPCConnection.ClientConnect();
+            DialogResult dialogResult = MessageBox.Show("You want to exit FiSSH. Every connection will be closed. Are you sure?", "", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                bone_server.Shutdown();
+                Application.Exit();
+            }
+            else
+            {
+                return;
+            }
         }
 
         private void restoreToolStripMenuItem_Click(object sender, MouseEventArgs e)
