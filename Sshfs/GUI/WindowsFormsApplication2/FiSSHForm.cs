@@ -48,6 +48,11 @@ namespace GUI_WindowsForms
             CreateTreeView();
         }
 
+        public void ReShow()
+        {
+            restoreToolStripMenuItem_Click(null, null);
+        }
+
         /// updated the TreeView and, draws the nodes and describes the nodes
         private void CreateTreeView(/* STUFF */)
         {

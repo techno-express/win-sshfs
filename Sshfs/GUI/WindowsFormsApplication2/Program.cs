@@ -58,7 +58,12 @@ namespace GUI_WindowsForms
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new FiSSHForm());
+                // Original startup
+                //Application.Run(new FiSSHForm());
+
+                // "Only one instance" startup
+                var app = new ApplicationManager();
+                app.Run(args);
             }
     }
     }
