@@ -316,6 +316,9 @@ namespace GUI_WindowsForms
                         
                         // get server which is presented by selected node 
                         ServerModel server = GetSelectedServerNode();
+                        textBox_server_name.Enabled = true;
+                        textBox_server_ip.Enabled = true;
+                        numericUpDown_server_port.Enabled = true;
 
                         if (server != null)
                         {
@@ -347,8 +350,6 @@ namespace GUI_WindowsForms
                                     break;
                             }
                             
-                            textBox_server_name.Enabled = true;
-                            textBox_server_ip.Enabled = true;
                             numericUpDown_server_port.Enabled = true;
                             groupBox2.Enabled = false;
                             groupBox3.Enabled = false;
@@ -382,6 +383,10 @@ namespace GUI_WindowsForms
                         FolderModel folder = null;
                         try { folder = GetSelectedFolderNode(); }
                         catch { }
+                        
+                        textBox_server_name.Enabled = false;
+                        textBox_server_ip.Enabled = false;
+                        numericUpDown_server_port.Enabled = false;
 
                         if (folder != null)
                         {
@@ -423,9 +428,6 @@ namespace GUI_WindowsForms
 
 
 
-                            textBox_server_name.Enabled = false;
-                            textBox_server_ip.Enabled = false;
-                            numericUpDown_server_port.Enabled = false;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = !checkBox_folder_usedefaultaccound.Checked;
                         }
@@ -438,9 +440,6 @@ namespace GUI_WindowsForms
                             textBox9_folder_remotedirectory.Text = null;
 
                             groupBox1.Enabled = true;
-                            textBox_server_name.Enabled = false;
-                            textBox_server_ip.Enabled = false;
-                            numericUpDown_server_port.Enabled = false;
                             groupBox2.Enabled = true;
                             groupBox3.Enabled = false;
 
