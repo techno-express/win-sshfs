@@ -1354,12 +1354,11 @@ namespace GUI_WindowsForms
             IServiceFisshBone bone_server = IPCConnection.ClientConnect();
             ServerModel server = GetSelectedServerNode();
             FolderModel folder = new FolderModel();
-            
+
             if (!viaButton)
             {
                 folder.Name = "New Folder";
                 folder.use_global_login = true; 
-                bone_server.editFolder(server.ID, folder);
                 button_folder_savechanges.Enabled = false;
             }
             else
