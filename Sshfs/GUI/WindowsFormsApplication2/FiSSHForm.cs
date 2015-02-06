@@ -321,9 +321,9 @@ namespace GUI_WindowsForms
                             textBox_server_privatkey.Text = server.PrivateKey;
                             textBox_server_password.Text = server.Password;
 
-                            radioButton_folder_pageant.Checked =
-                                radioButton_folder_password.Checked =
-                                radioButton_folder_privatekey.Checked = false;
+                            radioButton_server_pageant.Checked =
+                                radioButton_server_password.Checked =
+                                radioButton_server_privatekey.Checked = false;
 
                             switch (server.Type)
                             {
@@ -394,7 +394,8 @@ namespace GUI_WindowsForms
                             checkBox_folder_usedefaultaccound.Checked = folder.use_global_login;
                             writeAvailableDrivesInCombo();
                             comboBox_folder_driveletter.SelectedIndex = comboBox_folder_driveletter.Items.IndexOf(folder.Letter + ":");
-                            radioButton_folder_virtualdrive.Checked = folder.use_virtual_drive;
+                            radioButton_folder_virtualdrive.Checked =
+                                textBox_folder_virtual_drive.Enabled = folder.use_virtual_drive;
                             radioButton_folder_usedrive.Checked = ! folder.use_virtual_drive;
                             textBox_folder_virtual_drive.Text = folder.VirtualDriveFolder;
                             checkBox_automount.Checked = folder.Automount;
