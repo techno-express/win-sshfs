@@ -169,7 +169,6 @@ namespace GUI_WindowsForms
                         deleteToolStripMenuItem.Enabled = 
                         deleteToolStripMenuItem1.Enabled = true;
 
-                    groupBox1.Enabled = true;
                     foreach(FolderModel i in GetSelectedServerNode().Folders)
                     {
                         if( i.Status == Sshfs.DriveStatus.Mounted ||
@@ -181,6 +180,7 @@ namespace GUI_WindowsForms
                                 deleteToolStripMenuItem1.Enabled = false;
 
                             groupBox1.Enabled = false;
+                            break;
                         }
                     }
 
@@ -312,7 +312,6 @@ namespace GUI_WindowsForms
                 case 0:
                     if (Expanded)
                     {
-                        groupBox1.Enabled = true;
                         groupBox2.Visible = false;
                         
                         // get server which is presented by selected node 
@@ -348,7 +347,6 @@ namespace GUI_WindowsForms
                                     break;
                             }
                             
-                            groupBox1.Enabled = true;
                             textBox_server_name.Enabled = true;
                             textBox_server_ip.Enabled = true;
                             numericUpDown_server_port.Enabled = true;
@@ -425,7 +423,6 @@ namespace GUI_WindowsForms
 
 
 
-                            groupBox1.Enabled = true;
                             textBox_server_name.Enabled = false;
                             textBox_server_ip.Enabled = false;
                             numericUpDown_server_port.Enabled = false;
