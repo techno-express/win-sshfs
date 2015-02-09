@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="DriveStatus.cs" />
     <Compile Include="ContextMenuStripThemedRenderer.cs" />
+    <Compile Include="FiSSHGlobal.cs" />
     <Compile Include="GuiBackend\FolderModel.cs" />
     <Compile Include="GuiBackend\IPCConnection.cs" />
     <Compile Include="GuiBackend\IServiceFisshBone.cs" />

@@ -43,7 +43,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
     public class ServiceFisshBone : IServiceFisshBone 
     {
         const string Comp = "Backend";
-        private static string path_to_config_directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
+        private static string path_to_config_directory = FiSSHGlobal.HomeDirectory;//Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
 
         private static SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
 
@@ -946,7 +946,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             try
             {
                 DriveStatus status = LSftpDrive[new Tuple<Guid, Guid>(ServerID, FolderID)].Status;
-                Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is allready in LSftpDrive with status " + status.ToString());
+                //Log.writeLog(SimpleMind.Loglevel.Debug, "Backend:getStatus", "Asked for status of " + FolderID + " on " + ServerID + " which is allready in LSftpDrive with status " + status.ToString());
                 return status;
             }
             catch (NullReferenceException e)

@@ -110,7 +110,7 @@ namespace SimpleMind
             //finding MyDocuments directory if no Path is given
             try
             {
-                MyDocDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                MyDocDir = Sshfs.FiSSHGlobal.HomeDirectory; //Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 //throws: ArgumentException if Folder does not exist
             }
             catch (Exception e)
