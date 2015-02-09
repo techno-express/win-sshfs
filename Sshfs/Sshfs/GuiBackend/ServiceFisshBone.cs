@@ -51,10 +51,8 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         private static bool ReconnectAfterWakeUpFlag;
 
         private static List<ServerModel> LServermodel = new List<ServerModel>();
-        //private List<SftpDrive> LSftpDrive = new List<SftpDrive>();
         private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDrive = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
         private static Dictionary<Tuple<Guid, Guid>, SftpDrive> LSftpDriveWakeUp = new Dictionary<Tuple<Guid,Guid>, SftpDrive>(); //erste Guid vom Server, zweite des Folder
-        //private static List<VirtualDrive> LVirtualDrive = new List<VirtualDrive>();
         private static VirtualDrive VirtualDrive = new VirtualDrive();
         
 
@@ -199,7 +197,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         }
 
         /// Remove every unmounted drive
-        private static void LSftpDriveGarbageCollection ()
+        private static void LSftpDriveGarbageCollection()
          {
              foreach(KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive) 
              {
@@ -225,7 +223,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
          * @param String Savepath-Path where the XML file will be saved
          * 
          */
-        public void SaveServerlist(String Savepath)
+        private void SaveServerlist(String Savepath)
         {
 
             XmlDocument doc = new XmlDocument();
@@ -660,6 +658,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
+        #region InterfaceFunctions
         public void Shutdown()
         {
             try
@@ -1360,7 +1359,9 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             }
         }
 
-        public string CheckServerName(string name)
+        #endregion
+
+        private string CheckServerName(string name)
         {
             name = RemoveIllegalChars(name);
             
@@ -1376,7 +1377,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             return name;
         }
 
-        public string CheckFolderName(ServerModel server, string name)
+        private string CheckFolderName(ServerModel server, string name)
         {
 
             name = RemoveIllegalChars(name);

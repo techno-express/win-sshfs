@@ -13,17 +13,9 @@ using System.ServiceModel;
 
 namespace Sshfs.GuiBackend.Remoteable
 {  
-    // HINWEIS: Mit dem Befehl "Umbenennen" im Menü "Umgestalten" können Sie den Schnittstellennamen "IService1" sowohl im Code als auch in der Konfigurationsdatei ändern.
     [ServiceContract]
     public interface IServiceFisshBone
     {
-        //Returns the Servermodel for the ID, if ID couldn't be find the returned ServerModel is a null Element
-//        [OperationContract]
-//        ServerModel get_server_by_id(Guid ID);
-
-        /*[OperationContract]
-        ServerModel search(char letter);*/
-
         [OperationContract]
         [FaultContractAttribute(typeof(Fault), ProtectionLevel = ProtectionLevel.EncryptAndSign)]
         void Shutdown();
@@ -117,7 +109,6 @@ namespace Sshfs.GuiBackend.Remoteable
          */
         [OperationContract]
         List<ServerModel> listAll();
-        //string listAll();
 
         /// overwrites the server properties
         /**
@@ -247,12 +238,6 @@ namespace Sshfs.GuiBackend.Remoteable
         /// Set virtual drive letter
         [OperationContract]
         void SetVirtualDriveLetter(char letter);
-
-        /*[OperationContract]
-        void Connect(Guid ID);
-
-        [OperationContract]
-        void Disconnect(Guid ID);*/
     }
 
 
