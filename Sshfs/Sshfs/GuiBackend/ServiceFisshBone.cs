@@ -34,6 +34,8 @@ using System.IO;
 // For reconnect after wakeup
 using Microsoft.Win32;
 
+using System.Windows;
+
 
 
 namespace Sshfs.GuiBackend.IPCChannelRemoting
@@ -63,6 +65,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
         {
             // Wake up event handler
             SystemEvents.PowerModeChanged += WakeUpHandler;
+            SystemEvents.SessionEnding += SessionEndingHandler;
 
             LoadConfiguration(path_to_config_directory);
 
@@ -112,6 +115,18 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
             catch { }
         }
 
+        private static void SessionEndingHandler(object s, SessionEndingEventArgs e)
+        {
+            foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
+            {
+                UnmountDrive(i.Key.Item1, i.Key.Item2);
+            }
+            VirtualDrive.Unmount();
+
+            Log.writeLog(SimpleMind.Loglevel.Debug, Comp, "System is shutting down.");
+            WaitHandler.Exit();
+        }
+
         /// Handle reconnection after wake up
         private static void WakeUpHandler(object s, PowerModeChangedEventArgs e)
         {
@@ -132,15 +147,6 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                     foreach (KeyValuePair<Tuple<Guid, Guid>, SftpDrive> i in LSftpDrive)
                     {
                         UnmountDrive(i.Key.Item1, i.Key.Item2);
-                        /*if (i.Value.Letter == ' ')
-                        {
-                            VirtualDrive.RemoveSubFS(i.Value);
-                            i.Value.Unmount();
-                        }
-                        else
-                        {
-                            i.Value.Unmount();
-                        }*/
                     }
 
                     LSftpDrive = new Dictionary<Tuple<Guid,Guid>,SftpDrive>();

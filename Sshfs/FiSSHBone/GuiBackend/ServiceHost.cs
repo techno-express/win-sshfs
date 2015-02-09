@@ -15,13 +15,14 @@ namespace FiSSHBone.GuiBackend
     {
         public static void Main()
         {
-
             {
+                SimpleMind.SimpleMind Log = new SimpleMind.SimpleMind();
                 ServiceHost bone_server = IPCConnection.ServerConnect();
                 ServiceFisshBone.Init();
 
                 WaitHandler.Wait();
                 bone_server.Close();
+                Log.writeLog(SimpleMind.Loglevel.Debug, "FiSSHBoneMain", "FiSSHBone exit.");
             }
 
 
