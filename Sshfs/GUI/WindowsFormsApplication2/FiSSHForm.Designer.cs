@@ -967,7 +967,7 @@
             this.imageList1.Images.SetKeyName(0, "Mount.png");
             this.imageList1.Images.SetKeyName(1, "Einstellungen.png");
             this.imageList1.Images.SetKeyName(2, "Löschen.png");
-            this.imageList1.Images.SetKeyName(3, "Ordner hinzufügen.png");
+            this.imageList1.Images.SetKeyName(3, "Folder add.png");
             this.imageList1.Images.SetKeyName(4, "Ordner.png");
             this.imageList1.Images.SetKeyName(5, "Server hinzufügen.png");
             this.imageList1.Images.SetKeyName(6, "Server.png");
@@ -977,7 +977,7 @@
             this.imageList1.Images.SetKeyName(10, "Ordner.png");
             this.imageList1.Images.SetKeyName(11, "Server hinzufügen.png");
             this.imageList1.Images.SetKeyName(12, "Ordner gemountet.png");
-            this.imageList1.Images.SetKeyName(13, "Ordner mounten.png");
+            this.imageList1.Images.SetKeyName(13, "Folder mounting.png");
             this.imageList1.Images.SetKeyName(14, "Ordner fehler.png");
             // 
             // button_windowexpand
