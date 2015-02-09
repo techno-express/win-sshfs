@@ -35,11 +35,11 @@ using System.IO;
 using Microsoft.Win32;
 
 
+
 namespace Sshfs.GuiBackend.IPCChannelRemoting
 {
     public class ServiceFisshBone : IServiceFisshBone 
     {
-        public static bool ShutMeDown = false;
         const string Comp = "Backend";
         private static string path_to_config_directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\FiSSH";
 
@@ -663,7 +663,7 @@ namespace Sshfs.GuiBackend.IPCChannelRemoting
                 {
                     UnmountDrive(i.Item1, i.Item2);
                 }
-                ShutMeDown = true;
+                WaitHandler.Exit();
             }
             catch(Exception e)
             {

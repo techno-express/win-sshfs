@@ -9,22 +9,22 @@ using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
 
-
-public class Class1
+namespace FiSSHBone.GuiBackend
 {
-	
+    public class Class1
+    {
         public static void Main()
         {
 
             {
-
                 ServiceHost bone_server = IPCConnection.ServerConnect();
                 ServiceFisshBone.Init();
-                
-                while (!ServiceFisshBone.ShutMeDown) { }
+
+                WaitHandler.Wait();
                 bone_server.Close();
             }
 
 
         }
+    }
 }
