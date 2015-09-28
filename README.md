@@ -3,9 +3,21 @@ WinSshFS FiSSH edition
 
 This fork is a project from a group of university students. The project ended in February 2015 therefore we will not update it anymore. However we hope that other developer improve our open-source software further. If you want to contribute check our unfinished issues and create a new fork.
 
+![img](https://habrastorage.org/files/d8d/73c/c3c/d8d73cc3c066461988cca55ea1336714.jpg "UI")
 
-This project is a new version of „WinSshFS 4every1“ which can be found at https://github.com/dimov-cz/win-sshfs.
-Our prime objective was to change the graphical user interface to improve user-friendliness.
+There are several changes, main differences:
+
+*   current Renci SSH (2014.4.6beta)
+*   solved few bugs like payload, 2 hosts and others
+*   Puttyant (Pageant) support
+*   settings files location is in fixed place (%localappdata%\WinSshFS)
+*   "spooldrive" - all remote hosts can by mount as mountpoint dir in one virtual drive
+*   archive flag of file in windows represents and controls permission for group:
+    *   ON => group have same rights as owner
+    *   OFF => same rights as others)
+*   Ability to use Proxy for connections
+*   Send Keepalive packets. (Not configurable, each 60sec hardcoded)
+*   I use different versioning: 1.5.12.5 = version.subversion.release.build
 
 Main changes we made:
 - completely redesigned the GUI  
@@ -14,16 +26,3 @@ Main changes we made:
 - added a command line to automate the program without the GUI
 - server and file arrangement can be changed via drag&drop
 - program can now start with windows startup
-
-![Screenshot](https://raw.githubusercontent.com/thb42/win-sshfs/GuiDesign/FiSSH_Example_Screenshot.jpg)
-
-
-
-User manual:
-- Download and unzip the FiSSH_Package.zip file (https://github.com/thb42/win-sshfs/releases)
-- Install NetFramework and Dokan (Note: If you are using Windows 8 or a newer version, install Dokan with compatibility set to Windows 7 (right click > Properties > Compatibility) 
-- Launch FiSSHGui
-
-
-The command line can be used either with PowerShell or cmd. For a complete list of commands type FiSSHCmd help.
-    

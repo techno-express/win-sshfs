@@ -103,7 +103,7 @@ namespace Sshfs
 
             _sftpSession = new SftpSession(Session, _operationTimeout, Encoding.UTF8);
 
-
+            this.Log("Connected %s", _volumeLabel);
             _sftpSession.Connect();
 
 
@@ -121,11 +121,14 @@ namespace Sshfs
                 _sftpSession._supportedExtensions.Contains(new KeyValuePair<string, string>("posix-rename@openssh.com", "1"));
             _supportsStatVfs =
                 _sftpSession._supportedExtensions.Contains(new KeyValuePair<string, string>("statvfs@openssh.com", "2"));
-            // KeepAliveInterval=TimeSpan.FromSeconds(5);
 
-           //  Session.Disconnected+= (sender, args) => Debugger.Break();
         }
 
+        protected override void OnDisconnected()
+        {
+            base.OnDisconnected();
+            this.Log("disconnected %s", _volumeLabel);
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -366,9 +369,9 @@ namespace Sshfs
                             
                             if (options.HasFlag(FileOptions.DeleteOnClose))
                             {
-                                info.DeleteOnClose = true;//dosnt work, is reset somewhere inside
+                                return DokanError.ErrorError;//this will result in calling DeleteFile in Windows Explorer
                             }
-                            info.Context = new SftpContext(sftpFileAttributes, options.HasFlag(FileOptions.DeleteOnClose));
+                            info.Context = new SftpContext(sftpFileAttributes, false);
 
                             LogFSActionOther("OpenFile", fileName, (SftpContext)info.Context, "Dir open or get attrs");
                             return DokanError.ErrorSuccess;
@@ -406,7 +409,7 @@ namespace Sshfs
                                                    ? System.IO.FileAccess.Read
                                                    : System.IO.FileAccess.ReadWrite, sftpFileAttributes);
             }
-            catch (SshException) // Don't have access rights or try to read broken symlink
+            catch (SshException ex) // Don't have access rights or try to read broken symlink
             {
                 var ownerpath = path.Substring(0, path.LastIndexOf('/'));
                 //var sftpPathAttributes = _cache.Get(ownerpath) as SftpFileAttributes;
@@ -756,6 +759,11 @@ namespace Sshfs
             {
                 fileInfo.Attributes |= FileAttributes.Offline;
             }
+
+            if (!this.UserCanWrite(sftpFileAttributes))
+            {
+                fileInfo.Attributes |= FileAttributes.ReadOnly;
+            }
             //  Console.WriteLine(sftpattributes.UserId + "|" + sftpattributes.GroupId + "L" +
             //  sftpattributes.OthersCanExecute + "K" + sftpattributes.OwnerCanExecute);
 
@@ -873,13 +881,13 @@ namespace Sshfs
                                         Hidden;
                             }
 
-                            if (
-                                GroupRightsSameAsOwner(
-                                    sftpFileAttributes))
+                            if (GroupRightsSameAsOwner(sftpFileAttributes))
                             {
-                                fileInformation.Attributes
-                                    |=
-                                    FileAttributes.Archive;
+                                fileInformation.Attributes |= FileAttributes.Archive;
+                            }
+                            if (!this.UserCanWrite(sftpFileAttributes))
+                            {
+                                fileInformation.Attributes |= FileAttributes.ReadOnly;
                             }
                             if (_useOfflineAttribute)
                             {
@@ -1298,7 +1306,7 @@ namespace Sshfs
             filesystemName = "SSHFS";
 
             features = FileSystemFeatures.CasePreservedNames | FileSystemFeatures.CaseSensitiveSearch |
-                       FileSystemFeatures.SupportsRemoteStorage | FileSystemFeatures.UnicodeOnDisk;
+                       FileSystemFeatures.SupportsRemoteStorage | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.SequentialWriteOnce;
             //FileSystemFeatures.PersistentAcls
 
             LogFSActionSuccess("GetVolumeInformation", this._volumeLabel, (SftpContext)info.Context, "FS:{0} Features:{1}", filesystemName, features);

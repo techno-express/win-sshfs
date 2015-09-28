@@ -49,9 +49,51 @@ namespace Sshfs
             Opacity = 0;
             driveListView.Columns[0].Width = driveListView.ClientRectangle.Width - 1;
             contextMenu.Renderer = new ContextMenuStripThemedRenderer();
+            proxyType.SelectedIndexChanged += proxyType_SelectedIndexChanged;
+            proxyType.SelectedIndex = 0;
+        }
           
+        void proxyType_SelectedIndexChanged(object sender, EventArgs e) {
+          if (proxyType.SelectedIndex == 0) {
+            proxyHostBox.Enabled = false;
+            proxyLoginBox.Enabled = false;
+            proxyPassBox.Enabled = false;
+        }
+          else {
+            proxyHostBox.Enabled = true;
+            proxyLoginBox.Enabled = true;
+            proxyPassBox.Enabled = true;
+          }
         }
 
+        private void tryMountVFS()
+        {
+            if (virtualDrive.Letter==' ')
+            {
+                return;
+            }
+
+            try
+            {    
+                virtualDrive.Mount();
+            }
+            catch (Exception ex)
+            {
+                if (Visible)
+                {
+                    BeginInvoke(
+                        new MethodInvoker(
+                            () =>
+                            MessageBox.Show(this,
+                                            String.Format("{0} could not connect:\n{1}",
+                                                          "Virtual drive", ex.Message), Text)));
+                }
+                else
+                {
+                    ShowBallon(String.Format("{0} : {1}", "Virtual drive", ex.Message), true);
+                }
+            }
+        }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -81,13 +123,13 @@ namespace Sshfs
             {
                 virtualDrive = new VirtualDrive
                 {
-                    Letter = 'Z'
+                    Letter = ' '
                 };
             }
             virtualDrive.StatusChanged += drive_VFSStatusChanged;
 
             updateVirtualDriveCombo();
-            virtualDrive.Mount();
+            this.tryMountVFS();
             buttonVFSupdate();
 
 
@@ -327,7 +369,7 @@ namespace Sshfs
         private void removeButton_Click(object sender, EventArgs e)
         {
             if (driveListView.SelectedItems.Count != 0 &&
-                MessageBox.Show("Do want to delete this drive ?", Text, MessageBoxButtons.YesNo) ==
+                MessageBox.Show("Do you want to delete this drive?", Text, MessageBoxButtons.YesNo) ==
                 DialogResult.Yes)
             {
                 var drive = driveListView.SelectedItems[0].Tag as SftpDrive;
@@ -384,6 +426,10 @@ namespace Sshfs
                 passwordBox.Text = drive.Password;
                 privateKeyBox.Text = drive.PrivateKey;
                 passphraseBox.Text = drive.Passphrase;
+                proxyType.SelectedIndex = drive.ProxyType;
+                proxyHostBox.Text = drive.ProxyHost;
+                proxyLoginBox.Text = drive.ProxyUser;
+                proxyPassBox.Text = drive.ProxyPass;
                 muButton.Text = drive.Status == DriveStatus.Mounted ? "Unmount" : "Mount";
                 muButton.Image = drive.Status == DriveStatus.Mounted ? Resources.unmount : Resources.mount;
                 muButton.Enabled = (drive.Status == DriveStatus.Unmounted || drive.Status == DriveStatus.Mounted);
@@ -442,6 +488,10 @@ namespace Sshfs
             drive.PrivateKey = privateKeyBox.Text;
             drive.Passphrase = passphraseBox.Text;
             drive.MountPoint = mountPointBox.Text;
+            drive.ProxyType = proxyType.SelectedIndex;
+            drive.ProxyHost = proxyHostBox.Text;
+            drive.ProxyUser = proxyLoginBox.Text;
+            drive.ProxyPass = proxyPassBox.Text;
             _dirty = true;
         }
 
@@ -710,6 +760,8 @@ namespace Sshfs
             updateLetterBoxCombo(null);
 
             _updateLockvirtualDriveBox = false;
+
+            this.buttonVFSupdate();
         }
 
         private void letterBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -729,7 +781,8 @@ namespace Sshfs
 
             if (virtualDrive.Status == DriveStatus.Unmounted)
             {
-                virtualDrive.Mount();
+                this.tryMountVFS();
+                
             }else if (virtualDrive.Status == DriveStatus.Mounted)
             {
                 virtualDrive.Unmount();
@@ -740,7 +793,7 @@ namespace Sshfs
 
         private void buttonVFSupdate()
         {
-            BeginInvoke(new MethodInvoker(() =>
+            this.BeginInvoke(new MethodInvoker(() =>
             {
                 buttonVFSMount.Text = virtualDrive.Status == DriveStatus.Mounted
                                         ? "Unmount"
@@ -748,7 +801,7 @@ namespace Sshfs
                 buttonVFSMount.Image = virtualDrive.Status == DriveStatus.Mounted
                                          ? Resources.unmount
                                          : Resources.mount;
-                buttonVFSMount.Enabled = true;
+                buttonVFSMount.Enabled = (virtualDrive.Letter != ' ') || virtualDrive.Status == DriveStatus.Mounted;
             }));
         }
 
