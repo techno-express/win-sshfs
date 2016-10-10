@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FiSSHBone</RootNamespace>
     <AssemblyName>FiSSHBone</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>C:\Users\thomas\Downloads\</PublishUrl>
     <Install>true</Install>
@@ -28,6 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,9 +59,23 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>WinSSH4e1-public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DokanNet, Version=1.1.0.0, Culture=neutral, PublicKeyToken=cef3dedf553bda55, processorArchitecture=MSIL">
+      <HintPath>..\packages\DokanNet.1.1.0\lib\net40\DokanNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StringInterpolationBridge, Version=0.9.1.0, Culture=neutral, PublicKeyToken=761dcf67ba0bf74d, processorArchitecture=MSIL">
+      <HintPath>..\packages\StringInterpolationBridgeStrong.0.9.1\lib\net40\StringInterpolationBridge.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
@@ -78,20 +93,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="FiSSHBone_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DokanNet\DokanNet.csproj">
-      <Project>{a09b408a-26a0-4ff8-83d5-6e1b1da5f63c}</Project>
-      <Name>DokanNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Renci.SshNet\Renci.SshNet.csproj">
-      <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
-      <Name>Renci.SshNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sshfs\Sshfs.csproj">
-      <Project>{ff4fc8bb-91a3-45ff-8449-650647610394}</Project>
-      <Name>Sshfs</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+    <None Include="test.snk" />
+    <None Include="WinSSH4e1-public.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -109,6 +113,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SSH.NET\src\Renci.SshNet\Renci.SshNet.csproj">
+      <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
+      <Name>Renci.SshNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sshfs\Sshfs.csproj">
+      <Project>{ff4fc8bb-91a3-45ff-8449-650647610394}</Project>
+      <Name>Sshfs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

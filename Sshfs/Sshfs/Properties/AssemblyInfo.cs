@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("SFTP Filesystem for Windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Foreveryone")]
-[assembly: AssemblyProduct("WinSshFS Foreveryone 0.8..122-devel")]
+[assembly: AssemblyProduct("WinSshFS Foreveryone 0.8..123-devel")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("0.8..122")]
-[assembly: AssemblyVersion("0.8..122")]
-[assembly: AssemblyFileVersion("0.8..122")]
+// [assembly: AssemblyVersion("0.8..123")]
+[assembly: AssemblyVersion("0.8..123")]
+[assembly: AssemblyFileVersion("0.8..123")]
