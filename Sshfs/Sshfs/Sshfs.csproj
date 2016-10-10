@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FF4FC8BB-91A3-45FF-8449-650647610394}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sshfs</RootNamespace>
     <AssemblyName>WinSshFS</AssemblyName>
@@ -42,6 +42,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,7 +56,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -69,7 +70,8 @@
     <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Sshfs.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -108,11 +110,15 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -126,6 +132,13 @@
     <Compile Include="DriveStatus.cs" />
     <Compile Include="ContextMenuStripThemedRenderer.cs" />
     <Compile Include="SftpContextStream.cs" />
+    <Compile Include="FiSSHGlobal.cs" />
+    <Compile Include="GuiBackend\FolderModel.cs" />
+    <Compile Include="GuiBackend\IPCConnection.cs" />
+    <Compile Include="GuiBackend\IServiceFisshBone.cs" />
+    <Compile Include="GuiBackend\ServerModel.cs" />
+    <Compile Include="GuiBackend\ServiceFisshBone.cs" />
+    <Compile Include="GuiBackend\WaitHandler.cs" />
     <Compile Include="SftpManagerApplication.cs" />
     <Compile Include="ConnectionType.cs" />
     <Compile Include="MainForm.cs">
@@ -139,6 +152,7 @@
     <Compile Include="SftpContext.cs" />
     <Compile Include="SftpFilesystem.cs" />
     <Compile Include="SftpDrive.cs" />
+    <Compile Include="SimpleMind.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="VirtualDrive.cs" />
     <Compile Include="VirtualFilesystem.cs" />
@@ -161,6 +175,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
+    <None Include="GuiBackend\ServiceFisshBone.netmodule" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -170,6 +185,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Sshfs_TemporaryKey.pfx" />
     <None Include="WinSSH4e1-public.snk" />
   </ItemGroup>
   <ItemGroup>
