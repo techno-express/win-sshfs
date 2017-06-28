@@ -51,5 +51,10 @@
     <Compile Include="VirtualDrive.cs" />
     <Compile Include="VirtualFilesystem.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DokanNet">
+      <Version>1.1.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
