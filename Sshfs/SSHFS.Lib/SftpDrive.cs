@@ -28,7 +28,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DokanNet;
 using Renci.SshNet;
-using Sshfs.Properties;
 using Renci.SshNet.Pageant;
 #endregion
 

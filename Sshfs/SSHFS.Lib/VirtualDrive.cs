@@ -10,7 +10,6 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using DokanNet;
-using Sshfs.Properties;
 using System.Collections.Generic;
 #endregion
 
