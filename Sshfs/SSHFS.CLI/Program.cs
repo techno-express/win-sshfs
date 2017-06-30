@@ -47,7 +47,7 @@ namespace SSHFS.CLI
                 foreach (var p in e.Prompts.Where(p => p.Request.StartsWith("Password:")))
                     p.Response = options.Password;
             };
-            var sftpFS = new SftpFilesystem(auth, options.Root, "test", false, true);
+            var sftpFS = new SftpFilesystem(auth, options.Root);
             sftpFS.Connect();
             sftpFS.Mount($"{options.DriveLetter}");
             Console.ReadLine();
