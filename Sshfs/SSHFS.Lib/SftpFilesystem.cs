@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 namespace Sshfs
 {
 
-    internal sealed class SftpFilesystem : SftpClient, IDokanOperations
+    public sealed class SftpFilesystem : SftpClient, IDokanOperations
     {
 
         /// <summary>
