@@ -65,6 +65,9 @@
     <PackageReference Include="DokanNet">
       <Version>1.1.0.3</Version>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
