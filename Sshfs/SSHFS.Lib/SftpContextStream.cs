@@ -105,7 +105,7 @@ namespace Sshfs
 
             _handle = _session.RequestOpen(path, flags);
 
-            _attributes = attributes ?? _session.RequestFStat(_handle);
+            _attributes = attributes ?? _session.RequestFStat(_handle, false);
 
             this.optimalReadRequestSize = checked((int)this._session.CalculateOptimalReadLength(uint.MaxValue));
             this.readBuffer = new byte[this.optimalReadRequestSize];
@@ -133,7 +133,7 @@ namespace Sshfs
                     {
                         //FlushWriteBuffer();
                         SetupRead();
-                        _attributes = _session.RequestFStat(_handle);
+                        _attributes = _session.RequestFStat(_handle, false);
 
                     }
                 }
