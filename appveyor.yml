@@ -1,0 +1,17 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+install:
+- cmd: git submodule -q update --init
+before_build:
+- cmd: msbuild Sshfs\Sshfs.sln /t:restore
+build:
+  project: Sshfs/Sshfs.sln
+  verbosity: minimal
+artifacts:
+- path: Sshfs\SSHFS.CLI\bin\Release
+  name: SSHFS.CLI
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: oF8cB9tD3fO9p/FDx1c0csF1Xp8q9Dv4Zt0WkVo9QhmNYdpgbTKOIdSG4cYFfqiq
