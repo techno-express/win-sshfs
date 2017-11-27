@@ -28,5 +28,5 @@ Copyright c  2017
                         attempted
 ```
 
-CI isn't set up yet, please clone the repo and build Sshfs/SSHFS.CLI using Visual Studio 2017.
+Builds can be found on the [releases page](https://github.com/masaeedu/win-sshfs/releases/latest)
 
