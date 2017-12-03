@@ -43,11 +43,11 @@ namespace SSHFS.CLI
         public string Username { get; set; }
         [Option('x', "password",
             Required = false,
-            HelpText = "SSH user's password, if password-based or keyboard-interactive auth should be attempted")]
+            HelpText = "INSECURE: SSH user's password, if password-based or keyboard-interactive auth should be attempted. Note that the security model for this is equivalent to sshpass's -p option, and exposes your password to any process on the machine that cares to run ps")]
         public string Password { get; set; }
         [OptionArray('k', "private-keys",
             Required = false,
-            HelpText = "SSH user's private key(s), if key-based auth should be attempted")]
+            HelpText = "Path to SSH user's private key(s), if key-based auth should be attempted")]
         public string[] Keys { get; set; }
     }
 
