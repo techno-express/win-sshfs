@@ -1,0 +1,3 @@
+Please make sure you have installed the Microsoft .net framework (tested with version 4.5.1) and dokan library (tested with version 0.6.0), before installing this software.
+You can receive .net redistributable package from: http://www.microsoft.com/de-de/download/details.aspx?id=26
+You can receive dokan redistributable package from: http://dokan-dev.net/wp-content/uploads/DokanInstall_0.6.0.exe
