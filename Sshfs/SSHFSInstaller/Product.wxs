@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Windows SshFS Command Line" 
+           Language="1033" 
+           Version="1.0.17" 
+           Manufacturer="github.com/techno-express/win-sshfs" 
+           UpgradeCode="1e0bbf09-5c6f-4203-b674-5d51a13431b0">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Media Id="1" Cabinet="WinSSHFS.cab" EmbedCab="yes" />
+    <Icon Id="app.ico" SourceFile="$(var.SshFS.ProjectDir)/Resources/app.ico" />
+    <Property Id="ARPPRODUCTICON" Value="app.ico" />
+    
+		<MajorUpgrade 
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
+      AllowSameVersionUpgrades="no"
+    />
+
+		<Feature Id="ProductFeature" Title="Windows SshFS Command Line" Level="1">
+			<ComponentGroupRef Id="WinSSHFSWithLibraries" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+    </Feature>
+	</Product>
+
+	<Fragment>        
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Windows SshFS">
+          <Directory Id="INSTALLFOLDERDE" Name="de" />
+          <Directory Id="INSTALLFOLDERFR" Name="fr" />
+          <Directory Id="INSTALLFOLDERSV" Name="sv" />
+        </Directory>
+			</Directory>		
+      <Directory Id="DesktopFolder" Name="Desktop">
+        <Component Id="ApplicationShortcutDesktop" Guid="C42C05BE-D773-4437-B7C2-1BDFCE9BE854">
+          <Shortcut Id="ApplicationDesktopShortcut"
+              Name="SshFS Command Window"
+              Target="[SystemFolder]CMD.exe"
+              Arguments='/K ""[INSTALLFOLDER]sshfs.exe""'
+              Icon="app.ico"
+              WorkingDirectory="INSTALLFOLDER" />
+          <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+          <RegistryValue
+              Root="HKCU"
+              Key="Software/SshFS.cli"
+              Name="installed"
+              Type="integer"
+              Value="1"
+              KeyPath="yes"/>
+        </Component>
+      </Directory>
+    </Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="WinSSHFSWithLibraries">
+      
+      <Component Id="DokanNet" Guid="137CE10E-9025-4EA5-936F-4C6F9CCC85DD"  Directory="INSTALLFOLDER">
+        <File Source="$(var.SshFS.TargetDir)/DokanNet.dll" DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetDe" Guid="AD39FF2B-D817-4662-8130-492362D6031A" Directory="INSTALLFOLDERDE">
+        <File Id="DokanNetDeDLL" Source="$(var.SshFS.TargetDir)/de/DokanNet.resources.dll" DiskId="1" 
+              KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetFr" Guid="775ECE2B-D85B-4F5C-8813-F641EF8FE4EB" Directory="INSTALLFOLDERFR">
+        <File Id="DokanNetFrDLL" Source="$(var.SshFS.TargetDir)/fr/DokanNet.resources.dll" DiskId="1" 
+              KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetSv" Guid="2D929B0A-654C-46B7-AFFA-C1E86D743429" Directory="INSTALLFOLDERSV">
+        <File Id="DokanNetSvDLL" Source="$(var.SshFS.TargetDir)/sv/DokanNet.resources.dll" DiskId="1" 
+              KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="FSTester" Guid="067B7A5E-99CF-4254-8F36-5F4354E60B9E" Directory="INSTALLFOLDER">
+        <File Id="FSTester" Name="$(var.FSTester.TargetFileName)" Source="$(var.FSTester.TargetPath)" 
+              DiskId="1" KeyPath="yes" Checksum="yes" />
+        <File Source="$(var.FSTester.TargetPath).config" />
+      </Component>
+      <Component Id="Renci.SshNet" Guid="F0479641-CA81-48BB-8770-93132EBA0EB6" Directory="INSTALLFOLDER">
+        <File Id="Renci.SshNet" Name="$(var.Renci.SshNet.TargetFileName)" Source="$(var.Renci.SshNet.TargetPath)" 
+              DiskId="1" KeyPath="yes" Checksum="yes" />
+        <File Source="$(var.Renci.SshNet.TargetDir)/$(var.Renci.SshNet.TargetName).xml" />
+      </Component>
+      <Component Id="SshFS" Guid="5671CC9A-15A6-4E17-AC4C-7F2A4EB51D5D" Directory="INSTALLFOLDER">
+        <File Id="SshFS" Name="$(var.SshFS.TargetFileName)" Source="$(var.SshFS.TargetPath)" DiskId="1" 
+              KeyPath="yes" Checksum="yes" />
+        <File Source="$(var.SshFS.TargetPath).config" />
+        <File Source="$(var.SshFS.TargetDir)/CommandLine.dll" />
+        <File Source="$(var.SshFS.TargetDir)/System.ValueTuple.dll" />
+      </Component>
+      <Component Id="SshFS.dll" Guid="C71C1CA8-A6AF-4081-ACCC-D857D5D15F87" Directory="INSTALLFOLDER">
+        <File Id="SshFS.dll" Name="$(var.SshFS.dll.TargetFileName)" Source="$(var.SshFS.dll.TargetPath)" 
+              DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+
+    </ComponentGroup>
+	</Fragment>
+
+</Wix>
