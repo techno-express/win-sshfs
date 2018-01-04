@@ -127,7 +127,7 @@ namespace fissh_cmdline_interface
 
             public void set(int i)
             {
-                if (i != null)
+                if (i != 0)
                 {
                     is_set_flag = true;
                     value = i;
@@ -288,7 +288,6 @@ namespace fissh_cmdline_interface
                 //Environment.Exit(-1);
 
                 throw new Exception(e.Message);
-                return null; //useless, but VS is complaning whithout return
             }
 
 

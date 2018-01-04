@@ -8,8 +8,6 @@ using System.Text;
 // added for throwing over WCF (FaultException<TDetail> Class)
 // look here: http://msdn.microsoft.com/en-us/library/ms576199.aspx
 using System.Net.Security;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace Sshfs.GuiBackend.Remoteable
 {  

@@ -19,73 +19,73 @@ namespace testclient
         static void Main(string[] args)
         {
 
-            // Ab hier beginnt der Verbindungsteil, muss in jeden Client (Copy&Past)
-            // danach kann auf die Verbindung über das Objekt "bone" zugreifen
-           //Verbindungsteil-Ende
-           /* ChannelFactory<IServiceFisshBone> pipeFactory =
-              new ChannelFactory<IServiceFisshBone>(
-                new NetNamedPipeBinding(),
-                new EndpointAddress(
-                  "net.pipe://localhost/FiSSH"));
+            // From here begins the connection part, must be in each client (Copy & Past)
+            // then you can access the connection via the object "bone"
+            // Connection Part End
+            /* ChannelFactory<IServiceFisshBone> pipeFactory =
+               new ChannelFactory<IServiceFisshBone>(
+                 new NetNamedPipeBinding(),
+                 new EndpointAddress(
+                   "net.pipe://localhost/FiSSH"));
 
-            IServiceFisshBone bone =
-              pipeFactory.CreateChannel();
-            */
+             IServiceFisshBone bone =
+               pipeFactory.CreateChannel();
+             */
             IServiceFisshBone bone = IPCConnection.ClientConnect();
 
 
             try
             {
-                // Die Daten aus dem Backend holen
-                List<ServerModel> liste_von_server = bone.listAll();
+                // Get the data from the backend
+                List<ServerModel> list_of_server = bone.listAll();
 
-                // So erhält man den Server zu einem Servernamen
-                ServerModel gesuchter_server = liste_von_server.Find(x => x.Name == "Ubuntu at VBox");
+                // This will get the server to a server name
+                ServerModel searched_server = list_of_server.Find(x => x.Name == "Ubuntu at VBox");
 
-                // So erhält man den Ordnereintrag zu einem Ordnereintragsnamen
-                FolderModel gesuchter_folder = gesuchter_server.Folders.Find(x => x.Name == "home vom user");
+                // This will get the folder entry to a folder entry name
+                FolderModel searched_folder = searched_server.Folders.Find(x => x.Name == "home from user");
 
-                // Editiern 
-                Console.WriteLine("Editieren ...");
-                    Console.ReadLine();
-
-                // edit test
-                ServerModel vbx_ubuntu = gesuchter_server;
-                vbx_ubuntu.Name += " editiert";
-                vbx_ubuntu.Port = 1337;
-                vbx_ubuntu.Notes = "hui, tolle notizen";
-                bone.editServer(vbx_ubuntu);
-
-                Console.WriteLine("Editiert.");
-                    Console.ReadLine();
-                
-                
-                // edit test
-                FolderModel home = gesuchter_folder;
-                home.Name += " editiert";
-                home.Note = "hui, noch tollere notizen";
-                bone.editFolder(gesuchter_server.ID, home);
-
-                Console.WriteLine("Editiert.");
-                    Console.ReadLine();
-                    return;
-                // So Mountet man einen Eintrag
-                bone.Mount(gesuchter_server.ID, gesuchter_folder.ID);
-                Console.WriteLine("Gemounted, Enter drücken um Unmounten");
+                // editors
+                Console.WriteLine("Edit ...");
                 Console.ReadLine();
 
-                // So Unmountet man einen Eintrag
-                bone.UMount(gesuchter_server.ID, gesuchter_folder.ID);
+                // edit test
+                ServerModel vbx_ubuntu = searched_server;
+                vbx_ubuntu.Name += "edited";
+                vbx_ubuntu.Port = 1337;
+                vbx_ubuntu.Notes = "hui, great notes";
+                bone.editServer(vbx_ubuntu);
 
-                // So löscht man einen Ordner
-                //bone.removeFolder(gesuchter_server.ID, gesuchter_folder.ID);
+                Console.WriteLine("Edited.");
+                Console.ReadLine();
 
-                //So löscht man einen Server
-                //bone.removeServer(gesuchter_server.ID);
 
-                Console.WriteLine("\nIm Folgenden wir alles aus dem Datenmodell angezeigt.");
-                liste_von_server = bone.listAll();
-                foreach (ServerModel i in liste_von_server)
+                // edit test
+                FolderModel home = searched_folder;
+                home.Name += "edited";
+                home.Note = "hui, even better notes";
+                bone.editFolder(searched_server.ID, home);
+
+                Console.WriteLine("Edited.");
+                Console.ReadLine();
+
+                // To mount an entry
+                bone.Mount(searched_server.ID, searched_folder.ID);
+                Console.WriteLine("Mounted, press Enter to Unmount");
+                Console.ReadLine();
+
+                // How to Unmount an Entry
+                bone.UMount(searched_server.ID, searched_folder.ID);
+
+                // How to delete a folder
+                //bone.removefolder (searched_server.ID, searched_folder.ID);
+
+                // How to delete a server
+                //bone.removeServer(searched_server.ID);
+
+                Console.WriteLine("\nIn the following, we will display everything from the data model.");
+                list_of_server = bone.listAll();
+                foreach (ServerModel i in list_of_server)
                 {
                     Console.WriteLine(i.ID + ": " + i.Name);
 
@@ -103,7 +103,7 @@ namespace testclient
                  return;
             }
 
-            Console.WriteLine("Enter drücken um Client zu beenden");
+            Console.WriteLine("Press enter to exit client");
             Console.ReadLine();
 
 

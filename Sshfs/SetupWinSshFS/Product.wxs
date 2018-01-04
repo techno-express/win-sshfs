@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="FiSSH WinSSHFS" Language="1033" Version="0.8.1.0" Manufacturer="github.com/techno-express/win-sshfs" UpgradeCode="2EF82DC2-233B-4355-B5D8-0A861F80AEB3">
+		<Package Id="*" InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Media Id="1" Cabinet="FiSSH.cab" EmbedCab="yes" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <CustomAction Id='RunGUI' Directory='TARGETDIR' ExeCommand='FiSSHGui.exe' Execute='immediate' Return='asyncNoWait' />
+    <InstallExecuteSequence>
+      <Custom Action='RunGUI' After='InstallFinalize'>NOT Installed</Custom>
+    </InstallExecuteSequence>
+    
+		<Feature Id="ProductFeature" Title="FiSSH - SFTP filesystem for Windows" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+		</Feature>
+    
+	</Product>
+  
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="FiSSH WinSSHFS">
+          <Directory Id="INSTALLFOLDERDE" Name="de" />
+          <Directory Id="INSTALLFOLDERFR" Name="fr" />
+          <Directory Id="INSTALLFOLDERSV" Name="sv" />
+        </Directory>
+			</Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop">
+        <Component Id="ApplicationShortcutDesktop" Guid="A7FB04A3-2CBE-4EE1-90B7-5A5FE096A124">
+          <Shortcut Id="ApplicationDesktopShortcut"
+              Name="FiSSH WinSSHFS"
+              Description="File SSH - SFTP filesystem for Windows"
+              Target="[INSTALLFOLDER]FiSSHGui.exe"
+              WorkingDirectory="INSTALLFOLDER"/>
+          <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+          <RegistryValue
+              Root="HKCU"
+              Key="Software\FiSSH-WinSSHFS"
+              Name="installed"
+              Type="integer"
+              Value="1"
+              KeyPath="yes"/>
+        </Component>
+      </Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+      <Component Id="DokanNet" Guid="25B0366E-1F6B-40FC-B22D-723E44BEEA20"  Directory="INSTALLFOLDER">
+        <File Id="DokanNet" Source="$(var.Sshfs.TargetDir)/DokanNet.dll" DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetDe" Guid="AD39FF2B-D817-4662-8130-492362D6031A" Directory="INSTALLFOLDERDE">
+        <File Id="DokanNetDeDLL" Source="$(var.Sshfs.TargetDir)/de/DokanNet.resources.dll"  Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetFr" Guid="775ECE2B-D85B-4F5C-8813-F641EF8FE4EB" Directory="INSTALLFOLDERFR">
+        <File Id="DokanNetFrDLL" Source="$(var.Sshfs.TargetDir)/fr/DokanNet.resources.dll"  Checksum="yes" />
+      </Component>
+      <Component Id="DokanNetSv" Guid="2D929B0A-654C-46B7-AFFA-C1E86D743429" Directory="INSTALLFOLDERSV">
+        <File Id="DokanNetSvDLL" Source="$(var.Sshfs.TargetDir)/sv/DokanNet.resources.dll"  Checksum="yes" />
+      </Component>
+      <Component Id="FiSSHCmd" Guid="C4C7F5D6-C713-4F9E-AC85-9105A790C2D1" Directory="INSTALLFOLDER">
+        <File Id="FiSSHCmd" Name="$(var.FiSSHCmd.TargetFileName)" Source="$(var.FiSSHCmd.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="FiSSHBone" Guid="D246CCF9-9CF0-42AB-97EA-39553D62F932" Directory="INSTALLFOLDER">
+        <File Id="FiSSHBone" Name="$(var.FiSSHBone.TargetFileName)" Source="$(var.FiSSHBone.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+      <Component Id="FSTester" Guid="067B7A5E-99CF-4254-8F36-5F4354E60B9E" Directory="INSTALLFOLDER">
+        <File Id="FSTester" Name="$(var.FSTester.TargetFileName)" Source="$(var.FSTester.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />
+        <File Source="$(var.FSTester.TargetPath).config" />
+      </Component>
+      <Component Id="GUI" Guid="DFD94708-C9CE-411B-869E-88430F334D0D" Directory="INSTALLFOLDER">
+        <File Id="GUI" Name="$(var.GUI.TargetFileName)" Source="$(var.GUI.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />      
+        <File Source="$(var.GUI.TargetPath).config" />
+      </Component>
+      <Component Id="Renci.SshNet" Guid="F0479641-CA81-48BB-8770-93132EBA0EB6" Directory="INSTALLFOLDER">
+        <File Id="Renci.SshNet" Name="$(var.Renci.SshNet.TargetFileName)" Source="$(var.Renci.SshNet.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />
+        <File Source="$(var.Renci.SshNet.TargetDir)/$(var.Renci.SshNet.TargetName).xml" />
+      </Component>
+      <Component Id="Sshfs" Guid="5671CC9A-15A6-4E17-AC4C-7F2A4EB51D5D" Directory="INSTALLFOLDER">
+        <File Id="Sshfs" Name="$(var.Sshfs.TargetFileName)" Source="$(var.Sshfs.TargetPath)" DiskId="1" KeyPath="yes" Checksum="yes" />
+      </Component>
+      <!-- </Component> -->
+		</ComponentGroup>
+	</Fragment>
+</Wix>

@@ -232,8 +232,7 @@ namespace fissh_cmdline_interface
 
                         }
                         break;
-
-                        break;
+                        
                         #endregion
 
                     case (byte)fissh_cmdline_interface.fissh_command_keywords.help:

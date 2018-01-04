@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8AAEC127-624E-4298-B32D-250888E402F3}</ProjectGuid>
+    <ProjectGuid>{C6B56944-02CD-44F8-9711-455A6BF56C2F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiSSHBone</RootNamespace>
-    <AssemblyName>FiSSHBone</AssemblyName>
+    <RootNamespace>FiSSHCmd</RootNamespace>
+    <AssemblyName>FiSSHCmd</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <PublishUrl>C:\Users\thomas\Downloads\</PublishUrl>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -21,12 +21,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -52,34 +50,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>AABFCAB4107ECF9C4FAA5C820B055703FFC3C8E0</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>FiSSHBone_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>WinSSH4e1-public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DokanNet, Version=1.1.0.3, Culture=neutral, PublicKeyToken=cef3dedf553bda55, processorArchitecture=MSIL">
-      <HintPath>..\packages\DokanNet.1.1.1\lib\net46\DokanNet.dll</HintPath>
-    </Reference>
-    <Reference Include="StringInterpolationBridge, Version=0.9.1.0, Culture=neutral, PublicKeyToken=761dcf67ba0bf74d, processorArchitecture=MSIL">
-      <HintPath>..\packages\StringInterpolationBridgeStrong.0.9.1\lib\net40\StringInterpolationBridge.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -88,15 +66,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GuiBackend\ServiceHost.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="actions.cs" />
+    <Compile Include="fissh_print.cs" />
+    <Compile Include="fissh_command_expression.cs" />
+    <Compile Include="logger.cs" />
+    <Compile Include="NDesk.Options.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="FiSSHBone_TemporaryKey.pfx" />
-    <None Include="packages.config" />
-    <None Include="test.snk" />
     <None Include="WinSSH4e1-public.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sshfs\Sshfs.csproj">
+      <Project>{ff4fc8bb-91a3-45ff-8449-650647610394}</Project>
+      <Name>Sshfs</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -114,16 +102,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SSH.NET\src\Renci.SshNet\Renci.SshNet.csproj">
-      <Project>{2f5f8c90-0bd1-424f-997c-7bc6280919d1}</Project>
-      <Name>Renci.SshNet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sshfs\Sshfs.csproj">
-      <Project>{ff4fc8bb-91a3-45ff-8449-650647610394}</Project>
-      <Name>Sshfs</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

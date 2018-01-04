@@ -129,7 +129,7 @@
             this.fieldsPanel.ColumnCount = 3;
             this.fieldsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.10063F));
             this.fieldsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.89937F));
-            this.fieldsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.fieldsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.fieldsPanel.Controls.Add(this.proxyHostBox, 1, 10);
             this.fieldsPanel.Controls.Add(this.label12, 0, 10);
             this.fieldsPanel.Controls.Add(this.panel3, 1, 11);
@@ -183,7 +183,7 @@
             this.proxyHostBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.proxyHostBox.Location = new System.Drawing.Point(81, 322);
             this.proxyHostBox.Name = "proxyHostBox";
-            this.proxyHostBox.Size = new System.Drawing.Size(216, 20);
+            this.proxyHostBox.Size = new System.Drawing.Size(215, 20);
             this.proxyHostBox.TabIndex = 10;
             // 
             // label12
@@ -204,13 +204,13 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(81, 351);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(216, 23);
+            this.panel3.Size = new System.Drawing.Size(215, 23);
             this.panel3.TabIndex = 11;
             // 
             // proxyPassBox
             // 
             this.proxyPassBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.proxyPassBox.Location = new System.Drawing.Point(111, 0);
+            this.proxyPassBox.Location = new System.Drawing.Point(110, 0);
             this.proxyPassBox.Name = "proxyPassBox";
             this.proxyPassBox.Size = new System.Drawing.Size(105, 20);
             this.proxyPassBox.TabIndex = 1;
@@ -239,7 +239,7 @@
             // 
             this.nameBox.Location = new System.Drawing.Point(81, 3);
             this.nameBox.Name = "nameBox";
-            this.nameBox.Size = new System.Drawing.Size(216, 20);
+            this.nameBox.Size = new System.Drawing.Size(215, 20);
             this.nameBox.TabIndex = 0;
             this.nameBox.Leave += new System.EventHandler(this.box_Leave);
             // 
@@ -258,7 +258,7 @@
             // 
             this.hostBox.Location = new System.Drawing.Point(81, 32);
             this.hostBox.Name = "hostBox";
-            this.hostBox.Size = new System.Drawing.Size(216, 20);
+            this.hostBox.Size = new System.Drawing.Size(215, 20);
             this.hostBox.TabIndex = 1;
             this.hostBox.Leave += new System.EventHandler(this.box_Leave);
             // 
@@ -306,7 +306,7 @@
             // 
             this.userBox.Location = new System.Drawing.Point(81, 90);
             this.userBox.Name = "userBox";
-            this.userBox.Size = new System.Drawing.Size(216, 20);
+            this.userBox.Size = new System.Drawing.Size(215, 20);
             this.userBox.TabIndex = 3;
             this.userBox.Leave += new System.EventHandler(this.box_Leave);
             // 
@@ -320,7 +320,7 @@
             "Pageant"});
             this.authCombo.Location = new System.Drawing.Point(81, 119);
             this.authCombo.Name = "authCombo";
-            this.authCombo.Size = new System.Drawing.Size(216, 21);
+            this.authCombo.Size = new System.Drawing.Size(215, 21);
             this.authCombo.TabIndex = 4;
             this.authCombo.SelectedIndexChanged += new System.EventHandler(this.authBox_SelectedIndexChanged);
             // 
@@ -386,7 +386,7 @@
             "/"});
             this.directoryBox.Location = new System.Drawing.Point(81, 206);
             this.directoryBox.Name = "directoryBox";
-            this.directoryBox.Size = new System.Drawing.Size(216, 21);
+            this.directoryBox.Size = new System.Drawing.Size(215, 21);
             this.directoryBox.TabIndex = 6;
             // 
             // label7
@@ -408,7 +408,7 @@
             this.panel2.Controls.Add(this.passwordBox);
             this.panel2.Location = new System.Drawing.Point(81, 148);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(216, 52);
+            this.panel2.Size = new System.Drawing.Size(215, 52);
             this.panel2.TabIndex = 5;
             // 
             // passphraseBox
@@ -474,7 +474,7 @@
             this.mountPointBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mountPointBox.Location = new System.Drawing.Point(81, 264);
             this.mountPointBox.Name = "mountPointBox";
-            this.mountPointBox.Size = new System.Drawing.Size(216, 20);
+            this.mountPointBox.Size = new System.Drawing.Size(215, 20);
             this.mountPointBox.TabIndex = 8;
             // 
             // label10
@@ -499,7 +499,7 @@
             "SOCKS5"});
             this.proxyType.Location = new System.Drawing.Point(81, 293);
             this.proxyType.Name = "proxyType";
-            this.proxyType.Size = new System.Drawing.Size(216, 21);
+            this.proxyType.Size = new System.Drawing.Size(215, 21);
             this.proxyType.TabIndex = 9;
             // 
             // labelKeepAlive
@@ -529,6 +529,11 @@
             this.keepAliveIntervalBox.Name = "keepAliveIntervalBox";
             this.keepAliveIntervalBox.Size = new System.Drawing.Size(120, 20);
             this.keepAliveIntervalBox.TabIndex = 27;
+            this.keepAliveIntervalBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // driveListView
             // 
@@ -769,7 +774,6 @@
             this.mountMenuItem.Text = "Mount";
             this.mountMenuItem.DropDownClosed += new System.EventHandler(this.mountMenuItem_DropDownClosed);
             this.mountMenuItem.DropDownOpening += new System.EventHandler(this.mountMenuItem_DropDownOpening);
-            this.mountMenuItem.DropDown.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mountMenuItem_PreviewKeyDown);
             // 
             // unmountMenuItem
             // 
@@ -779,7 +783,6 @@
             this.unmountMenuItem.Text = "Unmount";
             this.unmountMenuItem.DropDownClosed += new System.EventHandler(this.unmountMenuItem_DropDownClosed);
             this.unmountMenuItem.DropDownOpening += new System.EventHandler(this.unmountMenuItem_DropDownOpening);
-            this.unmountMenuItem.DropDown.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.unmountMenuItem_PreviewKeyDown);
             // 
             // toolStripSeparator2
             // 
