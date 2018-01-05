@@ -5,8 +5,8 @@
     <Media Id="1" Cabinet="FiSSH.cab" EmbedCab="yes" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-
-    <CustomAction Id='RunGUI' Directory='TARGETDIR' ExeCommand='FiSSHGui.exe' Execute='immediate' Return='asyncNoWait' />
+		
+    <CustomAction Id='RunGUI' FileKey="GUI" ExeCommand='' Execute='immediate' Return='asyncNoWait' />
     <InstallExecuteSequence>
       <Custom Action='RunGUI' After='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
