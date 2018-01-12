@@ -18,3 +18,4 @@ TestResults
 /Sshfs/Packages.dgml
 /Sshfs/packages
 *.prev
+*.db
